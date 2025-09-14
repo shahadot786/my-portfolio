@@ -1,13 +1,28 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Play, Square, RotateCcw, Download, Copy, Check, AlertCircle } from 'lucide-react';
+import { useState, useRef } from "react";
+import { motion } from "framer-motion";
+import {
+  Play,
+  Square,
+  RotateCcw,
+  Download,
+  Copy,
+  Check,
+  AlertCircle,
+} from "lucide-react";
 
 interface CodeEditorProps {
   initialCode?: string;
-  language?: 'javascript' | 'react';
+  language?: "javascript" | "react";
   onRun?: (code: string) => void;
+}
+
+// Extend Window interface to include console
+declare global {
+  interface Window {
+    console: Console;
+  }
 }
 
 const defaultJSCode = `// Welcome to the JavaScript Playground!
@@ -109,12 +124,14 @@ function Counter() {
 // Render the component
 <Counter />`;
 
-export function CodeEditor({ 
-  initialCode, 
-  language = 'javascript',
-  onRun 
+export function CodeEditor({
+  initialCode,
+  language = "javascript",
+  onRun,
 }: CodeEditorProps) {
-  const [code, setCode] = useState(initialCode || (language === 'react' ? defaultReactCode : defaultJSCode));
+  const [code, setCode] = useState(
+    initialCode || (language === "react" ? defaultReactCode : defaultJSCode)
+  );
   const [output, setOutput] = useState<string[]>([]);
   const [isRunning, setIsRunning] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -128,39 +145,43 @@ export function CodeEditor({
     setOutput([]);
 
     try {
-      if (language === 'javascript') {
+      if (language === "javascript") {
         // Create a safe sandbox for JavaScript execution
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
+        const iframe = document.createElement("iframe");
+        iframe.style.display = "none";
         document.body.appendChild(iframe);
 
-        const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
-        if (!iframeDoc) throw new Error('Cannot create sandbox');
+        const iframeDoc =
+          iframe.contentDocument || iframe.contentWindow?.document;
+        if (!iframeDoc) throw new Error("Cannot create sandbox");
 
         // Capture console output
         const logs: string[] = [];
-        const originalConsole = iframe.contentWindow?.console;
-        
-        if (iframe.contentWindow && originalConsole) {
-          iframe.contentWindow.console = {
+        const iframeWindow = iframe.contentWindow;
+
+        if (iframeWindow) {
+          const originalConsole = iframeWindow.console;
+
+          // Override console methods with proper typing
+          iframeWindow.console = {
             ...originalConsole,
-            log: (...args) => {
-              logs.push(args.map(arg => String(arg)).join(' '));
+            log: (...args: unknown[]) => {
+              logs.push(args.map((arg) => String(arg)).join(" "));
               originalConsole.log(...args);
             },
-            error: (...args) => {
-              logs.push(`ERROR: ${args.map(arg => String(arg)).join(' ')}`);
+            error: (...args: unknown[]) => {
+              logs.push(`ERROR: ${args.map((arg) => String(arg)).join(" ")}`);
               originalConsole.error(...args);
             },
-            warn: (...args) => {
-              logs.push(`WARN: ${args.map(arg => String(arg)).join(' ')}`);
+            warn: (...args: unknown[]) => {
+              logs.push(`WARN: ${args.map((arg) => String(arg)).join(" ")}`);
               originalConsole.warn(...args);
-            }
-          };
+            },
+          } as Console;
         }
 
         // Execute the code
-        const script = iframeDoc.createElement('script');
+        const script = iframeDoc.createElement("script");
         script.textContent = `
           try {
             ${code}
@@ -176,33 +197,32 @@ export function CodeEditor({
           document.body.removeChild(iframe);
           setIsRunning(false);
         }, 1000);
-
-      } else if (language === 'react') {
+      } else if (language === "react") {
         // For React, we'll show a message about JSX compilation
         setOutput([
-          'React JSX Preview:',
-          '✓ Component syntax looks good!',
-          '✓ Hooks usage detected',
-          '✓ Event handlers found',
-          '',
-          'Note: This is a demo editor. In a real implementation,',
-          'this would compile JSX and render the component live.',
-          '',
-          'Your component would render an interactive counter',
-          'with dynamic colors and state management.'
+          "React JSX Preview:",
+          "✓ Component syntax looks good!",
+          "✓ Hooks usage detected",
+          "✓ Event handlers found",
+          "",
+          "Note: This is a demo editor. In a real implementation,",
+          "this would compile JSX and render the component live.",
+          "",
+          "Your component would render an interactive counter",
+          "with dynamic colors and state management.",
         ]);
         setIsRunning(false);
       }
 
       onRun?.(code);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error occurred');
+      setError(err instanceof Error ? err.message : "Unknown error occurred");
       setIsRunning(false);
     }
   };
 
   const resetCode = () => {
-    setCode(language === 'react' ? defaultReactCode : defaultJSCode);
+    setCode(language === "react" ? defaultReactCode : defaultJSCode);
     setOutput([]);
     setError(null);
   };
@@ -213,31 +233,31 @@ export function CodeEditor({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy code:', err);
+      console.error("Failed to copy code:", err);
     }
   };
 
   const downloadCode = () => {
-    const blob = new Blob([code], { type: 'text/plain' });
+    const blob = new Blob([code], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `code.${language === 'react' ? 'jsx' : 'js'}`;
+    a.download = `code.${language === "react" ? "jsx" : "js"}`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Tab') {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Tab") {
       e.preventDefault();
       const textarea = textareaRef.current;
       if (!textarea) return;
 
       const start = textarea.selectionStart;
       const end = textarea.selectionEnd;
-      const newCode = code.substring(0, start) + '  ' + code.substring(end);
+      const newCode = code.substring(0, start) + "  " + code.substring(end);
       setCode(newCode);
 
       setTimeout(() => {
@@ -245,7 +265,7 @@ export function CodeEditor({
       }, 0);
     }
 
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
       e.preventDefault();
       runCode();
     }
@@ -262,7 +282,9 @@ export function CodeEditor({
             <div className="w-3 h-3 bg-green-500 rounded-full"></div>
           </div>
           <span className="text-gray-300 font-mono text-sm">
-            {language === 'react' ? 'React Playground' : 'JavaScript Playground'}
+            {language === "react"
+              ? "React Playground"
+              : "JavaScript Playground"}
           </span>
         </div>
 
@@ -303,9 +325,9 @@ export function CodeEditor({
             onClick={runCode}
             disabled={isRunning}
             className="flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors"
-            style={{ 
-              backgroundColor: 'var(--color-primary)',
-              opacity: isRunning ? 0.7 : 1
+            style={{
+              backgroundColor: "var(--color-primary)",
+              opacity: isRunning ? 0.7 : 1,
             }}
             title="Run code (Ctrl+Enter)"
           >
@@ -315,7 +337,7 @@ export function CodeEditor({
               <Play size={16} className="text-white" />
             )}
             <span className="text-white font-medium">
-              {isRunning ? 'Running...' : 'Run'}
+              {isRunning ? "Running..." : "Run"}
             </span>
           </motion.button>
         </div>
@@ -333,10 +355,10 @@ export function CodeEditor({
             placeholder={`Write your ${language} code here...`}
             spellCheck={false}
           />
-          
+
           {/* Line numbers */}
           <div className="absolute left-0 top-0 p-4 text-gray-500 font-mono text-sm pointer-events-none select-none">
-            {code.split('\n').map((_, index) => (
+            {code.split("\n").map((_, index) => (
               <div key={index} className="leading-5">
                 {index + 1}
               </div>
@@ -349,8 +371,8 @@ export function CodeEditor({
           <div className="p-4 border-b border-gray-700 bg-gray-800">
             <h4 className="text-gray-300 font-mono text-sm">Output</h4>
           </div>
-          
-          <div 
+
+          <div
             ref={outputRef}
             className="p-4 h-full overflow-y-auto font-mono text-sm"
           >
@@ -365,13 +387,16 @@ export function CodeEditor({
             ) : output.length > 0 ? (
               <div className="space-y-1">
                 {output.map((line, index) => (
-                  <div 
-                    key={index} 
+                  <div
+                    key={index}
                     className={`${
-                      line.startsWith('ERROR:') ? 'text-red-400' :
-                      line.startsWith('WARN:') ? 'text-yellow-400' :
-                      line.startsWith('✓') ? 'text-green-400' :
-                      'text-gray-300'
+                      line.startsWith("ERROR:")
+                        ? "text-red-400"
+                        : line.startsWith("WARN:")
+                        ? "text-yellow-400"
+                        : line.startsWith("✓")
+                        ? "text-green-400"
+                        : "text-gray-300"
                     }`}
                   >
                     {line}
@@ -396,13 +421,10 @@ export function CodeEditor({
       <div className="px-4 py-2 bg-gray-800 border-t border-gray-700 text-xs text-gray-400">
         <div className="flex items-center justify-between">
           <span>
-            {language === 'react' ? 'JSX/React' : 'JavaScript ES6+'} • 
-            Safe Sandbox Environment • 
-            {code.split('\n').length} lines
+            {language === "react" ? "JSX/React" : "JavaScript ES6+"} • Safe
+            Sandbox Environment • {code.split("\n").length} lines
           </span>
-          <span>
-            Press Ctrl+Enter to run
-          </span>
+          <span>Press Ctrl+Enter to run</span>
         </div>
       </div>
     </div>
