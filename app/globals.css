@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --color-primary: rgb(59 130 246);
+  --color-primary-hover: rgb(37 99 235);
+  --color-accent: rgb(147 197 253);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply transition-colors duration-300;
+  @apply bg-gray-900 text-white;
+}
+
+.theme-dark {
+  @apply bg-gray-900 text-white;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500;
+}
+
+/* Code editor styles */
+.code-editor {
+  @apply bg-gray-900 text-white font-mono text-sm rounded-lg overflow-hidden;
+}
+
+.code-tab {
+  @apply px-4 py-2 bg-gray-800 border-r border-gray-700 cursor-pointer transition-colors;
+}
+
+.code-tab.active {
+  @apply bg-gray-900 text-blue-400;
+}
+
+.terminal {
+  @apply bg-black text-green-400 font-mono p-4 rounded-lg;
+}
+
+/* Animations */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor {
+  animation: blink 1s infinite;
+}
+
+.gradient-text {
+  background: linear-gradient(45deg, var(--color-primary), var(--color-accent), #f97316);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Theme-aware button styles */
+.btn-primary {
+  background-color: var(--color-primary);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  box-shadow: 0 0 20px var(--color-primary)40;
+}
+
+/* Theme-aware border styles */
+.border-primary {
+  border-color: var(--color-primary);
+}
+
+.text-primary {
+  color: var(--color-primary);
+}
+
+/* Code syntax highlighting */
+.code-keyword {
+  color: var(--color-primary);
+}
+
+.code-string {
+  color: var(--color-accent);
+}
+
+.code-comment {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.code-function {
+  color: #fbbf24;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
