@@ -5,6 +5,7 @@ A modern, interactive developer portfolio built with Next.js, React, TypeScript,
 ## ✨ Features
 
 ### Core Features
+
 - **VS Code Interface**: Authentic code editor experience with file tabs and syntax highlighting
 - **Real-time GitHub Stats**: Live integration with GitHub API showing repositories, contributions, and activity
 - **Interactive Code Playground**: Safe sandbox environment for JavaScript and React experimentation
@@ -15,6 +16,7 @@ A modern, interactive developer portfolio built with Next.js, React, TypeScript,
 - **Performance Optimized**: Fast loading with code splitting and optimized assets
 
 ### Technical Highlights
+
 - **Next.js 14**: Latest App Router with server components and optimizations
 - **TypeScript**: Full type safety throughout the application
 - **Tailwind CSS**: Utility-first styling with custom design system
@@ -25,12 +27,14 @@ A modern, interactive developer portfolio built with Next.js, React, TypeScript,
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+ and npm/yarn/pnpm
 - GitHub Personal Access Token (optional, for higher API rate limits)
 
 ### Installation
 
 1. **Clone and Install**
+
    ```bash
    git clone <repository-url>
    cd developer-portfolio
@@ -39,15 +43,18 @@ A modern, interactive developer portfolio built with Next.js, React, TypeScript,
 
 2. **Environment Setup (Optional)**
    Create `.env.local` for GitHub API integration:
+
    ```env
    NEXT_PUBLIC_GITHUB_USERNAME=your-github-username
    GITHUB_ACCESS_TOKEN=your-github-token
    ```
 
 3. **Development Server**
+
    ```bash
    npm run dev
    ```
+
    Open [http://localhost:3000](http://localhost:3000)
 
 4. **Build for Production**
@@ -57,6 +64,7 @@ A modern, interactive developer portfolio built with Next.js, React, TypeScript,
    ```
 
 ### Available Scripts
+
 - `npm run dev` - Start development server
 - `npm run build` - Build for production
 - `npm run start` - Start production server
@@ -91,6 +99,7 @@ A modern, interactive developer portfolio built with Next.js, React, TypeScript,
 ### 1. Personal Information
 
 **Update Portfolio Content** (`components/hero-section.tsx`):
+
 ```typescript
 const fullText = `const developer = {
   name: 'Your Name',
@@ -101,38 +110,42 @@ const fullText = `const developer = {
 ```
 
 **Timeline Data**:
+
 ```typescript
 const timelineData: TimelineItem[] = [
   {
-    date: '2023 - Present',
-    title: 'Your Current Role',
-    company: 'Your Company',
+    date: "2023 - Present",
+    title: "Your Current Role",
+    company: "Your Company",
     // Add your career history
-  }
+  },
 ];
 ```
 
 **Projects**:
+
 ```typescript
 const projects: Project[] = [
   {
-    title: 'Your Project',
-    description: 'Project description',
-    technologies: ['Tech1', 'Tech2'],
+    title: "Your Project",
+    description: "Project description",
+    technologies: ["Tech1", "Tech2"],
     // Add your real projects
-  }
+  },
 ];
 ```
 
 ### 2. GitHub Integration
 
 **Set Your Username** (`.env.local`):
+
 ```env
 NEXT_PUBLIC_GITHUB_USERNAME=your-github-username
 GITHUB_ACCESS_TOKEN=your-personal-access-token
 ```
 
 The GitHub stats will automatically fetch:
+
 - Repository information
 - Contribution statistics
 - Language usage
@@ -140,6 +153,7 @@ The GitHub stats will automatically fetch:
 - Follower/following counts
 
 **GitHub Token Setup**:
+
 1. Go to GitHub Settings → Developer settings → Personal access tokens
 2. Generate new token with `public_repo` scope
 3. Add to `.env.local` file
@@ -147,21 +161,23 @@ The GitHub stats will automatically fetch:
 ### 3. AI Chatbot Customization
 
 **Update Responses** (`components/ai-chat.tsx`):
+
 ```typescript
 const sampleResponses = {
-  'your-project': 'Description of your project...',
-  'skills': 'Your skills and expertise...',
+  "your-project": "Description of your project...",
+  skills: "Your skills and expertise...",
   // Customize all responses
 };
 ```
 
 **Connect to Real AI Service**:
+
 ```bash
 npm install openai
 ```
 
 ```typescript
-import OpenAI from 'openai';
+import OpenAI from "openai";
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -171,17 +187,19 @@ const openai = new OpenAI({
 ### 4. Theme Customization
 
 **Add Custom Colors** (`components/providers/theme-provider.tsx`):
+
 ```typescript
 const themeColors = {
   yourColor: {
-    primary: 'rgb(your-color)',
-    primaryHover: 'rgb(your-hover-color)',
-    accent: 'rgb(your-accent-color)',
-  }
+    primary: "rgb(your-color)",
+    primaryHover: "rgb(your-hover-color)",
+    accent: "rgb(your-accent-color)",
+  },
 };
 ```
 
 **Update Tailwind Config** (`tailwind.config.js`):
+
 ```javascript
 theme: {
   extend: {
@@ -197,6 +215,7 @@ theme: {
 ## 🔧 Advanced Configuration
 
 ### Environment Variables
+
 ```env
 # GitHub Integration
 NEXT_PUBLIC_GITHUB_USERNAME=your-username
@@ -213,17 +232,20 @@ CONTACT_API_ENDPOINT=your-contact-endpoint
 ```
 
 ### GitHub API Rate Limits
+
 - **Without token**: 60 requests/hour
 - **With token**: 5,000 requests/hour
 - **Caching**: Responses cached for 5 minutes
 
 ### Performance Optimization
+
 - **Images**: Optimized with Next.js Image component
 - **Code Splitting**: Automatic route-based splitting
 - **Caching**: GitHub API responses cached
 - **Bundle Analysis**: Use `@next/bundle-analyzer`
 
 ### SEO Configuration
+
 - **Metadata**: Update in `app/layout.tsx`
 - **Sitemap**: Automatically generated in `app/sitemap.ts`
 - **Structured Data**: JSON-LD for better search visibility
@@ -232,6 +254,7 @@ CONTACT_API_ENDPOINT=your-contact-endpoint
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
+
 ```bash
 npm install -g vercel
 vercel
@@ -240,12 +263,14 @@ vercel
 Add environment variables in Vercel dashboard.
 
 ### Netlify
+
 ```bash
 npm run build
 # Upload build output to Netlify
 ```
 
 ### Docker
+
 ```dockerfile
 FROM node:18-alpine
 WORKDIR /app
@@ -258,6 +283,7 @@ CMD ["npm", "start"]
 ```
 
 ### Manual Deployment
+
 ```bash
 npm run build
 # Upload .next/static and other build files
@@ -266,6 +292,7 @@ npm run build
 ## 📊 GitHub Stats Features
 
 ### Real-time Data
+
 - **Repository Stats**: Stars, forks, languages
 - **Contribution Activity**: Commits, PRs, issues
 - **Profile Information**: Bio, followers, location
@@ -273,6 +300,7 @@ npm run build
 - **Language Distribution**: Visual breakdown of coding languages
 
 ### API Integration
+
 - Automatic data fetching every 5 minutes
 - Graceful error handling with fallback data
 - Rate limit management
@@ -281,6 +309,7 @@ npm run build
 ## 🎮 Achievement System
 
 ### Available Achievements
+
 - **Welcome Visitor**: First portfolio visit
 - **Code Explorer**: View multiple code files
 - **Project Enthusiast**: Explore all projects
@@ -289,7 +318,9 @@ npm run build
 - **Coffee Lover**: Spend 5+ minutes on site
 
 ### Customization
+
 Add new achievements in `components/achievement-system.tsx`:
+
 ```typescript
 {
   id: 'custom-achievement',
@@ -303,6 +334,7 @@ Add new achievements in `components/achievement-system.tsx`:
 ## 🧪 Testing
 
 ### Manual Testing Checklist
+
 - [ ] All file tabs work correctly
 - [ ] GitHub stats load properly
 - [ ] Code playground executes JavaScript/React
@@ -313,6 +345,7 @@ Add new achievements in `components/achievement-system.tsx`:
 - [ ] Contact form validation
 
 ### Performance Testing
+
 - [ ] Lighthouse score 90+ in all categories
 - [ ] Fast loading on slow connections
 - [ ] Smooth animations on low-end devices
@@ -321,12 +354,14 @@ Add new achievements in `components/achievement-system.tsx`:
 ## 🔒 Security & Privacy
 
 ### Data Handling
+
 - GitHub data cached locally for 5 minutes
 - No personal data stored permanently
 - Contact form data processed securely
 - Achievement progress stored in localStorage
 
 ### API Security
+
 - GitHub token stored securely in environment variables
 - Rate limiting implemented
 - Error handling prevents data leaks
@@ -362,7 +397,8 @@ A: Check if localStorage is available in your browser and not blocked.
 A: The design is mobile-first. Report specific issues with device/browser details.
 
 ### Getting Help
-1. Check the [GitHub Issues](https://github.com/yourusername/portfolio/issues)
+
+1. Check the [GitHub Issues](https://github.com/shahadot786/my-portfolio/issues)
 2. Review this documentation
 3. Create a new issue with detailed information
 
@@ -370,4 +406,4 @@ A: The design is mobile-first. Report specific issues with device/browser detail
 
 **Built with ❤️ using Next.js, React, TypeScript, and Tailwind CSS**
 
-*Last updated: January 2024*
+_Last updated: September 2025_

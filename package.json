@@ -1,5 +1,5 @@
 {
-  "name": "developer-portfolio",
+  "name": "shahadot-portfolio",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -27,6 +27,7 @@
     "next": "^14.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "resend": "^6.0.3",
     "tailwind-merge": "^2.6.0",
     "three": "^0.164.1",
     "typescript": "^5.2.2"
