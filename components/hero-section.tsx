@@ -35,11 +35,13 @@ import {
   Database,
   Cloud,
   Code2Icon,
+  Brain,
 } from "lucide-react";
 import { PlaygroundSection } from "./playground-section";
 import { ThemeSelector } from "./theme-selector";
 import { GitHubStats } from "./github-stats";
 import Image from "next/image";
+import { ProblemSolvingSection } from "./problem-solving-section";
 
 interface FileTab {
   id: string;
@@ -204,7 +206,8 @@ console.log('Ready to build something amazing together! 🚀');`;
       color: "blue",
       github: "https://github.com/shahadot786",
       demo: "https://play.google.com/store/apps/details?id=com.hellosuperstars",
-      image: "https://images.pexels.com/photos/590016/pexels-photo-590016.jpeg",
+      image:
+        "https://media.licdn.com/dms/image/v2/D562DAQGRhKyEqPDFqg/profile-treasury-image-shrink_1920_1920/profile-treasury-image-shrink_1920_1920/0/1711869185675?e=1758531600&v=beta&t=uEkGqPWPoi9n0Lw0UppiRfW0K4L-pJ0k5tkT5metlek",
     },
     {
       title: "📊 Unilever TM (M-Lenz & CM Supervisor)",
@@ -224,10 +227,9 @@ console.log('Ready to build something amazing together! 🚀');`;
         "Improved field efficiency",
       ],
       color: "green",
-      github: "https://github.com/shahadot786",
-      demo: "https://play.google.com/store/apps/details?id=com.nagadapp",
-      image:
-        "https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg",
+      github: "",
+      demo: "",
+      image: "https://i.ytimg.com/vi/QYIPSWUTfjM/maxresdefault.jpg",
     },
     {
       title: "⚡ BAT MM Automation (CM Live & MS Live)",
@@ -241,10 +243,10 @@ console.log('Ready to build something amazing together! 🚀');`;
         "Scalable mobile architecture",
       ],
       color: "purple",
-      github: "https://github.com/shahadot786",
-      demo: "https://play.google.com/store/apps/details?id=com.henagadmsapp",
+      github: "",
+      demo: "",
       image:
-        "https://images.pexels.com/photos/1108572/pexels-photo-1108572.jpeg",
+        "https://bl-bucket.sgp1.digitaloceanspaces.com/m-lenz/bat-resources/02-02-2024/Screenshot from 2025-09-15 14-26-11.png-original",
     },
     {
       title: "🚀 Nagad TM Suite (Pulse TMR, TMS, MR, MS)",
@@ -266,7 +268,8 @@ console.log('Ready to build something amazing together! 🚀');`;
       color: "yellow",
       github: "https://github.com/shahadot786",
       demo: "https://play.google.com/store/apps/details?id=com.nagadtmsapp",
-      image: "https://images.pexels.com/photos/730547/pexels-photo-730547.jpeg",
+      image:
+        "https://ecdn.dhakatribune.net/contents/cache/images/1200x630x1xxxxx1/uploads/dten/2021/07/desi-nagad-a-laav-beshi-image-1-1625147226802.jpg",
     },
   ];
 
@@ -677,25 +680,18 @@ console.log('Ready to build something amazing together! 🚀');`;
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={project.github}
-                    className="flex items-center justify-center space-x-1 text-gray-400 hover:text-white transition-colors text-xs sm:text-sm bg-gray-800 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg"
-                  >
-                    <Github size={16} />
-                    <span>Code</span>
-                  </motion.a>
-                  <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={project.demo}
-                    className="flex items-center justify-center space-x-1 text-white transition-colors text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg"
-                    style={{ backgroundColor: "var(--color-primary)" }}
-                  >
-                    <ExternalLink size={16} />
-                    <span>Demo</span>
-                  </motion.a>
+                  {project.demo !== "" && (
+                    <motion.a
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      href={project.demo}
+                      className="flex items-center justify-center space-x-1 text-white transition-colors text-xs sm:text-sm px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg"
+                      style={{ backgroundColor: "var(--color-primary)" }}
+                    >
+                      <ExternalLink size={16} />
+                      <span>Demo</span>
+                    </motion.a>
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -1053,6 +1049,12 @@ console.log('Ready to build something amazing together! 🚀');`;
       icon: Github,
       content: githubContent,
     },
+    // {
+    //   id: "problem-solving.tsx",
+    //   name: "problem-solving.tsx",
+    //   icon: Brain,
+    //   content: <ProblemSolvingSection />,
+    // },
     {
       id: "contact.tsx",
       name: "contact.tsx",

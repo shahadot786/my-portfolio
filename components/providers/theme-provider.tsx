@@ -22,7 +22,6 @@ type ThemeColor =
   | "purple"
   | "indigo"
   | "pink"
-  | "white"
   | "silver";
 
 interface ThemeContextType {
@@ -146,12 +145,6 @@ const themeColors: Record<
     primaryHover: "rgb(219 39 119)",
     accent: "rgb(251 182 206)",
     gradient: "from-pink-500 to-pink-600",
-  },
-  white: {
-    primary: "rgb(255 255 255)",
-    primaryHover: "rgb(243 244 246)",
-    accent: "rgb(229 231 235)",
-    gradient: "from-white to-gray-100",
   },
   silver: {
     primary: "rgb(156 163 175)", // gray-400

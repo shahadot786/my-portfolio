@@ -92,7 +92,6 @@ export function ThemeSelector() {
       description: "Elegant and mysterious",
     },
     { name: "Magenta Pink", value: "pink", description: "Playful yet bold" },
-    { name: "Ivory White", value: "white", description: "Clean and minimal" },
     {
       name: "Steel Silver",
       value: "silver",
