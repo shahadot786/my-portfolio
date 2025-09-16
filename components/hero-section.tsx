@@ -97,15 +97,13 @@ export function HeroSection() {
   skills: {
     mobile: ['React Native', 'Expo', 'Native iOS/Android'],
     frontend: ['React', 'Next.js', 'TypeScript', 'Tailwind'],
-    backend: ['Node.js', 'SQL'],
     cloud: ['Firebase']
   },
   
   achievements: {
     apps_built: 20+,
-    total_downloads: '10K+',
-    active_users: '5K+',
-    team_size_led: 5,
+    total_downloads: '50K+',
+    active_users: '20K+',
     success_rate: '90%'
   },
   
@@ -198,13 +196,13 @@ console.log('Ready to build something amazing together! 🚀');`;
         "A global social media app connecting celebrities and fans, offering live learning, auditions, chats, meetups, personalized greetings, and an E-Showcase for autographed items.",
       technologies: ["React Native", "Redux", "Firebase", "REST API"],
       metrics: [
-        "100K+ downloads",
-        "4.5★+ Play Store rating",
+        "50K+ downloads",
+        "4.4★+ Play Store rating",
         "Live sessions & fan groups",
         "Exclusive paid content support",
       ],
       color: "blue",
-      github: "https://github.com/shahadot786",
+      github: "",
       demo: "https://play.google.com/store/apps/details?id=com.hellosuperstars",
       image:
         "https://media.licdn.com/dms/image/v2/D562DAQGRhKyEqPDFqg/profile-treasury-image-shrink_1920_1920/profile-treasury-image-shrink_1920_1920/0/1711869185675?e=1758531600&v=beta&t=uEkGqPWPoi9n0Lw0UppiRfW0K4L-pJ0k5tkT5metlek",
@@ -254,19 +252,19 @@ console.log('Ready to build something amazing together! 🚀');`;
         "Offline-first mobile applications for Nagad trade marketing and reporting. Designed with intelligent data sync, real-time location tracking, and CRUD operations.",
       technologies: [
         "React Native",
-        "SQLite",
+        "MMKV",
         "Offline Sync",
         "GPS",
         "TypeScript",
       ],
       metrics: [
-        "500K+ active users",
-        "15+ countries",
+        "10K+ downloads",
+        "5K+ active users",
         "92% data loss reduction",
         "4.8★ rating",
       ],
       color: "yellow",
-      github: "https://github.com/shahadot786",
+      github: "",
       demo: "https://play.google.com/store/apps/details?id=com.nagadtmsapp",
       image:
         "https://ecdn.dhakatribune.net/contents/cache/images/1200x630x1xxxxx1/uploads/dten/2021/07/desi-nagad-a-laav-beshi-image-1-1625147226802.jpg",
@@ -414,12 +412,6 @@ console.log('Ready to build something amazing together! 🚀');`;
                     skills: ["React", "Next.js", "TypeScript", "Tailwind"],
                     color: "green",
                     icon: Globe,
-                  },
-                  {
-                    category: "Backend",
-                    skills: ["Node.js", "SQL"],
-                    color: "purple",
-                    icon: Database,
                   },
                   {
                     category: "Cloud",
