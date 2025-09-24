@@ -205,7 +205,7 @@ console.log('Ready to build something amazing together! 🚀');`;
       github: "",
       demo: "https://play.google.com/store/apps/details?id=com.hellosuperstars",
       image:
-        "https://media.licdn.com/dms/image/v2/D562DAQGRhKyEqPDFqg/profile-treasury-image-shrink_1920_1920/profile-treasury-image-shrink_1920_1920/0/1711869185675?e=1758531600&v=beta&t=uEkGqPWPoi9n0Lw0UppiRfW0K4L-pJ0k5tkT5metlek",
+        "https://bl-bucket.sgp1.digitaloceanspaces.com/m-lenz/resource/02-02-2024/hello.png-original",
     },
     {
       title: "📊 Unilever TM (M-Lenz & CM Supervisor)",
