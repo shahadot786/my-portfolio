@@ -6,7 +6,7 @@ import { AIChat } from "@/components/ai-chat";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "MD Shahadot Hossain - Full Stack Developer & React Native Expert",
+  title: "MD Shahadot Hossain - App Developer",
   description:
     "Portfolio of MD Shahadot Hossain - Building fast, offline-friendly mobile experiences with React Native & modern web technologies",
   keywords:
@@ -16,8 +16,8 @@ export const metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://shahadot.dev",
-    title: "MD Shahadot Hossain - Full Stack Developer",
+    url: "https://shahadot-hossain.vercel.app",
+    title: "MD Shahadot Hossain - App Developer",
     description: "Building fast, offline-friendly mobile experiences",
     siteName: "MD Shahadot Hossain Portfolio",
     images: [
@@ -31,7 +31,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "MD Shahadot Hossain - Full Stack Developer",
+    title: "MD Shahadot Hossain - App Developer",
     description: "Building fast, offline-friendly mobile experiences",
     images: ["/og-image.png"],
   },
