@@ -89,7 +89,7 @@ export function HeroSection() {
 
   const fullText = `const developer = {
   name: 'MD Shahadot Hossain',
-  title: 'React Native Developer',
+  title: 'App Developer',
   specialization: 'React Native & Modern Web',
   experience: '3+ years',
   location: 'Hybrid, Remote, Available Worldwide',
@@ -348,7 +348,7 @@ console.log('Ready to build something amazing together! 🚀');`;
                 MD Shahadot Hossain
               </h2>
               <p className="text-sm sm:text-base lg:text-lg text-gray-300 mb-4">
-                React Native Developer
+                App Developer
               </p>
               <div className="flex items-center justify-center sm:justify-start space-x-2 text-gray-400 mb-4">
                 <MapPin size={16} />
