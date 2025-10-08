@@ -269,6 +269,33 @@ console.log('Ready to build something amazing together! 🚀');`;
       image:
         "https://ecdn.dhakatribune.net/contents/cache/images/1200x630x1xxxxx1/uploads/dten/2021/07/desi-nagad-a-laav-beshi-image-1-1625147226802.jpg",
     },
+    {
+      title: "🎬 YouTube Clone - React Native",
+      description:
+        "A fully functional YouTube clone built with React Native, Expo, and TypeScript. Features include video browsing, search, channel viewing, and more.",
+      technologies: [
+        "React Native",
+        "Expo",
+        "TypeScript",
+        "React Navigation",
+        "Axios",
+        "FlashList",
+        "RapidAPI YouTube v3",
+      ],
+      metrics: [
+        "Browse trending videos",
+        "Channel pages with playlists",
+        "Search functionality",
+        "Comprehensive error handling",
+        "Environment variable configuration",
+        "Modular architecture",
+      ],
+      color: "red",
+      github: "https://github.com/shahadot786/react-native-youtube-clone",
+      demo: "https://github.com/shahadot786/react-native-youtube-clone",
+      image:
+        "https://bl-bucket.sgp1.digitaloceanspaces.com/m-lenz/resource/02-02-2024/React Native YouTube Clone.png-original",
+    },
   ];
 
   useEffect(() => {
