@@ -227,7 +227,7 @@ console.log('Ready to build something amazing together! 🚀');`;
       color: "green",
       github: "",
       demo: "https://apps.apple.com/us/app/m-lens/id6754874179",
-      image: "https://i.ytimg.com/vi/QYIPSWUTfjM/maxresdefault.jpg",
+      image: "https://res.cloudinary.com/dmojailax/image/upload/v1762875949/uniliver_ohmc80.png",
     },
     {
       title: "⚡ BAT MM Automation (CM Live & MS Live)",
@@ -267,7 +267,7 @@ console.log('Ready to build something amazing together! 🚀');`;
       github: "",
       demo: "https://play.google.com/store/apps/details?id=com.nagadtmsapp",
       image:
-        "https://ecdn.dhakatribune.net/contents/cache/images/1200x630x1xxxxx1/uploads/dten/2021/07/desi-nagad-a-laav-beshi-image-1-1625147226802.jpg",
+        "https://res.cloudinary.com/dmojailax/image/upload/v1762876117/nagad_pjdnzn.png",
     },
     {
   title: "🌌 HawkEyes Universe",
@@ -289,8 +289,9 @@ console.log('Ready to build something amazing together! 🚀');`;
     "Supports image, audio, and text inputs",
     "Enables industry-specific insights",
     "Demonstrates intelligent automation",
+    "FMCG Analysis, Bangla OCR, Hotspot, Facial Recognition, Material Detection, NLP, Face Detection, Memo OCR, Beverage Industry Analysis, EKYC, MT House OCR, Coca-Cola Insights,"
   ],
-  color: "Gold",
+  color: "Cyan",
   github: "",
   demo: "https://apps.apple.com/us/app/he-universe/id6754590356",
   image: "https://res.cloudinary.com/dmojailax/image/upload/v1762875324/he-universe_o2wq7a.png",
