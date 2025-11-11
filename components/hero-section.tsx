@@ -226,7 +226,7 @@ console.log('Ready to build something amazing together! 🚀');`;
       ],
       color: "green",
       github: "",
-      demo: "",
+      demo: "https://apps.apple.com/us/app/m-lens/id6754874179",
       image: "https://i.ytimg.com/vi/QYIPSWUTfjM/maxresdefault.jpg",
     },
     {
@@ -269,6 +269,47 @@ console.log('Ready to build something amazing together! 🚀');`;
       image:
         "https://ecdn.dhakatribune.net/contents/cache/images/1200x630x1xxxxx1/uploads/dten/2021/07/desi-nagad-a-laav-beshi-image-1-1625147226802.jpg",
     },
+    {
+  title: "🌌 HawkEyes Universe",
+  description:
+    "An AI-powered application showcasing advanced analytical modules for image, audio, and text processing across multiple industries. Users can capture or upload media and instantly receive AI-driven insights.",
+  technologies: [
+    "Expo",
+    "React Native",
+    "Redux",
+    "TypeScript",
+    "AI/ML Integration",
+    "Offline-first",
+    "Camera & Media APIs",
+    "Liveness"
+  ],
+  modules: [
+    "FMCG Analysis",
+    "Bangla OCR",
+    "Hotspot",
+    "Facial Recognition",
+    "Material Detection",
+    "NLP",
+    "Face Detection",
+    "Memo OCR",
+    "Beverage Industry Analysis",
+    "EKYC",
+    "MT House OCR",
+    "Coca-Cola Insights",
+  ],
+  metrics: [
+    "Showcases multiple AI modules",
+    "Real-time analysis of media",
+    "Supports image, audio, and text inputs",
+    "Enables industry-specific insights",
+    "Demonstrates intelligent automation",
+  ],
+  color: "Gold",
+  github: "",
+  demo: "https://apps.apple.com/us/app/he-universe/id6754590356",
+  image: "https://res.cloudinary.com/dmojailax/image/upload/v1762875324/he-universe_o2wq7a.png",
+},
+
     {
       title: "🎬 YouTube Clone - React Native",
       description:
