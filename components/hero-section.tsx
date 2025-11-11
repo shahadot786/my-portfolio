@@ -283,20 +283,6 @@ console.log('Ready to build something amazing together! 🚀');`;
     "Camera & Media APIs",
     "Liveness"
   ],
-  modules: [
-    "FMCG Analysis",
-    "Bangla OCR",
-    "Hotspot",
-    "Facial Recognition",
-    "Material Detection",
-    "NLP",
-    "Face Detection",
-    "Memo OCR",
-    "Beverage Industry Analysis",
-    "EKYC",
-    "MT House OCR",
-    "Coca-Cola Insights",
-  ],
   metrics: [
     "Showcases multiple AI modules",
     "Real-time analysis of media",
