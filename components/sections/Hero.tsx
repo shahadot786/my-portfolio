@@ -1,283 +1,91 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Github, Linkedin, Mail, MapPin, Phone, Download, ExternalLink } from "lucide-react";
-import Image from "next/image";
+import { Briefcase, Award, Users, TrendingUp } from "lucide-react";
+import { PaperCard } from "@/components/ui/PaperCard";
 
 export function Hero() {
     const stats = [
-        { label: "Years Experience", value: "3.7+" },
-        { label: "Active Users", value: "10K+" },
-        { label: "Daily Transactions", value: "100K+" },
-        { label: "Projects Delivered", value: "20+" },
-    ];
-
-    const socialLinks = [
-        { icon: Github, href: "https://github.com/shahadot786", label: "GitHub" },
-        { icon: Linkedin, href: "https://www.linkedin.com/in/shahadot786", label: "LinkedIn" },
-        { icon: Mail, href: "mailto:shahadotrahat786@gmail.com", label: "Email" },
+        { icon: Briefcase, label: "Years Experience", value: "3.7+" },
+        { icon: Users, label: "Active Users", value: "10K+" },
+        { icon: TrendingUp, label: "Daily Transactions", value: "100K+" },
+        { icon: Award, label: "Projects Delivered", value: "20+" },
     ];
 
     return (
-        <section id="home" className="min-h-screen relative overflow-hidden gradient-bg flex items-center">
-            {/* Animated Background Elements */}
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-float"></div>
-                <div className="absolute bottom-20 right-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }}></div>
-                <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }}></div>
-            </div>
+        <section id="home" className="py-16">
+            {/* Header */}
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-12"
+            >
+                <h1 className="text-5xl font-bold text-stone-900 mb-4">
+                    Software Engineer
+                </h1>
+                <div className="h-1 w-24 bg-gradient-to-r from-blue-600 to-emerald-600 rounded-full mb-6"></div>
+                <p className="text-xl text-stone-600 leading-relaxed max-w-3xl">
+                    Proficient React Native Developer with <span className="font-semibold text-blue-600">3.7+ years of experience</span> building
+                    cross-platform mobile applications for enterprise clients including <span className="font-semibold">Unilever, BAT, Nestlé, and Nagad</span>.
+                    Specialized in offline-first architecture, real-time tracking, and cutting-edge mobile technologies.
+                </p>
+            </motion.div>
 
-            <div className="container-custom relative z-10 py-20 md:py-0">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    {/* Left Column - Text Content */}
+            {/* Stats Grid */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                {stats.map((stat, index) => (
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                        className="space-y-6"
+                        key={stat.label}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5, delay: index * 0.1 }}
                     >
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
-                            className="inline-block"
-                        >
-                            <span className="px-4 py-2 rounded-full text-sm font-medium glass-card">
-                                👋 Welcome to my portfolio
-                            </span>
-                        </motion.div>
-
-                        <motion.h1
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
-                            className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
-                        >
-                            Hi, I'm{" "}
-                            <span className="gradient-text">MD. Shahadot Hossain</span>
-                        </motion.h1>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4 }}
-                            className="space-y-2"
-                        >
-                            <h2 className="text-2xl md:text-3xl font-semibold text-gray-300">
-                                Software Engineer
-                            </h2>
-                            <p className="text-xl md:text-2xl text-gray-400">
-                                React & React Native Specialist
-                            </p>
-                        </motion.div>
-
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.5 }}
-                            className="text-lg text-gray-300 leading-relaxed max-w-xl"
-                        >
-                            Proficient React Native Developer with 3.7+ years of experience building
-                            cross-platform mobile applications for enterprise clients. Specialized in
-                            offline-first architecture, real-time tracking, and cutting-edge mobile technologies.
-                        </motion.p>
-
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.6 }}
-                            className="flex items-center space-x-4 text-gray-400"
-                        >
-                            <div className="flex items-center space-x-2">
-                                <MapPin size={18} className="text-blue-400" />
-                                <span className="text-sm">Dhaka, Bangladesh</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <Phone size={18} className="text-blue-400" />
-                                <span className="text-sm">+880-1775-020-582</span>
-                            </div>
-                        </motion.div>
-
-                        {/* CTA Buttons */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.7 }}
-                            className="flex flex-wrap gap-4 pt-4"
-                        >
-                            <a
-                                href="#contact"
-                                className="btn-primary inline-flex items-center space-x-2"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-                                }}
-                            >
-                                <Mail size={18} />
-                                <span>Get In Touch</span>
-                            </a>
-                            <a
-                                href="/MD_Shahadot_Hosssain.pdf"
-                                download
-                                className="btn-secondary inline-flex items-center space-x-2"
-                            >
-                                <Download size={18} />
-                                <span>Download CV</span>
-                            </a>
-                        </motion.div>
-
-                        {/* Social Links */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.8 }}
-                            className="flex items-center space-x-4 pt-4"
-                        >
-                            {socialLinks.map((social, index) => (
-                                <motion.a
-                                    key={social.label}
-                                    href={social.href}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    whileHover={{ scale: 1.1, y: -2 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="p-3 glass-card rounded-lg hover:border-blue-400 transition-all"
-                                    aria-label={social.label}
-                                >
-                                    <social.icon size={20} className="text-gray-300" />
-                                </motion.a>
-                            ))}
-                        </motion.div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{ opacity: 0, x: 50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="relative flex justify-center lg:justify-end"
-                    >
-                        <div className="relative">
-                            {/* Pulsing Gradient Background Glow */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-emerald-500 to-cyan-500 rounded-full blur-3xl opacity-30 animate-pulse-glow"></div>
-
-                            {/* Static Glowing Border */}
-                            <svg
-                                className="absolute -inset-3 w-[calc(100%+24px)] h-[calc(100%+24px)]"
-                                viewBox="0 0 100 100"
-                            >
-                                {/* Full Circle Border with Glow */}
-                                <circle
-                                    cx="50"
-                                    cy="50"
-                                    r="47"
-                                    fill="none"
-                                    stroke="url(#borderGradient)"
-                                    strokeWidth="3"
-                                    opacity="0.4"
-                                    className="animate-glow"
-                                />
-                                {/* Gradient Definition for Border */}
-                                <defs>
-                                    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#3b82f6" />
-                                        <stop offset="50%" stopColor="#10b981" />
-                                        <stop offset="100%" stopColor="#06b6d4" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-
-                            {/* Animated Rotating Progress Arc */}
-                            <svg
-                                className="absolute -inset-3 w-[calc(100%+24px)] h-[calc(100%+24px)] animate-spin-slower"
-                                viewBox="0 0 100 100"
-                            >
-                                {/* Rotating Arc */}
-                                <circle
-                                    cx="50"
-                                    cy="50"
-                                    r="47"
-                                    fill="none"
-                                    stroke="url(#progressGradient)"
-                                    strokeWidth="3"
-                                    strokeLinecap="round"
-                                    strokeDasharray="75 220"
-                                    opacity="1"
-                                />
-                                {/* Gradient Definition for Progress */}
-                                <defs>
-                                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                        <stop offset="0%" stopColor="#3b82f6" />
-                                        <stop offset="50%" stopColor="#10b981" />
-                                        <stop offset="100%" stopColor="#06b6d4" />
-                                    </linearGradient>
-                                </defs>
-                            </svg>
-
-                            {/* Profile Image */}
-                            <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden bg-slate-900">
-                                <Image
-                                    src="/avatar.png"
-                                    alt="MD. Shahadot Hossain"
-                                    fill
-                                    className="object-cover"
-                                    priority
-                                />
-                            </div>
-
-                            {/* Floating Badge */}
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{ delay: 1, type: "spring" }}
-                                className="absolute -bottom-4 -right-4 glass-card px-6 py-3 rounded-full"
-                            >
-                                <div className="flex items-center space-x-2">
-                                    <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
-                                    <span className="text-sm font-medium">Available for work</span>
+                        <PaperCard className="p-6 text-center">
+                            <div className="flex justify-center mb-3">
+                                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-emerald-500 flex items-center justify-center">
+                                    <stat.icon size={24} className="text-white" />
                                 </div>
-                            </motion.div>
-                        </div>
-                    </motion.div>
-                </div>
-
-                {/* Stats Section */}
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 1, duration: 0.8 }}
-                    className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mt-16 md:mt-24"
-                >
-                    {stats.map((stat, index) => (
-                        <motion.div
-                            key={stat.label}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 1.2 + index * 0.1 }}
-                            className="glass-card p-6 text-center hover:scale-105 transition-transform"
-                        >
-                            <div className="text-3xl md:text-4xl font-bold gradient-text mb-2">
+                            </div>
+                            <div className="text-3xl font-bold text-stone-900 mb-1">
                                 {stat.value}
                             </div>
-                            <div className="text-sm text-gray-400">{stat.label}</div>
-                        </motion.div>
-                    ))}
-                </motion.div>
+                            <div className="text-sm text-stone-600">{stat.label}</div>
+                        </PaperCard>
+                    </motion.div>
+                ))}
             </div>
 
-            {/* Scroll Indicator */}
+            {/* Professional Summary */}
             <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5 }}
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
             >
-                <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 1.5 }}
-                    className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center"
-                >
-                    <div className="w-1 h-2 bg-gray-400 rounded-full mt-2"></div>
-                </motion.div>
+                <PaperCard className="p-8">
+                    <h2 className="text-2xl font-bold text-stone-900 mb-4 flex items-center">
+                        <span className="w-2 h-8 bg-gradient-to-b from-blue-600 to-emerald-600 rounded-full mr-3"></span>
+                        Professional Summary
+                    </h2>
+                    <div className="space-y-4 text-stone-700 leading-relaxed">
+                        <p>
+                            Results-driven Mobile Application Developer with a proven track record of delivering high-impact solutions
+                            for Fortune 500 companies. Currently leading development at HawkEyes Digital Monitoring Limited, where I architect
+                            and implement enterprise-grade React Native applications serving over 10,000 users daily.
+                        </p>
+                        <p>
+                            My expertise spans the full mobile development lifecycle, from initial architecture design to deployment and
+                            maintenance. I specialize in creating offline-first applications that ensure seamless functionality in
+                            low-connectivity environments, implementing advanced features like real-time face recognition, liveness detection,
+                            and GPS-based tracking systems.
+                        </p>
+                        <p>
+                            With a strong foundation in modern development practices including Clean Architecture, MVVM patterns, and
+                            microservices, I consistently deliver scalable, maintainable solutions that exceed client expectations and
+                            drive measurable business results.
+                        </p>
+                    </div>
+                </PaperCard>
             </motion.div>
         </section>
     );
