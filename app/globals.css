@@ -259,6 +259,30 @@ h3 {
   animation: fadeIn 0.8s ease-out;
 }
 
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes progress-circle {
+  0% {
+    stroke-dashoffset: 301.59;
+  }
+
+  50% {
+    stroke-dashoffset: 75.4;
+  }
+
+  100% {
+    stroke-dashoffset: 301.59;
+  }
+}
+
 .animate-slideInLeft {
   animation: slideInLeft 0.6s ease-out;
 }
@@ -275,8 +299,24 @@ h3 {
   animation: glow 3s ease-in-out infinite;
 }
 
+.animate-pulse-glow {
+  animation: pulse-glow 4s ease-in-out infinite;
+}
+
 .animate-spin-slow {
   animation: spin-slow 8s linear infinite;
+}
+
+.animate-spin-smooth {
+  animation: spin-slow 3s linear infinite;
+}
+
+.animate-spin-slower {
+  animation: spin-slow 6s linear infinite;
+}
+
+.animate-progress-circle {
+  animation: progress-circle 4s ease-in-out infinite;
 }
 
 /* Gradient Background */

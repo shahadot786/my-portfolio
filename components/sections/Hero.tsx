@@ -157,14 +157,64 @@ export function Hero() {
                         className="relative flex justify-center lg:justify-end"
                     >
                         <div className="relative">
-                            {/* Gradient Border */}
-                            <div className="absolute inset-0 bg-gradient-primary rounded-full blur-2xl opacity-50 animate-glow"></div>
+                            {/* Pulsing Gradient Background Glow */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-500 via-emerald-500 to-cyan-500 rounded-full blur-3xl opacity-30 animate-pulse-glow"></div>
 
-                            {/* Animated Rotating Border */}
-                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-emerald-500 to-cyan-500 rounded-full opacity-75 blur-sm animate-spin-slow"></div>
+                            {/* Static Glowing Border */}
+                            <svg
+                                className="absolute -inset-3 w-[calc(100%+24px)] h-[calc(100%+24px)]"
+                                viewBox="0 0 100 100"
+                            >
+                                {/* Full Circle Border with Glow */}
+                                <circle
+                                    cx="50"
+                                    cy="50"
+                                    r="47"
+                                    fill="none"
+                                    stroke="url(#borderGradient)"
+                                    strokeWidth="3"
+                                    opacity="0.4"
+                                    className="animate-glow"
+                                />
+                                {/* Gradient Definition for Border */}
+                                <defs>
+                                    <linearGradient id="borderGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stopColor="#3b82f6" />
+                                        <stop offset="50%" stopColor="#10b981" />
+                                        <stop offset="100%" stopColor="#06b6d4" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+
+                            {/* Animated Rotating Progress Arc */}
+                            <svg
+                                className="absolute -inset-3 w-[calc(100%+24px)] h-[calc(100%+24px)] animate-spin-slower"
+                                viewBox="0 0 100 100"
+                            >
+                                {/* Rotating Arc */}
+                                <circle
+                                    cx="50"
+                                    cy="50"
+                                    r="47"
+                                    fill="none"
+                                    stroke="url(#progressGradient)"
+                                    strokeWidth="3"
+                                    strokeLinecap="round"
+                                    strokeDasharray="75 220"
+                                    opacity="1"
+                                />
+                                {/* Gradient Definition for Progress */}
+                                <defs>
+                                    <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stopColor="#3b82f6" />
+                                        <stop offset="50%" stopColor="#10b981" />
+                                        <stop offset="100%" stopColor="#06b6d4" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
 
                             {/* Profile Image */}
-                            <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-slate-900 bg-slate-900">
+                            <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden bg-slate-900">
                                 <Image
                                     src="/avatar.png"
                                     alt="MD. Shahadot Hossain"
