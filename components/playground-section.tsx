@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Code, Zap, BookOpen, Lightbulb } from 'lucide-react';
-import { CodeEditor } from './code-editor';
 
 export function PlaygroundSection() {
   const [activeTab, setActiveTab] = useState<'javascript' | 'react'>('javascript');
@@ -32,7 +31,7 @@ export function PlaygroundSection() {
             Code Playground
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            Experiment with JavaScript and React in a safe, interactive environment. 
+            Experiment with JavaScript and React in a safe, interactive environment.
             Write code, see results instantly, and explore modern web development.
           </p>
         </motion.div>
@@ -53,11 +52,10 @@ export function PlaygroundSection() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as 'javascript' | 'react')}
-                className={`flex items-center space-x-2 px-6 py-3 rounded-md transition-all duration-200 ${
-                  activeTab === tab.id
-                    ? 'text-white shadow-lg'
-                    : 'text-gray-400 hover:text-gray-200'
-                }`}
+                className={`flex items-center space-x-2 px-6 py-3 rounded-md transition-all duration-200 ${activeTab === tab.id
+                  ? 'text-white shadow-lg'
+                  : 'text-gray-400 hover:text-gray-200'
+                  }`}
                 style={{
                   backgroundColor: activeTab === tab.id ? 'var(--color-primary)' : 'transparent'
                 }}
@@ -77,11 +75,7 @@ export function PlaygroundSection() {
           transition={{ delay: 0.4 }}
           className="mb-12"
         >
-          <CodeEditor 
-            key={activeTab}
-            language={activeTab}
-            onRun={handleCodeRun}
-          />
+
         </motion.div>
 
         {/* Features Grid */}
@@ -118,7 +112,7 @@ export function PlaygroundSection() {
               className="bg-gray-800 p-6 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
             >
               <div className="flex items-center space-x-3 mb-4">
-                <div 
+                <div
                   className="p-2 rounded-lg"
                   style={{ backgroundColor: 'var(--color-primary)' }}
                 >
@@ -143,7 +137,7 @@ export function PlaygroundSection() {
             <Lightbulb className="text-yellow-400" size={24} />
             <h3 className="text-lg font-semibold text-white">Pro Tips</h3>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-300">
             <div className="space-y-2">
               <p><strong className="text-white">Keyboard Shortcuts:</strong></p>
@@ -153,7 +147,7 @@ export function PlaygroundSection() {
                 <li>• <code className="bg-gray-700 px-1 rounded">Ctrl+A</code> - Select all</li>
               </ul>
             </div>
-            
+
             <div className="space-y-2">
               <p><strong className="text-white">Try These Examples:</strong></p>
               <ul className="space-y-1 text-gray-400">

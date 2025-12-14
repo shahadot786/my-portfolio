@@ -83,7 +83,6 @@ A modern, interactive developer portfolio built with Next.js, React, TypeScript,
 ├── components/            # React components
 │   ├── providers/        # Context providers (theme, etc.)
 │   ├── hero-section.tsx  # Main VS Code interface
-│   ├── code-editor.tsx   # Interactive code playground
 │   ├── github-stats.tsx  # Real-time GitHub integration
 │   ├── ai-chat.tsx       # AI assistant chatbot
 │   ├── theme-selector.tsx # Dynamic theme switching
