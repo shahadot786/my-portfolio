@@ -18,37 +18,25 @@ interface ExperienceItem {
 
 const experiences: ExperienceItem[] = [
     {
-        id: "hawkeyes-senior",
+        id: "hawkeyes",
         type: "work",
         title: "Mobile Application Developer",
         company: "HawkEyes Digital Monitoring Limited",
         location: "Dhaka, Bangladesh",
-        period: "July 2024 – Present",
-        description: "Leading development of React Native applications for major enterprise clients including Unilever, BAT, Nestlé, and Nagad.",
+        period: "June 2023 – Present",
+        description: "Leading development of React Native applications for major enterprise clients including Unilever, BAT, Nestlé, and Nagad. Progressed from Jr. Developer to Mobile Application Developer, serving 10,000+ territory managers with 100,000+ daily transactions.",
         achievements: [
             "Lead development serving 10,000+ territory managers with 100,000+ daily transactions",
             "Architected offline-first mobile solutions improving reliability by 40%",
             "Implemented advanced features: real-time face recognition, liveness detection, GPS monitoring",
             "Developed multi-role applications with role-specific dashboards",
             "Integrated real-time data synchronization for remote portal access",
-        ],
-        technologies: ["React Native", "Redux", "Offline-First", "Face Detection", "GPS Tracking"],
-    },
-    {
-        id: "hawkeyes-junior",
-        type: "work",
-        title: "Jr. React Native Developer",
-        company: "HawkEyes Digital Monitoring Limited",
-        location: "Dhaka, Bangladesh",
-        period: "June 2023 – June 2024",
-        description: "Delivered multiple React Native applications for enterprise clients with high reliability and performance.",
-        achievements: [
             "Created cost-effective cross-platform solutions with consistent UX",
             "Implemented agile methodologies with cutting-edge technologies",
             "Resolved critical technical issues supporting 30% growth in user satisfaction",
             "Built scalable applications for field operations and management",
         ],
-        technologies: ["React Native", "TypeScript", "Redux Toolkit", "REST APIs"],
+        technologies: ["React Native", "Redux", "TypeScript", "Offline-First", "Face Detection", "GPS Tracking", "Redux Toolkit", "REST APIs"],
     },
     {
         id: "tfp",

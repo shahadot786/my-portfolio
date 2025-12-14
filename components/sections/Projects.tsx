@@ -27,7 +27,7 @@ export function Projects() {
             title: "BAT MM Automation (CM Live & MS Live)",
             description:
                 "Developed automation suite with CM Live for field operations and MS Live for supervisory management. Integrated liveness detection, asset tracking, and real-time location monitoring, optimized for 1000+ concurrent users.",
-            image: "https://bl-bucket.sgp1.digitaloceanspaces.com/m-lenz/bat-resources/02-02-2024/Screenshot from 2025-09-15 14-26-11.png-original",
+            image: "https://res.cloudinary.com/dmojailax/image/upload/v1765714651/bat_qgkp9i.png",
             technologies: ["React Native", "Redux", "REST API", "Location Tracking"],
             metrics: [
                 "Improved operational efficiency",
@@ -61,7 +61,7 @@ export function Projects() {
             title: "Hello Superstar",
             description:
                 "Social media app connecting celebrities and fans with live sessions, auditions, chats, meetups, and E-Showcase. Implemented fan groups, Q&A sessions, and exclusive paid content with AWS S3 integration.",
-            image: "https://bl-bucket.sgp1.digitaloceanspaces.com/m-lenz/resource/02-02-2024/hello.png-original",
+            image: "https://res.cloudinary.com/dmojailax/image/upload/v1765714649/hello-supersatat_e0rato.webp",
             technologies: ["React Native", "Redux", "Firebase", "AWS S3", "REST API"],
             metrics: [
                 "50K+ downloads",
@@ -112,7 +112,7 @@ export function Projects() {
             title: "YouTube Clone - React Native",
             description:
                 "A fully functional YouTube clone built with React Native, Expo, and TypeScript. Features include video browsing, search, channel viewing, comprehensive error handling, and modular architecture.",
-            image: "https://bl-bucket.sgp1.digitaloceanspaces.com/m-lenz/resource/02-02-2024/React Native YouTube Clone.png-original",
+            image: "https://res.cloudinary.com/dmojailax/image/upload/v1765714649/youtube-clone_sviiyq.jpg",
             technologies: ["React Native", "Expo", "TypeScript", "React Navigation", "RapidAPI"],
             metrics: [
                 "Browse trending videos",
