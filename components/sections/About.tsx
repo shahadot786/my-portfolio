@@ -15,7 +15,7 @@ export function About() {
             icon: Zap,
             title: "Real-Time Tracking",
             description: "Specialized in implementing GPS monitoring, location tracking, and real-time data synchronization for field operations.",
-            color: "purple",
+            color: "emerald",
         },
         {
             icon: Shield,

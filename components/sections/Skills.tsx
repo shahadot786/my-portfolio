@@ -26,7 +26,7 @@ export function Skills() {
         {
             title: "Frontend Frameworks",
             icon: Smartphone,
-            color: "purple",
+            color: "emerald",
             skills: ["React Native", "Expo", "Next.js", "React.js"],
         },
         {
@@ -113,7 +113,7 @@ export function Skills() {
     const getColorClasses = (color: string) => {
         const colors: Record<string, { bg: string; border: string; text: string }> = {
             blue: { bg: "from-blue-500 to-blue-700", border: "border-blue-400/50", text: "text-blue-400" },
-            purple: { bg: "from-purple-500 to-purple-700", border: "border-purple-400/50", text: "text-purple-400" },
+            emerald: { bg: "from-emerald-500 to-emerald-700", border: "border-emerald-400/50", text: "text-emerald-400" },
             green: { bg: "from-green-500 to-green-700", border: "border-green-400/50", text: "text-green-400" },
             cyan: { bg: "from-cyan-500 to-cyan-700", border: "border-cyan-400/50", text: "text-cyan-400" },
             yellow: { bg: "from-yellow-500 to-yellow-700", border: "border-yellow-400/50", text: "text-yellow-400" },

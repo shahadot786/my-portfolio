@@ -29,7 +29,7 @@ export async function sendContactEmail({
 
   return await resend.emails.send({
     from: "Portfolio Contact <onboarding@resend.dev>",
-    to: "he.shahadot@gmail.com",
+    to: "shahadotrahat786@gmail.com",
     subject: `✉️ Portfolio Inquiry: ${subject}`,
     html: `
       <!DOCTYPE html>

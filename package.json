@@ -12,6 +12,7 @@
     "export": "next build && next export"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@octokit/rest": "^22.0.0",
     "@react-three/drei": "^9.88.13",
     "@react-three/fiber": "^8.15.11",

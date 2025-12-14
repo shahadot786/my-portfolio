@@ -93,7 +93,7 @@ export function Education() {
                         className="glass-card p-8 hover:scale-105 transition-transform"
                     >
                         <div className="flex items-center space-x-3 mb-6">
-                            <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center">
+                            <div className="w-14 h-14 rounded-lg bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center">
                                 <Award size={28} className="text-white" />
                             </div>
                             <div>
@@ -111,7 +111,7 @@ export function Education() {
                                     transition={{ duration: 0.4, delay: index * 0.1 }}
                                     className="flex items-start space-x-3 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
                                 >
-                                    <Award size={18} className="text-purple-400 mt-0.5 flex-shrink-0" />
+                                    <Award size={18} className="text-emerald-400 mt-0.5 flex-shrink-0" />
                                     <span className="text-gray-300 font-medium">{cert}</span>
                                 </motion.div>
                             ))}

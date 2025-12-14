@@ -1,93 +1,111 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Briefcase, GraduationCap, Calendar, MapPin, TrendingUp } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Briefcase, GraduationCap, Calendar, MapPin, CheckCircle, Code } from "lucide-react";
+
+interface ExperienceItem {
+    id: string;
+    type: "work" | "education";
+    title: string;
+    company: string;
+    location: string;
+    period: string;
+    description: string;
+    achievements: string[];
+    technologies?: string[];
+}
+
+const experiences: ExperienceItem[] = [
+    {
+        id: "hawkeyes-senior",
+        type: "work",
+        title: "Mobile Application Developer",
+        company: "HawkEyes Digital Monitoring Limited",
+        location: "Dhaka, Bangladesh",
+        period: "July 2024 – Present",
+        description: "Leading development of React Native applications for major enterprise clients including Unilever, BAT, Nestlé, and Nagad.",
+        achievements: [
+            "Lead development serving 10,000+ territory managers with 100,000+ daily transactions",
+            "Architected offline-first mobile solutions improving reliability by 40%",
+            "Implemented advanced features: real-time face recognition, liveness detection, GPS monitoring",
+            "Developed multi-role applications with role-specific dashboards",
+            "Integrated real-time data synchronization for remote portal access",
+        ],
+        technologies: ["React Native", "Redux", "Offline-First", "Face Detection", "GPS Tracking"],
+    },
+    {
+        id: "hawkeyes-junior",
+        type: "work",
+        title: "Jr. React Native Developer",
+        company: "HawkEyes Digital Monitoring Limited",
+        location: "Dhaka, Bangladesh",
+        period: "June 2023 – June 2024",
+        description: "Delivered multiple React Native applications for enterprise clients with high reliability and performance.",
+        achievements: [
+            "Created cost-effective cross-platform solutions with consistent UX",
+            "Implemented agile methodologies with cutting-edge technologies",
+            "Resolved critical technical issues supporting 30% growth in user satisfaction",
+            "Built scalable applications for field operations and management",
+        ],
+        technologies: ["React Native", "TypeScript", "Redux Toolkit", "REST APIs"],
+    },
+    {
+        id: "tfp",
+        type: "work",
+        title: "Jr. React Native Developer",
+        company: "TFP Solutions Bangladesh Ltd",
+        location: "Dhaka, Bangladesh",
+        period: "January 2023 – May 2023",
+        description: "Built Hello Superstar, a fan-based social media app connecting celebrities and fans globally.",
+        achievements: [
+            "Implemented user authentication, live sessions, and chat features",
+            "Utilized REST APIs to retrieve data from AWS S3",
+            "Maintained high-quality code with 99% uptime",
+            "Enhanced application functionality and user engagement",
+        ],
+        technologies: ["React Native", "AWS S3", "REST APIs", "Real-time Chat"],
+    },
+    {
+        id: "gsda",
+        type: "work",
+        title: "Frontend Developer",
+        company: "Global Skills Development Agency",
+        location: "Dhaka, Bangladesh",
+        period: "June 2022 – December 2022",
+        description: "Developed online learning platform using Vue.js and Laravel with modern web technologies.",
+        achievements: [
+            "Designed user-friendly interfaces improving UX by 25%",
+            "Created clean, modular frontend codebase",
+            "Integrated third-party applications enhancing features",
+            "Implemented Redux, Tailwind CSS, and REST API integration",
+        ],
+        technologies: ["Vue.js", "Laravel", "Redux", "Tailwind CSS"],
+    },
+    {
+        id: "education",
+        type: "education",
+        title: "B.Sc. in Computer Science & Engineering",
+        company: "Green University of Bangladesh",
+        location: "Dhaka, Bangladesh",
+        period: "2017 – 2020",
+        description: "Comprehensive computer science education with focus on software engineering and mobile development.",
+        achievements: [
+            "Strong foundation in algorithms and data structures",
+            "Specialized in mobile application development",
+            "Completed multiple software engineering projects",
+            "Active participation in coding competitions",
+        ],
+        technologies: ["Java", "C++", "Python", "Mobile Development"],
+    },
+];
 
 export function Experience() {
-    const experiences = [
-        {
-            type: "work",
-            date: "July 2024 – Present",
-            title: "Mobile Application Developer",
-            company: "HawkEyes Digital Monitoring Limited",
-            location: "Dhaka, Bangladesh",
-            description:
-                "Lead development of React Native applications for Unilever, BAT, Nestlé, and Nagad serving 10,000+ territory managers with 100,000+ daily transactions.",
-            achievements: [
-                "Architected offline-first mobile solutions ensuring seamless functionality in low/no-connectivity scenarios, improving reliability by 40%",
-                "Implemented advanced features: real-time face recognition, liveness detection, display capture prevention, asset tracking, GPS monitoring",
-                "Developed multi-role applications (M-Lens, CM Supervisor, CM Live, MS Live) with role-specific dashboards and functionalities",
-                "Integrated real-time data synchronization enabling administrators to access market data via remote portals",
-                "Collaborated with cross-functional teams to define features and deliver products exceeding client expectations",
-            ],
-            technologies: ["React Native", "Redux", "TypeScript", "GPS", "Offline-first", "Face Detection"],
-        },
-        {
-            type: "work",
-            date: "June 2023 – June 2024",
-            title: "Jr. React Native Developer",
-            company: "HawkEyes Digital Monitoring Limited",
-            location: "Dhaka, Bangladesh",
-            description:
-                "Delivered multiple React Native applications for enterprise clients with high reliability and performance.",
-            achievements: [
-                "Delivered multiple React Native applications for enterprise clients with high reliability and performance",
-                "Created cost-effective cross-platform solutions providing consistent UX across Android and iOS devices",
-                "Implemented agile methodologies integrating cutting-edge technologies for improved performance and security",
-                "Resolved critical technical issues supporting app portfolio expansion, contributing to 30% growth in user satisfaction",
-            ],
-            technologies: ["React Native", "Redux", "JavaScript", "REST API", "Agile"],
-        },
-        {
-            type: "work",
-            date: "January 2023 – May 2023",
-            title: "Jr. React Native Developer",
-            company: "TFP Solutions Bangladesh Ltd",
-            location: "Dhaka, Bangladesh",
-            description:
-                "Built Hello Superstar, a fan-based social media app connecting celebrities and fans globally with two-way communication.",
-            achievements: [
-                "Implemented user authentication, live sessions, auditions, chats, meetups, personalized greetings, and E-Showcase features",
-                "Utilized REST APIs to retrieve data from AWS S3, enhancing application functionality and user engagement",
-                "Maintained high-quality, efficient, reusable code following React Native best practices with 99% uptime",
-            ],
-            technologies: ["React Native", "Redux", "AWS S3", "REST API", "Firebase"],
-        },
-        {
-            type: "work",
-            date: "June 2022 – December 2022",
-            title: "Frontend Developer",
-            company: "Global Skills Development Agency",
-            location: "Dhaka, Bangladesh",
-            description:
-                "Developed online learning platform using Vue.js and Laravel with Redux, Tailwind CSS, and REST API integration.",
-            achievements: [
-                "Designed user-friendly interfaces simplifying management and improving user experience by 25%",
-                "Created clean, modular frontend codebase emphasizing maintainability and scalability",
-                "Integrated third-party applications enhancing software features and performance",
-            ],
-            technologies: ["Vue.js", "Laravel", "Tailwind CSS", "Redux", "REST API"],
-        },
-        {
-            type: "education",
-            date: "January 2017 – April 2020",
-            title: "Bachelor of Science in Computer Science & Engineering",
-            company: "Green University of Bangladesh",
-            location: "Dhaka, Bangladesh",
-            description:
-                "Graduated with a B.Sc. in Computer Science specializing in software engineering and mobile application development.",
-            achievements: [
-                "Graduated with strong academic performance",
-                "Led final year projects",
-                "Built multiple academic software projects",
-                "Participated in hackathons",
-            ],
-            technologies: ["Java", "Kotlin", "JavaScript", "Data Structures", "Algorithms"],
-        },
-    ];
+    const [selectedId, setSelectedId] = useState(experiences[0].id);
+    const selectedExperience = experiences.find((exp) => exp.id === selectedId) || experiences[0];
 
     return (
-        <section id="experience" className="section-padding bg-slate-900">
+        <section id="experience" className="section-padding bg-slate-800">
             <div className="container-custom">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
@@ -100,108 +118,163 @@ export function Experience() {
                         Professional <span className="gradient-text">Journey</span>
                     </h2>
                     <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        My career path and key achievements in software development
+                        My career path and educational background in software development
                     </p>
                 </motion.div>
 
-                <div className="max-w-5xl mx-auto">
-                    <div className="relative">
-                        {/* Timeline Line */}
-                        <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-transparent"></div>
-
-                        {experiences.map((exp, index) => (
-                            <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 50 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: index * 0.1 }}
-                                className={`relative mb-12 md:mb-16 flex items-start ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                                    }`}
-                            >
-                                {/* Timeline Dot */}
-                                <div
-                                    className={`absolute left-8 md:left-1/2 transform md:-translate-x-1/2 timeline-dot z-10 ${exp.type === "education" ? "bg-gradient-to-br from-green-400 to-green-600" : ""
-                                        }`}
-                                ></div>
-
-                                {/* Content Card */}
-                                <div
-                                    className={`ml-20 md:ml-0 md:w-5/12 ${index % 2 === 0 ? "md:pr-12" : "md:pl-12"
-                                        }`}
-                                >
-                                    <motion.div
-                                        whileHover={{ scale: 1.02 }}
-                                        className="glass-card p-6 md:p-8 hover:border-blue-400/50 transition-all"
+                <div className="max-w-6xl mx-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Left Side - Timeline Navigation */}
+                        <motion.div
+                            initial={{ opacity: 0, x: -30 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                            className="lg:col-span-1"
+                        >
+                            <div className="space-y-2">
+                                {experiences.map((exp, index) => (
+                                    <motion.button
+                                        key={exp.id}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 0.4, delay: index * 0.1 }}
+                                        onClick={() => setSelectedId(exp.id)}
+                                        className={`w-full text-left p-4 rounded-lg transition-all ${selectedId === exp.id
+                                            ? "bg-gradient-primary text-white shadow-lg scale-105"
+                                            : "bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white"
+                                            }`}
                                     >
-                                        {/* Header */}
-                                        <div className="flex items-start justify-between mb-4">
-                                            <div className="flex items-center space-x-3">
+                                        <div className="flex items-start space-x-3">
+                                            <div
+                                                className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${selectedId === exp.id
+                                                    ? "bg-white/20"
+                                                    : "bg-gradient-primary"
+                                                    }`}
+                                            >
                                                 {exp.type === "work" ? (
-                                                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center">
-                                                        <Briefcase size={20} className="text-white" />
-                                                    </div>
+                                                    <Briefcase size={20} className="text-white" />
                                                 ) : (
-                                                    <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center">
-                                                        <GraduationCap size={20} className="text-white" />
-                                                    </div>
+                                                    <GraduationCap size={20} className="text-white" />
                                                 )}
-                                                <div>
-                                                    <h3 className="text-xl font-bold text-white">{exp.title}</h3>
-                                                    <p className="text-blue-400 font-medium">{exp.company}</p>
-                                                </div>
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <h3 className={`font-semibold text-sm mb-1 ${selectedId === exp.id ? "text-white" : "text-gray-200"
+                                                    }`}>
+                                                    {exp.title}
+                                                </h3>
+                                                <p className={`text-xs truncate ${selectedId === exp.id ? "text-white/80" : "text-gray-400"
+                                                    }`}>
+                                                    {exp.company}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </motion.button>
+                                ))}
+                            </div>
+                        </motion.div>
+
+                        {/* Right Side - Experience Details */}
+                        <div className="lg:col-span-2">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={selectedId}
+                                    initial={{ opacity: 0, x: 30 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -30 }}
+                                    transition={{ duration: 0.3 }}
+                                    className="glass-card p-8"
+                                >
+                                    {/* Header */}
+                                    <div className="mb-6">
+                                        <div className="flex items-start justify-between mb-4">
+                                            <div className="flex-1">
+                                                <h3 className="text-2xl font-bold text-white mb-2">
+                                                    {selectedExperience.title}
+                                                </h3>
+                                                <p className="text-xl text-blue-400 mb-3">
+                                                    {selectedExperience.company}
+                                                </p>
+                                            </div>
+                                            <div
+                                                className={`w-12 h-12 rounded-lg flex items-center justify-center ${selectedExperience.type === "work"
+                                                    ? "bg-blue-500/20"
+                                                    : "bg-teal-500/20"
+                                                    }`}
+                                            >
+                                                {selectedExperience.type === "work" ? (
+                                                    <Briefcase size={24} className="text-blue-400" />
+                                                ) : (
+                                                    <GraduationCap size={24} className="text-teal-400" />
+                                                )}
                                             </div>
                                         </div>
 
-                                        {/* Date and Location */}
-                                        <div className="flex flex-wrap gap-4 mb-4 text-sm text-gray-400">
+                                        <div className="flex flex-wrap gap-4 text-sm text-gray-400">
                                             <div className="flex items-center space-x-2">
-                                                <Calendar size={14} />
-                                                <span>{exp.date}</span>
+                                                <Calendar size={16} />
+                                                <span>{selectedExperience.period}</span>
                                             </div>
                                             <div className="flex items-center space-x-2">
-                                                <MapPin size={14} />
-                                                <span>{exp.location}</span>
+                                                <MapPin size={16} />
+                                                <span>{selectedExperience.location}</span>
                                             </div>
                                         </div>
+                                    </div>
 
-                                        {/* Description */}
-                                        <p className="text-gray-300 mb-4 leading-relaxed">{exp.description}</p>
+                                    {/* Description */}
+                                    <p className="text-gray-300 leading-relaxed mb-6">
+                                        {selectedExperience.description}
+                                    </p>
 
-                                        {/* Achievements */}
-                                        <div className="mb-4">
-                                            <h4 className="text-sm font-semibold text-white mb-2 flex items-center space-x-2">
-                                                <TrendingUp size={14} className="text-green-400" />
-                                                <span>Key Achievements:</span>
-                                            </h4>
-                                            <ul className="space-y-2">
-                                                {exp.achievements.map((achievement, i) => (
-                                                    <li key={i} className="text-sm text-gray-400 flex items-start">
-                                                        <span className="text-blue-400 mr-2 mt-1">▸</span>
-                                                        <span>{achievement}</span>
-                                                    </li>
-                                                ))}
-                                            </ul>
-                                        </div>
+                                    {/* Achievements */}
+                                    <div className="mb-6">
+                                        <h4 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
+                                            <CheckCircle size={20} className="text-green-400" />
+                                            <span>Key Achievements</span>
+                                        </h4>
+                                        <ul className="space-y-3">
+                                            {selectedExperience.achievements.map((achievement, index) => (
+                                                <motion.li
+                                                    key={index}
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    transition={{ delay: index * 0.1 }}
+                                                    className="flex items-start space-x-3"
+                                                >
+                                                    <CheckCircle size={16} className="text-green-400 mt-1 flex-shrink-0" />
+                                                    <span className="text-gray-300 text-sm">{achievement}</span>
+                                                </motion.li>
+                                            ))}
+                                        </ul>
+                                    </div>
 
-                                        {/* Technologies */}
+                                    {/* Technologies */}
+                                    {selectedExperience.technologies && (
                                         <div>
-                                            <h4 className="text-sm font-semibold text-white mb-2">Technologies:</h4>
+                                            <h4 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
+                                                <Code size={20} className="text-blue-400" />
+                                                <span>Technologies Used</span>
+                                            </h4>
                                             <div className="flex flex-wrap gap-2">
-                                                {exp.technologies.map((tech) => (
-                                                    <span
+                                                {selectedExperience.technologies.map((tech, index) => (
+                                                    <motion.span
                                                         key={tech}
-                                                        className="px-3 py-1 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-gray-300 hover:border-blue-400 hover:text-blue-400 transition-colors"
+                                                        initial={{ opacity: 0, scale: 0.8 }}
+                                                        animate={{ opacity: 1, scale: 1 }}
+                                                        transition={{ delay: index * 0.05 }}
+                                                        className="px-3 py-1 bg-blue-500/10 border border-blue-500/30 rounded-full text-blue-300 text-sm"
                                                     >
                                                         {tech}
-                                                    </span>
+                                                    </motion.span>
                                                 ))}
                                             </div>
                                         </div>
-                                    </motion.div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                    )}
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
                     </div>
                 </div>
             </div>

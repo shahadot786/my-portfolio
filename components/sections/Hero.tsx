@@ -23,7 +23,7 @@ export function Hero() {
             {/* Animated Background Elements */}
             <div className="absolute inset-0 overflow-hidden">
                 <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl animate-float"></div>
-                <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }}></div>
+                <div className="absolute bottom-20 right-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "1s" }}></div>
                 <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-cyan-500/10 rounded-full blur-3xl animate-float" style={{ animationDelay: "2s" }}></div>
             </div>
 
@@ -150,7 +150,6 @@ export function Hero() {
                         </motion.div>
                     </motion.div>
 
-                    {/* Right Column - Profile Image */}
                     <motion.div
                         initial={{ opacity: 0, x: 50 }}
                         animate={{ opacity: 1, x: 0 }}
@@ -161,8 +160,11 @@ export function Hero() {
                             {/* Gradient Border */}
                             <div className="absolute inset-0 bg-gradient-primary rounded-full blur-2xl opacity-50 animate-glow"></div>
 
+                            {/* Animated Rotating Border */}
+                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 via-emerald-500 to-cyan-500 rounded-full opacity-75 blur-sm animate-spin-slow"></div>
+
                             {/* Profile Image */}
-                            <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-white/10">
+                            <div className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full overflow-hidden border-4 border-slate-900 bg-slate-900">
                                 <Image
                                     src="/avatar.png"
                                     alt="MD. Shahadot Hossain"
