@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Github, Linkedin, Mail, MapPin, Phone, Download, ExternalLink } from "lucide-react";
 import Image from "next/image";
+import { LeetCodeIcon } from "@/components/icons/LeetCodeIcon";
 
 export function Hero() {
     const stats = [
@@ -15,6 +16,7 @@ export function Hero() {
     const socialLinks = [
         { icon: Github, href: "https://github.com/shahadot786", label: "GitHub" },
         { icon: Linkedin, href: "https://www.linkedin.com/in/shahadot786", label: "LinkedIn" },
+        { icon: LeetCodeIcon, href: "https://leetcode.com/u/shahadot_786/", label: "LeetCode" },
         { icon: Mail, href: "mailto:shahadotrahat786@gmail.com", label: "Email" },
     ];
 
