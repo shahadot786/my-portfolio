@@ -75,6 +75,24 @@ export function Projects() {
             featured: true,
         },
         {
+            title: "Nexus Monorepo",
+            description:
+                "A production-ready, type-safe fullstack monorepo template featuring Backend (Node.js/Express/MongoDB), Web (Next.js), and Mobile (React Native/Expo) applications. Architected backend with Express.js API Gateway, Auth Service, Todo Service, and 10+ Services; implemented JWT authentication with refresh tokens, Redis caching, rate limiting, and email verification using Resend.",
+            image: "https://res.cloudinary.com/dmojailax/image/upload/v1766849344/nexus_wipff2.png",
+            technologies: ["Next.js", "Node.js", "Express.js", "React Native", "MongoDB", "Redis", "Nx Monorepo"],
+            metrics: [
+                "Microservices architecture",
+                "JWT authentication with refresh tokens",
+                "WebSocket for realtime service check",
+                "Swagger/OpenAPI documentation",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/fullstack-master-repo",
+            liveDemo: "https://nexus-web-portal-demo.vercel.app/",
+            featured: false,
+        },
+        {
             title: "Shopora—Multi-Vendor eCommerce SaaS",
             description:
                 "Full-stack multi-vendor eCommerce platform built with Nx monorepo architecture. Architected backend with Express.js API Gateway, Auth Service, Product Service, and Order Service. Implemented JWT authentication, Redis caching, and Swagger API documentation.",
@@ -246,6 +264,17 @@ export function Projects() {
                                                 <span>Play Store</span>
                                             </a>
                                         )}
+                                        {(project as any).liveDemo && (
+                                            <a
+                                                href={(project as any).liveDemo}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="btn-primary inline-flex items-center space-x-2 text-sm"
+                                            >
+                                                <ExternalLink size={16} />
+                                                <span>Live Demo</span>
+                                            </a>
+                                        )}
                                         {project.github && (
                                             <a
                                                 href={project.github}
@@ -333,6 +362,17 @@ export function Projects() {
                                             >
                                                 <ExternalLink size={14} />
                                                 <span>Play Store</span>
+                                            </a>
+                                        )}
+                                        {(project as any).liveDemo && (
+                                            <a
+                                                href={(project as any).liveDemo}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-sm text-blue-400 hover:text-blue-300 flex items-center space-x-1"
+                                            >
+                                                <ExternalLink size={14} />
+                                                <span>Live Demo</span>
                                             </a>
                                         )}
                                         {project.github && (

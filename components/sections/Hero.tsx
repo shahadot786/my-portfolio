@@ -6,7 +6,7 @@ import Image from "next/image";
 
 export function Hero() {
     const stats = [
-        { label: "Years Experience", value: "3.7+" },
+        { label: "Years Experience", value: "4+" },
         { label: "Active Users", value: "10K+" },
         { label: "Daily Transactions", value: "100K+" },
         { label: "Projects Delivered", value: "20+" },
@@ -77,7 +77,7 @@ export function Hero() {
                             transition={{ delay: 0.5 }}
                             className="text-lg text-gray-300 leading-relaxed max-w-xl"
                         >
-                            Proficient React Native Developer with 3.7+ years of experience building
+                            Proficient software engineer with 4 years of experience building
                             cross-platform mobile applications for enterprise clients. Specialized in
                             offline-first architecture, real-time tracking, and cutting-edge mobile technologies.
                         </motion.p>

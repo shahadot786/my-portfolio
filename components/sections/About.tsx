@@ -70,7 +70,7 @@ export function About() {
                         Professional Summary
                     </h3>
                     <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                        Proficient React Native Developer with <strong className="text-white">3.7+ years of experience</strong> building
+                        Proficient software engineer with <strong className="text-white">4 years of experience</strong> building
                         and maintaining cross-platform mobile applications for enterprise clients, including{" "}
                         <strong className="text-blue-400">Unilever, BAT, Nestlé, and Nagad</strong>.
                     </p>
