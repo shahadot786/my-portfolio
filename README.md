@@ -1,272 +1,321 @@
-# MD Shahadot Hossain - Developer Portfolio
+# MD. Shahadot Hossain - Portfolio
 
-A modern, interactive developer portfolio built with Next.js, React, TypeScript, and Tailwind CSS. Features a VS Code-inspired interface with real-time GitHub integration, interactive code playground, AI chatbot, and dynamic theme system.
+A modern, feature-rich developer portfolio built with **Next.js 14**, **React 18**, **TypeScript**, and **Tailwind CSS**. This portfolio showcases professional experience, projects, skills, and includes interactive features like AI-powered chat, GitHub integration, learning tracker, and problem-solving showcase.
+
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://shahadot-hossain.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.2-blue)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
 ## ✨ Features
 
-### Core Features
+### 🎯 Core Sections
 
-- **VS Code Interface**: Authentic code editor experience with file tabs and syntax highlighting
-- **Real-time GitHub Stats**: Live integration with GitHub API showing repositories, contributions, and activity
-- **Interactive Code Playground**: Safe sandbox environment for JavaScript and React experimentation
-- **AI Chat Assistant**: Intelligent chatbot for project Q&A and portfolio navigation
-- **Dynamic Theme System**: 10 beautiful color themes with persistent preferences
-- **Achievement System**: Gamified user engagement with unlockable achievements
-- **Responsive Design**: Mobile-first approach optimized for all screen sizes
-- **Performance Optimized**: Fast loading with code splitting and optimized assets
+- **Hero Section**: Eye-catching introduction with animated profile and call-to-action buttons
+- **About**: Professional summary highlighting expertise and experience
+- **Experience**: Timeline of professional work history with detailed role descriptions
+- **Skills**: Comprehensive showcase of technical skills organized by category
+- **Projects**: Featured projects with descriptions, technologies, and live/GitHub links
+- **Education**: Academic background and certifications
+- **Contact**: Interactive contact form with email integration via Resend API
+- **Footer**: Social links and additional navigation
 
-### Technical Highlights
+### 🤖 AI-Powered Chat Assistant
 
-- **Next.js 14**: Latest App Router with server components and optimizations
-- **TypeScript**: Full type safety throughout the application
-- **Tailwind CSS**: Utility-first styling with custom design system
-- **Framer Motion**: Smooth animations and micro-interactions
-- **Real GitHub API**: Live data fetching with error handling and caching
-- **Progressive Enhancement**: Works without JavaScript for core content
+- **Google Gemini Integration**: Real-time AI chat powered by Gemini 2.0 Flash Lite
+- **Context-Aware Responses**: Pre-loaded with portfolio context for accurate answers
+- **Live GitHub Data**: Fetches and includes real-time GitHub statistics in responses
+- **Suggested Questions**: Quick-start prompts for common inquiries
+- **Professional Tone**: Tailored responses about skills, projects, and experience
 
-## 🚀 Quick Start
+### 📊 GitHub Integration
+
+- **Real-time Stats**: Live GitHub profile data including repos, followers, and activity
+- **Repository Showcase**: Display of recent and featured repositories
+- **Language Distribution**: Visual breakdown of coding languages used
+- **Contribution Metrics**: Stars, forks, and commit statistics
+- **Smart Caching**: 24-hour cache to optimize API rate limits
+
+### 📚 Learning Tracker
+
+- **Daily Progress Tracking**: Log hours studied, topics covered, and LeetCode problems solved
+- **GitHub Sync**: Automatically sync learning data to a GitHub repository
+- **Statistics Dashboard**: Visual analytics of learning progress and streaks
+- **Export/Import**: Backup and restore learning data in JSON format
+- **README Generation**: Auto-generate formatted README for GitHub repository
+
+### 🧩 Problem Solving Showcase
+
+- **Multi-Platform Support**: Track problems from LeetCode, HackerRank, CodeForces, and more
+- **Detailed Analytics**: Statistics by difficulty, category, and platform
+- **Solution Insights**: Time/space complexity, approach, and key learnings
+- **Filtering & Search**: Find problems by difficulty, platform, or category
+- **Visual Statistics**: Charts showing problem-solving patterns and progress
+
+### 🎨 Design & UX
+
+- **Responsive Design**: Mobile-first approach, optimized for all screen sizes
+- **Dark Theme**: Modern dark color scheme with blue accents
+- **Smooth Animations**: Framer Motion animations for enhanced user experience
+- **Custom Fonts**: JetBrains Mono for code-like aesthetics
+- **Accessibility**: Semantic HTML and ARIA labels for better accessibility
+- **Back to Top**: Convenient scroll-to-top button for easy navigation
+
+## 🚀 Tech Stack
+
+### Frontend
+- **Framework**: Next.js 14 (App Router)
+- **Language**: TypeScript 5.2
+- **UI Library**: React 18.3
+- **Styling**: Tailwind CSS 3.4
+- **Animations**: Framer Motion 10.18
+- **Icons**: Lucide React
+
+### Backend & APIs
+- **AI Chat**: Google Generative AI (Gemini 2.0 Flash Lite)
+- **Email**: Resend API for contact form
+- **GitHub**: Octokit REST API for GitHub integration
+- **PDF Generation**: jsPDF + html2canvas for resume export
+
+### Development Tools
+- **Package Manager**: Yarn
+- **Linting**: ESLint with Next.js config
+- **Type Checking**: TypeScript strict mode
+- **Build Tool**: Next.js built-in bundler
+
+## 📦 Installation
 
 ### Prerequisites
-
-- Node.js 18+ and npm/yarn/pnpm
+- Node.js 18+ and Yarn/npm
 - GitHub Personal Access Token (optional, for higher API rate limits)
+- Google Gemini API Key (for AI chat functionality)
+- Resend API Key (for contact form)
 
-### Installation
+### Setup
 
-1. **Clone and Install**
-
+1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd developer-portfolio
+   git clone https://github.com/shahadot786/my-portfolio.git
+   cd my-portfolio
+   ```
+
+2. **Install dependencies**
+   ```bash
+   yarn install
+   # or
    npm install
    ```
 
-2. **Environment Setup (Optional)**
-   Create `.env.local` for GitHub API integration:
-
+3. **Environment Variables**
+   
+   Create a `.env` or `.env.local` file in the root directory:
    ```env
+   # GitHub Integration (Optional but recommended)
    NEXT_PUBLIC_GITHUB_USERNAME=your-github-username
-   GITHUB_ACCESS_TOKEN=your-github-token
+   GITHUB_ACCESS_TOKEN=your-github-personal-access-token
+   
+   # Google Gemini AI (Required for AI Chat)
+   GEMINI_API_KEY=your-gemini-api-key
+   
+   # Resend Email API (Required for Contact Form)
+   RESEND_API_KEY=your-resend-api-key
+   RESEND_FROM_EMAIL=your-verified-email@domain.com
+   RESEND_TO_EMAIL=your-email@domain.com
    ```
 
-3. **Development Server**
-
+4. **Run Development Server**
    ```bash
+   yarn dev
+   # or
    npm run dev
    ```
+   
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-   Open [http://localhost:3000](http://localhost:3000)
-
-4. **Build for Production**
+5. **Build for Production**
    ```bash
-   npm run build
-   npm start
+   yarn build
+   yarn start
    ```
 
-### Available Scripts
+## 🔑 API Keys Setup
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run type-check` - TypeScript type checking
+### GitHub Personal Access Token
+1. Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+2. Generate new token with `public_repo` scope
+3. Add to `.env` as `GITHUB_ACCESS_TOKEN`
+
+**Rate Limits:**
+- Without token: 60 requests/hour
+- With token: 5,000 requests/hour
+
+### Google Gemini API Key
+1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Create a new API key
+3. Add to `.env` as `GEMINI_API_KEY`
+
+### Resend API Key
+1. Sign up at [Resend](https://resend.com)
+2. Verify your domain or use their test domain
+3. Generate API key from dashboard
+4. Add to `.env` as `RESEND_API_KEY`
 
 ## 📁 Project Structure
 
 ```
-├── app/                    # Next.js app directory
-│   ├── globals.css        # Global styles and theme variables
-│   ├── layout.tsx         # Root layout with providers
-│   ├── page.tsx          # Main portfolio page
-│   ├── sitemap.ts        # SEO sitemap generation
-│   └── manifest.json     # PWA manifest
-├── components/            # React components
-│   ├── providers/        # Context providers (theme, etc.)
-│   ├── hero-section.tsx  # Main VS Code interface
-│   ├── github-stats.tsx  # Real-time GitHub integration
-│   ├── ai-chat.tsx       # AI assistant chatbot
-│   ├── theme-selector.tsx # Dynamic theme switching
-│   ├── achievement-system.tsx # Gamification system
-│   └── playground-section.tsx # Code execution environment
-├── public/               # Static assets
-├── types/               # TypeScript type definitions
-└── lib/                # Utility functions and API clients
+my-portfolio/
+├── app/                          # Next.js App Router
+│   ├── api/                      # API Routes
+│   │   ├── chat/route.ts        # AI Chat endpoint (Gemini)
+│   │   └── contact/route.ts     # Contact form endpoint (Resend)
+│   ├── globals.css              # Global styles & Tailwind
+│   ├── layout.tsx               # Root layout with metadata
+│   ├── page.tsx                 # Home page
+│   ├── manifest.json            # PWA manifest
+│   ├── sitemap.ts              # SEO sitemap
+│   ├── privacy/                 # Privacy policy page
+│   ├── terms/                   # Terms of service page
+│   ├── roadmap/                 # Roadmap page
+│   └── tracker/                 # Learning tracker page
+│
+├── components/                   # React Components
+│   ├── sections/                # Main page sections
+│   │   ├── Navigation.tsx       # Top navigation bar
+│   │   ├── Hero.tsx            # Hero section with intro
+│   │   ├── About.tsx           # About section
+│   │   ├── Experience.tsx      # Work experience timeline
+│   │   ├── Skills.tsx          # Skills showcase
+│   │   ├── Projects.tsx        # Projects portfolio
+│   │   ├── GitHubSection.tsx   # GitHub stats wrapper
+│   │   ├── Education.tsx       # Education & certifications
+│   │   ├── Contact.tsx         # Contact form
+│   │   ├── Footer.tsx          # Footer with links
+│   │   └── AIChat.tsx          # AI chatbot interface
+│   │
+│   ├── providers/               # Context providers
+│   │   └── theme-provider.tsx  # Theme context
+│   │
+│   ├── icons/                   # Custom icon components
+│   │   └── LeetCodeIcon.tsx    # LeetCode logo
+│   │
+│   ├── github-stats.tsx        # GitHub integration component
+│   ├── LearningTracker.tsx     # Learning tracker feature
+│   ├── problem-solving-section.tsx  # Problem solving showcase
+│   ├── playground-section.tsx  # Code playground (if used)
+│   ├── theme-selector.tsx      # Theme switcher
+│   └── BackToTop.tsx           # Scroll to top button
+│
+├── lib/                         # Utility functions
+├── types/                       # TypeScript type definitions
+├── public/                      # Static assets
+│   ├── favicon.ico
+│   └── og-image.png
+│
+├── next.config.js              # Next.js configuration
+├── tailwind.config.js          # Tailwind CSS configuration
+├── tsconfig.json               # TypeScript configuration
+├── package.json                # Dependencies
+└── README.md                   # This file
 ```
 
-## 🎨 Customization Guide
+## 🎨 Customization
 
-### 1. Personal Information
+### Update Personal Information
 
-**Update Portfolio Content** (`components/hero-section.tsx`):
+Edit the content in respective component files:
+
+**Hero Section** (`components/sections/Hero.tsx`):
+- Name, title, tagline
+- Profile image
+- Social media links
+- Resume download link
+
+**About Section** (`components/sections/About.tsx`):
+- Professional summary
+- Years of experience
+- Key highlights
+
+**Experience** (`components/sections/Experience.tsx`):
+- Work history
+- Company details
+- Role descriptions
+
+**Projects** (`components/sections/Projects.tsx`):
+- Project details
+- Technologies used
+- Live demo and GitHub links
+- Project images
+
+**Skills** (`components/sections/Skills.tsx`):
+- Technical skills by category
+- Proficiency levels
+
+**Education** (`components/sections/Education.tsx`):
+- Degrees and certifications
+- Institutions
+- Dates
+
+### Customize AI Chat Context
+
+Edit `components/sections/AIChat.tsx` to update the `PORTFOLIO_CONTEXT` constant with your information:
 
 ```typescript
-const fullText = `const developer = {
-  name: 'Your Name',
-  title: 'Your Title',
-  specialization: 'Your Specialization',
-  // Update all personal information
-};`;
+const PORTFOLIO_CONTEXT = `
+You are an AI assistant for [Your Name]'s portfolio. Here's information about them:
+
+**Professional Summary:**
+- Your professional summary here...
+
+**Key Projects:**
+1. Project 1 - Description
+2. Project 2 - Description
+...
+`;
 ```
 
-**Timeline Data**:
+### Update Theme Colors
 
-```typescript
-const timelineData: TimelineItem[] = [
-  {
-    date: "2023 - Present",
-    title: "Your Current Role",
-    company: "Your Company",
-    // Add your career history
-  },
-];
-```
-
-**Projects**:
-
-```typescript
-const projects: Project[] = [
-  {
-    title: "Your Project",
-    description: "Project description",
-    technologies: ["Tech1", "Tech2"],
-    // Add your real projects
-  },
-];
-```
-
-### 2. GitHub Integration
-
-**Set Your Username** (`.env.local`):
-
-```env
-NEXT_PUBLIC_GITHUB_USERNAME=your-github-username
-GITHUB_ACCESS_TOKEN=your-personal-access-token
-```
-
-The GitHub stats will automatically fetch:
-
-- Repository information
-- Contribution statistics
-- Language usage
-- Recent activity
-- Follower/following counts
-
-**GitHub Token Setup**:
-
-1. Go to GitHub Settings → Developer settings → Personal access tokens
-2. Generate new token with `public_repo` scope
-3. Add to `.env.local` file
-
-### 3. AI Chatbot Customization
-
-**Update Responses** (`components/ai-chat.tsx`):
-
-```typescript
-const sampleResponses = {
-  "your-project": "Description of your project...",
-  skills: "Your skills and expertise...",
-  // Customize all responses
-};
-```
-
-**Connect to Real AI Service**:
-
-```bash
-npm install openai
-```
-
-```typescript
-import OpenAI from "openai";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-```
-
-### 4. Theme Customization
-
-**Add Custom Colors** (`components/providers/theme-provider.tsx`):
-
-```typescript
-const themeColors = {
-  yourColor: {
-    primary: "rgb(your-color)",
-    primaryHover: "rgb(your-hover-color)",
-    accent: "rgb(your-accent-color)",
-  },
-};
-```
-
-**Update Tailwind Config** (`tailwind.config.js`):
+Modify `tailwind.config.js` to change the color scheme:
 
 ```javascript
-theme: {
-  extend: {
-    colors: {
-      primary: {
-        500: '#your-brand-color',
-      }
-    }
-  }
+colors: {
+  primary: {
+    500: '#your-primary-color',
+    // ... other shades
+  },
+  // ... other color definitions
 }
 ```
 
-## 🔧 Advanced Configuration
+### SEO & Metadata
 
-### Environment Variables
+Update `app/layout.tsx` for SEO optimization:
 
-```env
-# GitHub Integration
-NEXT_PUBLIC_GITHUB_USERNAME=your-username
-GITHUB_ACCESS_TOKEN=your-token
-
-# AI Chat (Optional)
-OPENAI_API_KEY=your-openai-key
-
-# Analytics (Optional)
-NEXT_PUBLIC_GA_ID=your-google-analytics-id
-
-# Contact Form (Optional)
-CONTACT_API_ENDPOINT=your-contact-endpoint
+```typescript
+export const metadata = {
+  title: "Your Name - Your Title",
+  description: "Your description",
+  keywords: "your, keywords, here",
+  // ... other metadata
+};
 ```
-
-### GitHub API Rate Limits
-
-- **Without token**: 60 requests/hour
-- **With token**: 5,000 requests/hour
-- **Caching**: Responses cached for 5 minutes
-
-### Performance Optimization
-
-- **Images**: Optimized with Next.js Image component
-- **Code Splitting**: Automatic route-based splitting
-- **Caching**: GitHub API responses cached
-- **Bundle Analysis**: Use `@next/bundle-analyzer`
-
-### SEO Configuration
-
-- **Metadata**: Update in `app/layout.tsx`
-- **Sitemap**: Automatically generated in `app/sitemap.ts`
-- **Structured Data**: JSON-LD for better search visibility
-- **Open Graph**: Social media preview optimization
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
 
-```bash
-npm install -g vercel
-vercel
-```
+1. Push your code to GitHub
+2. Import project in [Vercel](https://vercel.com)
+3. Add environment variables in Vercel dashboard
+4. Deploy
 
-Add environment variables in Vercel dashboard.
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/shahadot786/my-portfolio)
 
 ### Netlify
 
-```bash
-npm run build
-# Upload build output to Netlify
-```
+1. Build the project: `yarn build`
+2. Deploy the `.next` folder to Netlify
+3. Configure environment variables
 
 ### Docker
 
@@ -274,135 +323,131 @@ npm run build
 FROM node:18-alpine
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production
+RUN yarn install --frozen-lockfile
 COPY . .
-RUN npm run build
+RUN yarn build
 EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
 ```
 
-### Manual Deployment
-
+Build and run:
 ```bash
-npm run build
-# Upload .next/static and other build files
+docker build -t portfolio .
+docker run -p 3000:3000 portfolio
 ```
 
-## 📊 GitHub Stats Features
+## 📊 Features in Detail
 
-### Real-time Data
+### AI Chat Assistant
+- Powered by Google Gemini 2.0 Flash Lite
+- Real-time GitHub data integration
+- Context-aware responses about your portfolio
+- Suggested questions for visitors
+- Professional and helpful tone
 
-- **Repository Stats**: Stars, forks, languages
-- **Contribution Activity**: Commits, PRs, issues
-- **Profile Information**: Bio, followers, location
-- **Recent Repositories**: Latest projects with descriptions
-- **Language Distribution**: Visual breakdown of coding languages
+### GitHub Stats
+- Live repository statistics
+- Recent activity tracking
+- Language distribution charts
+- Contribution metrics
+- Smart caching (24-hour refresh)
 
-### API Integration
+### Learning Tracker
+- Daily learning logs
+- GitHub repository sync
+- Progress analytics
+- Export/import functionality
+- Automatic README generation
 
-- Automatic data fetching every 5 minutes
-- Graceful error handling with fallback data
-- Rate limit management
-- Responsive loading states
+### Problem Solving Showcase
+- Multi-platform problem tracking
+- Detailed solution insights
+- Complexity analysis
+- Filtering and search
+- Visual statistics
 
-## 🎮 Achievement System
-
-### Available Achievements
-
-- **Welcome Visitor**: First portfolio visit
-- **Code Explorer**: View multiple code files
-- **Project Enthusiast**: Explore all projects
-- **AI Conversationalist**: Chat with AI assistant
-- **Playground Master**: Run code in playground
-- **Coffee Lover**: Spend 5+ minutes on site
-
-### Customization
-
-Add new achievements in `components/achievement-system.tsx`:
-
-```typescript
-{
-  id: 'custom-achievement',
-  title: 'Custom Title',
-  description: 'Achievement description',
-  icon: YourIcon,
-  rarity: 'rare'
-}
-```
-
-## 🧪 Testing
-
-### Manual Testing Checklist
-
-- [ ] All file tabs work correctly
-- [ ] GitHub stats load properly
-- [ ] Code playground executes JavaScript/React
-- [ ] AI chat responds appropriately
-- [ ] Theme switching works
-- [ ] Responsive design on mobile/tablet
-- [ ] Achievement notifications appear
-- [ ] Contact form validation
-
-### Performance Testing
-
-- [ ] Lighthouse score 90+ in all categories
-- [ ] Fast loading on slow connections
-- [ ] Smooth animations on low-end devices
-- [ ] GitHub API error handling
+### Contact Form
+- Email validation
+- Spam protection
+- Success/error notifications
+- Resend API integration
+- Professional email templates
 
 ## 🔒 Security & Privacy
 
-### Data Handling
+- **Environment Variables**: Sensitive keys stored securely
+- **API Rate Limiting**: Implemented caching to prevent abuse
+- **CORS Configuration**: Proper headers for API security
+- **Input Validation**: Form inputs sanitized and validated
+- **No Data Storage**: Contact form doesn't store user data
+- **Privacy Policy**: Included privacy and terms pages
 
-- GitHub data cached locally for 5 minutes
-- No personal data stored permanently
-- Contact form data processed securely
-- Achievement progress stored in localStorage
+## 📝 Available Scripts
 
-### API Security
-
-- GitHub token stored securely in environment variables
-- Rate limiting implemented
-- Error handling prevents data leaks
-- CORS properly configured
+```bash
+yarn dev          # Start development server
+yarn build        # Build for production
+yarn start        # Start production server
+yarn lint         # Run ESLint
+yarn type-check   # TypeScript type checking
+```
 
 ## 🤝 Contributing
 
+Contributions are welcome! Please feel free to submit a Pull Request.
+
 1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/amazing-feature`
-3. Make your changes and test thoroughly
-4. Commit: `git commit -m 'Add amazing feature'`
-5. Push: `git push origin feature/amazing-feature`
-6. Submit a pull request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ## 📄 License
 
-MIT License - feel free to use this portfolio template for your own projects!
+This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support & FAQ
+## 👨‍💻 Author
 
-### Common Issues
+**MD. Shahadot Hossain**
+- Portfolio: [shahadot-hossain.vercel.app](https://shahadot-hossain.vercel.app)
+- GitHub: [@shahadot786](https://github.com/shahadot786)
+- LinkedIn: [MD. Shahadot Hossain](https://linkedin.com/in/shahadot-hossain)
+- Email: shahadot.cse.bu@gmail.com
 
-**Q: GitHub stats not loading?**
-A: Check your username in `.env.local` and ensure it's correct. Without a token, you're limited to 60 requests/hour.
+## 🙏 Acknowledgments
 
-**Q: Code playground not working?**
-A: Ensure JavaScript is enabled. The playground runs in a secure iframe sandbox.
+- [Next.js](https://nextjs.org/) - React framework
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS
+- [Framer Motion](https://www.framer.com/motion/) - Animation library
+- [Google Gemini](https://ai.google.dev/) - AI chat integration
+- [Resend](https://resend.com/) - Email API
+- [Lucide Icons](https://lucide.dev/) - Beautiful icons
 
-**Q: Themes not persisting?**
-A: Check if localStorage is available in your browser and not blocked.
+## 📈 Performance
 
-**Q: Mobile layout issues?**
-A: The design is mobile-first. Report specific issues with device/browser details.
+- **Lighthouse Score**: 90+ across all metrics
+- **First Contentful Paint**: < 1.5s
+- **Time to Interactive**: < 3.5s
+- **SEO Optimized**: Semantic HTML, meta tags, sitemap
+- **Mobile Responsive**: Optimized for all devices
 
-### Getting Help
+## 🐛 Known Issues
 
-1. Check the [GitHub Issues](https://github.com/shahadot786/my-portfolio/issues)
-2. Review this documentation
-3. Create a new issue with detailed information
+- GitHub API rate limits may affect stats display without authentication token
+- AI chat requires valid Gemini API key to function
+- Contact form requires Resend API configuration
+
+## 🔮 Future Enhancements
+
+- [ ] Blog section with MDX support
+- [ ] Dark/Light theme toggle
+- [ ] Internationalization (i18n)
+- [ ] Analytics dashboard
+- [ ] More AI chat capabilities
+- [ ] Resume builder feature
 
 ---
 
 **Built with ❤️ using Next.js, React, TypeScript, and Tailwind CSS**
 
-_Last updated: September 2025_
+*Last updated: December 2025*

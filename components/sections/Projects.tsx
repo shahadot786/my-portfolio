@@ -75,6 +75,24 @@ export function Projects() {
             featured: true,
         },
         {
+            title: "Nexus Monorepo",
+            description:
+                "A production-ready, type-safe fullstack monorepo template featuring Backend (Node.js/Express/MongoDB), Web (Next.js), and Mobile (React Native/Expo) applications. Architected backend with Express.js API Gateway, Auth Service, Todo Service, and 10+ Services; implemented JWT authentication with refresh tokens, Redis caching, rate limiting, and email verification using Resend.",
+            image: "https://res.cloudinary.com/dmojailax/image/upload/v1766849344/nexus_wipff2.png",
+            technologies: ["Next.js", "Node.js", "Express.js", "React Native", "MongoDB", "Redis", "Nx Monorepo"],
+            metrics: [
+                "Microservices architecture",
+                "JWT authentication with refresh tokens",
+                "WebSocket for realtime service check",
+                "Swagger/OpenAPI documentation",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/fullstack-master-repo",
+            liveDemo: "https://nexus-web-portal-demo.vercel.app/",
+            featured: false,
+        },
+        {
             title: "Shopora—Multi-Vendor eCommerce SaaS",
             description:
                 "Full-stack multi-vendor eCommerce platform built with Nx monorepo architecture. Architected backend with Express.js API Gateway, Auth Service, Product Service, and Order Service. Implemented JWT authentication, Redis caching, and Swagger API documentation.",
@@ -106,6 +124,142 @@ export function Projects() {
             appStore: "https://apps.apple.com/us/app/he-universe/id6754590356",
             playStore: "",
             github: "",
+            featured: false,
+        },
+        {
+            title: "URL Shortener (SSR)",
+            description:
+                "Full-stack URL shortener application with click tracking and analytics. Features server-side rendering with EJS, MongoDB database, and nanoid for generating short URLs. Includes detailed analytics dashboard with visit history and timestamps.",
+            image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80",
+            technologies: ["Node.js", "Express.js", "MongoDB", "EJS", "Nanoid"],
+            metrics: [
+                "URL shortening with nanoid",
+                "Click tracking & analytics",
+                "Server-side rendering",
+                "RESTful API endpoints",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/url-shortener-ssr",
+            featured: false,
+        },
+        {
+            title: "AI Web Analyzer",
+            description:
+                "Powerful Playwright-based web scraper with AI analysis capabilities. Extracts website content including titles, headings, paragraphs, links, and images. Features AI-powered content summarization, entity extraction, SEO insights, sentiment analysis, and readability scoring.",
+            image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+            technologies: ["Node.js", "Playwright", "AI/ML", "Redis", "Express.js"],
+            metrics: [
+                "Smart web scraping",
+                "AI content analysis",
+                "SEO insights & scoring",
+                "Sentiment analysis",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/ai-web-analyzer",
+            featured: false,
+        },
+        {
+            title: "Auth Master Node",
+            description:
+                "Production-ready authentication backend built with TypeScript, featuring JWT access and refresh tokens, role-based access control (RBAC), email verification with OTP, password reset, and comprehensive security measures including rate limiting and input sanitization.",
+            image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&q=80",
+            technologies: ["TypeScript", "Node.js", "Express.js", "MongoDB", "Redis", "JWT"],
+            metrics: [
+                "JWT authentication & refresh tokens",
+                "Role-based access control",
+                "Email verification with OTP",
+                "Comprehensive security features",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/auth-master-node",
+            featured: false,
+        },
+        {
+            title: "Movie Finder",
+            description:
+                "React 19 movie search application with real-time search functionality and trending movies tracking. Built with Vite for optimal performance, uses TMDB API for movie data, and Appwrite for backend services. Features debounced search and modern responsive UI.",
+            image: "https://res.cloudinary.com/dmojailax/image/upload/v1766851293/react0movie_qpx5i6.png",
+            technologies: ["React 19", "Vite", "Appwrite", "TMDB API"],
+            metrics: [
+                "Real-time movie search",
+                "Trending movies tracking",
+                "Smart search popularity",
+                "Lightning fast performance",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/react-movie-app",
+            featured: false,
+        },
+        {
+            title: "BARC LMS",
+            description:
+                "Learning Management System mobile app with offline-first architecture. Features quiz module with 40 questions across 4 categories, course management with automatic caching, progress tracking, and comprehensive learning statistics dashboard.",
+            image: "https://raw.githubusercontent.com/shahadot786/barc-lms-react-native/refs/heads/master/assets/screenshots/home.jpg",
+            technologies: ["React Native", "Redux", "MMKV", "AsyncStorage", "Offline-first"],
+            metrics: [
+                "Offline-first architecture",
+                "Quiz module with 40 questions",
+                "Course management & caching",
+                "Learning statistics dashboard",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/barc-lms-react-native",
+            featured: false,
+        },
+        {
+            title: "Memeify - Meme Generator",
+            description:
+                "Cross-platform meme generator app built with Expo. Browse meme templates from Imgflip API, search GIFs from Tenor, upload custom images, add customizable text with multiple fonts, and save/share creations. Features dark/light theme support.",
+            image: "https://images.unsplash.com/photo-1611605698335-8b1569810432?w=800&q=80",
+            technologies: ["React Native", "Expo SDK 54", "TypeScript", "Zustand", "MMKV"],
+            metrics: [
+                "Meme templates & GIF integration",
+                "Custom text with multiple fonts",
+                "Save & share functionality",
+                "Cross-platform support",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/memeify-react-native-meme-generator",
+            featured: false,
+        },
+        {
+            title: "Rongta Bluetooth Printer",
+            description:
+                "React Native application for connecting to Rongta RPP300BU Bluetooth thermal printers. Features Bluetooth device scanning, printer connection management, and formatted receipt printing with custom layouts and thermal printing commands.",
+            image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=80",
+            technologies: ["React Native", "Bluetooth", "Thermal Printing"],
+            metrics: [
+                "Bluetooth device scanning",
+                "Printer connection management",
+                "Formatted receipt printing",
+                "Thermal printing commands",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/rongta-print-demo",
+            featured: false,
+        },
+        {
+            title: "Android Music Player",
+            description:
+                "Elegant local music player app built with Jetpack Media3 and ExoPlayer. Features waveform seekbar for interactive progress, album art with blurred background, notification media controls, background playback via MediaSessionService, and shuffle/repeat functionality.",
+            image: "https://raw.githubusercontent.com/shahadot786/android-music-player/refs/heads/master/screenshots/player_ui.png",
+            technologies: ["Java", "Jetpack Media3", "ExoPlayer", "Glide", "Android"],
+            metrics: [
+                "Waveform seekbar",
+                "Blur effects & album art",
+                "Notification media controls",
+                "Background playback",
+            ],
+            appStore: "",
+            playStore: "",
+            github: "https://github.com/shahadot786/android-music-player",
             featured: false,
         },
         {
@@ -246,6 +400,17 @@ export function Projects() {
                                                 <span>Play Store</span>
                                             </a>
                                         )}
+                                        {(project as any).liveDemo && (
+                                            <a
+                                                href={(project as any).liveDemo}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="btn-primary inline-flex items-center space-x-2 text-sm"
+                                            >
+                                                <ExternalLink size={16} />
+                                                <span>Live Demo</span>
+                                            </a>
+                                        )}
                                         {project.github && (
                                             <a
                                                 href={project.github}
@@ -333,6 +498,17 @@ export function Projects() {
                                             >
                                                 <ExternalLink size={14} />
                                                 <span>Play Store</span>
+                                            </a>
+                                        )}
+                                        {(project as any).liveDemo && (
+                                            <a
+                                                href={(project as any).liveDemo}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-sm text-blue-400 hover:text-blue-300 flex items-center space-x-1"
+                                            >
+                                                <ExternalLink size={14} />
+                                                <span>Live Demo</span>
                                             </a>
                                         )}
                                         {project.github && (

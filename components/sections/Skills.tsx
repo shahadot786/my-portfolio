@@ -33,7 +33,7 @@ export function Skills() {
             title: "Backend Technologies",
             icon: Server,
             color: "green",
-            skills: ["Node.js", "Express.js", "Nest.js"],
+            skills: ["Node.js", "Express.js"],
         },
         {
             title: "Architecture & Design",
@@ -41,6 +41,7 @@ export function Skills() {
             color: "cyan",
             skills: [
                 "Microservices Architecture",
+                "System Design",
                 "Clean Architecture",
                 "MVVM",
                 "MVC",
@@ -52,7 +53,7 @@ export function Skills() {
             title: "Databases",
             icon: Database,
             color: "yellow",
-            skills: ["MongoDB", "MySQL", "Prisma ORM"],
+            skills: ["MongoDB", "MySQL"],
         },
         {
             title: "State Management",
@@ -64,7 +65,7 @@ export function Skills() {
             title: "Styling",
             icon: Globe,
             color: "orange",
-            skills: ["Tailwind CSS", "CSS-in-JS", "Styled Components"],
+            skills: ["Tailwind CSS", "Tamagui", "Gluestack", "Shadcn/ui"],
         },
         {
             title: "Tools",
@@ -79,7 +80,6 @@ export function Skills() {
                 "Flipper",
                 "Jira",
                 "GitHub Actions",
-                "Docker",
             ],
         },
         {
@@ -88,8 +88,6 @@ export function Skills() {
             color: "indigo",
             skills: [
                 "REST APIs",
-                "GraphQL",
-                "AWS S3",
                 "Real-time Location Tracking",
                 "OCR",
                 "Redis",

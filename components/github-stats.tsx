@@ -76,7 +76,7 @@ interface GitHubData {
 }
 
 const GITHUB_USERNAME =
-  process.env.NEXT_PUBLIC_GITHUB_USERNAME || "MD Shahadot Hossain";
+  process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shahadot786";
 const GITHUB_TOKEN = process.env.GITHUB_ACCESS_TOKEN;
 
 // Cache duration: 24Hours
