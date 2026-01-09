@@ -8,7 +8,6 @@ import { GitHubSection } from "@/components/sections/GitHubSection";
 import { Education } from "@/components/sections/Education";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
-import { AIChat } from "@/components/sections/AIChat";
 import { BackToTop } from "@/components/BackToTop";
 
 export default function Home() {
@@ -24,7 +23,6 @@ export default function Home() {
       <Education />
       <Contact />
       <Footer />
-      <AIChat />
       <BackToTop />
     </>
   );

@@ -21,7 +21,7 @@ export function Skills() {
             title: "Languages",
             icon: Code2,
             color: "blue",
-            skills: ["JavaScript", "TypeScript"],
+            skills: ["JavaScript", "TypeScript", "SQL"],
         },
         {
             title: "Frontend Frameworks",
@@ -33,7 +33,7 @@ export function Skills() {
             title: "Backend Technologies",
             icon: Server,
             color: "green",
-            skills: ["Node.js", "Express.js"],
+            skills: ["Node.js", "Express.js", "Prisma", "Apollo Server"],
         },
         {
             title: "Architecture & Design",
@@ -53,13 +53,13 @@ export function Skills() {
             title: "Databases",
             icon: Database,
             color: "yellow",
-            skills: ["MongoDB", "MySQL"],
+            skills: ["MongoDB", "MySQL", "PostgreSQL"],
         },
         {
             title: "State Management",
             icon: GitBranch,
             color: "pink",
-            skills: ["Redux", "Redux Toolkit", "React Query", "Expo Router", "React Navigation"],
+            skills: ["Redux", "Redux Toolkit", "React Query", "Zustand"],
         },
         {
             title: "Styling",
@@ -80,6 +80,12 @@ export function Skills() {
                 "Flipper",
                 "Jira",
                 "GitHub Actions",
+                "Docker",
+                "AWS",
+                "ECR",
+                "ECS",
+                "EC2",
+                "Serverless",
             ],
         },
         {
@@ -88,6 +94,8 @@ export function Skills() {
             color: "indigo",
             skills: [
                 "REST APIs",
+                "GraphQL",
+                "Supabase",
                 "Real-time Location Tracking",
                 "OCR",
                 "Redis",
@@ -100,9 +108,8 @@ export function Skills() {
             color: "teal",
             skills: [
                 "Offline-first Architecture",
-                "Face Detection",
-                "Liveness Detection",
-                "Object Detection",
+                "Serverless Architecture",
+                "Merchandising System",
                 "CI/CD",
             ],
         },

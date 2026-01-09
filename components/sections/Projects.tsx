@@ -7,6 +7,33 @@ import Image from "next/image";
 export function Projects() {
   const projects = [
     {
+      title: "Threads Clone",
+      description:
+        "A full-featured social threads application built with GraphQL, Next.js, and PostgreSQL. Features Supabase authentication with email verification, nested conversation threads, media uploads, follow system, activity feed, hashtags, @mentions, and a beautiful dark mode UI.",
+      image:
+        "https://res.cloudinary.com/dmojailax/image/upload/v1767962438/threads-clone_jwhpo2.png",
+      technologies: [
+        "GraphQL",
+        "Next.js",
+        "PostgreSQL",
+        "Prisma",
+        "Supabase",
+        "TypeScript",
+        "Apollo Server",
+      ],
+      metrics: [
+        "Full CRUD for posts with nested threads",
+        "Supabase Auth with email verification",
+        "Follow system & activity feed",
+        "Hashtags & @mentions support",
+      ],
+      appStore: "",
+      playStore: "",
+      github: "https://github.com/shahadot786/threads-clone",
+      liveDemo: "https://threads-clone-three-nu.vercel.app/",
+      featured: true,
+    },
+    {
       title: "Unilever TM (M-Lens & CM Supervisor)",
       description:
         "Multi-role application suite for field operations with M-Lens supporting multiple roles and CM Supervisor for supervisory tasks. Implemented liveness detection, display capture prevention, asset tracking, and real-time location monitoring.",
@@ -392,9 +419,8 @@ export function Projects() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ${
-                index % 2 === 1 ? "lg:flex-row-reverse" : ""
-              }`}
+              className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
+                }`}
             >
               {/* Project Image */}
               <div className={`${index % 2 === 1 ? "lg:order-2" : ""}`}>
