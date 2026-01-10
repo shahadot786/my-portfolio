@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { ExternalLink, Github, Star, TrendingUp } from "lucide-react";
 import Image from "next/image";
+import { SpotlightCard } from "../ui/spotlight-card";
+import { Magnetic } from "../ui/magnetic";
 
 export function Projects() {
   const projects = [
@@ -484,24 +486,32 @@ export function Projects() {
 
                 <div className="flex flex-wrap gap-4 pt-6">
                   {project.github && (
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn-secondary py-2 px-4 text-sm flex items-center gap-2">
-                      <Github size={16} /> GitHub
-                    </a>
+                    <Magnetic>
+                      <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn-secondary py-2 px-4 text-sm flex items-center gap-2">
+                        <Github size={16} /> GitHub
+                      </a>
+                    </Magnetic>
                   )}
                   {project.liveDemo && (
-                    <a href={project.liveDemo} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 px-4 text-sm flex items-center gap-2">
-                      <ExternalLink size={16} /> Live Demo
-                    </a>
+                    <Magnetic>
+                      <a href={project.liveDemo} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 px-4 text-sm flex items-center gap-2">
+                        <ExternalLink size={16} /> Live Demo
+                      </a>
+                    </Magnetic>
                   )}
                   {(project as any).appDemo && (
-                    <a href={(project as any).appDemo} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 px-4 text-sm flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 border-none">
-                      <ExternalLink size={16} /> App Demo
-                    </a>
+                    <Magnetic>
+                      <a href={(project as any).appDemo} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 px-4 text-sm flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 border-none">
+                        <ExternalLink size={16} /> App Demo
+                      </a>
+                    </Magnetic>
                   )}
                   {project.appStore && (
-                    <a href={project.appStore} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 px-4 text-sm flex items-center gap-2">
-                      App Store
-                    </a>
+                    <Magnetic>
+                      <a href={project.appStore} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 px-4 text-sm flex items-center gap-2">
+                        App Store
+                      </a>
+                    </Magnetic>
                   )}
                 </div>
               </div>
@@ -528,37 +538,42 @@ export function Projects() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="futuristic-card group flex flex-col h-full"
               >
-                <div className="relative aspect-video rounded-xl overflow-hidden mb-6">
-                  <img src={project.image} alt={project.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
-                </div>
+                <SpotlightCard className="group flex flex-col h-full p-4">
+                  <div className="relative aspect-video rounded-xl overflow-hidden mb-6">
+                    <img src={project.image} alt={project.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                  </div>
 
-                <h4 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{project.title}</h4>
-                <p className="text-muted-foreground text-sm mb-6 flex-grow line-clamp-3">
-                  {project.description}
-                </p>
+                  <h4 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{project.title}</h4>
+                  <p className="text-muted-foreground text-sm mb-6 flex-grow line-clamp-3">
+                    {project.description}
+                  </p>
 
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.technologies.slice(0, 3).map(tech => (
-                    <span key={tech} className="text-[10px] font-bold px-2 py-0.5 rounded bg-muted border border-border">
-                      {tech}
-                    </span>
-                  ))}
-                </div>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project.technologies.slice(0, 3).map(tech => (
+                      <span key={tech} className="text-[10px] font-bold px-2 py-0.5 rounded bg-muted border border-border">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
 
-                <div className="flex items-center space-x-4">
-                  {project.github && (
-                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                      <Github size={18} />
-                    </a>
-                  )}
-                  {project.liveDemo && (
-                    <a href={project.liveDemo} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
-                      <ExternalLink size={18} />
-                    </a>
-                  )}
-                </div>
+                  <div className="flex items-center space-x-4">
+                    {project.github && (
+                      <Magnetic strength={0.2}>
+                        <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors p-2">
+                          <Github size={18} />
+                        </a>
+                      </Magnetic>
+                    )}
+                    {project.liveDemo && (
+                      <Magnetic strength={0.2}>
+                        <a href={project.liveDemo} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors p-2">
+                          <ExternalLink size={18} />
+                        </a>
+                      </Magnetic>
+                    )}
+                  </div>
+                </SpotlightCard>
               </motion.div>
             ))}
           </div>

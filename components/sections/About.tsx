@@ -2,6 +2,8 @@
 
 import { motion } from "framer-motion";
 import { Target, Zap, Shield, Globe, Award, Users, BookOpen, Coffee } from "lucide-react";
+import { SpotlightCard } from "../ui/spotlight-card";
+import { Magnetic } from "../ui/magnetic";
 
 export function About() {
     const highlights = [
@@ -73,7 +75,7 @@ export function About() {
                         viewport={{ once: true }}
                         className="lg:col-span-7 space-y-8"
                     >
-                        <div className="futuristic-card p-8 md:p-12">
+                        <SpotlightCard className="p-8 md:p-12">
                             <h3 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
                                 <span className="w-8 h-[2px] bg-primary" /> Professional Narrative
                             </h3>
@@ -95,7 +97,7 @@ export function About() {
                                     in data loss and exponential gains in field efficiency.
                                 </p>
                             </div>
-                        </div>
+                        </SpotlightCard>
 
                         {/* Quick Stats Grid */}
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -106,11 +108,12 @@ export function About() {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: i * 0.1 }}
-                                    className="futuristic-card p-4 text-center group border-none bg-primary/5"
                                 >
-                                    <stat.icon size={20} className="mx-auto mb-2 text-primary group-hover:scale-110 transition-transform" />
-                                    <p className="text-lg font-bold">{stat.value}</p>
-                                    <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-tighter">{stat.label}</p>
+                                    <SpotlightCard className="p-4 text-center group border-none bg-primary/5">
+                                        <stat.icon size={20} className="mx-auto mb-2 text-primary group-hover:scale-110 transition-transform" />
+                                        <p className="text-lg font-bold">{stat.value}</p>
+                                        <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-tighter">{stat.label}</p>
+                                    </SpotlightCard>
                                 </motion.div>
                             ))}
                         </div>
@@ -125,15 +128,16 @@ export function About() {
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="futuristic-card p-6 flex items-start gap-4 hover:border-primary/30 transition-colors"
                             >
-                                <div className="p-3 rounded-xl bg-primary/10 text-primary">
-                                    <highlight.icon size={24} />
-                                </div>
-                                <div>
-                                    <h4 className="text-lg font-bold mb-1">{highlight.title}</h4>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">{highlight.description}</p>
-                                </div>
+                                <SpotlightCard className="p-6 flex items-start gap-4 hover:border-primary/30 transition-colors">
+                                    <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                                        <highlight.icon size={24} />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-lg font-bold mb-1">{highlight.title}</h4>
+                                        <p className="text-sm text-muted-foreground leading-relaxed">{highlight.description}</p>
+                                    </div>
+                                </SpotlightCard>
                             </motion.div>
                         ))}
                     </div>
@@ -148,9 +152,11 @@ export function About() {
                 >
                     <div className="flex flex-wrap gap-4 justify-center md:justify-start">
                         {["Agile Leader", "Strategic Thinker", "Technical Mentor", "Problem Solver"].map(tag => (
-                            <span key={tag} className="px-4 py-1.5 rounded-full bg-background border border-border text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                                {tag}
-                            </span>
+                            <Magnetic key={tag} strength={0.2}>
+                                <span className="px-4 py-1.5 rounded-full bg-background border border-border text-xs font-bold text-muted-foreground uppercase tracking-widest cursor-default">
+                                    {tag}
+                                </span>
+                            </Magnetic>
                         ))}
                     </div>
                     <div className="flex items-center gap-6">

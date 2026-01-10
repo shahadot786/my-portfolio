@@ -7,6 +7,7 @@ import { LeetCodeIcon } from "@/components/icons/LeetCodeIcon";
 import { useTheme } from "../providers/theme-provider";
 import { useMotionValue, useTransform, useSpring } from "framer-motion";
 import { useEffect } from "react";
+import { Magnetic } from "@/components/ui/magnetic";
 
 export function Hero() {
     const { theme } = useTheme();
@@ -130,18 +131,22 @@ export function Hero() {
                             transition={{ delay: 0.5 }}
                             className="flex flex-wrap gap-4"
                         >
-                            <a href="#projects" className="btn-primary flex items-center group">
-                                <span>View Portfolio</span>
-                                <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                            </a>
-                            <a
-                                href="/MD_Shahadot_Hosssain.pdf"
-                                download
-                                className="btn-secondary flex items-center"
-                            >
-                                <Download className="mr-2 w-4 h-4" />
-                                <span>Curriculum Vitae</span>
-                            </a>
+                            <Magnetic>
+                                <a href="#projects" className="btn-primary flex items-center group">
+                                    <span>View Portfolio</span>
+                                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </a>
+                            </Magnetic>
+                            <Magnetic>
+                                <a
+                                    href="/MD_Shahadot_Hosssain.pdf"
+                                    download
+                                    className="btn-secondary flex items-center"
+                                >
+                                    <Download className="mr-2 w-4 h-4" />
+                                    <span>Curriculum Vitae</span>
+                                </a>
+                            </Magnetic>
                         </motion.div>
 
                         {/* Social Presence */}
@@ -176,37 +181,41 @@ export function Hero() {
                             <div className="absolute inset-8 border border-cyan-500/10 rounded-full animate-[spin_15s_linear_infinite_reverse]" />
 
                             {/* Tech Badges */}
-                            <motion.div
-                                animate={{ y: [0, -10, 0] }}
-                                transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
-                                className="absolute top-10 -left-6 bg-card border border-border p-3 rounded-2xl shadow-xl z-20"
-                            >
-                                <div className="flex items-center space-x-2">
-                                    <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                                        <CheckCircle2 size={16} className="text-emerald-500" />
+                            <Magnetic strength={0.4}>
+                                <motion.div
+                                    animate={{ y: [0, -10, 0] }}
+                                    transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+                                    className="absolute top-10 -left-6 bg-card border border-border p-3 rounded-2xl shadow-xl z-20 cursor-pointer"
+                                >
+                                    <div className="flex items-center space-x-2">
+                                        <div className="w-8 h-8 rounded-lg bg-emerald-500/10 flex items-center justify-center">
+                                            <CheckCircle2 size={16} className="text-emerald-500" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold">100K+</p>
+                                            <p className="text-[10px] text-muted-foreground">Daily Executions</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="text-xs font-bold">100K+</p>
-                                        <p className="text-[10px] text-muted-foreground">Daily Executions</p>
-                                    </div>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </Magnetic>
 
-                            <motion.div
-                                animate={{ y: [0, 10, 0] }}
-                                transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", delay: 1 }}
-                                className="absolute bottom-20 -right-10 bg-card border border-border p-4 rounded-2xl shadow-xl z-20"
-                            >
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center p-2">
-                                        <Layers size={20} className="text-primary" />
+                            <Magnetic strength={0.4}>
+                                <motion.div
+                                    animate={{ y: [0, 10, 0] }}
+                                    transition={{ repeat: Infinity, duration: 3, ease: "easeInOut", delay: 1 }}
+                                    className="absolute bottom-20 -right-10 bg-card border border-border p-4 rounded-2xl shadow-xl z-20 cursor-pointer"
+                                >
+                                    <div className="flex items-center space-x-3">
+                                        <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center p-2">
+                                            <Layers size={20} className="text-primary" />
+                                        </div>
+                                        <div>
+                                            <p className="text-xs font-bold">High Scalability</p>
+                                            <p className="text-[10px] text-muted-foreground">Serverless Architecture</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <p className="text-xs font-bold">High Scalability</p>
-                                        <p className="text-[10px] text-muted-foreground">Serverless Architecture</p>
-                                    </div>
-                                </div>
-                            </motion.div>
+                                </motion.div>
+                            </Magnetic>
 
                             {/* Main Hexagon/Circle Container */}
                             <motion.div

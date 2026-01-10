@@ -41,7 +41,7 @@ export function BackToTop() {
                     className="fixed bottom-6 left-6 z-50 w-12 h-12 bg-gradient-primary rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow"
                     aria-label="Back to top"
                 >
-                    <ArrowUp size={20} className="text-white" />
+                    <ArrowUp size={20} className="text-foreground" />
                 </motion.button>
             )}
         </AnimatePresence>

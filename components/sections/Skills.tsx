@@ -14,6 +14,7 @@ import {
     Eye,
     Cpu,
 } from "lucide-react";
+import { SpotlightCard } from "../ui/spotlight-card";
 
 export function Skills() {
     const skillCategories = [
@@ -143,27 +144,28 @@ export function Skills() {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.05 }}
-                                className="futuristic-card p-6 flex flex-col group"
                             >
-                                <div className="flex items-center space-x-4 mb-6">
-                                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${styleClasses} transition-transform duration-300 group-hover:scale-110`}>
-                                        <category.icon size={24} />
+                                <SpotlightCard className="h-full flex flex-col group p-6">
+                                    <div className="flex items-center space-x-4 mb-6">
+                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center border ${styleClasses} transition-transform duration-300 group-hover:scale-110`}>
+                                            <category.icon size={24} />
+                                        </div>
+                                        <h3 className="text-lg font-bold tracking-tight">
+                                            {category.title}
+                                        </h3>
                                     </div>
-                                    <h3 className="text-lg font-bold tracking-tight">
-                                        {category.title}
-                                    </h3>
-                                </div>
 
-                                <div className="flex flex-wrap gap-2">
-                                    {category.skills.map((skill) => (
-                                        <span
-                                            key={skill}
-                                            className="px-3 py-1 text-xs font-medium rounded-lg bg-secondary text-secondary-foreground border border-border group-hover:border-primary/20 transition-colors"
-                                        >
-                                            {skill}
-                                        </span>
-                                    ))}
-                                </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {category.skills.map((skill) => (
+                                            <span
+                                                key={skill}
+                                                className="px-3 py-1 text-xs font-medium rounded-lg bg-secondary text-secondary-foreground border border-border group-hover:border-primary/20 transition-colors"
+                                            >
+                                                {skill}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </SpotlightCard>
                             </motion.div>
                         );
                     })}
