@@ -1,6 +1,6 @@
 "use client";
 
-import { Github, Linkedin, Mail, Heart, MapPin, Phone, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Mail, Heart, MapPin, Phone, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 
 export function Footer() {
@@ -13,164 +13,110 @@ export function Footer() {
     ];
 
     const quickLinks = [
-        { name: "Home", href: "#home" },
-        { name: "About", href: "#about" },
-        { name: "Experience", href: "#experience" },
-        { name: "Skills", href: "#skills" },
-        { name: "Projects", href: "#projects" },
-        { name: "Contact", href: "#contact" },
+        { name: "Concept", href: "#home" },
+        { name: "Philosophy", href: "#about" },
+        { name: "Journey", href: "#experience" },
+        { name: "Ecosystem", href: "#skills" },
+        { name: "Architecture", href: "#projects" },
+        { name: "Consultation", href: "#contact" },
     ];
 
-    const contactInfo = [
-        { icon: Mail, text: "shahadotrahat786@gmail.com", href: "mailto:shahadotrahat786@gmail.com" },
-        { icon: Phone, text: "+880-1775-020-582", href: "tel:+8801775020582" },
-        { icon: MapPin, text: "Dhaka, Bangladesh", href: "#" },
-    ];
+    const scrollTo = (href: string) => {
+        const element = document.querySelector(href);
+        if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+        }
+    };
 
     return (
-        <footer className="relative bg-slate-950 border-t border-gray-800 overflow-hidden">
-            {/* Gradient Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-transparent to-emerald-900/10"></div>
+        <footer className="relative bg-background border-t border-border overflow-hidden pt-20">
+            <div className="absolute inset-0 mesh-bg opacity-5" />
 
             <div className="container-custom relative z-10">
-                {/* Main Footer Content */}
-                <div className="py-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    {/* Brand Section */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <h3 className="text-2xl font-bold gradient-text mb-4">Shahadot</h3>
-                        <p className="text-gray-400 text-sm leading-relaxed mb-4">
-                            Building innovative mobile solutions with React Native and modern web technologies.
-                        </p>
-                        <div className="flex space-x-3">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-20">
+                    {/* Brand Info */}
+                    <div className="lg:col-span-5 space-y-8">
+                        <div>
+                            <h3 className="text-3xl font-black tracking-tighter mb-4">
+                                SHAHADOT <span className="text-primary">HOSSAIN</span>
+                            </h3>
+                            <p className="text-muted-foreground text-lg leading-relaxed max-w-md">
+                                Architecting high-performance mobile ecosystems and
+                                scalable digital infrastructure for the next generation.
+                            </p>
+                        </div>
+                        <div className="flex gap-4">
                             {socialLinks.map((social) => (
-                                <motion.a
+                                <a
                                     key={social.label}
                                     href={social.href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    whileHover={{ scale: 1.1, y: -2 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="w-10 h-10 glass-card rounded-lg flex items-center justify-center hover:border-blue-400 transition-all group"
+                                    className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center hover:bg-primary hover:text-white transition-all duration-300"
                                     aria-label={social.label}
                                 >
-                                    <social.icon size={18} className="text-gray-300 group-hover:text-blue-400 transition-colors" />
-                                </motion.a>
+                                    <social.icon size={20} />
+                                </a>
                             ))}
                         </div>
-                    </motion.div>
+                    </div>
 
-                    {/* Quick Links */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                    >
-                        <h4 className="text-white font-semibold mb-4 text-lg">Quick Links</h4>
-                        <ul className="space-y-2">
+                    {/* Navigation */}
+                    <div className="lg:col-span-3">
+                        <h4 className="text-xs font-black uppercase tracking-widest text-foreground mb-8">Navigation</h4>
+                        <ul className="grid grid-cols-1 gap-4">
                             {quickLinks.map((link) => (
                                 <li key={link.name}>
-                                    <a
-                                        href={link.href}
-                                        className="text-gray-400 hover:text-blue-400 transition-colors text-sm flex items-center space-x-2 group"
-                                        onClick={(e) => {
-                                            e.preventDefault();
-                                            document.querySelector(link.href)?.scrollIntoView({ behavior: "smooth" });
-                                        }}
+                                    <button
+                                        onClick={() => scrollTo(link.href)}
+                                        className="text-muted-foreground hover:text-primary transition-colors text-sm font-bold flex items-center group gap-2"
                                     >
-                                        <span className="w-0 h-0.5 bg-blue-400 group-hover:w-4 transition-all duration-300"></span>
-                                        <span>{link.name}</span>
-                                    </a>
+                                        <div className="w-1.5 h-px bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
+                                        {link.name}
+                                    </button>
                                 </li>
                             ))}
                         </ul>
-                    </motion.div>
+                    </div>
 
-                    {/* Contact Info */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                    >
-                        <h4 className="text-white font-semibold mb-4 text-lg">Contact</h4>
-                        <ul className="space-y-3">
-                            {contactInfo.map((info) => (
-                                <li key={info.text}>
-                                    <a
-                                        href={info.href}
-                                        className="text-gray-400 hover:text-blue-400 transition-colors text-sm flex items-start space-x-2 group"
-                                    >
-                                        <info.icon size={16} className="mt-0.5 flex-shrink-0 group-hover:text-blue-400 transition-colors" />
-                                        <span className="break-all">{info.text}</span>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </motion.div>
-
-                    {/* Newsletter/CTA */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                    >
-                        <h4 className="text-white font-semibold mb-4 text-lg">Let's Work Together</h4>
-                        <p className="text-gray-400 text-sm mb-4">
-                            Have a project in mind? Let's create something amazing together.
-                        </p>
-                        <a
-                            href="#contact"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                document.querySelector("#contact")?.scrollIntoView({ behavior: "smooth" });
-                            }}
-                            className="inline-flex items-center space-x-2 btn-primary text-sm"
+                    {/* Contact & CTA */}
+                    <div className="lg:col-span-4 space-y-8">
+                        <h4 className="text-xs font-black uppercase tracking-widest text-foreground mb-8">Strategic Reach</h4>
+                        <div className="space-y-4">
+                            <a href="mailto:shahadotrahat786@gmail.com" className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors group">
+                                <div className="p-2 rounded-lg bg-secondary text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                                    <Mail size={16} />
+                                </div>
+                                <span className="text-sm font-bold">shahadotrahat786@gmail.com</span>
+                            </a>
+                            <a href="tel:+8801775020582" className="flex items-center gap-4 text-muted-foreground hover:text-foreground transition-colors group">
+                                <div className="p-2 rounded-lg bg-secondary text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                                    <Phone size={16} />
+                                </div>
+                                <span className="text-sm font-bold">+880 1775 020 582</span>
+                            </a>
+                        </div>
+                        <button
+                            onClick={() => scrollTo("#contact")}
+                            className="btn-primary w-full h-14 flex items-center justify-center gap-2 group tracking-widest uppercase font-black text-xs"
                         >
-                            <span>Get In Touch</span>
-                            <ExternalLink size={14} />
-                        </a>
-                    </motion.div>
+                            Hire for Projects <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                        </button>
+                    </div>
                 </div>
 
-                {/* Bottom Bar */}
-                <div className="py-6 border-t border-gray-800">
-                    <div className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0">
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            className="text-gray-400 text-sm flex items-center space-x-2"
-                        >
-                            <span>© {currentYear} MD. Shahadot Hossain.</span>
-                            <span className="hidden md:inline">•</span>
-                            <span className="flex items-center space-x-1">
-                                <span>Made with</span>
-                                <Heart size={14} className="text-red-400 fill-red-400 animate-pulse" />
-                                <span>and React</span>
-                            </span>
-                        </motion.p>
+                {/* System Stats / Bottom Bar */}
+                <div className="py-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground">
+                        <span>©{currentYear} System Design</span>
+                        <div className="w-1 h-1 rounded-full bg-primary" />
+                        <span>All Rights Reserved</span>
+                    </div>
 
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            className="flex items-center space-x-4 text-sm text-gray-400"
-                        >
-                            <a href="/privacy" className="hover:text-blue-400 transition-colors">
-                                Privacy Policy
-                            </a>
-                            <span>•</span>
-                            <a href="/terms" className="hover:text-blue-400 transition-colors">
-                                Terms of Service
-                            </a>
-                        </motion.div>
+                    <div className="flex items-center gap-6">
+                        <p className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                            Engineered with <Heart size={10} className="text-primary fill-primary animate-pulse" /> using React
+                        </p>
                     </div>
                 </div>
             </div>

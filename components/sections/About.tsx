@@ -1,179 +1,170 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Target, Zap, Shield, Globe } from "lucide-react";
+import { Target, Zap, Shield, Globe, Award, Users, BookOpen, Coffee } from "lucide-react";
 
 export function About() {
     const highlights = [
         {
             icon: Target,
-            title: "Offline-First Architecture",
-            description: "Expert in building mobile apps that work seamlessly without internet connectivity with intelligent data synchronization.",
-            color: "blue",
-        },
-        {
-            icon: Zap,
-            title: "Real-Time Tracking",
-            description: "Specialized in implementing GPS monitoring, location tracking, and real-time data synchronization for field operations.",
+            title: "Offline-First Architect",
+            description: "Engineering resilient systems that maintain peak performance in disconnected environments with intelligent sync logic.",
             color: "emerald",
         },
         {
-            icon: Shield,
-            title: "Advanced Security",
-            description: "Proficient in face detection, liveness verification, display capture prevention, and secure authentication systems.",
+            icon: Zap,
+            title: "Real-Time Systems",
+            description: "Implementing mission-critical GPS orchestration and high-frequency data streaming for large-scale field operations.",
             color: "cyan",
         },
         {
+            icon: Shield,
+            title: "Embedded Security",
+            description: "Integrating biometric verification and data protection protocols into high-traffic enterprise mobile applications.",
+            color: "primary",
+        },
+        {
             icon: Globe,
-            title: "Cross-Platform Excellence",
-            description: "Building high-performance React Native apps serving 10,000+ users with 100,000+ daily transactions.",
-            color: "green",
+            title: "Global Scale",
+            description: "Architecting ecosystems that process 100K+ daily transactions with 99.9% uptime for Fortune 500 conglomerates.",
+            color: "blue",
         },
     ];
 
-    const specializations = [
-        "Offline-first Architecture",
-        "Real-time Location Tracking",
-        "Face Detection & Liveness Verification",
-        "Object Detection & OCR",
-        "Microservices Architecture",
-        "Clean Architecture & Design Patterns",
+    const stats = [
+        { icon: Award, label: "Experience", value: "4+ Years" },
+        { icon: Users, label: "Users Served", value: "10K+" },
+        { icon: Coffee, label: "Projects", value: "20+" },
+        { icon: BookOpen, label: "Agile Teams", value: "8+" },
     ];
 
     return (
-        <section id="about" className="section-padding bg-gradient-to-b from-slate-900 to-slate-800">
-            <div className="container-custom">
+        <section id="about" className="py-24 relative overflow-hidden bg-background">
+            <div className="absolute inset-0 mesh-bg opacity-30" />
+
+            <div className="container-custom relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-20"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                        About <span className="gradient-text">Me</span>
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-4 inline-block"
+                    >
+                        Biography
+                    </motion.span>
+                    <h2 className="text-4xl md:text-6xl font-black mb-6">
+                        The Mind Behind the <span className="gradient-text">Architecture</span>
                     </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        Passionate about building innovative mobile solutions that make a real-world impact
+                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                        A bridge between complex business logic and exceptional user experiences,
+                        specializing in full-stack mobile engineering.
                     </p>
                 </motion.div>
 
-                {/* Professional Summary */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="glass-card p-8 md:p-12 mb-12 max-w-5xl mx-auto"
-                >
-                    <h3 className="text-2xl md:text-3xl font-bold mb-6 gradient-text">
-                        Professional Summary
-                    </h3>
-                    <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                        Proficient software engineer with <strong className="text-white">4 years of experience</strong> building
-                        and maintaining cross-platform mobile applications for enterprise clients, including{" "}
-                        <strong className="text-blue-400">Unilever, BAT, Nestlé, and Nagad</strong>.
-                    </p>
-                    <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                        Specialized in automation-based operations, delivering applications serving{" "}
-                        <strong className="text-white">10,000+ users</strong> with{" "}
-                        <strong className="text-white">100,000+ daily transactions</strong>. Expert in offline-first
-                        architecture, real-time location tracking, face detection, and liveness verification.
-                    </p>
-                    <p className="text-lg text-gray-300 leading-relaxed">
-                        Proven track record implementing agile methodologies and cutting-edge technologies to improve
-                        performance, security, and scalability while collaborating with cross-functional teams.
-                    </p>
-                </motion.div>
-
-                {/* Highlights Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
-                    {highlights.map((highlight, index) => (
-                        <motion.div
-                            key={highlight.title}
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 * index }}
-                            className="glass-card p-6 md:p-8 hover:scale-105 transition-transform"
-                        >
-                            <div className={`w-14 h-14 rounded-lg bg-gradient-to-br from-${highlight.color}-500 to-${highlight.color}-700 flex items-center justify-center mb-4`}>
-                                <highlight.icon size={28} className="text-white" />
-                            </div>
-                            <h4 className="text-xl font-bold mb-3 text-white">{highlight.title}</h4>
-                            <p className="text-gray-400 leading-relaxed">{highlight.description}</p>
-                        </motion.div>
-                    ))}
-                </div>
-
-                {/* Specializations */}
-                <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="glass-card p-8 md:p-12 max-w-5xl mx-auto"
-                >
-                    <h3 className="text-2xl md:text-3xl font-bold mb-6 gradient-text text-center">
-                        Core Specializations
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {specializations.map((spec, index) => (
-                            <motion.div
-                                key={spec}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.4, delay: 0.05 * index }}
-                                className="flex items-center space-x-3 p-4 rounded-lg bg-white/5 hover:bg-white/10 transition-colors"
-                            >
-                                <div className="w-2 h-2 rounded-full bg-gradient-primary"></div>
-                                <span className="text-gray-300 font-medium">{spec}</span>
-                            </motion.div>
-                        ))}
-                    </div>
-                </motion.div>
-
-                {/* Soft Skills & Languages */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+                    {/* Professional Bio Card */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="glass-card p-6 md:p-8"
+                        className="lg:col-span-7 space-y-8"
                     >
-                        <h4 className="text-xl font-bold mb-4 text-white">Soft Skills</h4>
-                        <ul className="space-y-2">
-                            {["Agile Methodologies", "Cross-functional Collaboration", "Problem-solving", "Technical Leadership"].map((skill) => (
-                                <li key={skill} className="flex items-center space-x-2 text-gray-300">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-blue-400"></div>
-                                    <span>{skill}</span>
-                                </li>
+                        <div className="futuristic-card p-8 md:p-12">
+                            <h3 className="text-2xl font-bold mb-6 text-foreground flex items-center gap-3">
+                                <span className="w-8 h-[2px] bg-primary" /> Professional Narrative
+                            </h3>
+                            <div className="space-y-6 text-muted-foreground leading-relaxed text-lg">
+                                <p>
+                                    As a <span className="text-foreground font-semibold">Specialized Software Engineer</span> with over 4 years of immersive experience,
+                                    I've stood at the intersection of architecture and impact. My journey has been defined by
+                                    the successful delivery of mission-critical applications for global giants like
+                                    <span className="text-primary font-medium"> Unilever, BAT, Nestlé, and Nagad</span>.
+                                </p>
+                                <p>
+                                    I specialize in <span className="text-foreground font-semibold">automation-driven mobile ecosystems</span>. From
+                                    engineering offline-first architectures to implementing secure liveness verification
+                                    systems, my focus is always on high-concurrency performance and impenetrable reliability.
+                                </p>
+                                <p>
+                                    Beyond code, I am a strategic partner in digital transformation, aligning
+                                    cutting-edge technologies with enterprise objectives to achieve 92% reductions
+                                    in data loss and exponential gains in field efficiency.
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Quick Stats Grid */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {stats.map((stat, i) => (
+                                <motion.div
+                                    key={stat.label}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: i * 0.1 }}
+                                    className="futuristic-card p-4 text-center group border-none bg-primary/5"
+                                >
+                                    <stat.icon size={20} className="mx-auto mb-2 text-primary group-hover:scale-110 transition-transform" />
+                                    <p className="text-lg font-bold">{stat.value}</p>
+                                    <p className="text-[10px] uppercase font-bold text-muted-foreground tracking-tighter">{stat.label}</p>
+                                </motion.div>
                             ))}
-                        </ul>
+                        </div>
                     </motion.div>
 
-                    <motion.div
-                        initial={{ opacity: 0, x: 30 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="glass-card p-6 md:p-8"
-                    >
-                        <h4 className="text-xl font-bold mb-4 text-white">Languages</h4>
-                        <ul className="space-y-2">
-                            <li className="flex items-center justify-between text-gray-300">
-                                <span>English</span>
-                                <span className="text-sm text-gray-400">Professional</span>
-                            </li>
-                            <li className="flex items-center justify-between text-gray-300">
-                                <span>Bengali</span>
-                                <span className="text-sm text-gray-400">Native</span>
-                            </li>
-                        </ul>
-                    </motion.div>
+                    {/* Highlights Grid */}
+                    <div className="lg:col-span-5 grid grid-cols-1 gap-6">
+                        {highlights.map((highlight, index) => (
+                            <motion.div
+                                key={highlight.title}
+                                initial={{ opacity: 0, x: 30 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: index * 0.1 }}
+                                className="futuristic-card p-6 flex items-start gap-4 hover:border-primary/30 transition-colors"
+                            >
+                                <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                                    <highlight.icon size={24} />
+                                </div>
+                                <div>
+                                    <h4 className="text-lg font-bold mb-1">{highlight.title}</h4>
+                                    <p className="text-sm text-muted-foreground leading-relaxed">{highlight.description}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
+
+                {/* Footer Section - Soft Skills & Culture */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="mt-20 flex flex-col md:flex-row gap-8 items-center justify-between p-8 rounded-3xl bg-secondary/50 border border-border"
+                >
+                    <div className="flex flex-wrap gap-4 justify-center md:justify-start">
+                        {["Agile Leader", "Strategic Thinker", "Technical Mentor", "Problem Solver"].map(tag => (
+                            <span key={tag} className="px-4 py-1.5 rounded-full bg-background border border-border text-xs font-bold text-muted-foreground uppercase tracking-widest">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                    <div className="flex items-center gap-6">
+                        <div className="text-center">
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">English</p>
+                            <p className="text-sm font-bold">PROFESSIONAL</p>
+                        </div>
+                        <div className="w-px h-8 bg-border" />
+                        <div className="text-center">
+                            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-1">Bengali</p>
+                            <p className="text-sm font-bold">NATIVE</p>
+                        </div>
+                    </div>
+                </motion.div>
             </div>
         </section>
     );

@@ -5,24 +5,35 @@ import { GitHubStats } from "@/components/github-stats";
 
 export function GitHubSection() {
     return (
-        <section id="github" className="section-padding bg-gradient-to-b from-slate-800 to-slate-900">
-            <div className="container-custom">
+        <section id="github" className="py-24 relative overflow-hidden bg-background">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
+            <div className="container-custom relative z-10">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-16"
+                    className="text-center mb-20"
                 >
-                    <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                        GitHub <span className="gradient-text">Activity</span>
+                    <motion.span
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-4 inline-block"
+                    >
+                        Activity
+                    </motion.span>
+                    <h2 className="text-4xl md:text-6xl font-black mb-6">
+                        GitHub <span className="gradient-text">Ecosystem</span>
                     </h2>
-                    <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-                        Live statistics and contributions from my GitHub profile
+                    <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+                        Real-time visualization of architectural contributions and
+                        open-source laboratory activity.
                     </p>
                 </motion.div>
 
-                <GitHubStats />
+                <div className="futuristic-card p-4 sm:p-8 bg-secondary/20 border-dashed border-primary/20">
+                    <GitHubStats />
+                </div>
             </div>
         </section>
     );

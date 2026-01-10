@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Palette, Check } from "lucide-react";
+import { Palette, Check, Settings2 } from "lucide-react";
 import {
   useTheme,
   themeColors,
@@ -10,7 +10,7 @@ import {
 } from "./providers/theme-provider";
 
 export function ThemeSelector() {
-  const { themeColor, setThemeColor } = useTheme();
+  const { themeColor, setThemeColor, theme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const colorOptions: {
@@ -18,86 +18,14 @@ export function ThemeSelector() {
     value: ThemeColor;
     description: string;
   }[] = [
-    {
-      name: "Midnight Black",
-      value: "black",
-      description: "Strong and authoritative",
-    },
-    {
-      name: "Charcoal Gray",
-      value: "gray",
-      description: "Modern and balanced",
-    },
-    {
-      name: "Slate Blue",
-      value: "slate",
-      description: "Calm and professional",
-    },
-    {
-      name: "Royal Navy",
-      value: "navy",
-      description: "Trustworthy and stable",
-    },
-    {
-      name: "Ocean Blue",
-      value: "blue",
-      description: "Classic and dependable",
-    },
-    {
-      name: "Cerulean Cyan",
-      value: "cyan",
-      description: "Fresh and futuristic",
-    },
-    { name: "Deep Teal", value: "teal", description: "Modern and refreshing" },
-    {
-      name: "Emerald Green",
-      value: "green",
-      description: "Natural and successful",
-    },
-    { name: "Olive Drab", value: "olive", description: "Grounded and earthy" },
-    { name: "Crimson Red", value: "red", description: "Energetic and bold" },
-    {
-      name: "Maroon Wine",
-      value: "maroon",
-      description: "Sophisticated and strong",
-    },
-    {
-      name: "Sunset Orange",
-      value: "orange",
-      description: "Vibrant and creative",
-    },
-    {
-      name: "Burnt Amber",
-      value: "amber",
-      description: "Warm and professional",
-    },
-    {
-      name: "Golden Yellow",
-      value: "yellow",
-      description: "Bright and optimistic",
-    },
-    {
-      name: "Champagne Gold",
-      value: "gold",
-      description: "Luxurious and elegant",
-    },
-    {
-      name: "Royal Purple",
-      value: "purple",
-      description: "Creative and ambitious",
-    },
-    {
-      name: "Deep Indigo",
-      value: "indigo",
-      description: "Elegant and mysterious",
-    },
-    { name: "Magenta Pink", value: "pink", description: "Playful yet bold" },
-    {
-      name: "Steel Silver",
-      value: "silver",
-      description: "Sleek and futuristic",
-    },
-  ];
+      { name: "Emerald Green", value: "green", description: "Default Professional" },
+      { name: "Ocean Blue", value: "blue", description: "Deep & Dependable" },
+      { name: "Cerulean Cyan", value: "cyan", description: "Bright & Techy" },
+      { name: "Royal Purple", value: "purple", description: "Creative & Bold" },
+      { name: "Deep Teal", value: "teal", description: "Modern Minimal" },
+      { name: "Sunset Orange", value: "orange", description: "Vibrant Energy" },
+      { name: "Steel Silver", value: "silver", description: "Sleek Industrial" },
+    ];
 
   return (
     <div className="relative">
@@ -105,83 +33,81 @@ export function ThemeSelector() {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="p-2 sm:p-3 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-600 transition-colors"
-        style={{
-          borderColor: `var(--color-primary)`,
-          boxShadow: isOpen ? `0 0 0 2px var(--color-primary)` : "none",
-        }}
+        className="p-2 sm:p-2.5 rounded-xl bg-secondary hover:bg-muted border border-border transition-all flex items-center gap-2 group"
       >
-        <Palette size={16} className="text-white" />
+        <div className="relative">
+          <Palette size={18} className="text-primary group-hover:rotate-12 transition-transform" />
+          <div className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-primary animate-pulse" />
+        </div>
       </motion.button>
 
       <AnimatePresence>
         {isOpen && (
           <>
-            {/* Backdrop */}
             <div
-              className="fixed inset-0 z-40"
+              className="fixed inset-0 z-40 cursor-default"
               onClick={() => setIsOpen(false)}
             />
 
-            {/* Theme Selector Panel */}
             <motion.div
               initial={{ opacity: 0, y: 10, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 10, scale: 0.95 }}
-              className="absolute top-full right-0 mt-2 w-72 sm:w-80 bg-gray-800 rounded-xl border border-gray-700 shadow-2xl z-50 overflow-hidden"
+              className="absolute top-full right-0 mt-3 w-72 bg-background/95 backdrop-blur-xl rounded-2xl border border-border shadow-2xl z-50 overflow-hidden"
             >
-              <div className="p-4 border-b border-gray-700">
-                <h3 className="text-base sm:text-lg font-semibold text-white mb-1">
-                  Choose Theme Color
-                </h3>
-                <p className="text-sm text-gray-400">
-                  Customize your experience
+              <div className="p-5 border-b border-border bg-secondary/30">
+                <div className="flex items-center gap-2 mb-1">
+                  <Settings2 size={14} className="text-primary" />
+                  <h3 className="text-xs font-black uppercase tracking-widest text-foreground">
+                    Interface Customization
+                  </h3>
+                </div>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">
+                  Primary Accent Configuration
                 </p>
               </div>
 
-              <div className="p-3 sm:p-4 space-y-2 max-h-80 overflow-y-auto">
+              <div className="p-3 space-y-1.5 max-h-[20rem] overflow-y-auto custom-scrollbar">
                 {colorOptions.map((option) => (
-                  <motion.button
+                  <button
                     key={option.value}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
                     onClick={() => {
                       setThemeColor(option.value);
                       setIsOpen(false);
                     }}
-                    className={`w-full p-2 sm:p-3 rounded-lg border transition-all duration-200 ${
-                      themeColor === option.value
-                        ? "bg-gray-700 border-gray-500"
-                        : "bg-gray-900 border-gray-700 hover:bg-gray-700"
-                    }`}
+                    className={`w-full p-3 rounded-xl border transition-all duration-200 group flex items-center gap-4 ${themeColor === option.value
+                      ? "bg-primary/10 border-primary/30"
+                      : "bg-transparent border-transparent hover:bg-secondary/50"
+                      }`}
                   >
-                    <div className="flex items-center space-x-3">
-                      <div
-                        className="w-6 h-6 rounded-full border-2 border-white/20"
-                        style={{
-                          backgroundColor: themeColors[option.value].primary,
-                        }}
-                      />
-                      <div className="flex-1 text-left">
-                        <div className="text-white font-medium">
-                          {option.name}
-                        </div>
-                        <div className="text-xs text-gray-400 hidden sm:block">
-                          {option.description}
-                        </div>
-                      </div>
-                      {themeColor === option.value && (
-                        <Check size={16} className="text-white" />
-                      )}
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center text-white shrink-0 shadow-lg relative overflow-hidden"
+                      style={{ backgroundColor: `hsl(${themeColors[option.value].primary})` }}
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent" />
+                      {themeColor === option.value && <Check size={16} className="relative z-10" />}
                     </div>
-                  </motion.button>
+
+                    <div className="text-left">
+                      <div className={`text-sm font-black tracking-tight ${themeColor === option.value ? 'text-primary' : 'text-foreground'}`}>
+                        {option.name}
+                      </div>
+                      <div className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest leading-none mt-1">
+                        {option.description}
+                      </div>
+                    </div>
+                  </button>
                 ))}
               </div>
 
-              <div className="p-3 sm:p-4 border-t border-gray-700 bg-gray-900">
-                <p className="text-xs text-gray-500 text-center">
-                  Theme colors are saved automatically
-                </p>
+              <div className="p-4 border-t border-border bg-secondary/10">
+                <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">
+                  <span>Persistent State</span>
+                  <div className="flex items-center gap-1">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                    <span>Active</span>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </>

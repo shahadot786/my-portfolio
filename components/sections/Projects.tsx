@@ -144,6 +144,7 @@ export function Projects() {
       playStore: "",
       github: "https://github.com/shahadot786/fullstack-master-repo",
       liveDemo: "https://nexus-web-portal-demo.vercel.app/",
+      appDemo: "https://appetize.io/app/b_lgzl4scji52pd3ghn5lyln5vfe?device=pixel9pro&osVersion=15.0",
       featured: true,
     },
     {
@@ -392,261 +393,171 @@ export function Projects() {
   const otherProjects = projects.filter((p) => !p.featured);
 
   return (
-    <section id="projects" className="section-padding bg-slate-900">
-      <div className="container-custom">
+    <section id="projects" className="py-24 bg-background relative overflow-hidden">
+      {/* Background Decorative Elements */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+
+      <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Featured <span className="gradient-text">Projects</span>
+          <motion.span
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            className="px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold uppercase tracking-widest mb-4 inline-block"
+          >
+            Portfolio
+          </motion.span>
+          <h2 className="text-4xl md:text-6xl font-black mb-6">
+            Featured <span className="gradient-text">Case Studies</span>
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
-            Showcasing impactful solutions with real-world results for
-            enterprise clients
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            Architecting robust ecosystems and high-performance applications that drive institutional success and user growth.
           </p>
         </motion.div>
 
-        {/* Featured Projects - Large Cards */}
-        <div className="space-y-12 mb-16">
+        {/* Featured Projects - Full Width Side-by-Side */}
+        <div className="space-y-32 mb-32">
           {featuredProjects.map((project, index) => (
             <motion.div
               key={project.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center ${index % 2 === 1 ? "lg:flex-row-reverse" : ""
-                }`}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8 }}
+              className={`flex flex-col ${index % 2 === 1 ? "lg:flex-row-reverse" : "lg:flex-row"} gap-12 items-center`}
             >
-              {/* Project Image */}
-              <div className={`${index % 2 === 1 ? "lg:order-2" : ""}`}>
-                <motion.div
-                  whileHover={{ scale: 1.02 }}
-                  className="project-card overflow-hidden"
-                >
-                  <div className="relative h-64 md:h-80 lg:h-96">
+              {/* Project Visual */}
+              <div className="w-full lg:w-3/5 group">
+                <div className="relative rounded-3xl overflow-hidden glass-container border border-primary/10 shadow-2xl p-2 transition-transform duration-500 group-hover:scale-[1.02]">
+                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-muted">
                     <img
                       src={project.image}
                       alt={project.title}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent opacity-60" />
                   </div>
-                </motion.div>
+                </div>
               </div>
 
-              {/* Project Info */}
-              <div className={`${index % 2 === 1 ? "lg:order-1" : ""}`}>
-                <div className="glass-card p-8">
-                  <div className="flex items-center space-x-2 mb-4">
-                    <Star
-                      size={20}
-                      className="text-yellow-400 fill-yellow-400"
-                    />
-                    <span className="text-sm font-medium text-yellow-400">
-                      Featured Project
-                    </span>
+              {/* Project Details */}
+              <div className="w-full lg:w-2/5 space-y-6">
+                <div className="inline-flex items-center space-x-2 text-primary">
+                  <Star size={16} className="fill-current" />
+                  <span className="text-xs font-bold uppercase tracking-widest">Industry Highlight</span>
+                </div>
+
+                <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground">
+                  {project.title}
+                </h3>
+
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  {project.description}
+                </p>
+
+                <div className="space-y-4">
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies.slice(0, 5).map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 text-xs font-semibold rounded-lg bg-secondary text-secondary-foreground border border-border"
+                      >
+                        {tech}
+                      </span>
+                    ))}
                   </div>
 
-                  <h3 className="text-2xl md:text-3xl font-bold mb-4 text-white">
-                    {project.title}
-                  </h3>
-
-                  <p className="text-gray-300 mb-6 leading-relaxed">
-                    {project.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-white mb-3">
-                      Technologies:
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {project.technologies.map((tech) => (
-                        <span
-                          key={tech}
-                          className="px-3 py-1.5 text-sm font-medium rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-300"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
+                  <div className="grid grid-cols-1 gap-3 pt-4 border-t border-border">
+                    {project.metrics.map((metric) => (
+                      <div key={metric} className="flex items-center space-x-3 text-sm text-muted-foreground">
+                        <TrendingUp size={14} className="text-primary flex-shrink-0" />
+                        <span>{metric}</span>
+                      </div>
+                    ))}
                   </div>
+                </div>
 
-                  {/* Metrics */}
-                  <div className="mb-6">
-                    <h4 className="text-sm font-semibold text-white mb-3 flex items-center space-x-2">
-                      <TrendingUp size={16} className="text-green-400" />
-                      <span>Key Metrics:</span>
-                    </h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {project.metrics.map((metric) => (
-                        <div
-                          key={metric}
-                          className="flex items-start space-x-2 text-sm text-gray-400"
-                        >
-                          <span className="text-green-400 mt-1">✓</span>
-                          <span>{metric}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Links */}
-                  <div className="flex flex-wrap gap-3">
-                    {project.appStore && (
-                      <a
-                        href={project.appStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary inline-flex items-center space-x-2 text-sm"
-                      >
-                        <ExternalLink size={16} />
-                        <span>App Store</span>
-                      </a>
-                    )}
-                    {project.playStore && (
-                      <a
-                        href={project.playStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary inline-flex items-center space-x-2 text-sm"
-                      >
-                        <ExternalLink size={16} />
-                        <span>Play Store</span>
-                      </a>
-                    )}
-                    {(project as any).liveDemo && (
-                      <a
-                        href={(project as any).liveDemo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-primary inline-flex items-center space-x-2 text-sm"
-                      >
-                        <ExternalLink size={16} />
-                        <span>Live Demo</span>
-                      </a>
-                    )}
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="btn-secondary inline-flex items-center space-x-2 text-sm"
-                      >
-                        <Github size={16} />
-                        <span>GitHub</span>
-                      </a>
-                    )}
-                  </div>
+                <div className="flex flex-wrap gap-4 pt-6">
+                  {project.github && (
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="btn-secondary py-2 px-4 text-sm flex items-center gap-2">
+                      <Github size={16} /> GitHub
+                    </a>
+                  )}
+                  {project.liveDemo && (
+                    <a href={project.liveDemo} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 px-4 text-sm flex items-center gap-2">
+                      <ExternalLink size={16} /> Live Demo
+                    </a>
+                  )}
+                  {(project as any).appDemo && (
+                    <a href={(project as any).appDemo} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 px-4 text-sm flex items-center gap-2 bg-cyan-600 hover:bg-cyan-500 border-none">
+                      <ExternalLink size={16} /> App Demo
+                    </a>
+                  )}
+                  {project.appStore && (
+                    <a href={project.appStore} target="_blank" rel="noopener noreferrer" className="btn-primary py-2 px-4 text-sm flex items-center gap-2">
+                      App Store
+                    </a>
+                  )}
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
 
-        {/* Other Projects - Grid */}
-        <div>
-          <h3 className="text-3xl font-bold mb-8 text-center">
-            Other <span className="gradient-text">Projects</span>
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Other Projects Section */}
+        <div className="pt-20 border-t border-border">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            className="flex items-center justify-between mb-12"
+          >
+            <h3 className="text-3xl font-bold">Supplemental <span className="text-primary">Developments</span></h3>
+            <div className="hidden md:block h-px flex-1 bg-border mx-8" />
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {otherProjects.map((project, index) => (
               <motion.div
                 key={project.title}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="project-card overflow-hidden"
+                transition={{ delay: index * 0.1 }}
+                className="futuristic-card group flex flex-col h-full"
               >
-                {/* Image */}
-                <div className="relative h-48">
-                  <img
-                    src={project.image}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent"></div>
+                <div className="relative aspect-video rounded-xl overflow-hidden mb-6">
+                  <img src={project.image} alt={project.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
                 </div>
 
-                {/* Content */}
-                <div className="p-6">
-                  <h4 className="text-xl font-bold mb-3 text-white">
-                    {project.title}
-                  </h4>
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-3">
-                    {project.description}
-                  </p>
+                <h4 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">{project.title}</h4>
+                <p className="text-muted-foreground text-sm mb-6 flex-grow line-clamp-3">
+                  {project.description}
+                </p>
 
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.slice(0, 3).map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-2 py-1 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-gray-300"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 3 && (
-                      <span className="px-2 py-1 text-xs font-medium rounded-full bg-white/5 border border-white/10 text-gray-300">
-                        +{project.technologies.length - 3}
-                      </span>
-                    )}
-                  </div>
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.technologies.slice(0, 3).map(tech => (
+                    <span key={tech} className="text-[10px] font-bold px-2 py-0.5 rounded bg-muted border border-border">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
 
-                  {/* Links */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.appStore && (
-                      <a
-                        href={project.appStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-blue-400 hover:text-blue-300 flex items-center space-x-1"
-                      >
-                        <ExternalLink size={14} />
-                        <span>App Store</span>
-                      </a>
-                    )}
-                    {project.playStore && (
-                      <a
-                        href={project.playStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-blue-400 hover:text-blue-300 flex items-center space-x-1"
-                      >
-                        <ExternalLink size={14} />
-                        <span>Play Store</span>
-                      </a>
-                    )}
-                    {(project as any).liveDemo && (
-                      <a
-                        href={(project as any).liveDemo}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-blue-400 hover:text-blue-300 flex items-center space-x-1"
-                      >
-                        <ExternalLink size={14} />
-                        <span>Live Demo</span>
-                      </a>
-                    )}
-                    {project.github && (
-                      <a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-blue-400 hover:text-blue-300 flex items-center space-x-1"
-                      >
-                        <Github size={14} />
-                        <span>GitHub</span>
-                      </a>
-                    )}
-                  </div>
+                <div className="flex items-center space-x-4">
+                  {project.github && (
+                    <a href={project.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                      <Github size={18} />
+                    </a>
+                  )}
+                  {project.liveDemo && (
+                    <a href={project.liveDemo} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+                      <ExternalLink size={18} />
+                    </a>
+                  )}
                 </div>
               </motion.div>
             ))}

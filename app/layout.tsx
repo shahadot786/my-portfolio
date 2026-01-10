@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { MouseFollower } from "@/components/mouse-follower";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,12 +47,12 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#3b82f6" />
+        <meta name="theme-color" content="#10b981" />
       </head>
       <body className={inter.className}>
         <ThemeProvider>
+          <MouseFollower />
           <main className="min-h-screen">{children}</main>
-
         </ThemeProvider>
       </body>
     </html>

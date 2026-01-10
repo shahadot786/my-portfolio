@@ -285,14 +285,14 @@ export function GitHubStats() {
       <div className="space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between">
           <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-            <Github className="text-gray-400" size={24} />
-            <h3 className="text-lg font-semibold text-white">
+            <Github className="text-muted-foreground" size={24} />
+            <h3 className="text-lg font-black uppercase tracking-widest">
               GitHub Statistics
             </h3>
           </div>
-          <div className="flex items-center space-x-2 text-sm text-gray-400">
-            <RefreshCw className="animate-spin" size={16} />
-            <span>Loading live data...</span>
+          <div className="flex items-center space-x-2 text-sm text-muted-foreground font-bold">
+            <RefreshCw className="animate-spin text-primary" size={16} />
+            <span>INITIALIZING ECOSYSTEM...</span>
           </div>
         </div>
 
@@ -300,11 +300,11 @@ export function GitHubStats() {
           {[1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className="animate-pulse bg-gray-800 rounded-lg p-6 border border-gray-700"
+              className="animate-pulse bg-secondary/50 rounded-2xl p-6 border border-border"
             >
-              <div className="h-4 bg-gray-700 rounded w-3/4 mb-3"></div>
-              <div className="h-3 bg-gray-700 rounded w-1/2 mb-2"></div>
-              <div className="h-3 bg-gray-700 rounded w-2/3"></div>
+              <div className="h-4 bg-muted rounded w-3/4 mb-3"></div>
+              <div className="h-3 bg-muted rounded w-1/2 mb-2"></div>
+              <div className="h-3 bg-muted rounded w-2/3"></div>
             </div>
           ))}
         </div>
@@ -314,22 +314,22 @@ export function GitHubStats() {
 
   if (error && !data) {
     return (
-      <div className="bg-gray-800 rounded-lg p-6 border border-red-700">
+      <div className="bg-destructive/10 rounded-2xl p-8 border border-destructive/20">
         <div className="flex items-center space-x-3 mb-4">
-          <AlertCircle className="text-red-400" size={24} />
-          <h3 className="text-lg font-semibold text-white">
-            GitHub Stats Unavailable
+          <AlertCircle className="text-destructive" size={24} />
+          <h3 className="text-lg font-black uppercase tracking-widest">
+            Transmission Interrupted
           </h3>
         </div>
-        <p className="text-red-400 mb-4">{error}</p>
+        <p className="text-muted-foreground font-bold mb-6 text-sm">{error}</p>
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           onClick={() => fetchGitHubData(true)}
-          className="flex items-center space-x-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg transition-colors"
+          className="btn-primary flex items-center space-x-2 px-6 py-2"
         >
           <RefreshCw size={16} />
-          <span>Retry</span>
+          <span className="font-black uppercase tracking-widest text-xs">Re-Establish Connection</span>
         </motion.button>
       </div>
     );
@@ -343,39 +343,39 @@ export function GitHubStats() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between">
-        <div className="flex items-center space-x-3 mb-4 sm:mb-0">
-          <Github className="text-gray-400" size={24} />
-          <h3 className="text-lg font-semibold text-white">
-            Live GitHub Statistics
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center space-x-3">
+          <Github className="text-primary" size={24} />
+          <h3 className="text-xl font-black uppercase tracking-tight text-foreground">
+            Development <span className="text-primary">Ecosystem</span>
           </h3>
-          <div className="flex items-center space-x-1 text-green-400 text-sm">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span>Live</span>
+          <div className="flex items-center space-x-1.5 px-2 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-black uppercase tracking-widest">
+            <div className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></div>
+            <span>Live Stream</span>
           </div>
         </div>
 
         <div className="flex items-center space-x-4">
-          <span className="text-xs text-gray-400">
-            Updated {getTimeSinceUpdate()}
+          <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+            Last Sync: {getTimeSinceUpdate()}
           </span>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => fetchGitHubData(true)}
             disabled={loading}
-            className="flex items-center space-x-1 px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors text-sm disabled:opacity-50"
+            className="flex items-center space-x-2 px-3 py-1.5 bg-secondary hover:bg-muted rounded-xl border border-border transition-all text-[10px] font-black uppercase tracking-widest disabled:opacity-50"
           >
-            <RefreshCw size={14} className={loading ? "animate-spin" : ""} />
-            <span>Refresh</span>
+            <RefreshCw size={12} className={`${loading ? "animate-spin" : ""} text-primary`} />
+            <span>Force Sync</span>
           </motion.button>
         </div>
       </div>
 
       {data.error && (
-        <div className="bg-yellow-900/20 border border-yellow-700/50 rounded-lg p-3">
-          <div className="flex items-center space-x-2 text-yellow-400 text-sm">
-            <AlertCircle size={16} />
+        <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-4">
+          <div className="flex items-center space-x-3 text-yellow-600 dark:text-yellow-400 text-xs font-bold">
+            <AlertCircle size={14} className="shrink-0" />
             <span>{data.error}</span>
           </div>
         </div>
@@ -386,65 +386,62 @@ export function GitHubStats() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gray-800 rounded-lg p-6 border border-gray-700"
+          className="bg-card rounded-2xl p-6 md:p-8 border border-border/50 relative overflow-hidden"
         >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <img
-              src={data.user.avatar_url}
-              alt={data.user.name}
-              className="w-20 h-20 rounded-full border-2 border-gray-600"
-            />
-            <div className="flex-1">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 mb-2">
-                <h4 className="text-xl font-bold text-white">
-                  {data.user.name}
-                </h4>
-                <a
-                  href={data.user.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-400 hover:text-blue-300 transition-colors flex items-center space-x-1"
-                >
-                  <span>@{data.user.login}</span>
-                  <ExternalLink size={14} />
-                </a>
+          <div className="absolute top-0 right-0 p-4 opacity-5">
+            <Github size={120} />
+          </div>
+
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-8 relative z-10">
+            <div className="relative">
+              <img
+                src={data.user.avatar_url}
+                alt={data.user.name}
+                className="w-24 h-24 rounded-2xl border-2 border-primary/20 object-cover"
+              />
+              <div className="absolute -bottom-2 -right-2 bg-primary text-white p-1.5 rounded-lg border-2 border-background">
+                <Github size={12} />
+              </div>
+            </div>
+
+            <div className="flex-1 space-y-4">
+              <div>
+                <div className="flex flex-wrap items-center gap-3 mb-1">
+                  <h4 className="text-2xl font-black tracking-tight text-foreground">
+                    {data.user.name}
+                  </h4>
+                  <a
+                    href={data.user.html_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-500/10 text-blue-500 text-xs font-black uppercase tracking-widest hover:bg-blue-500/20 transition-colors"
+                  >
+                    <span>{data.user.login}</span>
+                    <ExternalLink size={12} />
+                  </a>
+                </div>
+
+                {data.user.bio && (
+                  <p className="text-muted-foreground text-sm font-medium leading-relaxed max-w-2xl">{data.user.bio}</p>
+                )}
               </div>
 
-              {data.user.bio && (
-                <p className="text-gray-300 mb-3">{data.user.bio}</p>
-              )}
-
-              <div className="flex flex-wrap gap-4 text-sm text-gray-400">
+              <div className="flex flex-wrap gap-x-6 gap-y-2 text-[10px] font-black uppercase tracking-[0.15em] text-muted-foreground">
                 {data.user.location && (
-                  <div className="flex items-center space-x-1">
-                    <MapPin size={14} />
+                  <div className="flex items-center gap-2">
+                    <MapPin size={12} className="text-primary" />
                     <span>{data.user.location}</span>
                   </div>
                 )}
                 {data.user.company && (
-                  <div className="flex items-center space-x-1">
-                    <Building size={14} />
+                  <div className="flex items-center gap-2">
+                    <Building size={12} className="text-primary" />
                     <span>{data.user.company}</span>
                   </div>
                 )}
-                {data.user.blog && (
-                  <a
-                    href={
-                      data.user.blog.startsWith("http")
-                        ? data.user.blog
-                        : `https://${data.user.blog}`
-                    }
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-1 hover:text-blue-400 transition-colors"
-                  >
-                    <LinkIcon size={14} />
-                    <span>Website</span>
-                  </a>
-                )}
-                <div className="flex items-center space-x-1">
-                  <Calendar size={14} />
-                  <span>Joined {formatDate(data.user.created_at)}</span>
+                <div className="flex items-center gap-2">
+                  <Calendar size={12} className="text-primary" />
+                  <span>Deployed {formatDate(data.user.created_at)}</span>
                 </div>
               </div>
             </div>
@@ -456,28 +453,32 @@ export function GitHubStats() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {[
           {
-            label: "Public Repos",
+            label: "Deployed Repos",
             value: data.stats.totalRepos,
             icon: BookOpen,
-            color: "text-blue-400",
+            color: "text-blue-500",
+            bg: "bg-blue-500/10",
           },
           {
-            label: "Total Stars",
+            label: "Technical Rating",
             value: data.stats.totalStars,
             icon: Star,
-            color: "text-yellow-400",
+            color: "text-yellow-500",
+            bg: "bg-yellow-500/10",
           },
           {
-            label: "Followers",
+            label: "Network Reach",
             value: data.user?.followers || 0,
             icon: Users,
-            color: "text-green-400",
+            color: "text-green-500",
+            bg: "bg-green-500/10",
           },
           {
-            label: "Total Forks",
+            label: "System Forks",
             value: data.stats.totalForks,
             icon: GitFork,
-            color: "text-purple-400",
+            color: "text-purple-500",
+            bg: "bg-purple-500/10",
           },
         ].map((stat, index) => (
           <motion.div
@@ -485,23 +486,27 @@ export function GitHubStats() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
-            className="bg-gray-800 p-4 rounded-lg border border-gray-700 hover:border-gray-600 transition-colors"
+            className="bg-card p-5 rounded-2xl border border-border/50 hover:border-primary/30 transition-all group"
           >
-            <stat.icon className={`${stat.color} mb-2`} size={20} />
-            <div className="text-2xl font-bold text-white">
+            <div className={`w-10 h-10 rounded-xl ${stat.bg} ${stat.color} flex items-center justify-center mb-4 transition-transform group-hover:scale-110`}>
+              <stat.icon size={20} />
+            </div>
+            <div className="text-2xl font-black text-foreground tracking-tight">
               {stat.value.toLocaleString()}
             </div>
-            <div className="text-sm text-gray-400">{stat.label}</div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mt-1">
+              {stat.label}
+            </div>
           </motion.div>
         ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Top Repositories */}
-        <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-          <h4 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
-            <TrendingUp size={20} className="text-green-400" />
-            <span>Top Repositories</span>
+        <div className="bg-card rounded-2xl p-6 md:p-8 border border-border/50">
+          <h4 className="text-sm font-black uppercase tracking-[0.2em] text-foreground mb-8 flex items-center gap-3">
+            <TrendingUp size={18} className="text-primary" />
+            <span>Priority Repositories</span>
           </h4>
 
           <div className="space-y-4">
@@ -512,74 +517,57 @@ export function GitHubStats() {
                 target="_blank"
                 rel="noopener noreferrer"
                 initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="block p-3 bg-gray-900 rounded-lg hover:bg-gray-700 transition-colors cursor-pointer group"
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.05 }}
+                className="block p-4 bg-secondary/30 rounded-xl hover:bg-secondary/60 border border-border/30 transition-all cursor-pointer group"
               >
                 <div className="flex items-start justify-between mb-2">
-                  <h5 className="font-semibold text-white group-hover:text-blue-400 transition-colors flex items-center space-x-1">
+                  <h5 className="font-extrabold text-foreground group-hover:text-primary transition-colors flex items-center gap-2">
                     <span>{repo.name}</span>
                     <ExternalLink
                       size={12}
                       className="opacity-0 group-hover:opacity-100 transition-opacity"
                     />
                   </h5>
-                  <div className="flex items-center space-x-3 text-xs text-gray-400">
-                    <div className="flex items-center space-x-1">
-                      <Star size={12} />
+                  <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground/60">
+                    <div className="flex items-center gap-1">
+                      <Star size={12} className="text-yellow-500" />
                       <span>{repo.stargazers_count}</span>
                     </div>
-                    <div className="flex items-center space-x-1">
-                      <GitFork size={12} />
+                    <div className="flex items-center gap-1">
+                      <GitFork size={12} className="text-purple-500" />
                       <span>{repo.forks_count}</span>
                     </div>
                   </div>
                 </div>
 
                 {repo.description && (
-                  <p className="text-gray-300 text-sm mb-2 line-clamp-2">
+                  <p className="text-muted-foreground text-xs font-medium mb-4 line-clamp-2">
                     {repo.description}
                   </p>
                 )}
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
+                <div className="flex items-center justify-between mt-auto">
+                  <div className="flex items-center gap-3">
                     {repo.language && (
-                      <>
+                      <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-background border border-border">
                         <div
-                          className="w-3 h-3 rounded-full"
+                          className="w-2 h-2 rounded-full"
                           style={{
                             backgroundColor: getLanguageColor(repo.language),
                           }}
                         ></div>
-                        <span className="text-xs text-gray-400">
+                        <span className="text-[10px] font-bold text-muted-foreground">
                           {repo.language}
                         </span>
-                      </>
+                      </div>
                     )}
                   </div>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-[9px] font-black uppercase tracking-widest text-muted-foreground/40">
                     Updated {formatDate(repo.updated_at)}
                   </span>
                 </div>
-
-                {repo.topics && repo.topics.length > 0 && (
-                  <div className="flex flex-wrap gap-1 mt-2">
-                    {repo.topics.slice(0, 3).map((topic) => (
-                      <span
-                        key={topic}
-                        className="px-2 py-1 bg-blue-900/30 text-blue-200 rounded text-xs border border-blue-700/50"
-                      >
-                        {topic}
-                      </span>
-                    ))}
-                    {repo.topics.length > 3 && (
-                      <span className="text-xs text-gray-400">
-                        +{repo.topics.length - 3} more
-                      </span>
-                    )}
-                  </div>
-                )}
               </motion.a>
             ))}
           </div>
@@ -588,36 +576,38 @@ export function GitHubStats() {
         {/* Languages & Activity */}
         <div className="space-y-6">
           {/* Top Languages */}
-          <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-            <h4 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
-              <Code size={20} className="text-blue-400" />
-              <span>Top Languages</span>
+          <div className="bg-card rounded-2xl p-6 md:p-8 border border-border/50">
+            <h4 className="text-sm font-black uppercase tracking-[0.2em] text-foreground mb-8 flex items-center gap-3">
+              <Code size={18} className="text-primary" />
+              <span>Language Profile</span>
             </h4>
 
-            <div className="space-y-3">
+            <div className="space-y-5">
               {topLanguages.map(([language, percentage], index) => (
                 <motion.div
                   key={language}
                   initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
                   className="space-y-2"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
+                  <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                    <div className="flex items-center gap-2">
                       <div
-                        className="w-3 h-3 rounded-full"
+                        className="w-2 h-2 rounded-full"
                         style={{ backgroundColor: getLanguageColor(language) }}
                       ></div>
-                      <span className="text-gray-300 text-sm">{language}</span>
+                      <span>{language}</span>
                     </div>
-                    <span className="text-gray-400 text-sm">{percentage}%</span>
+                    <span>{percentage}%</span>
                   </div>
-                  <div className="w-full h-2 bg-gray-700 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-secondary rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
-                      animate={{ width: `${percentage}%` }}
-                      transition={{ duration: 1, delay: 0.5 + index * 0.1 }}
+                      whileInView={{ width: `${percentage}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.3 + index * 0.1 }}
                       className="h-full rounded-full"
                       style={{ backgroundColor: getLanguageColor(language) }}
                     />
@@ -628,47 +618,53 @@ export function GitHubStats() {
           </div>
 
           {/* Recent Activity */}
-          <div className="bg-gray-800 rounded-lg p-6 border border-gray-700">
-            <h4 className="text-lg font-semibold text-white mb-4 flex items-center space-x-2">
-              <Activity size={20} className="text-purple-400" />
-              <span>Recent Activity</span>
+          <div className="bg-card rounded-2xl p-6 md:p-8 border border-border/50">
+            <h4 className="text-sm font-black uppercase tracking-[0.2em] text-foreground mb-8 flex items-center gap-3">
+              <Activity size={18} className="text-primary" />
+              <span>Network activity</span>
             </h4>
 
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-4">
               {[
                 {
-                  label: "Commits this week",
+                  label: "Dev Commits",
                   value: data.stats.recentActivity.commits,
                   icon: GitCommit,
-                  color: "text-green-400",
+                  color: "text-green-500",
+                  bg: "bg-green-500/10",
                 },
                 {
                   label: "Pull Requests",
                   value: data.stats.recentActivity.prs,
                   icon: GitFork,
-                  color: "text-blue-400",
+                  color: "text-blue-500",
+                  bg: "bg-blue-500/10",
                 },
                 {
                   label: "Issues Closed",
                   value: data.stats.recentActivity.issues,
                   icon: Award,
-                  color: "text-purple-400",
+                  color: "text-purple-500",
+                  bg: "bg-purple-500/10",
                 },
               ].map((activity, index) => (
                 <motion.div
                   key={activity.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  className="flex items-center justify-between p-3 bg-gray-900 rounded-lg"
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
+                  className="flex items-center justify-between p-4 bg-secondary/30 rounded-xl border border-border/30"
                 >
-                  <div className="flex items-center space-x-3">
-                    <activity.icon className={activity.color} size={16} />
-                    <span className="text-gray-300 text-sm">
+                  <div className="flex items-center gap-3">
+                    <div className={`p-1.5 rounded-lg ${activity.bg} ${activity.color}`}>
+                      <activity.icon size={14} />
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
                       {activity.label}
                     </span>
                   </div>
-                  <span className="text-white font-semibold">
+                  <span className="text-xl font-black text-foreground">
                     {activity.value}
                   </span>
                 </motion.div>
@@ -679,18 +675,18 @@ export function GitHubStats() {
       </div>
 
       {/* API Info */}
-      <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
-        <div className="flex items-center justify-between text-sm text-gray-400">
-          <div className="flex items-center space-x-4">
-            <span>Data from GitHub API</span>
-            <span>•</span>
-            <span>Updated every 24 Hours</span>
-            <span>•</span>
-            <span>Rate limit: {GITHUB_TOKEN ? "5,000/hour" : "60/hour"}</span>
+      <div className="bg-card rounded-2xl p-5 border border-border/50">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-[9px] font-black uppercase tracking-[0.2em] text-muted-foreground/50">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <span>Sourced via GitHub v3 API</span>
+            <span className="hidden md:inline">•</span>
+            <span>24H Cache Cycle</span>
+            <span className="hidden md:inline">•</span>
+            <span>Rate Limit: {GITHUB_TOKEN ? "5,000/HR" : "60/HR"}</span>
           </div>
-          <div className="flex items-center space-x-2">
-            <Zap size={14} className="text-green-400" />
-            <span>Real-time</span>
+          <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-primary/5 border border-primary/10 text-primary">
+            <Zap size={10} className="animate-pulse" />
+            <span>Operational Stat: ACTIVE</span>
           </div>
         </div>
       </div>

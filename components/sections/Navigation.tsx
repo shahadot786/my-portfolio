@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useTheme } from "../providers/theme-provider";
 
 export function Navigation() {
+  const { theme, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -36,11 +38,10 @@ export function Navigation() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "glass-card shadow-lg"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border py-2"
+          : "bg-transparent py-4"
+        }`}
     >
       <div className="container-custom">
         <div className="flex items-center justify-between h-16 md:h-20">
@@ -62,16 +63,32 @@ export function Navigation() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 onClick={() => scrollToSection(item.href)}
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10"
-                style={{ color: "var(--text-secondary)" }}
+                className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:text-primary hover:bg-primary/5 text-foreground/70"
               >
                 {item.name}
               </motion.button>
             ))}
-            <motion.a
+
+            {/* Theme Toggle */}
+            <motion.button
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: navItems.length * 0.1 }}
+              onClick={toggleTheme}
+              className="p-2 rounded-lg hover:bg-muted transition-colors ml-2"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun size={20} className="text-primary" />
+              ) : (
+                <Moon size={20} className="text-slate-700" />
+              )}
+            </motion.button>
+
+            <motion.a
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: (navItems.length + 1) * 0.1 }}
               href="/MD_Shahadot_Hosssain.pdf"
               download
               className="ml-4 btn-primary text-sm"
@@ -80,17 +97,29 @@ export function Navigation() {
             </motion.a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
-          >
-            {isMobileMenuOpen ? (
-              <X size={24} color="var(--text-primary)" />
-            ) : (
-              <Menu size={24} color="var(--text-primary)" />
-            )}
-          </button>
+          <div className="flex items-center space-x-2 md:hidden">
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-lg hover:bg-muted transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? (
+                <Sun size={20} className="text-primary" />
+              ) : (
+                <Moon size={20} className="text-slate-700" />
+              )}
+            </button>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="p-2 rounded-lg hover:bg-muted transition-colors"
+            >
+              {isMobileMenuOpen ? (
+                <X size={24} className="text-foreground" />
+              ) : (
+                <Menu size={24} className="text-foreground" />
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -108,8 +137,7 @@ export function Navigation() {
                 <button
                   key={item.name}
                   onClick={() => scrollToSection(item.href)}
-                  className="block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-white/10"
-                  style={{ color: "var(--text-secondary)" }}
+                  className="block w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200 hover:bg-primary/5 text-foreground/80 hover:text-primary"
                 >
                   {item.name}
                 </button>
