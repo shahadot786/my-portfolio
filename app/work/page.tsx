@@ -121,7 +121,7 @@ export default function WorkPage() {
       </p>
 
       {/* Experience Timeline */}
-      <div className="space-y-12 mb-16">
+      <div className="space-y-12 mb-6">
         {experiences.map((exp, index) => (
           <div
             key={index}
@@ -176,7 +176,7 @@ export default function WorkPage() {
       </div>
 
       {/* Education Section */}
-      <div className="border-t border-zinc-800 pt-12">
+      <div className="border-t border-zinc-800 pt-6">
         <h2 className="text-2xl font-bold text-white mb-8">Education</h2>
 
         <div className="border-b border-zinc-800 pb-12">
@@ -208,7 +208,7 @@ export default function WorkPage() {
       </div>
 
       {/* Certifications */}
-      <div className="border-t border-zinc-800 pt-12 mt-12">
+      <div className=" pt-4 mt-4">
         <h2 className="text-2xl font-bold text-white mb-6">Certifications</h2>
         <div className="flex flex-wrap gap-2">
           {[
