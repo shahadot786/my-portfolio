@@ -101,7 +101,8 @@ export default function RootLayout({
       "@type": "Organization",
       name: "HawkEyes Digital Monitoring",
     },
-    description: "Software Engineer specializing in React Native and Enterprise Mobile Solutions.",
+    description:
+      "Software Engineer specializing in React Native and Enterprise Mobile Solutions.",
     address: {
       "@type": "PostalAddress",
       addressLocality: "Dhaka",
