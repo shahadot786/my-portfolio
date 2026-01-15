@@ -173,7 +173,23 @@ const projects: Project[] = [
 
 export const metadata = {
     title: "Projects - MD. Shahadot Hossain",
-    description: "Personal and professional projects by MD. Shahadot Hossain",
+    description: "Showcase of personal and professional software projects by MD. Shahadot Hossain, featuring mobile apps, web platforms, and open-source contributions.",
+    keywords: [
+        "Shahadot Hossain Software Portfolio",
+        "React Native Project Demos",
+        "Next.js Full-stack Showcase",
+        "GraphQL Social App Prototype",
+        "Enterprise Mobile Application Development",
+        "Unilever Territory Manager App",
+        "BAT Mobile Automation Project",
+        "Fullstack Monorepo Template GitHub",
+        "Android Music Player Java Source",
+        "Open Source Software Bangladesh",
+        "Best React Native Developer Bangladesh",
+    ],
+    alternates: {
+        canonical: "https://shahadot-hossain.vercel.app/projects/",
+    },
 };
 
 export default function ProjectsPage() {

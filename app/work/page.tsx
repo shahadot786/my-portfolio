@@ -85,7 +85,22 @@ const education = {
 
 export const metadata = {
     title: "Work - MD. Shahadot Hossain",
-    description: "Employment history and professional experience of MD. Shahadot Hossain",
+    description: "Employment history and professional experience of MD. Shahadot Hossain, and his education.",
+    keywords: [
+        "MD. Shahadot Hossain Work Experience",
+        "Software Engineer Portfolio Bangladesh",
+        "HawkEyes Digital Monitoring Software Engineer",
+        "TFP Solutions Bangladesh Experience",
+        "GSDA Frontend Developer Experience",
+        "Enterprise Mobile App Development Bangladesh",
+        "React Native Developer Resume",
+        "Unilever Software Vendor Bangladesh",
+        "BAT Mobile App Development",
+        "Professional Software Engineer Career",
+    ],
+    alternates: {
+        canonical: "https://shahadot-hossain.vercel.app/work/",
+    },
 };
 
 export default function WorkPage() {

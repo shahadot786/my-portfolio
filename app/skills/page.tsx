@@ -45,7 +45,22 @@ const skillCategories = [
 
 export const metadata = {
     title: "Skills - MD. Shahadot Hossain",
-    description: "Technical skills and expertise of MD. Shahadot Hossain",
+    description: "Technical skills and expertise of MD. Shahadot Hossain specializing in React Native, TypeScript, and Full-stack Development.",
+    keywords: [
+        "Shahadot Hossain Technical Skills",
+        "React Native Expert Bangladesh",
+        "TypeScript Developer Bangladesh",
+        "Mobile App Architecture Expert",
+        "Full Stack Development Tech Stack",
+        "Offline-first Sync Specialist",
+        "Real-time System Development",
+        "Cloud Computing Skills AWS",
+        "Enterprise Software Architecture",
+        "Cross-platform Mobile Development Skills",
+    ],
+    alternates: {
+        canonical: "https://shahadot-hossain.vercel.app/skills/",
+    },
 };
 
 export default function SkillsPage() {
