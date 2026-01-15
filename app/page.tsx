@@ -37,32 +37,30 @@ export default function Home() {
         <h1 className="text-3xl font-bold text-white mb-2">
           MD. Shahadot Hossain
         </h1>
-        <p className="text-zinc-400 mb-8">
-          Software Engineer based in Bangladesh
-        </p>
+        <p className="text-zinc-400 mb-8">Software Engineer</p>
 
         {/* Bio */}
         <div className="space-y-4 text-zinc-300 leading-relaxed">
           <p>
             I am a software engineer based in Bangladesh 🇧🇩. I have{" "}
-            <span className="text-white font-medium">4+ years</span> of
+            <span className=" font-medium text-green-300">4+ years</span> of
             experience building mobile and web applications for enterprise
             clients. I have worked with companies like{" "}
-            <span className="text-white font-medium">Unilever</span>,{" "}
-            <span className="text-white font-medium">BAT</span>,{" "}
-            <span className="text-white font-medium">Nestlé</span>, and{" "}
-            <span className="text-white font-medium">Nagad</span>.
+            <span className="text-green-300 font-medium">Unilever</span>,{" "}
+            <span className="text-green-300 font-medium">BAT</span>,{" "}
+            <span className="text-green-300 font-medium">Nestlé</span>, and{" "}
+            <span className="text-green-300 font-medium">Nagad</span>.
           </p>
 
           <p>
             Over the years, I have worked with a variety of technologies
             including{" "}
-            <span className="text-white font-medium">
+            <span className="text-green-300 font-medium">
               React Native, TypeScript, Node.js, Next.js, Redux, MongoDB,
               PostgreSQL
             </span>
             , and many others. I specialize in{" "}
-            <span className="text-white font-medium">
+            <span className="text-green-300 font-medium">
               offline-first architecture
             </span>
             , real-time tracking systems, and building scalable mobile
@@ -71,7 +69,7 @@ export default function Home() {
 
           <p>
             I am a{" "}
-            <span className="text-white font-medium">
+            <span className="text-green-300 font-medium">
               Full-stack developer at heart
             </span>{" "}
             with expertise in all parts of the stack including the frontend,
@@ -81,13 +79,14 @@ export default function Home() {
 
           <p>
             Currently, I work at{" "}
-            <Link href="/work" className="link">
+            <Link href="/work" className="link text-green-400 font-medium">
               HawkEyes Digital Monitoring
             </Link>{" "}
             where I architect and develop enterprise mobile applications serving
             Fortune 500 companies. My work has impacted{" "}
-            <span className="text-white font-medium">10,000+ users</span> with{" "}
-            <span className="text-white font-medium">
+            <span className="text-green-300 font-medium">10,000+ users</span>{" "}
+            with{" "}
+            <span className="text-green-300 font-medium">
               100,000+ daily transactions
             </span>
             .
@@ -139,7 +138,10 @@ export default function Home() {
         <div className="mt-12 pt-8 border-t border-zinc-800 text-center">
           <p className="text-zinc-400 text-sm">
             If you want to get in touch, feel free to{" "}
-            <a href="mailto:shahadotrahat786@gmail.com" className="link">
+            <a
+              href="mailto:shahadotrahat786@gmail.com"
+              className="link text-green-500"
+            >
               email me
             </a>
             .

@@ -126,7 +126,7 @@ const projects: Project[] = [
     featured: true,
   },
   {
-    title: "Shopora - Multi-Vendor eCommerce SaaS",
+    title: "Shopora Multi-Vendor eCommerce SaaS",
     description:
       "Full-stack multi-vendor eCommerce platform built with Nx monorepo architecture. Features Express.js API Gateway, Auth Service, Product Service, and Order Service.",
     technologies: [
@@ -190,7 +190,7 @@ const projects: Project[] = [
     github: "https://github.com/shahadot786/barc-lms-react-native",
   },
   {
-    title: "Memeify - Meme Generator",
+    title: "Memeify Meme Generator",
     description:
       "Cross-platform meme generator app. Browse templates from Imgflip API, search GIFs from Tenor, add customizable text with multiple fonts, and save/share creations.",
     technologies: [
@@ -218,7 +218,7 @@ const projects: Project[] = [
     github: "https://github.com/shahadot786/android-music-player",
   },
   {
-    title: "YouTube Clone - React Native",
+    title: "YouTube Clone React Native",
     description:
       "A fully functional YouTube clone built with React Native, Expo, and TypeScript. Features video browsing, search, channel viewing, and comprehensive error handling.",
     technologies: [
@@ -381,7 +381,7 @@ export default function ProjectsPage() {
             href="https://github.com/shahadot786"
             target="_blank"
             rel="noopener noreferrer"
-            className="link"
+            className="link text-green-500"
           >
             GitHub profile
           </a>
@@ -402,9 +402,9 @@ export default function ProjectsPage() {
                 <span className="text-white font-medium group-hover:text-zinc-100">
                   {project.title.toLowerCase().replace(/\s+/g, "-")}
                 </span>
-                <span className="text-zinc-600">—</span>
+                <span className="text-zinc-600 hidden sm:inline">—</span>
                 <span className="text-zinc-500 text-sm hidden sm:inline">
-                  {project.description.slice(0, 60)}...
+                  {project.description.slice(0, 50)}...
                 </span>
               </div>
               <ExternalLink
