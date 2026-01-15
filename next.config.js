@@ -6,6 +6,7 @@ const nextConfig = {
   images: {
     domains: ['images.pexels.com'],
   },
+  trailingSlash: true,
   async headers() {
     return [
       {

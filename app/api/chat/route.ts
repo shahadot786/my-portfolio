@@ -60,7 +60,6 @@ async function fetchGitHubData() {
             lastUpdated: new Date().toISOString(),
         };
     } catch (error) {
-        console.error("GitHub fetch error:", error);
         return null;
     }
 }
@@ -69,7 +68,6 @@ export async function POST(request: NextRequest) {
     try {
         // Check if API key is configured
         if (!GEMINI_API_KEY) {
-            console.error("GEMINI_API_KEY is not configured");
             return NextResponse.json(
                 {
                     error: "AI service is not configured. Please set up GEMINI_API_KEY in environment variables.",
@@ -142,7 +140,6 @@ Please provide a helpful, professional, and concise response. If asked about ava
             { status: 200 }
         );
     } catch (error: any) {
-        console.error("Chat API error:", error);
 
         // Provide more specific error messages
         let errorMessage = "Failed to generate response. Please try again later.";
