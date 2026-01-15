@@ -5,13 +5,12 @@ export async function GET() {
     const token = process.env.GITHUB_ACCESS_TOKEN;
     const username = process.env.NEXT_PUBLIC_GITHUB_USERNAME || "shahadot786";
 
+    // Create an authenticated instance
     let octokit = new Octokit({
         auth: token,
     });
 
     try {
-        console.log("Fetching enhanced GitHub data for user:", username);
-
         let profile;
         let repos: any[] = [];
         let events: any[] = [];
@@ -34,10 +33,8 @@ export async function GET() {
             profile = profile_res;
             repos = repos_res;
             events = events_res;
-            console.log("Fetched enhanced data with token successfully");
         } catch (error: any) {
             if (error.status === 401 || error.status === 403) {
-                console.warn(`GitHub token issue (${error.status}). Falling back to unauthenticated...`);
                 octokit = new Octokit();
                 const [{ data: profile_res }, { data: repos_res }, { data: events_res }] = await Promise.all([
                     octokit.users.getByUsername({ username }),
@@ -55,7 +52,6 @@ export async function GET() {
                 profile = profile_res;
                 repos = repos_res;
                 events = events_res;
-                console.log("Fetched enhanced data without token successfully");
             } else {
                 throw error;
             }
@@ -132,7 +128,6 @@ export async function GET() {
             reposCount: repos.length
         });
     } catch (error: any) {
-        console.error("Error fetching GitHub data:", error.message, error.status);
         return NextResponse.json({
             error: "Failed to fetch GitHub data",
             details: error.message,

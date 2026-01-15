@@ -71,7 +71,6 @@ export default function LearningTracker() {
         setDays(parsedDays.sort((a, b) => a.day - b.day));
       }
     } catch (error) {
-      console.error("Error loading data:", error);
       setDays([]);
     }
   };
@@ -80,7 +79,6 @@ export default function LearningTracker() {
     try {
       localStorage.setItem("learning-tracker-days", JSON.stringify(daysToSave));
     } catch (error) {
-      console.error("Error saving to localStorage:", error);
     }
   };
 
@@ -164,36 +162,26 @@ Days Remaining: ${daysLeft}
 
 | Batch | Topic | Days | Status |
 |-------|-------|------|--------|
-| 🩵 1 | Programming Fundamentals | 1-10 | ${
-      days.length >= 10 ? "✅" : days.length >= 1 ? "🔄" : "⏳"
-    } |
-| 💛 2 | JavaScript & TypeScript | 11-25 | ${
-      days.length >= 25 ? "✅" : days.length >= 11 ? "🔄" : "⏳"
-    } |
-| 💚 3 | Web & System Design | 26-35 | ${
-      days.length >= 35 ? "✅" : days.length >= 26 ? "🔄" : "⏳"
-    } |
-| 💙 4 | React Core | 36-45 | ${
-      days.length >= 45 ? "✅" : days.length >= 36 ? "🔄" : "⏳"
-    } |
-| 🧡 5 | Backend Engineering | 46-55 | ${
-      days.length >= 55 ? "✅" : days.length >= 46 ? "🔄" : "⏳"
-    } |
-| 💜 6 | React Native | 56-70 | ${
-      days.length >= 70 ? "✅" : days.length >= 56 ? "🔄" : "⏳"
-    } |
-| ❤️ 7 | DevOps & Testing | 71-80 | ${
-      days.length >= 80 ? "✅" : days.length >= 71 ? "🔄" : "⏳"
-    } |
-| 🤍 8 | System Design Deep Dive | 81-85 | ${
-      days.length >= 85 ? "✅" : days.length >= 81 ? "🔄" : "⏳"
-    } |
-| 🖤 9 | Security & Privacy | 86-88 | ${
-      days.length >= 88 ? "✅" : days.length >= 86 ? "🔄" : "⏳"
-    } |
-| 💫 10 | Capstone Project | 89-90 | ${
-      days.length >= 90 ? "✅" : days.length >= 89 ? "🔄" : "⏳"
-    } |
+| 🩵 1 | Programming Fundamentals | 1-10 | ${days.length >= 10 ? "✅" : days.length >= 1 ? "🔄" : "⏳"
+      } |
+| 💛 2 | JavaScript & TypeScript | 11-25 | ${days.length >= 25 ? "✅" : days.length >= 11 ? "🔄" : "⏳"
+      } |
+| 💚 3 | Web & System Design | 26-35 | ${days.length >= 35 ? "✅" : days.length >= 26 ? "🔄" : "⏳"
+      } |
+| 💙 4 | React Core | 36-45 | ${days.length >= 45 ? "✅" : days.length >= 36 ? "🔄" : "⏳"
+      } |
+| 🧡 5 | Backend Engineering | 46-55 | ${days.length >= 55 ? "✅" : days.length >= 46 ? "🔄" : "⏳"
+      } |
+| 💜 6 | React Native | 56-70 | ${days.length >= 70 ? "✅" : days.length >= 56 ? "🔄" : "⏳"
+      } |
+| ❤️ 7 | DevOps & Testing | 71-80 | ${days.length >= 80 ? "✅" : days.length >= 71 ? "🔄" : "⏳"
+      } |
+| 🤍 8 | System Design Deep Dive | 81-85 | ${days.length >= 85 ? "✅" : days.length >= 81 ? "🔄" : "⏳"
+      } |
+| 🖤 9 | Security & Privacy | 86-88 | ${days.length >= 88 ? "✅" : days.length >= 86 ? "🔄" : "⏳"
+      } |
+| 💫 10 | Capstone Project | 89-90 | ${days.length >= 90 ? "✅" : days.length >= 89 ? "🔄" : "⏳"
+      } |
 
 ## 📚 All Topics Covered
 
@@ -318,8 +306,7 @@ Days Remaining: ${daysLeft}
       }
     } catch (error) {
       alert(
-        `Error saving data: ${
-          error instanceof Error ? error.message : "Unknown error"
+        `Error saving data: ${error instanceof Error ? error.message : "Unknown error"
         }`
       );
     }
@@ -354,8 +341,7 @@ Days Remaining: ${daysLeft}
       setCurrentDay(null);
     } catch (error) {
       alert(
-        `Error updating data: ${
-          error instanceof Error ? error.message : "Unknown error"
+        `Error updating data: ${error instanceof Error ? error.message : "Unknown error"
         }`
       );
     }
@@ -382,8 +368,7 @@ Days Remaining: ${daysLeft}
       saveDaysToStorage(updatedDays);
     } catch (error) {
       alert(
-        `Error deleting: ${
-          error instanceof Error ? error.message : "Unknown error"
+        `Error deleting: ${error instanceof Error ? error.message : "Unknown error"
         }`
       );
     }
@@ -407,8 +392,7 @@ Days Remaining: ${daysLeft}
       setCurrentDay(null);
     } catch (error) {
       alert(
-        `Error resetting: ${
-          error instanceof Error ? error.message : "Unknown error"
+        `Error resetting: ${error instanceof Error ? error.message : "Unknown error"
         }`
       );
     }
@@ -420,9 +404,8 @@ Days Remaining: ${daysLeft}
     const url = URL.createObjectURL(dataBlob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `90day-progress-${
-      new Date().toISOString().split("T")[0]
-    }.json`;
+    link.download = `90day-progress-${new Date().toISOString().split("T")[0]
+      }.json`;
     link.click();
     URL.revokeObjectURL(url);
   };
@@ -454,8 +437,7 @@ Days Remaining: ${daysLeft}
         }
       } catch (error) {
         alert(
-          `❌ Error importing data: ${
-            error instanceof Error ? error.message : "Unknown error"
+          `❌ Error importing data: ${error instanceof Error ? error.message : "Unknown error"
           }`
         );
       }

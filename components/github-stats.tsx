@@ -216,7 +216,6 @@ export function GitHubStats() {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to fetch GitHub data";
       setError(errorMessage);
-      console.error("GitHub API Error:", err);
 
       // Try to use cached data even if expired
       const cachedData = localStorage.getItem("github-stats-cache");
