@@ -125,9 +125,9 @@
     @apply bg-zinc-900/30 border border-zinc-800 rounded-xl p-5 transition-all hover:border-zinc-700 hover:bg-zinc-900/50;
   }
 
-  /* Testimonial Card */
-  .testimonial-card {
-    @apply bg-zinc-900/30 border border-zinc-800 rounded-xl p-5;
+  /* Safe Area Utility */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
   }
 }
 
