@@ -74,6 +74,9 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 export default function RootLayout({
@@ -118,7 +121,7 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <Navigation />
-        <main className="min-h-screen pt-24 pb-16">{children}</main>
+        <main className="min-h-screen pt-24 pb-24 md:pb-16">{children}</main>
       </body>
     </html>
   );

@@ -6,36 +6,36 @@
 
 :root {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  
+
   /* Dark theme - Zinc palette inspired by kamranahmed.info */
   --background: 222 47% 6%;
   --foreground: 210 40% 98%;
-  
+
   --card: 222 47% 8%;
   --card-foreground: 210 40% 98%;
-  
+
   --popover: 222 47% 8%;
   --popover-foreground: 210 40% 98%;
-  
+
   --primary: 210 40% 96%;
   --primary-foreground: 222 47% 6%;
-  
+
   --secondary: 217 33% 12%;
   --secondary-foreground: 210 40% 98%;
-  
+
   --muted: 217 33% 15%;
   --muted-foreground: 215 20% 55%;
-  
+
   --accent: 217 33% 15%;
   --accent-foreground: 210 40% 98%;
-  
+
   --destructive: 0 62.8% 50%;
   --destructive-foreground: 210 40% 98%;
-  
+
   --border: 217 33% 18%;
   --input: 217 33% 18%;
   --ring: 210 40% 80%;
-  
+
   --radius: 0.75rem;
 }
 
@@ -43,9 +43,11 @@
   * {
     @apply border-border;
   }
+
   html {
     scroll-behavior: smooth;
   }
+
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
@@ -53,87 +55,76 @@
 }
 
 @layer components {
+
   /* Container */
   .container-custom {
     @apply max-w-3xl mx-auto px-6;
   }
-  
+
   /* Pill Navigation */
   .nav-pill {
-    @apply inline-flex items-center gap-1 px-6 py-3 rounded-full 
-           bg-zinc-800/80 border border-zinc-700/50 backdrop-blur-sm;
+    @apply inline-flex items-center gap-1 px-6 py-3 rounded-full bg-zinc-800/80 border border-zinc-700/50 backdrop-blur-sm;
   }
-  
+
   .nav-link {
-    @apply px-3 py-1.5 text-sm text-zinc-400 hover:text-white 
-           transition-colors rounded-md flex items-center gap-1.5;
+    @apply px-3 py-1.5 text-sm text-zinc-400 hover:text-white transition-colors rounded-md flex items-center gap-1.5;
   }
-  
+
   .nav-link.active {
     @apply text-white;
   }
-  
+
   /* Simple Cards */
   .card {
-    @apply bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 
-           transition-all hover:border-zinc-700;
+    @apply bg-zinc-900/50 border border-zinc-800 rounded-xl p-6 transition-all hover:border-zinc-700;
   }
-  
+
   /* Buttons */
   .btn-primary {
-    @apply px-4 py-2 bg-zinc-100 text-zinc-900 text-sm font-medium 
-           rounded-lg transition-all hover:bg-white;
+    @apply px-4 py-2 bg-zinc-100 text-zinc-900 text-sm font-medium rounded-lg transition-all hover:bg-white;
   }
-  
+
   .btn-secondary {
-    @apply px-4 py-2 bg-zinc-800 text-zinc-100 text-sm font-medium 
-           rounded-lg border border-zinc-700 transition-all 
-           hover:bg-zinc-700 hover:border-zinc-600;
+    @apply px-4 py-2 bg-zinc-800 text-zinc-100 text-sm font-medium rounded-lg border border-zinc-700 transition-all hover:bg-zinc-700 hover:border-zinc-600;
   }
-  
+
   .btn-ghost {
-    @apply px-3 py-1.5 text-sm text-zinc-400 hover:text-white 
-           hover:bg-zinc-800 rounded-lg transition-all;
+    @apply px-3 py-1.5 text-sm text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-all;
   }
-  
+
   /* Tags */
   .tag {
-    @apply inline-flex px-2.5 py-1 text-xs font-medium text-zinc-400 
-           bg-zinc-800 border border-zinc-700 rounded-md;
+    @apply inline-flex px-2.5 py-1 text-xs font-medium text-zinc-400 bg-zinc-800 border border-zinc-700 rounded-md;
   }
-  
+
   .tag-highlight {
-    @apply inline-flex px-2.5 py-1 text-xs font-medium text-emerald-400 
-           bg-emerald-500/10 border border-emerald-500/20 rounded-md;
+    @apply inline-flex px-2.5 py-1 text-xs font-medium text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-md;
   }
-  
+
   /* Links */
   .link {
-    @apply text-zinc-300 underline underline-offset-4 decoration-zinc-600 
-           hover:text-white hover:decoration-zinc-400 transition-colors;
+    @apply text-zinc-300 underline underline-offset-4 decoration-zinc-600 hover:text-white hover:decoration-zinc-400 transition-colors;
   }
-  
+
   /* Social Icons */
   .social-link {
     @apply p-2 text-zinc-400 hover:text-white transition-colors;
   }
-  
+
   /* Timeline */
   .timeline-item {
     @apply relative pl-6 pb-8 border-l border-zinc-800 last:pb-0;
   }
-  
+
   .timeline-dot {
-    @apply absolute -left-1.5 top-1.5 w-3 h-3 bg-zinc-800 border-2 
-           border-zinc-600 rounded-full;
+    @apply absolute -left-1.5 top-1.5 w-3 h-3 bg-zinc-800 border-2 border-zinc-600 rounded-full;
   }
-  
+
   /* Project Card */
   .project-card {
-    @apply bg-zinc-900/30 border border-zinc-800 rounded-xl p-5 
-           transition-all hover:border-zinc-700 hover:bg-zinc-900/50;
+    @apply bg-zinc-900/30 border border-zinc-800 rounded-xl p-5 transition-all hover:border-zinc-700 hover:bg-zinc-900/50;
   }
-  
+
   /* Testimonial Card */
   .testimonial-card {
     @apply bg-zinc-900/30 border border-zinc-800 rounded-xl p-5;
