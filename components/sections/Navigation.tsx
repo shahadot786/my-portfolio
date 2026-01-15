@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Briefcase, FolderOpen, Code2, Github, Mail, Menu, X } from "lucide-react";
+import { Home, Briefcase, FolderOpen, Code2, Github, Mail } from "lucide-react";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -48,10 +48,14 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-col items-center justify-center gap-1 w-full h-full transition-colors ${isActive ? "text-white" : "text-zinc-500 hover:text-zinc-300"
-                  }`}
+                className={`flex flex-col items-center justify-center gap-1 w-full h-full transition-colors ${
+                  isActive ? "text-white" : "text-zinc-500 hover:text-zinc-300"
+                }`}
               >
-                <item.icon size={20} className={isActive ? "text-white" : "text-zinc-500"} />
+                <item.icon
+                  size={20}
+                  className={isActive ? "text-white" : "text-zinc-500"}
+                />
                 <span className="text-[10px] font-medium uppercase tracking-wider">
                   {item.label}
                 </span>

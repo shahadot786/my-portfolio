@@ -4,7 +4,11 @@ import Link from "next/link";
 // Your data - preserved from original portfolio
 const socialLinks = [
   { icon: Github, href: "https://github.com/shahadot786", label: "GitHub" },
-  { icon: Linkedin, href: "https://www.linkedin.com/in/shahadot786", label: "LinkedIn" },
+  {
+    icon: Linkedin,
+    href: "https://www.linkedin.com/in/shahadot786",
+    label: "LinkedIn",
+  },
   { icon: Twitter, href: "https://twitter.com/shahadot786", label: "Twitter" },
   { icon: Youtube, href: "https://youtube.com/@shahadot786", label: "YouTube" },
   { icon: Mail, href: "mailto:shahadotrahat786@gmail.com", label: "Email" },
@@ -12,13 +16,13 @@ const socialLinks = [
 
 const testimonials = [
   {
-    name: "Enterprise Client",
+    name: "Saif Uddin",
     title: "Project Manager at Unilever",
     content:
       "Shahadot delivered exceptional mobile solutions for our field operations. His offline-first architecture reduced data loss by 92% and improved our territory management efficiency significantly. The app now serves 10,000+ users with 100,000+ daily transactions.",
   },
   {
-    name: "Team Lead",
+    name: "Arifur Rahman Munna",
     title: "Sr. Engineer at HawkEyes",
     content:
       "Working with Shahadot has been a great experience. His expertise in React Native and TypeScript, combined with his deep understanding of enterprise-scale mobile applications, makes him an invaluable team member. He consistently delivers high-quality code.",
@@ -41,9 +45,9 @@ export default function Home() {
         <div className="space-y-4 text-zinc-300 leading-relaxed">
           <p>
             I am a software engineer based in Bangladesh 🇧🇩. I have{" "}
-            <span className="text-white font-medium">4+ years</span> of experience
-            building mobile and web applications for enterprise clients. I have
-            worked with companies like{" "}
+            <span className="text-white font-medium">4+ years</span> of
+            experience building mobile and web applications for enterprise
+            clients. I have worked with companies like{" "}
             <span className="text-white font-medium">Unilever</span>,{" "}
             <span className="text-white font-medium">BAT</span>,{" "}
             <span className="text-white font-medium">Nestlé</span>, and{" "}
@@ -51,21 +55,28 @@ export default function Home() {
           </p>
 
           <p>
-            Over the years, I have worked with a variety of technologies including{" "}
+            Over the years, I have worked with a variety of technologies
+            including{" "}
             <span className="text-white font-medium">
-              React Native, TypeScript, Node.js, Next.js, Redux, MongoDB, PostgreSQL
+              React Native, TypeScript, Node.js, Next.js, Redux, MongoDB,
+              PostgreSQL
             </span>
             , and many others. I specialize in{" "}
-            <span className="text-white font-medium">offline-first architecture</span>,{" "}
-            real-time tracking systems, and building scalable mobile ecosystems.
+            <span className="text-white font-medium">
+              offline-first architecture
+            </span>
+            , real-time tracking systems, and building scalable mobile
+            ecosystems.
           </p>
 
           <p>
             I am a{" "}
-            <span className="text-white font-medium">Full-stack developer at heart</span>{" "}
-            with expertise in all parts of the stack including the frontend, backend,
-            databases, and cloud. Taking rough problem statements and turning them into
-            polished products is my specialty.
+            <span className="text-white font-medium">
+              Full-stack developer at heart
+            </span>{" "}
+            with expertise in all parts of the stack including the frontend,
+            backend, databases, and cloud. Taking rough problem statements and
+            turning them into polished products is my specialty.
           </p>
 
           <p>
@@ -76,7 +87,10 @@ export default function Home() {
             where I architect and develop enterprise mobile applications serving
             Fortune 500 companies. My work has impacted{" "}
             <span className="text-white font-medium">10,000+ users</span> with{" "}
-            <span className="text-white font-medium">100,000+ daily transactions</span>.
+            <span className="text-white font-medium">
+              100,000+ daily transactions
+            </span>
+            .
           </p>
         </div>
 
