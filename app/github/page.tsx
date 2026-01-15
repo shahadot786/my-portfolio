@@ -1,152 +1,239 @@
-import { ExternalLink, Star, GitFork, Users, Book } from "lucide-react";
+"use client";
 
-const githubStats = {
-    username: "shahadot786",
-    profileUrl: "https://github.com/shahadot786",
-    repos: 50,
-    followers: 100,
-    following: 50,
-};
+import { useEffect, useState } from "react";
+import { ExternalLink, Star, GitFork, Users, Book, Loader, Activity, Code2, Globe } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
 
-const featuredRepos = [
-    {
-        name: "threads-clone",
-        description: "Full-featured social threads application with GraphQL, Next.js, and PostgreSQL",
-        stars: 12,
-        forks: 5,
-        language: "TypeScript",
-        url: "https://github.com/shahadot786/threads-clone",
-    },
-    {
-        name: "fullstack-master-repo",
-        description: "Production-ready monorepo with Backend, Web (Next.js), and Mobile (React Native)",
-        stars: 8,
-        forks: 3,
-        language: "TypeScript",
-        url: "https://github.com/shahadot786/fullstack-master-repo",
-    },
-    {
-        name: "auth-master-node",
-        description: "Production-ready authentication backend with JWT, RBAC, and OTP verification",
-        stars: 6,
-        forks: 2,
-        language: "TypeScript",
-        url: "https://github.com/shahadot786/auth-master-node",
-    },
-    {
-        name: "ai-web-analyzer",
-        description: "Playwright-based web scraper with AI content analysis and SEO insights",
-        stars: 5,
-        forks: 1,
-        language: "JavaScript",
-        url: "https://github.com/shahadot786/ai-web-analyzer",
-    },
-    {
-        name: "react-movie-app",
-        description: "React 19 movie search app with Vite, TMDB API, and Appwrite backend",
-        stars: 4,
-        forks: 2,
-        language: "TypeScript",
-        url: "https://github.com/shahadot786/react-movie-app",
-    },
-    {
-        name: "barc-lms-react-native",
-        description: "Offline-first Learning Management System with quiz module and progress tracking",
-        stars: 3,
-        forks: 1,
-        language: "TypeScript",
-        url: "https://github.com/shahadot786/barc-lms-react-native",
-    },
-];
+interface GitHubData {
+    profile: {
+        username: string;
+        avatarUrl: string;
+        bio: string;
+        publicRepos: number;
+        followers: number;
+        following: number;
+        profileUrl: string;
+        totalStars: number;
+    };
+    priorityRepos: {
+        name: string;
+        description: string;
+        stars: number;
+        forks: number;
+        language: string;
+        url: string;
+        updatedAt: string;
+    }[];
+    languageProfile: {
+        name: string;
+        percentage: number;
+    }[];
+    activity: {
+        id: string;
+        type: string;
+        description: string;
+        repo: string;
+        date: string;
+    }[];
+    reposCount: number;
+}
 
 const languageColors: Record<string, string> = {
     TypeScript: "bg-blue-500",
     JavaScript: "bg-yellow-500",
     Java: "bg-orange-500",
-};
-
-export const metadata = {
-    title: "GitHub - MD. Shahadot Hossain",
-    description: "GitHub profile and open source contributions of MD. Shahadot Hossain",
+    HTML: "bg-red-500",
+    CSS: "bg-purple-500",
+    Python: "bg-green-500",
+    Shell: "bg-zinc-400",
 };
 
 export default function GitHubPage() {
+    const [data, setData] = useState<GitHubData | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const res = await fetch("/api/github");
+                const json = await res.json();
+                if (!res.ok) {
+                    throw new Error(json.details || json.error || "Failed to fetch GitHub data");
+                }
+                setData(json);
+            } catch (err) {
+                setError(err instanceof Error ? err.message : "An error occurred");
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchData();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="container-custom flex flex-col items-center justify-center min-h-[60vh]">
+                <Loader className="animate-spin text-zinc-500 mb-4" size={32} />
+                <p className="text-zinc-500">Fetching real-time data from GitHub...</p>
+            </div>
+        );
+    }
+
+    if (error || !data) {
+        return (
+            <div className="container-custom text-center py-20">
+                <p className="text-red-400 mb-4">{error || "Failed to load GitHub data"}</p>
+                <button onClick={() => window.location.reload()} className="btn-secondary">
+                    Try Again
+                </button>
+            </div>
+        );
+    }
+
     return (
         <div className="container-custom">
             <h1 className="text-3xl font-bold text-white mb-4">GitHub</h1>
             <p className="text-zinc-400 mb-8 leading-relaxed">
-                I am an active open source contributor. Here is an overview of my GitHub
-                activity and some of my featured repositories.
+                Open source contributor and software architect. Here is a live breakdown of my technical
+                ecosystem and recent activity.
             </p>
 
-            {/* GitHub Profile Card */}
+            {/* Profile Overview Card */}
             <div className="card mb-8">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div className="flex items-center gap-4">
-                        <div className="w-16 h-16 rounded-full bg-zinc-700 flex items-center justify-center text-2xl font-bold text-white">
-                            S
-                        </div>
+                        <img
+                            src={data.profile.avatarUrl}
+                            alt={data.profile.username}
+                            className="w-20 h-20 rounded-full border border-zinc-700 p-0.5"
+                        />
                         <div>
-                            <h2 className="text-xl font-semibold text-white">@{githubStats.username}</h2>
-                            <p className="text-zinc-500 text-sm">Software Engineer</p>
+                            <h2 className="text-xl font-semibold text-white">@{data.profile.username}</h2>
+                            <p className="text-zinc-500 text-sm max-w-sm line-clamp-2">
+                                {data.profile.bio || "Full-stack Developer & Mobile Architect"}
+                            </p>
                         </div>
                     </div>
                     <a
-                        href={githubStats.profileUrl}
+                        href={data.profile.profileUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="btn-primary flex items-center gap-2 w-fit"
+                        className="btn-primary flex items-center gap-2 w-fit px-6 h-10"
                     >
                         View Profile
                         <ExternalLink size={16} />
                     </a>
                 </div>
 
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t border-zinc-800">
-                    <div className="text-center">
-                        <div className="flex items-center justify-center gap-1 text-zinc-400 mb-1">
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-8 pt-8 border-t border-zinc-800">
+                    <div className="text-center sm:text-left">
+                        <div className="flex items-center justify-center sm:justify-start gap-1.5 text-zinc-500 mb-1">
                             <Book size={14} />
+                            <span className="text-xs uppercase tracking-wider">Repos</span>
                         </div>
-                        <p className="text-2xl font-bold text-white">{githubStats.repos}+</p>
-                        <p className="text-zinc-500 text-xs">Repositories</p>
+                        <p className="text-2xl font-bold text-white">{data.profile.publicRepos}</p>
                     </div>
-                    <div className="text-center">
-                        <div className="flex items-center justify-center gap-1 text-zinc-400 mb-1">
-                            <Users size={14} />
-                        </div>
-                        <p className="text-2xl font-bold text-white">{githubStats.followers}+</p>
-                        <p className="text-zinc-500 text-xs">Followers</p>
-                    </div>
-                    <div className="text-center">
-                        <div className="flex items-center justify-center gap-1 text-zinc-400 mb-1">
+                    <div className="text-center sm:text-left">
+                        <div className="flex items-center justify-center sm:justify-start gap-1.5 text-zinc-500 mb-1">
                             <Star size={14} />
+                            <span className="text-xs uppercase tracking-wider">Stars</span>
                         </div>
-                        <p className="text-2xl font-bold text-white">50+</p>
-                        <p className="text-zinc-500 text-xs">Total Stars</p>
+                        <p className="text-2xl font-bold text-white">{data.profile.totalStars}</p>
+                    </div>
+                    <div className="text-center sm:text-left">
+                        <div className="flex items-center justify-center sm:justify-start gap-1.5 text-zinc-500 mb-1">
+                            <Users size={14} />
+                            <span className="text-xs uppercase tracking-wider">Followers</span>
+                        </div>
+                        <p className="text-2xl font-bold text-white">{data.profile.followers}</p>
+                    </div>
+                    <div className="text-center sm:text-left">
+                        <div className="flex items-center justify-center sm:justify-start gap-1.5 text-zinc-500 mb-1">
+                            <Activity size={14} />
+                            <span className="text-xs uppercase tracking-wider">Following</span>
+                        </div>
+                        <p className="text-2xl font-bold text-white">{data.profile.following}</p>
                     </div>
                 </div>
             </div>
 
-            {/* Featured Repositories */}
-            <h2 className="text-xl font-bold text-white mb-6">Featured Repositories</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {featuredRepos.map((repo) => (
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                {/* Language Profile */}
+                <div className="lg:col-span-1">
+                    <div className="flex items-center gap-2 mb-6">
+                        <Code2 size={20} className="text-zinc-400" />
+                        <h2 className="text-lg font-bold text-white">Language Profile</h2>
+                    </div>
+                    <div className="space-y-4">
+                        {data.languageProfile.map((lang) => (
+                            <div key={lang.name}>
+                                <div className="flex justify-between text-xs mb-1.5">
+                                    <span className="text-white font-medium">{lang.name}</span>
+                                    <span className="text-zinc-500">{lang.percentage}%</span>
+                                </div>
+                                <div className="h-1.5 w-full bg-zinc-800 rounded-full overflow-hidden">
+                                    <div
+                                        className={`h-full ${languageColors[lang.name] || "bg-zinc-600"} transition-all duration-1000`}
+                                        style={{ width: `${lang.percentage}%` }}
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Network Activity */}
+                <div className="lg:col-span-2">
+                    <div className="flex items-center gap-2 mb-6">
+                        <Globe size={20} className="text-zinc-400" />
+                        <h2 className="text-lg font-bold text-white">Network Activity</h2>
+                    </div>
+                    <div className="space-y-4 max-h-[280px] overflow-y-auto pr-2 custom-scrollbar">
+                        {data.activity.map((event) => (
+                            <div key={event.id} className="flex gap-4 items-start p-3 rounded-lg bg-zinc-900/40 border border-zinc-800/60">
+                                <div className="mt-1 p-1.5 rounded-full bg-zinc-800 text-zinc-400 flex-shrink-0">
+                                    <Activity size={12} />
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm text-zinc-300 line-clamp-1">{event.description}</p>
+                                    <p className="text-[10px] text-zinc-500 mt-1 uppercase tracking-wider">
+                                        {formatDistanceToNow(new Date(event.date), { addSuffix: true })}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            {/* Priority Repositories */}
+            <h2 className="text-xl font-bold text-white mb-6">Priority Repositories</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
+                {data.priorityRepos.map((repo) => (
                     <a
                         key={repo.name}
                         href={repo.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="card hover:border-zinc-600 group"
+                        className="card group hover:border-zinc-700 transition-all duration-300"
                     >
-                        <h3 className="text-white font-medium mb-2 group-hover:text-zinc-100">
-                            {repo.name}
-                        </h3>
-                        <p className="text-zinc-500 text-sm mb-4 line-clamp-2">{repo.description}</p>
-                        <div className="flex items-center gap-4 text-zinc-500 text-xs">
-                            <span className="flex items-center gap-1">
-                                <span className={`w-2 h-2 rounded-full ${languageColors[repo.language] || "bg-zinc-500"}`} />
-                                {repo.language}
+                        <div className="flex justify-between items-start mb-3">
+                            <h3 className="text-white font-semibold group-hover:text-zinc-100 italic">
+                                {repo.name}
+                            </h3>
+                            <ExternalLink size={14} className="text-zinc-700 group-hover:text-zinc-400 transition-colors" />
+                        </div>
+                        <p className="text-zinc-500 text-sm mb-6 line-clamp-2 leading-relaxed">
+                            {repo.description || "Experimental or private project details suppressed."}
+                        </p>
+                        <div className="flex items-center gap-4 text-zinc-500 text-[10px] uppercase tracking-widest font-medium">
+                            <span className="flex items-center gap-1.5">
+                                <span
+                                    className={`w-1.5 h-1.5 rounded-full ${languageColors[repo.language] || "bg-zinc-600"}`}
+                                />
+                                {repo.language || "Unknown"}
                             </span>
                             <span className="flex items-center gap-1">
                                 <Star size={12} />
@@ -161,15 +248,16 @@ export default function GitHubPage() {
                 ))}
             </div>
 
-            {/* View All Link */}
-            <div className="mt-8 text-center">
+            {/* View All Redirect */}
+            <div className="mt-16 text-center border-t border-zinc-800 pt-8">
                 <a
-                    href={githubStats.profileUrl}
+                    href={data.profile.profileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-zinc-400 hover:text-white transition-colors text-sm"
+                    className="inline-flex items-center gap-2 text-zinc-500 hover:text-white transition-all text-sm group"
                 >
-                    View all repositories on GitHub →
+                    Explore all {data.reposCount} public repositories on GitHub
+                    <ExternalLink size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>
             </div>
         </div>
