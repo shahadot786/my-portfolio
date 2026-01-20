@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "dark";
+type Theme = "light" | "dark";
 type ThemeColor =
   | "black"
   | "gray"
@@ -39,124 +39,124 @@ const themeColors: Record<
   { primary: string; primaryHover: string; accent: string; gradient: string }
 > = {
   black: {
-    primary: "rgb(17 24 39)", // gray-900
-    primaryHover: "rgb(31 41 55)",
-    accent: "rgb(75 85 99)",
+    primary: "222.2 47.4% 11.2%",
+    primaryHover: "222.2 47.4% 11.2%",
+    accent: "215.4 16.3% 46.9%",
     gradient: "from-gray-900 to-gray-800",
   },
   gray: {
-    primary: "rgb(107 114 128)", // gray-500
-    primaryHover: "rgb(75 85 99)",
-    accent: "rgb(209 213 219)",
+    primary: "215.4 16.3% 46.9%",
+    primaryHover: "215.4 16.3% 36.9%",
+    accent: "215.4 16.3% 56.9%",
     gradient: "from-gray-500 to-gray-600",
   },
   slate: {
-    primary: "rgb(71 85 105)", // slate-600
-    primaryHover: "rgb(51 65 85)",
-    accent: "rgb(148 163 184)",
+    primary: "215.4 25% 27%",
+    primaryHover: "215.4 25% 17%",
+    accent: "215.4 25% 37%",
     gradient: "from-slate-600 to-slate-700",
   },
   navy: {
-    primary: "rgb(30 58 138)", // blue-900
-    primaryHover: "rgb(23 37 84)",
-    accent: "rgb(96 165 250)",
+    primary: "224.3 76.3% 33.1%",
+    primaryHover: "224.3 76.3% 23.1%",
+    accent: "213.1 93.9% 67.8%",
     gradient: "from-blue-900 to-blue-800",
   },
   blue: {
-    primary: "rgb(59 130 246)", // blue-500
-    primaryHover: "rgb(37 99 235)",
-    accent: "rgb(147 197 253)",
+    primary: "221.2 83.2% 53.3%",
+    primaryHover: "221.2 83.2% 43.3%",
+    accent: "213.1 91.1% 72.4%",
     gradient: "from-blue-500 to-blue-600",
   },
   cyan: {
-    primary: "rgb(6 182 212)", // cyan-500
-    primaryHover: "rgb(8 145 178)",
-    accent: "rgb(165 243 252)",
+    primary: "188.7 94.5% 42.7%",
+    primaryHover: "188.7 94.5% 32.7%",
+    accent: "187.9 92.4% 81.6%",
     gradient: "from-cyan-500 to-cyan-600",
   },
   teal: {
-    primary: "rgb(20 184 166)", // teal-500
-    primaryHover: "rgb(13 148 136)",
-    accent: "rgb(153 246 228)",
+    primary: "173.4 80.4% 40%",
+    primaryHover: "173.4 80.4% 30%",
+    accent: "170.6 76.9% 78.4%",
     gradient: "from-teal-500 to-teal-600",
   },
   green: {
-    primary: "rgb(34 197 94)", // green-500
-    primaryHover: "rgb(22 163 74)",
-    accent: "rgb(134 239 172)",
-    gradient: "from-green-500 to-green-600",
+    primary: "161 66% 39%", // Soft Green (#10b981)
+    primaryHover: "161 66% 29%",
+    accent: "158.1 64.4% 71.6%",
+    gradient: "from-emerald-500 to-teal-500",
   },
   olive: {
-    primary: "rgb(101 163 13)", // lime-600
-    primaryHover: "rgb(77 124 15)",
-    accent: "rgb(190 242 100)",
+    primary: "84.4 81.1% 43.9%",
+    primaryHover: "84.4 81.1% 33.9%",
+    accent: "82.7 77.9% 72.5%",
     gradient: "from-lime-600 to-lime-700",
   },
   red: {
-    primary: "rgb(239 68 68)", // red-500
-    primaryHover: "rgb(220 38 38)",
-    accent: "rgb(252 165 165)",
+    primary: "0 72.2% 50.6%",
+    primaryHover: "0 72.2% 40.6%",
+    accent: "0 84.1% 81.8%",
     gradient: "from-red-500 to-red-600",
   },
   maroon: {
-    primary: "rgb(127 29 29)", // red-900
-    primaryHover: "rgb(91 20 20)",
-    accent: "rgb(248 113 113)",
+    primary: "0 71.1% 25.1%",
+    primaryHover: "0 71.1% 15.1%",
+    accent: "0 84.1% 61.8%",
     gradient: "from-red-900 to-red-800",
   },
   orange: {
-    primary: "rgb(249 115 22)", // orange-500
-    primaryHover: "rgb(234 88 12)",
-    accent: "rgb(253 186 116)",
+    primary: "24.6 95% 53.1%",
+    primaryHover: "24.6 95% 43.1%",
+    accent: "32.1 94.6% 72.4%",
     gradient: "from-orange-500 to-orange-600",
   },
   amber: {
-    primary: "rgb(245 158 11)", // amber-500
-    primaryHover: "rgb(217 119 6)",
-    accent: "rgb(253 230 138)",
+    primary: "37.7 92.1% 50.2%",
+    primaryHover: "37.7 92.1% 40.2%",
+    accent: "47.9 91.8% 76.5%",
     gradient: "from-amber-500 to-amber-600",
   },
   yellow: {
-    primary: "rgb(234 179 8)", // yellow-500
-    primaryHover: "rgb(202 138 4)",
-    accent: "rgb(254 240 138)",
+    primary: "45.4 93.3% 47.5%",
+    primaryHover: "45.4 93.3% 37.5%",
+    accent: "54.4 91.8% 76.9%",
     gradient: "from-yellow-500 to-yellow-600",
   },
   gold: {
-    primary: "rgb(202 138 4)", // yellow-600
-    primaryHover: "rgb(161 98 7)",
-    accent: "rgb(253 224 71)",
+    primary: "40.5 95.7% 40.4%",
+    primaryHover: "40.5 95.7% 30.4%",
+    accent: "50.4 92.5% 63.9%",
     gradient: "from-yellow-600 to-yellow-700",
   },
   purple: {
-    primary: "rgb(147 51 234)", // purple-500
-    primaryHover: "rgb(126 34 206)",
-    accent: "rgb(196 181 253)",
+    primary: "271.5 81.3% 55.9%",
+    primaryHover: "271.5 81.3% 45.9%",
+    accent: "258 89.5% 78.4%",
     gradient: "from-purple-500 to-purple-600",
   },
   indigo: {
-    primary: "rgb(99 102 241)", // indigo-500
-    primaryHover: "rgb(79 70 229)",
-    accent: "rgb(165 180 252)",
+    primary: "238.7 82.8% 66.7%",
+    primaryHover: "238.7 82.8% 56.7%",
+    accent: "232.7 87% 73.9%",
     gradient: "from-indigo-500 to-indigo-600",
   },
   pink: {
-    primary: "rgb(236 72 153)", // pink-500
-    primaryHover: "rgb(219 39 119)",
-    accent: "rgb(251 182 206)",
+    primary: "330.4 81.2% 60.4%",
+    primaryHover: "330.4 81.2% 50.4%",
+    accent: "336.5 78% 77.8%",
     gradient: "from-pink-500 to-pink-600",
   },
   silver: {
-    primary: "rgb(156 163 175)", // gray-400
-    primaryHover: "rgb(107 114 128)",
-    accent: "rgb(209 213 219)",
+    primary: "217.5 19.1% 61.2%",
+    primaryHover: "217.5 19.1% 51.2%",
+    accent: "214.3 31.8% 91.4%",
     gradient: "from-gray-400 to-gray-500",
   },
 };
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<Theme>("dark");
-  const [themeColor, setThemeColor] = useState<ThemeColor>("blue");
+  const [themeColor, setThemeColor] = useState<ThemeColor>("green");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -164,13 +164,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const savedThemeColor = localStorage.getItem("themeColor") as ThemeColor;
     if (savedTheme) {
       setTheme(savedTheme);
-    } else {
-      setTheme("dark");
     }
     if (savedThemeColor && themeColors[savedThemeColor]) {
       setThemeColor(savedThemeColor);
-    } else {
-      setThemeColor("blue");
     }
     setMounted(true);
   }, []);
@@ -179,29 +175,19 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (mounted) {
       localStorage.setItem("theme", theme);
       localStorage.setItem("themeColor", themeColor);
-      document.documentElement.className = "";
-      document.documentElement.classList.add(`theme-${theme}`);
 
-      document.documentElement.classList.add("dark");
+      const root = document.documentElement;
+      root.classList.remove("light", "dark");
+      root.classList.add(theme);
 
       const colors = themeColors[themeColor];
-      document.documentElement.style.setProperty(
-        "--color-primary",
-        colors.primary
-      );
-      document.documentElement.style.setProperty(
-        "--color-primary-hover",
-        colors.primaryHover
-      );
-      document.documentElement.style.setProperty(
-        "--color-accent",
-        colors.accent
-      );
+      root.style.setProperty("--primary", colors.primary);
+      root.style.setProperty("--ring", colors.primary);
     }
   }, [theme, themeColor, mounted]);
 
   const toggleTheme = () => {
-    setTheme("dark"); // only dark available
+    setTheme(prev => prev === "light" ? "dark" : "light");
   };
 
   return (
