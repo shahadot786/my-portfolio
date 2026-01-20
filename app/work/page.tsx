@@ -1,4 +1,5 @@
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Award, ShieldCheck, Bookmark } from "lucide-react";
+import Image from "next/image";
 
 interface Experience {
   company: string;
@@ -101,14 +102,49 @@ export const metadata = {
     "GSDA Frontend Developer Experience",
     "Enterprise Mobile App Development Bangladesh",
     "React Native Developer Resume",
-    "Unilever Software Vendor Bangladesh",
-    "BAT Mobile App Development",
+    "DSA Certification Codedamn",
+    "HackerRank JavaScript Basic Certificate",
+    "MSB Academy Mobile App Marketing",
+    "Data Structures and Algorithms Portfolio",
     "Professional Software Engineer Career",
   ],
   alternates: {
     canonical: "https://shahadot-hossain.vercel.app/work/",
   },
 };
+
+// Certifications Data
+const verifiedCertificates = [
+  {
+    name: "Introduction to Data Structures and Algorithms",
+    issuer: "Codedamn",
+    date: "Jan 2026",
+    image: "/certificates/dsa-codedamn.png",
+    href: "https://codedamn.com/certificate/verify/cd937afc8303a2bc4d9730283be5405c02d8007c",
+  },
+  {
+    name: "JavaScript (Basic)",
+    issuer: "HackerRank",
+    date: "May 2023",
+    image: "/certificates/hackerrank-js.png",
+    href: "https://www.hackerrank.com/certificates/3f3d0b6af6bb",
+  },
+  {
+    name: "Advanced Mobile App Marketing",
+    issuer: "MSB Academy",
+    date: "Nov 2020",
+    image: "/certificates/msb-academy.png",
+    href: "https://www.msbacademy.com/certificates/8fb75f39b5d2351e56802bea243fdec5/",
+  },
+];
+
+const trainingCertificates = [
+  "React Native Specialized Development",
+  "Advanced Mobile App Architecture",
+  "Web Design & Interface Engineering",
+  "Enterprise System Security & Auth",
+  "JavaScript (Intermediate) - HackerRank",
+];
 
 export default function WorkPage() {
   return (
@@ -121,7 +157,7 @@ export default function WorkPage() {
       </p>
 
       {/* Experience Timeline */}
-      <div className="space-y-12 mb-6">
+      <div className="space-y-12 mb-16">
         {experiences.map((exp, index) => (
           <div
             key={index}
@@ -176,10 +212,12 @@ export default function WorkPage() {
       </div>
 
       {/* Education Section */}
-      <div className="border-t border-zinc-800 pt-6">
-        <h2 className="text-2xl font-bold text-white mb-8">Education</h2>
+      <div className="border-t border-zinc-800 pt-12 mb-16">
+        <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
+          Education
+        </h2>
 
-        <div className="border-b border-zinc-800 pb-12">
+        <div className="">
           <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
             <div>
               <p className="text-zinc-500 text-sm">{education.location}</p>
@@ -207,18 +245,67 @@ export default function WorkPage() {
         </div>
       </div>
 
-      {/* Certifications */}
-      <div className=" pt-4 mt-4">
-        <h2 className="text-2xl font-bold text-white mb-6">Certifications</h2>
+      {/* Verified Certifications */}
+      <div className="border-t border-zinc-800 pt-12 mb-12">
+        <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
+          Verified Credentials
+          <span className="px-2 py-0.5 rounded text-[10px] bg-primary/10 text-primary border border-primary/20 uppercase tracking-widest">
+            Live Links
+          </span>
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {verifiedCertificates.map((cert) => (
+            <a
+              key={cert.name}
+              href={cert.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group rounded-xl border border-zinc-800 bg-zinc-900/30 hover:bg-zinc-900/50 hover:border-primary/50 transition-all overflow-hidden flex flex-col"
+            >
+              {/* Certificate Image */}
+              <div className="relative aspect-[16/10] overflow-hidden bg-zinc-800">
+                <Image
+                  src={cert.image}
+                  alt={cert.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-transparent to-transparent opacity-60 group-hover:opacity-40 transition-opacity" />
+                <div className="absolute top-3 right-3 p-2 rounded-full bg-zinc-950/50 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity">
+                  <ExternalLink size={14} className="text-white" />
+                </div>
+              </div>
+
+              <div className="p-4 flex flex-col flex-1">
+                <div className="flex items-start justify-between gap-2 mb-2">
+                  <h3 className="text-white font-medium text-sm line-clamp-2 group-hover:text-primary transition-colors leading-snug">
+                    {cert.name}
+                  </h3>
+                </div>
+                <div className="mt-auto flex items-center justify-between">
+                  <p className="text-zinc-500 text-xs">
+                    {cert.issuer} • {cert.date}
+                  </p>
+                  <ShieldCheck size={14} className="text-emerald-500" />
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Professional Training Section */}
+      <div className="border-t border-zinc-800 pt-12">
+        <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
+          Professional development
+        </h2>
         <div className="flex flex-wrap gap-2">
-          {[
-            "JavaScript (Intermediate) - HackerRank",
-            "React Native Specialized Development",
-            "Advanced Mobile App Architecture",
-            "Web Design & Interface Engineering",
-            "Enterprise System Security & Auth",
-          ].map((cert) => (
-            <span key={cert} className="tag">
+          {trainingCertificates.map((cert) => (
+            <span
+              key={cert}
+              className="tag py-2 px-3 text-sm border-zinc-800 hover:border-primary/50 hover:text-white transition-all cursor-default flex items-center gap-2"
+            >
+              <Bookmark size={12} className="text-zinc-600" />
               {cert}
             </span>
           ))}
@@ -227,3 +314,6 @@ export default function WorkPage() {
     </div>
   );
 }
+
+
+

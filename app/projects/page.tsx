@@ -381,10 +381,11 @@ export default function ProjectsPage() {
             href="https://github.com/shahadot786"
             target="_blank"
             rel="noopener noreferrer"
-            className="link text-green-500"
+            className="link text-primary font-medium"
           >
             GitHub profile
           </a>
+
           .
         </p>
 
@@ -396,7 +397,7 @@ export default function ProjectsPage() {
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-between p-4 rounded-lg border border-zinc-800 
-                         hover:border-zinc-700 hover:bg-zinc-900/30 transition-all group"
+                         hover:border-primary/50 hover:bg-zinc-900/30 transition-all group"
             >
               <div className="flex items-center gap-3">
                 <span className="text-white font-medium group-hover:text-zinc-100">

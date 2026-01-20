@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Github, Linkedin, Send, Loader, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Youtube, Send, Loader, CheckCircle, AlertCircle } from "lucide-react";
 
 const contactInfo = [
     {
@@ -27,6 +27,8 @@ const contactInfo = [
 const socialLinks = [
     { icon: Github, href: "https://github.com/shahadot786", label: "GitHub" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/shahadot786", label: "LinkedIn" },
+    { icon: Twitter, href: "https://twitter.com/shahadot786", label: "Twitter" },
+    { icon: Youtube, href: "https://youtube.com/@shahadot786", label: "YouTube" },
 ];
 
 export default function ContactClient() {
@@ -78,9 +80,9 @@ export default function ContactClient() {
                         <a
                             key={info.label}
                             href={info.href}
-                            className="card flex items-center gap-4 hover:border-zinc-600"
+                            className="card flex items-center gap-4 border-zinc-800 hover:border-primary/50"
                         >
-                            <div className="p-3 rounded-lg bg-zinc-800 text-zinc-400">
+                            <div className="p-3 rounded-lg bg-zinc-800 text-zinc-400 group-hover:text-primary transition-colors">
                                 <info.icon size={20} />
                             </div>
                             <div>
@@ -102,7 +104,7 @@ export default function ContactClient() {
                             href={social.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="p-3 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors"
+                            className="p-3 rounded-lg bg-zinc-800 text-zinc-400 hover:text-primary hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all"
                             aria-label={social.label}
                         >
                             <social.icon size={20} />
@@ -127,7 +129,7 @@ export default function ContactClient() {
                                 required
                                 value={formData.name}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
+                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
                                 placeholder="Your name"
                             />
                         </div>
@@ -142,7 +144,7 @@ export default function ContactClient() {
                                 required
                                 value={formData.email}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
+                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
                                 placeholder="your@email.com"
                             />
                         </div>
@@ -175,7 +177,7 @@ export default function ContactClient() {
                             value={formData.message}
                             onChange={handleChange}
                             rows={5}
-                            className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors resize-none"
+                            className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all resize-none"
                             placeholder="Your message..."
                         />
                     </div>
