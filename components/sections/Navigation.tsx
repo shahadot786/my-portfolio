@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Briefcase, FolderOpen, Code2, Github, Mail } from "lucide-react";
+import { Home, Briefcase, FolderOpen, Code2, Newspaper, Mail } from "lucide-react";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -14,7 +14,7 @@ export function Navigation() {
     { href: "/work", label: "Work", icon: Briefcase },
     { href: "/projects", label: "Projects", icon: FolderOpen },
     { href: "/skills", label: "Skills", icon: Code2 },
-    { href: "/github", label: "GitHub", icon: Github },
+    { href: "/posts", label: "Posts", icon: Newspaper },
     { href: "/contact", label: "Contact", icon: Mail },
   ];
 
@@ -48,9 +48,8 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex flex-col items-center justify-center gap-1 w-full h-full transition-colors ${
-                  isActive ? "text-white" : "text-zinc-500 hover:text-zinc-300"
-                }`}
+                className={`flex flex-col items-center justify-center gap-1 w-full h-full transition-colors ${isActive ? "text-white" : "text-zinc-500 hover:text-zinc-300"
+                  }`}
               >
                 <item.icon
                   size={20}
