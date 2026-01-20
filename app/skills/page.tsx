@@ -121,7 +121,7 @@ export default function SkillsPage() {
             </div>
             <div className="flex flex-wrap gap-2">
               {category.skills.map((skill) => (
-                <span key={skill} className="tag">
+                <span key={skill} className="tag hover:border-primary/50 hover:text-white transition-all cursor-default">
                   {skill}
                 </span>
               ))}
@@ -135,10 +135,10 @@ export default function SkillsPage() {
         <div className="card bg-zinc-900/50">
           <h3 className="text-lg font-semibold text-white mb-3">Summary</h3>
           <p className="text-zinc-400 text-sm leading-relaxed">
-            With <span className="text-green-300 font-medium">4+ years</span> of
+            With <span className="text-primary font-medium">4+ years</span> of
             experience, I specialize in{" "}
-            <span className="text-green-300 font-medium">React Native</span> and{" "}
-            <span className="text-green-300 font-medium">TypeScript</span> for
+            <span className="text-primary font-medium">React Native</span> and{" "}
+            <span className="text-primary font-medium">TypeScript</span> for
             building enterprise-grade mobile applications. My expertise includes
             offline-first architecture, real-time systems, and integrating
             advanced features like biometric verification and GPS tracking.

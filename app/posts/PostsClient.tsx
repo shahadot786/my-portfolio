@@ -153,7 +153,7 @@ export default function PostsClient() {
             )}
 
             {/* Title */}
-            <h3 className="text-white font-medium text-sm md:text-base line-clamp-2 group-hover:text-emerald-400 transition-colors mb-2">
+            <h3 className="text-white font-medium text-sm md:text-base line-clamp-2 group-hover:text-primary transition-colors mb-2">
               {post.title}
             </h3>
 
@@ -172,7 +172,7 @@ export default function PostsClient() {
                 <Clock size={12} />
                 {estimateReadTime(post.description)} min read
               </span>
-              <ExternalLink size={12} className="ml-auto text-zinc-600 group-hover:text-emerald-400 transition-colors" />
+              <ExternalLink size={12} className="ml-auto text-zinc-600 group-hover:text-primary transition-colors" />
             </div>
 
           </div>
