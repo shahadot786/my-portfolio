@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Github, Linkedin, Send, Loader, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Youtube, Send, Loader, CheckCircle, AlertCircle } from "lucide-react";
 
 const contactInfo = [
     {
@@ -27,6 +27,8 @@ const contactInfo = [
 const socialLinks = [
     { icon: Github, href: "https://github.com/shahadot786", label: "GitHub" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/shahadot786", label: "LinkedIn" },
+    { icon: Twitter, href: "https://twitter.com/shahadot786", label: "Twitter" },
+    { icon: Youtube, href: "https://youtube.com/@shahadot786", label: "YouTube" },
 ];
 
 export default function ContactClient() {

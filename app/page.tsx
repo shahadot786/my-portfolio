@@ -1,8 +1,16 @@
 import { Github, Linkedin, Twitter, Youtube, Mail } from "lucide-react";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "MD. Shahadot Hossain - Software Engineer",
+  description:
+    "Software Engineer specializing in React Native and Enterprise Mobile Solutions with 4+ years of experience.",
+};
 
 // Your data - preserved from original portfolio
 const socialLinks = [
+
   { icon: Github, href: "https://github.com/shahadot786", label: "GitHub" },
   {
     icon: Linkedin,
