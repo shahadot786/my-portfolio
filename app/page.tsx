@@ -26,24 +26,28 @@ const testimonials = [
   {
     name: "Saif Uddin",
     title: "Project Manager at Unilever",
+    image: null,
     content:
       "Shahadot delivered exceptional mobile solutions for our field operations. His offline-first architecture reduced data loss by 92% and improved our territory management efficiency significantly. The app now serves 10,000+ users with 100,000+ daily transactions.",
   },
   {
     name: "Mohammad Assaduzzaman",
     title: "Sr. Manager at HawkEyes Digital Monitoring Ltd",
+    image: "/testimonials/assaduzzaman.jpg",
     content:
       "Working with Shahadot has been a great experience. His expertise in React Native and TypeScript, combined with his deep understanding of enterprise-scale mobile applications, makes him an invaluable team member. He consistently delivers high-quality code.",
   },
   {
     name: "Sarwar Jahan Shohan",
     title: "Software Engineer at BRAC-Aarong",
+    image: "/testimonials/shohan.jpg",
     content:
       "Shahadot is a highly skilled developer who brings both technical depth and creative problem-solving to every project. His ability to architect scalable solutions and his dedication to clean code have been instrumental in our successful collaborations.",
   },
   {
     name: "Faiazur Rahman",
     title: "Software engineer at bKash",
+    image: "/testimonials/faiazur.jpg",
     content:
       "I've seen Shahadot tackle complex technical challenges with ease. His proficiency in modern web and mobile technologies, coupled with a strong work ethic, makes him a standout engineer. He's always eager to share knowledge and help the team grow.",
   },
@@ -138,9 +142,19 @@ export default function Home() {
           {testimonials.map((testimonial, index) => (
             <div key={index} className="testimonial-card">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-zinc-700 flex items-center justify-center text-white font-medium">
-                  {testimonial.name[0]}
-                </div>
+                {testimonial.image ? (
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                    <img
+                      src={testimonial.image}
+                      alt={testimonial.name}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-10 h-10 rounded-full bg-zinc-700 flex items-center justify-center text-white font-medium">
+                    {testimonial.name[0]}
+                  </div>
+                )}
                 <div>
                   <h3 className="text-white font-medium text-sm">
                     {testimonial.name}
