@@ -3,7 +3,7 @@ import { MetadataRoute } from "next";
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://shahadot-hossain.vercel.app";
 
-  const routes = ["", "/work", "/projects", "/skills", "/posts", "/contact"];
+  const routes = ["", "/work", "/projects", "/skills", "/articles", "/contact"];
 
   return routes.map((route) => ({
     url: `${baseUrl}${route}/`,

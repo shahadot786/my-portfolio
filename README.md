@@ -9,7 +9,7 @@ A minimalist, high-performance developer portfolio built with **Next.js 14**, **
 
 ## ✨ Key Features
 
-- **🚀 Dynamic Medium Posts**: Real-time integration with Medium RSS feed, automatically showcasing latest technical articles with 1-hour caching.
+- **🚀 Dynamic Medium Articles**: Real-time integration with Medium RSS feed, automatically showcasing latest technical articles with 1-hour caching.
 - **🎨 Minimalist Aesthetic**: Clean "Zinc" design system inspired by modern developer portfolios, with subtle emerald highlights.
 - **📱 Responsive by Design**: Fully optimized for mobile, tablet, and desktop with a custom mobile bottom navigation bar.
 - **🔍 SEO Optimized**: Page-specific metadata, canonical links, sitemaps, and robots.txt for maximum search engine visibility.
@@ -32,7 +32,7 @@ my-portfolio/
 ├── app/                  # Next.js App Router
 │   ├── api/              # Backend endpoints (Medium, Contact)
 │   ├── contact/          # Contact page with form
-│   ├── posts/            # Dynamic Medium blog section
+│   ├── articles/         # Dynamic Medium blog section
 │   ├── projects/         # Featured works & metrics
 │   ├── skills/           # Technical expertise grid
 │   ├── work/             # Employment history & timeline

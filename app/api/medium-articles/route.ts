@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export interface MediumPost {
+export interface MediumArticle {
   title: string;
   link: string;
   pubDate: string;
@@ -18,7 +18,7 @@ const MEDIUM_RSS_URL = `https://medium.com/feed/@${MEDIUM_USERNAME}`;
 
 // Cache duration: 1 hour
 const CACHE_DURATION = 60 * 60 * 1000;
-let cachedPosts: MediumPost[] | null = null;
+let cachedArticles: MediumArticle[] | null = null;
 let cacheTimestamp: number = 0;
 
 function extractThumbnail(content: string): string {
@@ -56,8 +56,8 @@ function extractDescription(content: string): string {
     : textContent;
 }
 
-function parseXMLToJSON(xmlString: string): MediumPost[] {
-  const posts: MediumPost[] = [];
+function parseXMLToJSON(xmlString: string): MediumArticle[] {
+  const articles: MediumArticle[] = [];
 
   // Extract items from the RSS feed
   const itemRegex = /<item>([\s\S]*?)<\/item>/g;
@@ -105,7 +105,7 @@ function parseXMLToJSON(xmlString: string): MediumPost[] {
     const thumbnail = extractThumbnail(content);
     const description = extractDescription(content);
 
-    posts.push({
+    articles.push({
       title,
       link,
       pubDate,
@@ -118,16 +118,16 @@ function parseXMLToJSON(xmlString: string): MediumPost[] {
     });
   }
 
-  return posts;
+  return articles;
 }
 
 export async function GET() {
   try {
     // Check cache
     const now = Date.now();
-    if (cachedPosts && now - cacheTimestamp < CACHE_DURATION) {
+    if (cachedArticles && now - cacheTimestamp < CACHE_DURATION) {
       return NextResponse.json({
-        posts: cachedPosts,
+        articles: cachedArticles,
         cached: true,
         lastUpdated: new Date(cacheTimestamp).toISOString(),
       });
@@ -149,24 +149,24 @@ export async function GET() {
     const xmlText = await response.text();
 
     // Parse XML to JSON
-    const posts = parseXMLToJSON(xmlText);
+    const articles = parseXMLToJSON(xmlText);
 
     // Update cache
-    cachedPosts = posts;
+    cachedArticles = articles;
     cacheTimestamp = now;
 
     return NextResponse.json({
-      posts,
+      articles,
       cached: false,
       lastUpdated: new Date(now).toISOString(),
     });
   } catch (error) {
-    console.error("Error fetching Medium posts:", error);
+    console.error("Error fetching Medium articles:", error);
 
     // Return cached data if available, even if stale
-    if (cachedPosts) {
+    if (cachedArticles) {
       return NextResponse.json({
-        posts: cachedPosts,
+        articles: cachedArticles,
         cached: true,
         stale: true,
         lastUpdated: new Date(cacheTimestamp).toISOString(),
@@ -176,7 +176,7 @@ export async function GET() {
 
     return NextResponse.json(
       {
-        error: "Failed to fetch Medium posts",
+        error: "Failed to fetch Medium articles",
         message: error instanceof Error ? error.message : "Unknown error",
       },
       { status: 500 }
