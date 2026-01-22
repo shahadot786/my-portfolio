@@ -30,10 +30,22 @@ const testimonials = [
       "Shahadot delivered exceptional mobile solutions for our field operations. His offline-first architecture reduced data loss by 92% and improved our territory management efficiency significantly. The app now serves 10,000+ users with 100,000+ daily transactions.",
   },
   {
-    name: "Arifur Rahman Munna",
-    title: "Sr. Engineer at HawkEyes",
+    name: "Mohammad Assaduzzaman",
+    title: "Sr. Manager at HawkEyes Digital Monitoring Ltd",
     content:
       "Working with Shahadot has been a great experience. His expertise in React Native and TypeScript, combined with his deep understanding of enterprise-scale mobile applications, makes him an invaluable team member. He consistently delivers high-quality code.",
+  },
+  {
+    name: "Sarwar Jahan Shohan",
+    title: "Software Engineer at BRAC-Aarong",
+    content:
+      "Shahadot is a highly skilled developer who brings both technical depth and creative problem-solving to every project. His ability to architect scalable solutions and his dedication to clean code have been instrumental in our successful collaborations.",
+  },
+  {
+    name: "Faiazur Rahman",
+    title: "Software engineer at bKash",
+    content:
+      "I've seen Shahadot tackle complex technical challenges with ease. His proficiency in modern web and mobile technologies, coupled with a strong work ethic, makes him a standout engineer. He's always eager to share knowledge and help the team grow.",
   },
 ];
 

@@ -1,7 +1,7 @@
-import PostsClient from "./PostsClient";
+import ArticlesClient from "./ArticlesClient";
 
 export const metadata = {
-  title: "Posts - MD. Shahadot Hossain",
+  title: "Articles - MD. Shahadot Hossain",
   description:
     "Technical articles, tutorials, and insights on software development, React Native, TypeScript, and enterprise mobile solutions by MD. Shahadot Hossain.",
   keywords: [
@@ -14,19 +14,19 @@ export const metadata = {
     "Developer Articles",
   ],
   alternates: {
-    canonical: "https://shahadot-hossain.vercel.app/posts/",
+    canonical: "https://shahadot-hossain.vercel.app/articles/",
   },
 };
 
-export default function PostsPage() {
+export default function ArticlesPage() {
   return (
     <div className="container-custom">
-      <h1 className="text-3xl font-bold text-white mb-4">Posts</h1>
+      <h1 className="text-3xl font-bold text-white mb-4">Articles</h1>
       <p className="text-zinc-400 mb-8 leading-relaxed">
         Thoughts, tutorials, and insights on software development, architecture,
         and building scalable applications.
       </p>
-      <PostsClient />
+      <ArticlesClient />
     </div>
   );
 }

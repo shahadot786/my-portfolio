@@ -14,7 +14,7 @@ export function Navigation() {
     { href: "/work", label: "Work", icon: Briefcase },
     { href: "/projects", label: "Projects", icon: FolderOpen },
     { href: "/skills", label: "Skills", icon: Code2 },
-    { href: "/posts", label: "Posts", icon: Newspaper },
+    { href: "/articles", label: "Articles", icon: Newspaper },
     { href: "/contact", label: "Contact", icon: Mail },
   ];
 
