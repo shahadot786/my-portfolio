@@ -1,6 +1,6 @@
 import { Message } from '../models/index.js';
 import { ApiError } from '../middleware/error.js';
-import { sendContactNotification } from '../utils/email.js';
+// import { sendContactNotification } from '../utils/email.js';
 export const submitMessage = async (req, res, next) => {
     try {
         const { name, email, subject, message: text } = req.body;
@@ -8,8 +8,8 @@ export const submitMessage = async (req, res, next) => {
             throw new ApiError('All fields are required', 400);
         }
         const newMessage = await Message.create({ name, email, subject, message: text });
-        // Send email notification in background
-        sendContactNotification({ name, email, subject, message: text }).catch(console.error);
+        // Email notification disabled per user request
+        // sendContactNotification({ name, email, subject, message: text }).catch(console.error);
         res.status(201).json({
             success: true,
             message: 'Message sent successfully',

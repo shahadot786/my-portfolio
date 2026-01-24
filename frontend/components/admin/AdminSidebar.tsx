@@ -9,10 +9,11 @@ import {
   FolderOpen,
   Code2,
   MessageSquare,
-  Newspaper,
   LogOut,
   Settings,
-  Quote
+  Quote,
+  Award,
+  LayoutTemplate
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import api from '@/lib/api-client';
@@ -24,7 +25,8 @@ const menuItems = [
   { icon: Briefcase, label: 'Work', href: '/admin/work' },
   { icon: FolderOpen, label: 'Projects', href: '/admin/projects' },
   { icon: Code2, label: 'Skills', href: '/admin/skills' },
-  { icon: Newspaper, label: 'Articles', href: '/admin/articles' },
+  { icon: Award, label: 'Credentials', href: '/admin/credentials' },
+  { icon: LayoutTemplate, label: 'Pages', href: '/admin/pages' },
   { icon: Quote, label: 'Testimonials', href: '/admin/testimonials' },
   { icon: MessageSquare, label: 'Messages', href: '/admin/messages' },
 ];

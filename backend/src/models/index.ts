@@ -10,3 +10,4 @@ export { Certificate, type ICertificate } from './Certificate.js';
 export { Article, type IArticle } from './Article.js';
 export { Message, type IMessage } from './Message.js';
 export { Analytics, type IAnalytics } from './Analytics.js';
+export { Page, type IPage } from './Page.js';

@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Article } from '../models/index.js';
 import { ApiError } from '../middleware/error.js';
+import { scrapeMediumMeta } from '../utils/scraper.js';
 
 export const getArticles = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -89,10 +90,17 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
   try {
     if (!req.user) throw new ApiError('Not authenticated', 401);
     
-    const article = await Article.create({
-      ...req.body,
-      author: req.user.userId
-    });
+    const articleData = { ...req.body, author: req.user.userId };
+
+    // Auto-scrape Medium meta if type is medium
+    if (articleData.type === 'medium' && articleData.externalUrl) {
+      const meta = await scrapeMediumMeta(articleData.externalUrl);
+      if (meta.title && !articleData.title) articleData.title = meta.title;
+      if (meta.excerpt && !articleData.excerpt) articleData.excerpt = meta.excerpt;
+      if (meta.thumbnail && !articleData.thumbnail) articleData.thumbnail = meta.thumbnail;
+    }
+
+    const article = await Article.create(articleData);
     
     res.status(201).json({ success: true, article });
   } catch (error) {
@@ -102,7 +110,17 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
 
 export const updateArticle = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const article = await Article.findByIdAndUpdate(req.params.id, req.body, {
+    const articleData = { ...req.body };
+
+    // Auto-scrape Medium meta if type is medium and externalUrl changed or titles/excerpts are missing
+    if (articleData.type === 'medium' && articleData.externalUrl) {
+      const meta = await scrapeMediumMeta(articleData.externalUrl);
+      if (meta.title && !articleData.title) articleData.title = meta.title;
+      if (meta.excerpt && !articleData.excerpt) articleData.excerpt = meta.excerpt;
+      if (meta.thumbnail && !articleData.thumbnail) articleData.thumbnail = meta.thumbnail;
+    }
+
+    const article = await Article.findByIdAndUpdate(req.params.id, articleData, {
       new: true,
       runValidators: true,
     });
@@ -122,6 +140,17 @@ export const deleteArticle = async (req: Request, res: Response, next: NextFunct
       throw new ApiError('Article not found', 404);
     }
     res.status(200).json({ success: true, message: 'Article deleted' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const scrapeArticle = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { url } = req.body;
+    if (!url) throw new ApiError('URL is required', 400);
+    const meta = await scrapeMediumMeta(url);
+    res.status(200).json({ success: true, meta });
   } catch (error) {
     next(error);
   }

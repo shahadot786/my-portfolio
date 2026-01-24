@@ -26,10 +26,12 @@ type TabType = 'edit' | 'preview' | 'settings';
 const articleSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   slug: z.string().optional(),
-  content: z.string().min(1, 'Content is required'),
+  content: z.string().optional(),
   excerpt: z.string().optional(),
   thumbnail: z.string().optional(),
   categories: z.array(z.string()).default([]),
+  type: z.enum(['internal', 'medium']).default('internal'),
+  externalUrl: z.string().optional(),
   published: z.boolean().default(false),
 });
 
@@ -43,6 +45,7 @@ export default function ArticleEditorPage() {
 
   const [loading, setLoading] = useState(!isNew);
   const [saving, setSaving] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const [activeTab, setActiveTab] = useState<TabType>('edit');
 
   const {
@@ -54,7 +57,7 @@ export default function ArticleEditorPage() {
   } = useForm<ArticleFormValues>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(articleSchema) as any,
-    defaultValues: { published: false, categories: [] }
+    defaultValues: { published: false, categories: [], type: 'internal' }
   });
 
   useEffect(() => {
@@ -91,6 +94,24 @@ export default function ArticleEditorPage() {
       console.error(err);
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleFetchDetails = async () => {
+    const url = watch('externalUrl');
+    if (!url) return;
+
+    setFetching(true);
+    try {
+      const res = await api.post('/articles/scrape', { url });
+      const { meta } = res.data;
+      if (meta.title) setValue('title', meta.title);
+      if (meta.thumbnail) setValue('thumbnail', meta.thumbnail);
+      if (meta.excerpt) setValue('excerpt', meta.excerpt);
+    } catch (err) {
+      console.error('Failed to fetch details', err);
+    } finally {
+      setFetching(false);
     }
   };
 
@@ -171,12 +192,37 @@ export default function ArticleEditorPage() {
             placeholder="Article Title..."
           />
           <div className="h-px bg-zinc-800" />
-          <textarea
-            {...register('content')}
-            rows={20}
-            className="w-full bg-transparent border-none text-zinc-300 text-xl leading-relaxed placeholder:text-zinc-800 focus:ring-0 resize-none p-0"
-            placeholder="Tell your story..."
-          />
+
+          {watch('type') === 'internal' ? (
+            <textarea
+              {...register('content')}
+              rows={20}
+              className="w-full bg-transparent border-none text-zinc-300 text-xl leading-relaxed placeholder:text-zinc-800 focus:ring-0 resize-none p-0"
+              placeholder="Tell your story..."
+            />
+          ) : (
+            <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl space-y-4">
+              <div className="flex items-center gap-3 text-primary mb-4">
+                <Globe size={24} />
+                <h3 className="text-xl font-bold text-white">External Article Link</h3>
+              </div>
+              <p className="text-zinc-500 text-sm">This article is hosted externally (e.g., on Medium). Provide the link below.</p>
+              <input
+                {...register('externalUrl')}
+                className="input-admin"
+                placeholder="https://medium.com/@username/article-slug"
+              />
+              <button
+                type="button"
+                onClick={handleFetchDetails}
+                disabled={fetching || !watch('externalUrl')}
+                className="flex items-center gap-2 text-xs font-bold text-primary hover:text-primary/80 disabled:opacity-50 transition-all uppercase tracking-widest pt-2"
+              >
+                {fetching ? <Loader className="animate-spin" size={14} /> : <Globe size={14} />}
+                Fetch Details from Medium
+              </button>
+            </div>
+          )}
         </div>
       )}
 
@@ -219,6 +265,27 @@ export default function ArticleEditorPage() {
                 defaultValue={watch('categories')?.join(', ')}
                 onChange={(e) => setValue('categories', e.target.value.split(',').map(c => c.trim()).filter(c => c))}
               />
+            </div>
+
+            <div className="pt-4 border-t border-zinc-800">
+              <label className="block text-zinc-500 text-[10px] font-bold uppercase mb-4">Article Type</label>
+              <div className="flex gap-4">
+                {['internal', 'medium'].map((t) => (
+                  <button
+                    key={t}
+                    type="button"
+                    onClick={() => setValue('type', t as 'internal' | 'medium')}
+                    className={cn(
+                      "flex-1 py-3 rounded-xl border font-bold text-xs uppercase transition-all",
+                      watch('type') === t
+                        ? "bg-white text-black border-white"
+                        : "border-zinc-800 text-zinc-500 hover:text-white"
+                    )}
+                  >
+                    {t}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 

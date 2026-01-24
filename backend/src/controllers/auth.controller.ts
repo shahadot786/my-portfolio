@@ -99,10 +99,9 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
     const { accessToken, refreshToken: newRefreshToken } = generateTokens(payload);
 
     // Rotate refresh token
-    await User.findByIdAndUpdate(user._id, {
-      $pull: { refreshTokens: oldRefreshToken },
-      $push: { refreshTokens: newRefreshToken },
-    });
+    user.refreshTokens = user.refreshTokens.filter(token => token !== oldRefreshToken);
+    user.refreshTokens.push(newRefreshToken);
+    await user.save();
 
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
@@ -135,6 +134,27 @@ export const getMe = async (req: Request, res: Response, next: NextFunction) => 
 
     const user = await User.findById(req.user.userId);
     res.status(200).json({ success: true, user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateMe = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    if (!req.user) throw new ApiError('Not authenticated', 401);
+
+    const { name, email, password } = req.body;
+    const user = await User.findById(req.user.userId);
+
+    if (!user) throw new ApiError('User not found', 404);
+
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (password) user.password = password;
+
+    await user.save();
+
+    res.status(200).json({ success: true, user, message: 'Account updated successfully' });
   } catch (error) {
     next(error);
   }

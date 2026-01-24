@@ -6,6 +6,8 @@ export interface IArticle extends Document {
     excerpt: string;
     thumbnail?: string;
     categories: string[];
+    type: 'internal' | 'medium';
+    externalUrl?: string;
     published: boolean;
     publishedAt?: Date;
     author: Types.ObjectId;

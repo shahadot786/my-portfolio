@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Youtube, Send, Loader, CheckCircle, AlertCircle } from "lucide-react";
+import { API_BASE_URL } from "@/config/api";
 
 const contactInfo = [
     {
@@ -47,7 +48,7 @@ export default function ContactClient() {
         setSubmitStatus("idle");
 
         try {
-            const res = await fetch("/api/messages", {
+            const res = await fetch(`${API_BASE_URL}/messages`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),

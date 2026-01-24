@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import api from '@/lib/api-client';
@@ -43,10 +43,21 @@ export default function AdminProjectsPage() {
     reset,
     setValue,
     watch,
+    control,
   } = useForm<ProjectFormValues>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(projectSchema) as any,
-    defaultValues: { metrics: [], technologies: [], links: [], featured: false }
+    defaultValues: { metrics: [], technologies: [], links: [], featured: false, order: 0 }
+  });
+
+  const { fields: linksFields, append: appendLink, remove: removeLink } = useFieldArray({
+    control,
+    name: "links"
+  });
+
+  const { fields: metricsFields, append: appendMetric, remove: removeMetric } = useFieldArray({
+    control,
+    name: "metrics"
   });
 
   const fetchProjects = async () => {
@@ -179,6 +190,77 @@ export default function AdminProjectsPage() {
                   defaultValue={watch('technologies')?.join(', ')}
                   onChange={(e) => setValue('technologies', e.target.value.split(',').map(t => t.trim()).filter(t => t))}
                 />
+              </div>
+
+              {/* Links Management */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <label className="block text-zinc-400 text-xs font-medium uppercase tracking-wider">Project Links</label>
+                  <button
+                    type="button"
+                    onClick={() => appendLink({ type: 'github', url: '' })}
+                    className="text-primary text-xs flex items-center gap-1 hover:underline"
+                  >
+                    <Plus size={14} /> Add Link
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  {linksFields.map((field, index) => (
+                    <div key={field.id} className="flex gap-3">
+                      <select
+                        {...register(`links.${index}.type` as const)}
+                        className="input-admin w-1/3 py-2"
+                      >
+                        <option value="github">GitHub</option>
+                        <option value="live">Live Site</option>
+                        <option value="appStore">App Store</option>
+                        <option value="playStore">Play Store</option>
+                        <option value="demo">Demo</option>
+                      </select>
+                      <input
+                        {...register(`links.${index}.url` as const)}
+                        className="input-admin flex-1 py-2"
+                        placeholder="https://..."
+                      />
+                      <button type="button" onClick={() => removeLink(index)} className="text-zinc-600 hover:text-red-500 transition-colors">
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Metrics Management */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <label className="block text-zinc-400 text-xs font-medium uppercase tracking-wider">Key Metrics</label>
+                  <button
+                    type="button"
+                    onClick={() => appendMetric({ label: '', value: '' })}
+                    className="text-primary text-xs flex items-center gap-1 hover:underline"
+                  >
+                    <Plus size={14} /> Add Metric
+                  </button>
+                </div>
+                <div className="space-y-3">
+                  {metricsFields.map((field, index) => (
+                    <div key={field.id} className="flex gap-3">
+                      <input
+                        {...register(`metrics.${index}.label` as const)}
+                        className="input-admin w-1/2 py-2"
+                        placeholder="Label (e.g., Users)"
+                      />
+                      <input
+                        {...register(`metrics.${index}.value` as const)}
+                        className="input-admin w-1/2 py-2"
+                        placeholder="Value (e.g., 10K+)"
+                      />
+                      <button type="button" onClick={() => removeMetric(index)} className="text-zinc-600 hover:text-red-500 transition-colors">
+                        <Trash2 size={18} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Add more fields here for links and metrics if needed */}

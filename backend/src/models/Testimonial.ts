@@ -5,6 +5,7 @@ export interface ITestimonial extends Document {
   title: string;
   company: string;
   image?: string;
+  url?: string;
   content: string;
   featured: boolean;
   order: number;
@@ -30,6 +31,10 @@ const testimonialSchema = new Schema<ITestimonial>(
       trim: true,
     },
     image: {
+      type: String,
+      default: '',
+    },
+    url: {
       type: String,
       default: '',
     },

@@ -50,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (!authorized) return null;
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-zinc-950 text-white">
       <AdminSidebar />
       <main className="ml-64 p-8 min-h-screen">
         <div className="max-w-6xl mx-auto">

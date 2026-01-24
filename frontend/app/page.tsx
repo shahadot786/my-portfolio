@@ -26,14 +26,14 @@ interface Testimonial {
 }
 
 async function getProfile(): Promise<Profile | null> {
-  const res = await fetch(`${API_BASE_URL}/profile`, { next: { revalidate: 3600 } });
+  const res = await fetch(`${API_BASE_URL}/profile`, { cache: 'no-store' });
   if (!res.ok) return null;
   const data = await res.json();
   return data.profile;
 }
 
 async function getTestimonials(): Promise<Testimonial[]> {
-  const res = await fetch(`${API_BASE_URL}/testimonials`, { next: { revalidate: 3600 } });
+  const res = await fetch(`${API_BASE_URL}/testimonials`, { cache: 'no-store' });
   if (!res.ok) return [];
   const data = await res.json();
   return data.testimonials;

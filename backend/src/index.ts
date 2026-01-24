@@ -17,6 +17,9 @@ import testimonialRoutes from './routes/testimonial.routes.js';
 import articleRoutes from './routes/article.routes.js';
 import messageRoutes from './routes/message.routes.js';
 import analyticsRoutes from './routes/analytics.routes.js';
+import educationRoutes from './routes/education.routes.js';
+import certificateRoutes from './routes/certificate.routes.js';
+import pageRoutes from './routes/page.routes.js';
 
 const app = express();
 
@@ -64,6 +67,9 @@ app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/education', educationRoutes);
+app.use('/api/certificates', certificateRoutes);
+app.use('/api/pages', pageRoutes);
 
 // Error Handling
 app.use(notFound);

@@ -6,5 +6,6 @@ router.post('/login', authController.login);
 router.post('/refresh', authController.refresh);
 router.post('/logout', authenticate, authController.logout);
 router.get('/me', authenticate, authController.getMe);
+router.put('/update-me', authenticate, authController.updateMe);
 export default router;
 //# sourceMappingURL=auth.routes.js.map

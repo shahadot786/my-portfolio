@@ -1,5 +1,8 @@
 import { API_BASE_URL } from "@/config/api";
 import { IconMap } from "@/lib/icons";
+import { getPageContent } from "@/lib/pages";
+
+export const dynamic = "force-dynamic";
 
 interface SkillCategory {
   _id: string;
@@ -10,22 +13,23 @@ interface SkillCategory {
 }
 
 async function getSkillCategories(): Promise<SkillCategory[]> {
-  const res = await fetch(`${API_BASE_URL}/skills`, { next: { revalidate: 3600 } });
+  const res = await fetch(`${API_BASE_URL}/skills`, { cache: 'no-store' });
   if (!res.ok) return [];
   const data = await res.json();
   return data.categories;
 }
 
 export default async function SkillsPage() {
-  const skillCategories = await getSkillCategories();
+  const [skillCategories, pageContent] = await Promise.all([
+    getSkillCategories(),
+    getPageContent('skills')
+  ]);
 
   return (
     <div className="container-custom">
-      <h1 className="text-3xl font-bold text-white mb-4">Technical Skills</h1>
+      <h1 className="text-3xl font-bold text-white mb-4">{pageContent?.title || 'Technical Skills'}</h1>
       <p className="text-zinc-400 mb-12 leading-relaxed">
-        A comprehensive overview of technologies and tools I work with. I focus
-        on building scalable, high-performance applications with modern tech
-        stacks.
+        {pageContent?.subtitle || 'A comprehensive overview of technologies and tools I work with.'}
       </p>
 
       {/* Skills Grid */}
@@ -61,7 +65,7 @@ export default async function SkillsPage() {
           <p className="text-zinc-400 text-sm leading-relaxed">
             I prioritize <span className="text-primary font-medium">clean code</span>,
             <span className="text-primary font-medium">performance</span>, and
-            <span className="text-primary font-medium">user experience</span>.
+            <span className="text-primary font-medium"> user experience</span>.
             My technical decisions are driven by the goals of high scalability,
             maintainability, and providing tangible value to stakeholders.
           </p>

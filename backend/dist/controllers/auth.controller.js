@@ -117,4 +117,25 @@ export const getMe = async (req, res, next) => {
         next(error);
     }
 };
+export const updateMe = async (req, res, next) => {
+    try {
+        if (!req.user)
+            throw new ApiError('Not authenticated', 401);
+        const { name, email, password } = req.body;
+        const user = await User.findById(req.user.userId);
+        if (!user)
+            throw new ApiError('User not found', 404);
+        if (name)
+            user.name = name;
+        if (email)
+            user.email = email;
+        if (password)
+            user.password = password;
+        await user.save();
+        res.status(200).json({ success: true, user, message: 'Account updated successfully' });
+    }
+    catch (error) {
+        next(error);
+    }
+};
 //# sourceMappingURL=auth.controller.js.map

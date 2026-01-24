@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { User, Profile, Experience, Project, SkillCategory, Testimonial, Education, Certificate } from '../models/index.js';
+import { User, Profile, Experience, Project, SkillCategory, Testimonial, Education, Certificate, Article } from '../models/index.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
@@ -20,11 +20,12 @@ const seedData = async () => {
             SkillCategory.deleteMany({}),
             Testimonial.deleteMany({}),
             Education.deleteMany({}),
-            Certificate.deleteMany({})
+            Certificate.deleteMany({}),
+            Article.deleteMany({})
         ]);
         console.log('Cleared existing data.');
         // 1. Create Admin User
-        await User.create({
+        const admin = await User.create({
             name: 'MD. Shahadot Hossain',
             email: 'shahadotrahat786@gmail.com',
             password: 'password123', // User should change this
@@ -179,6 +180,32 @@ const seedData = async () => {
             order: 1
         });
         console.log('Certificates created.');
+        // 9. Articles
+        await Article.create([
+            {
+                title: 'Mastering React Native Performance',
+                slug: 'mastering-react-native-performance',
+                content: '<p>React Native is a powerful framework, but performance can be tricky. In this article, we explore optimization techniques like memoization, efficient list rendering, and bridge minimization.</p>',
+                excerpt: 'Learn how to optimize your React Native applications for better performance.',
+                categories: ['React Native', 'Mobile'],
+                published: true,
+                publishedAt: new Date(),
+                author: admin._id,
+                views: 120
+            },
+            {
+                title: 'Building Scalable Node.js Backends',
+                slug: 'building-scalable-nodejs-backends',
+                content: '<p>Scalability is key for enterprise applications. Discover best practices for structuring your Node.js projects, using Redis for caching, and implementing robust error handling.</p>',
+                excerpt: 'Best practices for building large-scale Node.js applications.',
+                categories: ['Node.js', 'Backend'],
+                published: true,
+                publishedAt: new Date(),
+                author: admin._id,
+                views: 85
+            }
+        ]);
+        console.log('Articles created.');
         console.log('✅ Seeding completed successfully!');
         process.exit(0);
     }

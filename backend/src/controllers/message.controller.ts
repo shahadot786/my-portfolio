@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { Message } from '../models/index.js';
 import { ApiError } from '../middleware/error.js';
-import { sendContactNotification } from '../utils/email.js';
+// import { sendContactNotification } from '../utils/email.js';
 
 export const submitMessage = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -12,9 +12,9 @@ export const submitMessage = async (req: Request, res: Response, next: NextFunct
     }
 
     const newMessage = await Message.create({ name, email, subject, message: text });
-
-    // Send email notification in background
-    sendContactNotification({ name, email, subject, message: text }).catch(console.error);
+    
+    // Email notification disabled per user request
+    // sendContactNotification({ name, email, subject, message: text }).catch(console.error);
 
     res.status(201).json({
       success: true,

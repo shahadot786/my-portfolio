@@ -7,6 +7,10 @@ import { Home, Briefcase, FolderOpen, Code2, Newspaper, Mail } from "lucide-reac
 export function Navigation() {
   const pathname = usePathname();
 
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
+
   const navItems = [
     { href: "/", label: "Home", icon: Home },
     { href: "/work", label: "Work", icon: Briefcase },

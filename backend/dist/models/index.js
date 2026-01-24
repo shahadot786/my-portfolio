@@ -10,4 +10,5 @@ export { Certificate } from './Certificate.js';
 export { Article } from './Article.js';
 export { Message } from './Message.js';
 export { Analytics } from './Analytics.js';
+export { Page } from './Page.js';
 //# sourceMappingURL=index.js.map

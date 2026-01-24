@@ -15,6 +15,7 @@ interface Testimonial {
   company?: string;
   content: string;
   image?: string;
+  url?: string;
   featured: boolean;
   order: number;
 }
@@ -24,6 +25,8 @@ const testimonialSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   company: z.string().optional().default(''),
   content: z.string().min(1, 'Content is required'),
+  image: z.string().optional().default(''),
+  url: z.string().optional().default(''),
   featured: z.boolean().default(true),
   order: z.number().default(0),
 });
@@ -176,6 +179,17 @@ export default function AdminTestimonialsPage() {
               <div>
                 <label className="block text-zinc-500 text-[10px] font-bold uppercase mb-2">Company</label>
                 <input {...register('company')} className="input-admin" placeholder="Unilever" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-zinc-500 text-[10px] font-bold uppercase mb-2">Avatar URL (Optional)</label>
+                  <input {...register('image')} className="input-admin" placeholder="https://..." />
+                </div>
+                <div>
+                  <label className="block text-zinc-500 text-[10px] font-bold uppercase mb-2">Profile Link (Optional)</label>
+                  <input {...register('url')} className="input-admin" placeholder="LinkedIn URL" />
+                </div>
               </div>
 
               <div>

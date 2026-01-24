@@ -1,4 +1,5 @@
 import ContactClient from "./ContactClient";
+import { getPageContent } from "@/lib/pages";
 
 export const metadata = {
   title: "Contact - MD. Shahadot Hossain",
@@ -19,13 +20,15 @@ export const metadata = {
   },
 };
 
-export default function ContactPage() {
+export const dynamic = "force-dynamic";
+
+export default async function ContactPage() {
+  const pageContent = await getPageContent('contact');
   return (
     <div className="container-custom">
-      <h1 className="text-3xl font-bold text-white mb-4">Get in Touch</h1>
+      <h1 className="text-3xl font-bold text-white mb-4">{pageContent?.title || 'Get in Touch'}</h1>
       <p className="text-zinc-400 mb-12 leading-relaxed">
-        Have a project in mind or want to collaborate? Feel free to reach out
-        through any of the channels below or use the contact form.
+        {pageContent?.subtitle || 'Have a project in mind or want to collaborate?'}
       </p>
       <ContactClient />
     </div>

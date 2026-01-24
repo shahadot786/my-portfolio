@@ -7,10 +7,12 @@ import {
   Users,
   Eye,
   MessageSquare,
-  Newspaper,
   TrendingUp,
   Clock,
-  ArrowUpRight
+  ArrowUpRight,
+  MousePointerClick,
+  Globe,
+  Monitor
 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
@@ -18,8 +20,16 @@ interface DashboardStats {
   totals?: {
     totalViews: number;
     totalUnique: number;
+    totalClicks: number;
   };
   articleCount?: number;
+  topClicks?: { url: string; count: number }[];
+  topBrowsers?: { name: string; count: number }[];
+  topOS?: { name: string; count: number }[];
+  topLocations?: { name: string; count: number }[];
+  topReferrers?: { name: string; count: number }[];
+  topLanguages?: { name: string; count: number }[];
+  topScreens?: { name: string; count: number }[];
 }
 
 interface Message {
@@ -83,17 +93,17 @@ export default function AdminDashboard() {
       trendUp: true
     },
     {
-      label: 'Total Articles',
-      value: stats?.articleCount || 0,
-      icon: Newspaper,
+      label: 'Link Clicks',
+      value: stats?.totals?.totalClicks || 0,
+      icon: MousePointerClick,
       color: 'text-purple-500',
       bg: 'bg-purple-500/10',
-      trend: '0 this week',
-      trendUp: false
+      trend: 'interactions',
+      trendUp: true
     },
   ];
 
-  if (loading) return null; // Handled by layout
+  if (loading) return null;
 
   return (
     <div className="space-y-8">
@@ -124,37 +134,63 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Recent Messages */}
-        <div className="lg:col-span-2 bg-zinc-900/40 border border-zinc-800 rounded-3xl overflow-hidden">
-          <div className="p-6 border-b border-zinc-800 flex items-center justify-between">
-            <h2 className="text-lg font-bold text-white">Recent Messages</h2>
-            <Link href="/admin/messages" className="text-xs text-primary hover:underline">View All</Link>
-          </div>
-          <div className="divide-y divide-zinc-800">
-            {messages.length > 0 ? messages.map((msg) => (
-              <div key={msg._id} className="p-6 hover:bg-zinc-800/30 transition-colors">
-                <div className="flex items-start justify-between mb-2">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-white font-bold">
-                      {msg.name[0]}
+        {/* Left Column: Recent Activity */}
+        <div className="lg:col-span-2 space-y-6">
+          {/* Recent Messages */}
+          <div className="bg-zinc-900/40 border border-zinc-800 rounded-3xl overflow-hidden">
+            <div className="p-6 border-b border-zinc-800 flex items-center justify-between">
+              <h2 className="text-lg font-bold text-white">Recent Messages</h2>
+              <Link href="/admin/messages" className="text-xs text-primary hover:underline">View All</Link>
+            </div>
+            <div className="divide-y divide-zinc-800">
+              {messages.length > 0 ? messages.map((msg) => (
+                <div key={msg._id} className="p-6 hover:bg-zinc-800/30 transition-colors">
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-white font-bold">
+                        {msg.name[0]}
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-semibold text-white">{msg.name}</h4>
+                        <p className="text-xs text-zinc-500">{msg.email}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h4 className="text-sm font-semibold text-white">{msg.name}</h4>
-                      <p className="text-xs text-zinc-500">{msg.email}</p>
-                    </div>
+                    <span className="text-[10px] text-zinc-500 uppercase tracking-wider">{formatDate(msg.createdAt)}</span>
                   </div>
-                  <span className="text-[10px] text-zinc-500 uppercase tracking-wider">{formatDate(msg.createdAt)}</span>
+                  <p className="text-sm text-zinc-400 mt-2 line-clamp-1">{msg.subject}</p>
                 </div>
-                <p className="text-sm text-zinc-400 mt-2 line-clamp-1">{msg.subject}</p>
-              </div>
-            )) : (
-              <div className="p-12 text-center text-zinc-500 text-sm">No messages yet.</div>
-            )}
+              )) : (
+                <div className="p-12 text-center text-zinc-500 text-sm">No messages yet.</div>
+              )}
+            </div>
+          </div>
+
+          {/* Top Links */}
+          <div className="bg-zinc-900/40 border border-zinc-800 rounded-3xl overflow-hidden h-fit">
+            <div className="p-6 border-b border-zinc-800">
+              <h2 className="text-lg font-bold text-white">Top Performing Links</h2>
+            </div>
+            <div className="divide-y divide-zinc-800">
+              {stats?.topClicks && stats.topClicks.length > 0 ? stats.topClicks.map((click, i) => (
+                <div key={i} className="p-4 flex items-center justify-between hover:bg-zinc-800/30 transition-colors">
+                  <div className="flex items-center gap-3 overflow-hidden">
+                    <div className="p-2 rounded-lg bg-zinc-800 text-zinc-400">
+                      <MousePointerClick size={16} />
+                    </div>
+                    <a href={click.url} target="_blank" className="text-sm text-zinc-300 truncate hover:text-white transition-colors max-w-[300px]">{click.url}</a>
+                  </div>
+                  <span className="font-bold text-white">{click.count} clicks</span>
+                </div>
+              )) : (
+                <div className="p-8 text-center text-zinc-500 text-sm">No interaction data recorded yet.</div>
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="space-y-6">
+        {/* Right Column: Insights & Actions */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* Quick Actions */}
           <div className="bg-primary/10 border border-primary/20 p-6 rounded-3xl">
             <h2 className="text-lg font-bold text-primary mb-4">Quick Actions</h2>
             <div className="grid grid-cols-1 gap-3">
@@ -169,6 +205,110 @@ export default function AdminDashboard() {
             </div>
           </div>
 
+          {/* Top Locations */}
+          <div className="bg-zinc-900/40 border border-zinc-800 rounded-3xl overflow-hidden">
+            <div className="p-6 border-b border-zinc-800 flex items-center gap-2">
+              <Globe size={18} className="text-emerald-500" />
+              <h2 className="text-lg font-bold text-white">Top Locations</h2>
+            </div>
+            <div className="divide-y divide-zinc-800">
+              {stats?.topLocations && stats.topLocations.length > 0 ? stats.topLocations.map((loc, i) => (
+                <div key={i} className="p-4 flex items-center justify-between hover:bg-zinc-800/30 transition-colors">
+                  <span className="text-sm text-zinc-300 font-medium">{loc.name}</span>
+                  <span className="font-bold text-white">{loc.count}</span>
+                </div>
+              )) : (
+                <div className="p-8 text-center text-zinc-500 text-sm">Waiting for visitor data...</div>
+              )}
+            </div>
+          </div>
+
+          {/* Top Referrers */}
+          <div className="bg-zinc-900/40 border border-zinc-800 rounded-3xl overflow-hidden">
+            <div className="p-6 border-b border-zinc-800 flex items-center gap-2">
+              <TrendingUp size={18} className="text-blue-400" />
+              <h2 className="text-lg font-bold text-white">Traffic Sources</h2>
+            </div>
+            <div className="divide-y divide-zinc-800">
+              {stats?.topReferrers && stats.topReferrers.length > 0 ? stats.topReferrers.map((ref, i) => (
+                <div key={i} className="p-4 flex items-center justify-between hover:bg-zinc-800/30 transition-colors">
+                  <span className="text-sm text-zinc-300 font-medium">{ref.name}</span>
+                  <span className="font-bold text-white">{ref.count}</span>
+                </div>
+              )) : (
+                <div className="p-8 text-center text-zinc-500 text-sm">No referrer data recorded.</div>
+              )}
+            </div>
+          </div>
+
+          {/* Devices & Browsers */}
+          <div className="bg-zinc-900/40 border border-zinc-800 rounded-3xl overflow-hidden">
+            <div className="p-6 border-b border-zinc-800 flex items-center gap-2">
+              <Monitor size={18} className="text-blue-500" />
+              <h2 className="text-lg font-bold text-white">Visitor Tech</h2>
+            </div>
+            <div className="p-6 space-y-6">
+              <div className="space-y-3">
+                <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Browsers</h3>
+                <div className="space-y-2">
+                  {stats?.topBrowsers?.map((b, i) => (
+                    <div key={i} className="flex items-center justify-between">
+                      <span className="text-sm text-zinc-300">{b.name}</span>
+                      <span className="text-sm font-bold text-white">{b.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="space-y-3">
+                <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">OS</h3>
+                <div className="space-y-2">
+                  {stats?.topOS?.map((o, i) => (
+                    <div key={i} className="flex items-center justify-between">
+                      <span className="text-sm text-zinc-300">{o.name}</span>
+                      <span className="text-sm font-bold text-white">{o.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Visitor Demographics */}
+          <div className="bg-zinc-900/40 border border-zinc-800 rounded-3xl overflow-hidden">
+            <div className="p-6 border-b border-zinc-800 flex items-center gap-2">
+              <Users size={18} className="text-zinc-400" />
+              <h2 className="text-lg font-bold text-white">Demographics</h2>
+            </div>
+            <div className="p-6 space-y-6">
+              {/* Languages */}
+              <div className="space-y-3">
+                <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Top Languages</h3>
+                <div className="space-y-2">
+                  {stats?.topLanguages?.map((l, i) => (
+                    <div key={i} className="flex items-center justify-between">
+                      <span className="text-sm text-zinc-300">{l.name}</span>
+                      <span className="text-sm font-bold text-white">{l.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Resolutions */}
+              <div className="space-y-3">
+                <h3 className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Screen Resolutions</h3>
+                <div className="space-y-2">
+                  {stats?.topScreens?.map((s, i) => (
+                    <div key={i} className="flex items-center justify-between">
+                      <span className="text-sm text-zinc-300">{s.name}</span>
+                      <span className="text-sm font-bold text-white">{s.count}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* System Status */}
           <div className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-3xl">
             <h2 className="text-lg font-bold text-white mb-4">System Status</h2>
             <div className="space-y-4">
@@ -178,11 +318,7 @@ export default function AdminDashboard() {
               </div>
               <div className="flex items-center justify-between text-sm">
                 <span className="text-zinc-500">API Speed</span>
-                <span className="text-zinc-300 font-medium">24ms</span>
-              </div>
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-zinc-500">Storage</span>
-                <span className="text-zinc-300 font-medium">12% used</span>
+                <span className="text-zinc-300 font-medium">Healthy</span>
               </div>
             </div>
           </div>

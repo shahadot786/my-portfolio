@@ -19,6 +19,10 @@ const testimonialSchema = new Schema({
         type: String,
         default: '',
     },
+    url: {
+        type: String,
+        default: '',
+    },
     content: {
         type: String,
         required: [true, 'Testimonial content is required'],

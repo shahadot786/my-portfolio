@@ -7,6 +7,8 @@ export interface IArticle extends Document {
   excerpt: string;
   thumbnail?: string;
   categories: string[];
+  type: 'internal' | 'medium';
+  externalUrl?: string;
   published: boolean;
   publishedAt?: Date;
   author: Types.ObjectId;
@@ -31,7 +33,7 @@ const articleSchema = new Schema<IArticle>(
     },
     content: {
       type: String,
-      required: [true, 'Content is required'],
+      default: '',
     },
     excerpt: {
       type: String,
@@ -44,6 +46,15 @@ const articleSchema = new Schema<IArticle>(
     categories: {
       type: [String],
       default: [],
+    },
+    type: {
+      type: String,
+      enum: ['internal', 'medium'],
+      default: 'internal',
+    },
+    externalUrl: {
+      type: String,
+      default: '',
     },
     published: {
       type: Boolean,

@@ -7,6 +7,27 @@ export interface IAnalytics extends Document {
         path: string;
         views: number;
     }[];
+    clicks: {
+        url: string;
+        count: number;
+    }[];
+    browsers: {
+        name: string;
+        count: number;
+    }[];
+    os: {
+        name: string;
+        count: number;
+    }[];
+    devices: {
+        name: string;
+        count: number;
+    }[];
+    locations: {
+        country: string;
+        city: string;
+        count: number;
+    }[];
     createdAt: Date;
     updatedAt: Date;
 }

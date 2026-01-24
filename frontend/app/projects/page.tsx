@@ -1,6 +1,8 @@
 import { ExternalLink } from "lucide-react";
 import { API_BASE_URL } from "@/config/api";
 import { IconMap } from "@/lib/icons";
+import { getPageContent } from "@/lib/pages";
+import { TrackedLink } from "@/components/ui/TrackedLink";
 
 interface Project {
   _id: string;
@@ -13,25 +15,28 @@ interface Project {
   links: { type: string; url: string }[];
 }
 
+export const dynamic = "force-dynamic";
+
 async function getProjects(): Promise<Project[]> {
-  const res = await fetch(`${API_BASE_URL}/projects`, { next: { revalidate: 3600 } });
+  const res = await fetch(`${API_BASE_URL}/projects`, { cache: 'no-store' });
   if (!res.ok) return [];
   const data = await res.json();
   return data.projects;
 }
 
 export default async function ProjectsPage() {
-  const projects = await getProjects();
+  const [projects, pageContent] = await Promise.all([
+    getProjects(),
+    getPageContent('projects')
+  ]);
   const featuredProjects = projects.filter((p: Project) => p.featured);
   const otherProjects = projects.filter((p: Project) => !p.featured);
 
   return (
     <div className="container-custom">
-      <h1 className="text-3xl font-bold text-white mb-4">Projects</h1>
+      <h1 className="text-3xl font-bold text-white mb-4">{pageContent?.title || 'Projects'}</h1>
       <p className="text-zinc-400 mb-12 leading-relaxed">
-        I have worked on a variety of projects over the years; some of them as a
-        hobby, some as a proof of concept and others to solve my own pain
-        points. Here are some of the projects that I have worked on.
+        {pageContent?.subtitle || 'I have worked on a variety of projects over the years.'}
       </p>
 
       {/* Featured Projects */}
@@ -80,17 +85,25 @@ export default async function ProjectsPage() {
             <div className="flex flex-wrap gap-3">
               {project.links.map((link: { type: string; url: string }, i: number) => {
                 const Icon = IconMap[link.type === 'github' ? 'Github' : link.type === 'live' ? 'ExternalLink' : 'Smartphone'] || IconMap.Globe;
+                const labelMap: Record<string, string> = {
+                  github: 'GitHub',
+                  live: 'Live Demo',
+                  appStore: 'App Store',
+                  playStore: 'Play Store',
+                  demo: 'View Demo'
+                };
                 return (
-                  <a
+                  <TrackedLink
                     key={i}
                     href={link.url}
+                    path="/projects"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="btn-ghost flex items-center gap-1.5"
                   >
                     <Icon size={16} />
-                    {link.type.charAt(0).toUpperCase() + link.type.slice(1).replace(/([A-Z])/g, ' $1')}
-                  </a>
+                    {labelMap[link.type] || link.type}
+                  </TrackedLink>
                 );
               })}
             </div>
@@ -104,9 +117,10 @@ export default async function ProjectsPage() {
           <h2 className="text-xl font-bold text-white mb-6">More Projects</h2>
           <div className="space-y-4">
             {otherProjects.map((project: Project, index: number) => (
-              <a
+              <TrackedLink
                 key={index}
                 href={project.links[0]?.url || "#"}
+                path="/projects"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center justify-between p-4 rounded-lg border border-zinc-800 
@@ -125,7 +139,7 @@ export default async function ProjectsPage() {
                   size={16}
                   className="text-zinc-600 group-hover:text-zinc-400"
                 />
-              </a>
+              </TrackedLink>
             ))}
           </div>
         </div>

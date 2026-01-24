@@ -12,9 +12,13 @@ import profileRoutes from './routes/profile.routes.js';
 import experienceRoutes from './routes/experience.routes.js';
 import projectRoutes from './routes/project.routes.js';
 import skillRoutes from './routes/skill.routes.js';
+import testimonialRoutes from './routes/testimonial.routes.js';
 import articleRoutes from './routes/article.routes.js';
 import messageRoutes from './routes/message.routes.js';
 import analyticsRoutes from './routes/analytics.routes.js';
+import educationRoutes from './routes/education.routes.js';
+import certificateRoutes from './routes/certificate.routes.js';
+import pageRoutes from './routes/page.routes.js';
 const app = express();
 // Connect to Database
 connectDatabase();
@@ -51,9 +55,13 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/experiences', experienceRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/skills', skillRoutes);
+app.use('/api/testimonials', testimonialRoutes);
 app.use('/api/articles', articleRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/education', educationRoutes);
+app.use('/api/certificates', certificateRoutes);
+app.use('/api/pages', pageRoutes);
 // Error Handling
 app.use(notFound);
 app.use(errorHandler);
