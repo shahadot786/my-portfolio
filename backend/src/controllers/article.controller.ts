@@ -6,18 +6,18 @@ import { scrapeMediumMeta } from '../utils/scraper.js';
 export const getArticles = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const isAdmin = req.user?.role === 'admin';
-    const query: any = {};
-    
+    const query: Record<string, unknown> = {};
+
     if (!isAdmin) {
       query.published = true;
     }
 
     const { category, search, page = 1, limit = 10 } = req.query;
-    
+
     if (category) {
       query.categories = category;
     }
-    
+
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
@@ -26,7 +26,7 @@ export const getArticles = async (req: Request, res: Response, next: NextFunctio
     }
 
     const skip = (Number(page) - 1) * Number(limit);
-    
+
     const articles = await Article.find(query)
       .sort({ publishedAt: -1, createdAt: -1 })
       .skip(skip)
@@ -89,7 +89,7 @@ export const getArticleBySlug = async (req: Request, res: Response, next: NextFu
 export const createArticle = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (!req.user) throw new ApiError('Not authenticated', 401);
-    
+
     const articleData = { ...req.body, author: req.user.userId };
 
     // Auto-scrape Medium meta if type is medium
@@ -101,7 +101,7 @@ export const createArticle = async (req: Request, res: Response, next: NextFunct
     }
 
     const article = await Article.create(articleData);
-    
+
     res.status(201).json({ success: true, article });
   } catch (error) {
     next(error);

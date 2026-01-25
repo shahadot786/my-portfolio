@@ -31,8 +31,8 @@ export const trackVisit = async (req: Request, res: Response, next: NextFunction
 
     if (type === 'view') {
       analytics.pageViews += 1;
-      analytics.uniqueVisitors += 1; 
-      
+      analytics.uniqueVisitors += 1;
+
       const pageIndex = analytics.topPages.findIndex(p => p.path === path);
       if (pageIndex > -1) {
         analytics.topPages[pageIndex].views += 1;
@@ -48,7 +48,7 @@ export const trackVisit = async (req: Request, res: Response, next: NextFunction
           const urlObj = new URL(rawReferrer);
           referrer = urlObj.hostname || 'Direct';
         }
-      } catch (e) {
+      } catch {
         referrer = 'Direct';
       }
 
@@ -81,11 +81,11 @@ export const trackVisit = async (req: Request, res: Response, next: NextFunction
       // Parse IP
       const ip = (req.headers['x-forwarded-for'] as string) || req.socket.remoteAddress || '';
       const geo = geoip.lookup(ip.split(',')[0].trim());
-      
+
       if (geo) {
         const country = geo.country || 'Unknown';
         const city = geo.city || 'Unknown';
-        
+
         const locIndex = analytics.locations.findIndex(l => l.country === country && l.city === city);
         if (locIndex > -1) analytics.locations[locIndex].count += 1;
         else analytics.locations.push({ country, city, count: 1 });

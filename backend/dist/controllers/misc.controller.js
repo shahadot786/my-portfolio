@@ -58,6 +58,7 @@ export const createCertificate = async (req, res, next) => {
     }
 };
 // ... Similar update/delete for all
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const deleteItem = (Model) => async (req, res, next) => {
     try {
         const item = await Model.findByIdAndDelete(req.params.id);
@@ -69,6 +70,7 @@ export const deleteItem = (Model) => async (req, res, next) => {
         next(error);
     }
 };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const updateItem = (Model) => async (req, res, next) => {
     try {
         const item = await Model.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });

@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Request, Response, NextFunction } from 'express';
 import { Testimonial, Education, Certificate } from '../models/index.js';
 import { ApiError } from '../middleware/error.js';
@@ -60,7 +61,8 @@ export const createCertificate = async (req: Request, res: Response, next: NextF
 };
 
 // ... Similar update/delete for all
-export const deleteItem = (Model: any) => async (req: Request, res: Response, next: NextFunction) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const deleteItem = (Model: mongoose.Model<any>) => async (req: Request, res: Response, next: NextFunction) => {
   try {
     const item = await Model.findByIdAndDelete(req.params.id);
     if (!item) throw new ApiError('Not found', 404);
@@ -70,7 +72,8 @@ export const deleteItem = (Model: any) => async (req: Request, res: Response, ne
   }
 };
 
-export const updateItem = (Model: any) => async (req: Request, res: Response, next: NextFunction) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const updateItem = (Model: mongoose.Model<any>) => async (req: Request, res: Response, next: NextFunction) => {
   try {
     const item = await Model.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!item) throw new ApiError('Not found', 404);

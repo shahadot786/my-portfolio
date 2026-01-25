@@ -52,7 +52,7 @@ const userSchema = new Schema<IUser>(
 // Hash password before saving
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
-  
+
   const salt = await bcrypt.genSalt(12);
   this.password = await bcrypt.hash(this.password, salt);
   next();
@@ -68,7 +68,7 @@ userSchema.methods.comparePassword = async function (
 // Remove sensitive data from JSON output
 userSchema.set('toJSON', {
   transform: (_doc, ret) => {
-    const obj = ret as any;
+    const obj = ret as unknown as Record<string, unknown>;
     delete obj.password;
     delete obj.refreshTokens;
     delete obj.__v;

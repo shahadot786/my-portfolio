@@ -9,12 +9,14 @@ export interface TokenPayload extends JwtPayload {
 
 export const generateAccessToken = (payload: Omit<TokenPayload, 'iat' | 'exp'>): string => {
   return jwt.sign(payload, config.jwtSecret, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expiresIn: config.jwtExpiresIn as any,
   });
 };
 
 export const generateRefreshToken = (payload: Omit<TokenPayload, 'iat' | 'exp'>): string => {
   return jwt.sign(payload, config.jwtRefreshSecret, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     expiresIn: config.jwtRefreshExpiresIn as any,
   });
 };
