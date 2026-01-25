@@ -22,6 +22,7 @@ interface Testimonial {
   title: string;
   content: string;
   image?: string;
+  url?: string;
   featured: boolean;
 }
 
@@ -90,18 +91,40 @@ export default async function Home() {
           {testimonials.map((testimonial: Testimonial) => (
             <div key={testimonial._id} className="testimonial-card rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
               <div className="flex items-center gap-3 mb-4">
-                {testimonial.image ? (
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
+                {testimonial.url ? (
+                  <a
+                    href={testimonial.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block relative w-10 h-10 rounded-full overflow-hidden hover:ring-2 hover:ring-primary/50 transition-all"
+                  >
+                    {testimonial.image ? (
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-zinc-700 flex items-center justify-center text-white font-medium">
+                        {testimonial.name[0]}
+                      </div>
+                    )}
+                  </a>
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-zinc-700 flex items-center justify-center text-white font-medium">
-                    {testimonial.name[0]}
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                    {testimonial.image ? (
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-zinc-700 flex items-center justify-center text-white font-medium">
+                        {testimonial.name[0]}
+                      </div>
+                    )}
                   </div>
                 )}
                 <div>

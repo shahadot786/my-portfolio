@@ -34,18 +34,19 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     // Set cookies
     const cookieOptions: any = {
       httpOnly: true,
-      secure: true, // Always true for cross-site cookies
-      sameSite: 'none',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      path: '/',
     };
 
     res.cookie('accessToken', accessToken, {
       ...cookieOptions,
-      maxAge: 15 * 60 * 1000, // 15 mins
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     res.cookie('refreshToken', refreshToken, {
       ...cookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 120 * 24 * 60 * 60 * 1000, // 120 days
     });
 
     res.status(200).json({
@@ -107,18 +108,19 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
 
     const cookieOptions: any = {
       httpOnly: true,
-      secure: true,
-      sameSite: 'none',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      path: '/',
     };
 
     res.cookie('accessToken', accessToken, {
       ...cookieOptions,
-      maxAge: 15 * 60 * 1000,
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
     res.cookie('refreshToken', newRefreshToken, {
       ...cookieOptions,
-      maxAge: 7 * 24 * 60 * 60 * 1000,
+      maxAge: 120 * 24 * 60 * 60 * 1000, // 120 days
     });
 
     res.status(200).json({
