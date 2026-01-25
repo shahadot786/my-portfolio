@@ -46,8 +46,8 @@ export const errorHandler = (
   }
 
   // Mongoose duplicate key error
-  if ((err as any).code === 11000) {
-    const field = Object.keys((err as any).keyValue || {})[0];
+  if ((err as unknown as Record<string, unknown>).code === 11000) {
+    const field = Object.keys((err as unknown as Record<string, unknown>).keyValue as Record<string, unknown> || {})[0];
     res.status(400).json({
       error: `${field ? `${field} already exists` : 'Duplicate field value'}`,
     });
@@ -56,8 +56,9 @@ export const errorHandler = (
 
   // Mongoose validation error
   if (err.name === 'ValidationError') {
-    const errors = Object.values((err as any).errors || {}).map(
-      (e: any) => e.message
+    const mongooseErrors = (err as unknown as Record<string, unknown>).errors as Record<string, { message: string }>;
+    const errors = Object.values(mongooseErrors || {}).map(
+      (e) => e.message
     );
     res.status(400).json({
       error: 'Validation failed',

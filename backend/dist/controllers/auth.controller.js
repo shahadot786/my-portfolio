@@ -1,7 +1,6 @@
 import { User } from '../models/index.js';
 import { ApiError } from '../middleware/error.js';
 import { generateTokens, verifyRefreshToken } from '../utils/jwt.js';
-import { config } from '../config/index.js';
 export const login = async (req, res, next) => {
     try {
         const { email, password } = req.body;
@@ -24,17 +23,19 @@ export const login = async (req, res, next) => {
             $push: { refreshTokens: refreshToken },
         });
         // Set cookies
-        res.cookie('accessToken', accessToken, {
+        const cookieOptions = {
             httpOnly: true,
-            secure: config.isProduction,
-            sameSite: 'strict',
-            maxAge: 15 * 60 * 1000, // 15 mins
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            path: '/',
+        };
+        res.cookie('accessToken', accessToken, {
+            ...cookieOptions,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         res.cookie('refreshToken', refreshToken, {
-            httpOnly: true,
-            secure: config.isProduction,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+            ...cookieOptions,
+            maxAge: 120 * 24 * 60 * 60 * 1000, // 120 days
         });
         res.status(200).json({
             success: true,
@@ -83,17 +84,19 @@ export const refresh = async (req, res, next) => {
         user.refreshTokens = user.refreshTokens.filter(token => token !== oldRefreshToken);
         user.refreshTokens.push(newRefreshToken);
         await user.save();
-        res.cookie('accessToken', accessToken, {
+        const cookieOptions = {
             httpOnly: true,
-            secure: config.isProduction,
-            sameSite: 'strict',
-            maxAge: 15 * 60 * 1000,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            path: '/',
+        };
+        res.cookie('accessToken', accessToken, {
+            ...cookieOptions,
+            maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
         });
         res.cookie('refreshToken', newRefreshToken, {
-            httpOnly: true,
-            secure: config.isProduction,
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000,
+            ...cookieOptions,
+            maxAge: 120 * 24 * 60 * 60 * 1000, // 120 days
         });
         res.status(200).json({
             success: true,

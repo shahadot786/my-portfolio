@@ -4,7 +4,7 @@ import { ApiError } from '../middleware/error.js';
 
 export const getAllProjects = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const query: any = {};
+    const query: Record<string, unknown> = {};
     if (req.query.featured === 'true') {
       query.featured = true;
     }

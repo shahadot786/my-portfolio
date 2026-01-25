@@ -1,8 +1,7 @@
 import { config } from './env.js';
 const allowedOrigins = [
-    config.frontendUrl,
+    config.frontendUrl.replace(/\/$/, ''),
     'http://localhost:3000',
-    'http://localhost:3001',
 ];
 export const corsOptions = {
     origin: (origin, callback) => {

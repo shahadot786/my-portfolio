@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, CookieOptions } from 'express';
 import { User } from '../models/index.js';
 import { ApiError } from '../middleware/error.js';
 import { generateTokens, verifyRefreshToken, TokenPayload } from '../utils/jwt.js';
@@ -32,7 +32,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     });
 
     // Set cookies
-    const cookieOptions: any = {
+    const cookieOptions: CookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
@@ -106,7 +106,7 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
     user.refreshTokens.push(newRefreshToken);
     await user.save();
 
-    const cookieOptions: any = {
+    const cookieOptions: CookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',

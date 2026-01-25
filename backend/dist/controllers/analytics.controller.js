@@ -43,7 +43,7 @@ export const trackVisit = async (req, res, next) => {
                     referrer = urlObj.hostname || 'Direct';
                 }
             }
-            catch (e) {
+            catch {
                 referrer = 'Direct';
             }
             const refIndex = analytics.referrers.findIndex(r => r.name === referrer);

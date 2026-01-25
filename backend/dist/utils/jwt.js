@@ -2,11 +2,13 @@ import jwt from 'jsonwebtoken';
 import { config } from '../config/index.js';
 export const generateAccessToken = (payload) => {
     return jwt.sign(payload, config.jwtSecret, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         expiresIn: config.jwtExpiresIn,
     });
 };
 export const generateRefreshToken = (payload) => {
     return jwt.sign(payload, config.jwtRefreshSecret, {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         expiresIn: config.jwtRefreshExpiresIn,
     });
 };
