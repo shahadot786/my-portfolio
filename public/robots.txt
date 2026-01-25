@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://shahadot-hossain.vercel.app/sitemap.xml

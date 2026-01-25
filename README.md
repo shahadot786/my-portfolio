@@ -1,92 +1,106 @@
-# MD. Shahadot Hossain - Portfolio
+# MD. Shahadot Hossain - Portfolio v2.0
 
-A minimalist, high-performance developer portfolio built with **Next.js 14**, **React 18**, **TypeScript**, and **Tailwind CSS**. Designed for speed, SEO, and professional storytelling.
+A high-performance, full-stack developer portfolio built with **Next.js 14**, **TypeScript**, **Tailwind CSS**, and a **custom Express.js Backend**. Designed for total control, it features a complete Admin Dashboard to manage every aspect of the site without touching code.
 
 [![Live Demo](https://img.shields.io/badge/demo-live-emerald)](https://shahadot-hossain.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-## ✨ Key Features
+## ✨ New in v2.0: Full Admin Control
 
-- **🚀 Dynamic Medium Articles**: Real-time integration with Medium RSS feed, automatically showcasing latest technical articles with 1-hour caching.
-- **🎨 Minimalist Aesthetic**: Clean "Zinc" design system inspired by modern developer portfolios, with subtle emerald highlights.
-- **📱 Responsive by Design**: Fully optimized for mobile, tablet, and desktop with a custom mobile bottom navigation bar.
-- **🔍 SEO Optimized**: Page-specific metadata, canonical links, sitemaps, and robots.txt for maximum search engine visibility.
-- **📮 Interactive Contact**: Seamless contact form integrated with **Resend API** for direct-to-inbox messaging.
-- **📈 Professional Showcase**: Dedicated sections for Enterprise Experience, Project Metrics, and Technical Skills.
+The portfolio is now powered by a **dynamic backend**, allowing you to update everything from a secure dashboard:
 
-## 🚀 Tech Stack
+- **🖥️ Admin Dashboard**: Manage Projects, Experience, Education, Skills, and Testimonials via a beautiful, dark-themed UI.
+- **📄 Dynamic Pages**: Edit page titles, subtitles, and SEO metadata (Title, Description, Keywords) directly from the admin panel.
+- **📝 Automated Medium Blog**: Just paste your Medium URL, and the system automatically scrapes the Title, Thumbnail, and Excerpt. Or, let the frontend RSS feed auto-populate completely.
+- **🎓 Verified Credentials**: Showcase certifications with large, premium-looking cover cards and verification badges.
+- **💬 Message Center**: View contact form submissions directly in the Admin panel (email notifications disabled for privacy).
+- **🛡️ Secure Auth**: JWT-based authentication with Access (7d) and Refresh (120d) tokens.
 
-- **Frontend**: Next.js 14 (App Router), React 18, TypeScript
-- **Styling**: Tailwind CSS, Lucide React (Icons)
-- **API & Integration**: 
-  - Medium RSS for automated blog fetching
-  - Resend for email communication
-- **Deployment**: Vercel (Recommended)
+## 🚀 Standard Features
 
-## 📁 Project Structure
+- **🎨 Minimalist Aesthetic**: Clean "Zinc" design system inspired by modern developer portfolios.
+- **📱 Responsive by Design**: Optimized for all devices with a custom mobile bottom navigation bar.
+- **🔍 SEO Optimized**: Server-rendered pages with dynamic metadata, sitemaps, and robots.txt.
+- **⚡ High Performance**: Disabled aggressive caching for real-time admin updates.
+
+## 🛠️ Project Structure
+
+This is a Monorepo containing both Frontend and Backend:
 
 ```
 my-portfolio/
-├── app/                  # Next.js App Router
-│   ├── api/              # Backend endpoints (Medium, Contact)
-│   ├── contact/          # Contact page with form
-│   ├── articles/         # Dynamic Medium blog section
-│   ├── projects/         # Featured works & metrics
-│   ├── skills/           # Technical expertise grid
-│   ├── work/             # Employment history & timeline
-│   ├── globals.css       # Design system & Tailwind
-│   └── layout.tsx        # Global SEO & Navigation
-├── components/           # Shared UI components
-├── public/               # Static assets (images, robots.txt)
-└── next.config.js        # Optimized Next.js configuration
+├── frontend/             # Next.js 14 App Router (Public + Admin)
+│   ├── app/
+│   │   ├── admin/        # Protected Admin Dashboard routes
+│   │   ├── api/          # Frontend API proxies
+│   │   └── (public)/     # Public portfolio pages
+│   ├── components/       # Shared UI (Nav, Layouts, Admin)
+│   └── lib/              # API clients and utils
+│
+├── backend/              # Express.js + Mongoose API
+│   ├── src/
+│   │   ├── controllers/  # Business logic
+│   │   ├── models/       # Mongoose Schemas (User, Project, Page...)
+│   │   └── routes/       # API endpoints
+│   └── scripts/          # Seeding scripts
 ```
 
 ## 🛠️ Local Development
 
 ### Prerequisites
 - Node.js 18+
-- Yarn or npm
+- Yarn (Recommended)
+- MongoDB running locally or a URI
 
 ### Setup
 
-1. **Clone & Install**
+1. **Install Dependencies** (Root)
    ```bash
-   git clone https://github.com/shahadot786/my-portfolio.git
-   cd my-portfolio
    yarn install
    ```
 
-2. **Environment Variables**
-   Create a `.env` file in the root:
+2. **Backend Setup**
+   Create `backend/.env`:
    ```env
-   # Medium username (without @)
-   NEXT_PUBLIC_MEDIUM_USERNAME=shrhossain786
-
-   # Resend API Key for contact form
-   RESEND_API_KEY=your_resend_api_key
+   PORT=8080
+   MONGODB_URI=mongodb://localhost:27017/portfolio
+   JWT_SECRET=your_super_secret_key
+   JWT_REFRESH_SECRET=your_super_refresh_secret
+   JWT_EXPIRES_IN=7d
+   JWT_REFRESH_EXPIRES_IN=120d
+   NODE_ENV=development
    ```
 
-3. **Run**
+3. **Frontend Setup**
+   Create `frontend/.env.local`:
+   ```env
+   NEXT_PUBLIC_API_URL=http://localhost:8080/api
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
+   ```
+
+4. **Seed Database**
+   Populate the database with your real portfolio data:
+   ```bash
+   yarn workspace @portfolio/backend seed-real
+   ```
+
+5. **Run Development Server**
+   Start both Frontend and Backend concurrently:
    ```bash
    yarn dev
    ```
+   - Frontend: [http://localhost:3000](http://localhost:3000)
+   - Backend: [http://localhost:8080](http://localhost:8080)
+   - Admin Login: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
 
-## 📝 Configuration
+## 📝 Admin Configuration
 
-### Updating Content
-Most content is managed directly within the page components for simplicity and performance:
-- **Work/Experience**: `app/work/page.tsx`
-- **Projects**: `app/projects/page.tsx`
-- **Skills**: `app/skills/page.tsx`
-- **Home/Bio**: `app/page.tsx`
-
-### SEO Optimization
-Global metadata is located in `app/layout.tsx`. Each individual page has its own `export const metadata` object for fine-grained SEO control.
+Login to `/admin` to manage:
+- **Profile**: Update Bio, Avatar, Social Links, and Change Password.
+- **Pages**: Customize "Employment History", "Projects" headers and SEO tags.
+- **Content**: Add new Projects, Skills, Certificates, and Testimonials.
 
 ## 📜 License
-This project is licensed under the Apache License 2.0.
-
----
-**Built with ❤️ for the Developer Community**
+Apache License 2.0. Built for the community.

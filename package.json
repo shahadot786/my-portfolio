@@ -1,44 +1,28 @@
 {
-  "name": "shahadot-portfolio",
+  "name": "shahadot-portfolio-monorepo",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit",
-    "test": "echo \"Tests would go here\" && exit 0",
-    "export": "next build && next export"
-  },
-  "dependencies": {
-    "@google/generative-ai": "^0.24.1",
-    "@octokit/rest": "^22.0.0",
-    "@react-three/drei": "^9.88.13",
-    "@react-three/fiber": "^8.15.11",
-    "@types/node": "^20.9.0",
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
-    "clsx": "^2.1.1",
-    "date-fns": "^4.1.0",
-    "framer-motion": "^10.18.0",
-    "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.2",
-    "lucide-react": "^0.344.0",
-    "next": "14.2.35",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "resend": "^6.0.3",
-    "tailwind-merge": "^2.6.0",
-    "three": "^0.164.1",
-    "typescript": "^5.2.2"
+    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\"",
+    "dev:frontend": "yarn workspace shahadot-portfolio dev",
+    "dev:backend": "yarn workspace @portfolio/backend dev",
+    "build": "yarn build:backend && yarn build:frontend",
+    "build:frontend": "yarn workspace shahadot-portfolio build",
+    "build:backend": "yarn workspace @portfolio/backend build",
+    "start": "concurrently \"yarn start:backend\" \"yarn start:frontend\"",
+    "start:frontend": "yarn workspace shahadot-portfolio start",
+    "start:backend": "yarn workspace @portfolio/backend start",
+    "lint": "yarn workspaces run lint",
+    "clean": "rm -rf node_modules frontend/node_modules backend/node_modules"
   },
   "devDependencies": {
-    "@types/three": "^0.164.1",
-    "autoprefixer": "^10.4.18",
-    "eslint": "^8.52.0",
-    "eslint-config-next": "^14.0.2",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.4.1"
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
