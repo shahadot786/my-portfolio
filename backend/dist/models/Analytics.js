@@ -42,7 +42,10 @@ const analyticsSchema = new Schema({
     browsers: { type: [metricSchema], default: [] },
     os: { type: [metricSchema], default: [] },
     devices: { type: [metricSchema], default: [] },
-    locations: { type: [geoSchema], default: [] }
+    locations: { type: [geoSchema], default: [] },
+    referrers: { type: [metricSchema], default: [] },
+    languages: { type: [metricSchema], default: [] },
+    screens: { type: [metricSchema], default: [] }
 }, {
     timestamps: true,
 });

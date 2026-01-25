@@ -28,6 +28,18 @@ export interface IAnalytics extends Document {
         city: string;
         count: number;
     }[];
+    referrers: {
+        name: string;
+        count: number;
+    }[];
+    languages: {
+        name: string;
+        count: number;
+    }[];
+    screens: {
+        name: string;
+        count: number;
+    }[];
     createdAt: Date;
     updatedAt: Date;
 }

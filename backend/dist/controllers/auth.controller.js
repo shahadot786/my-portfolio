@@ -80,10 +80,9 @@ export const refresh = async (req, res, next) => {
         };
         const { accessToken, refreshToken: newRefreshToken } = generateTokens(payload);
         // Rotate refresh token
-        await User.findByIdAndUpdate(user._id, {
-            $pull: { refreshTokens: oldRefreshToken },
-            $push: { refreshTokens: newRefreshToken },
-        });
+        user.refreshTokens = user.refreshTokens.filter(token => token !== oldRefreshToken);
+        user.refreshTokens.push(newRefreshToken);
+        await user.save();
         res.cookie('accessToken', accessToken, {
             httpOnly: true,
             secure: config.isProduction,

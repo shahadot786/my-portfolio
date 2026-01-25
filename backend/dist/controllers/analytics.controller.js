@@ -4,7 +4,7 @@ import geoip from 'geoip-lite';
 // import { ApiError } from '../middleware/error.js';
 export const trackVisit = async (req, res, next) => {
     try {
-        const { path, type = 'view', url } = req.body;
+        const { path, type = 'view', url, language, screen } = req.body;
         const date = new Date();
         date.setHours(0, 0, 0, 0);
         let analytics = await Analytics.findOne({ date });
@@ -18,7 +18,10 @@ export const trackVisit = async (req, res, next) => {
                 browsers: [],
                 os: [],
                 devices: [],
-                locations: []
+                locations: [],
+                referrers: [],
+                languages: [],
+                screens: []
             });
         }
         if (type === 'view') {
@@ -31,6 +34,23 @@ export const trackVisit = async (req, res, next) => {
             else {
                 analytics.topPages.push({ path, views: 1 });
             }
+            // Track Referrer
+            const rawReferrer = req.headers['referer'] || req.headers['referrer'] || 'Direct';
+            let referrer = 'Direct';
+            try {
+                if (rawReferrer && typeof rawReferrer === 'string' && rawReferrer !== 'Direct') {
+                    const urlObj = new URL(rawReferrer);
+                    referrer = urlObj.hostname || 'Direct';
+                }
+            }
+            catch (e) {
+                referrer = 'Direct';
+            }
+            const refIndex = analytics.referrers.findIndex(r => r.name === referrer);
+            if (refIndex > -1)
+                analytics.referrers[refIndex].count += 1;
+            else
+                analytics.referrers.push({ name: referrer, count: 1 });
             // Parse UA
             const userAgent = req.headers['user-agent'] || '';
             const parser = new UAParser(userAgent);
@@ -66,6 +86,22 @@ export const trackVisit = async (req, res, next) => {
                     analytics.locations[locIndex].count += 1;
                 else
                     analytics.locations.push({ country, city, count: 1 });
+            }
+            // Track Language
+            if (language) {
+                const langIndex = analytics.languages.findIndex(l => l.name === language);
+                if (langIndex > -1)
+                    analytics.languages[langIndex].count += 1;
+                else
+                    analytics.languages.push({ name: language, count: 1 });
+            }
+            // Track Screen
+            if (screen) {
+                const screenIndex = analytics.screens.findIndex(s => s.name === screen);
+                if (screenIndex > -1)
+                    analytics.screens[screenIndex].count += 1;
+                else
+                    analytics.screens.push({ name: screen, count: 1 });
             }
         }
         else if (type === 'click' && url) {
@@ -147,6 +183,18 @@ export const getStats = async (_req, res, next) => {
             { $sort: { count: -1 } },
             { $limit: 5 }
         ]);
+        // Aggregate top referrers
+        const topReferrers = await Analytics.aggregate([
+            { $unwind: '$referrers' },
+            {
+                $group: {
+                    _id: '$referrers.name',
+                    count: { $sum: '$referrers.count' }
+                }
+            },
+            { $sort: { count: -1 } },
+            { $limit: 10 }
+        ]);
         res.status(200).json({
             success: true,
             stats,
@@ -154,7 +202,20 @@ export const getStats = async (_req, res, next) => {
             topClicks: topClicks.map(c => ({ url: c._id, count: c.count })),
             topBrowsers: topBrowsers.map(b => ({ name: b._id, count: b.count })),
             topOS: topOS.map(o => ({ name: o._id, count: o.count })),
-            topLocations: topLocations.map(l => ({ name: l._id, count: l.count }))
+            topLocations: topLocations.map(l => ({ name: l._id, count: l.count })),
+            topReferrers: topReferrers.map(r => ({ name: r._id, count: r.count })),
+            topLanguages: (await Analytics.aggregate([
+                { $unwind: '$languages' },
+                { $group: { _id: '$languages.name', count: { $sum: '$languages.count' } } },
+                { $sort: { count: -1 } },
+                { $limit: 10 }
+            ])).map(l => ({ name: l._id, count: l.count })),
+            topScreens: (await Analytics.aggregate([
+                { $unwind: '$screens' },
+                { $group: { _id: '$screens.name', count: { $sum: '$screens.count' } } },
+                { $sort: { count: -1 } },
+                { $limit: 10 }
+            ])).map(s => ({ name: s._id, count: s.count }))
         });
     }
     catch (error) {
