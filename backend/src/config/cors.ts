@@ -2,9 +2,8 @@ import cors from 'cors';
 import { config } from './env.js';
 
 const allowedOrigins = [
-  config.frontendUrl,
+  config.frontendUrl.replace(/\/$/, ''),
   'http://localhost:3000',
-  'http://localhost:3001',
 ];
 
 export const corsOptions: cors.CorsOptions = {
@@ -13,7 +12,7 @@ export const corsOptions: cors.CorsOptions = {
     if (!origin) {
       return callback(null, true);
     }
-    
+
     if (allowedOrigins.includes(origin) || config.isDevelopment) {
       callback(null, true);
     } else {
