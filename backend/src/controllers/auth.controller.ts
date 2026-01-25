@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { User } from '../models/index.js';
 import { ApiError } from '../middleware/error.js';
 import { generateTokens, verifyRefreshToken, TokenPayload } from '../utils/jwt.js';
-import { config } from '../config/index.js';
+
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -32,17 +32,19 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
     });
 
     // Set cookies
-    res.cookie('accessToken', accessToken, {
+    const cookieOptions: any = {
       httpOnly: true,
-      secure: config.isProduction,
-      sameSite: 'strict',
+      secure: true, // Always true for cross-site cookies
+      sameSite: 'none',
+    };
+
+    res.cookie('accessToken', accessToken, {
+      ...cookieOptions,
       maxAge: 15 * 60 * 1000, // 15 mins
     });
 
     res.cookie('refreshToken', refreshToken, {
-      httpOnly: true,
-      secure: config.isProduction,
-      sameSite: 'strict',
+      ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
 
@@ -103,17 +105,19 @@ export const refresh = async (req: Request, res: Response, next: NextFunction) =
     user.refreshTokens.push(newRefreshToken);
     await user.save();
 
-    res.cookie('accessToken', accessToken, {
+    const cookieOptions: any = {
       httpOnly: true,
-      secure: config.isProduction,
-      sameSite: 'strict',
+      secure: true,
+      sameSite: 'none',
+    };
+
+    res.cookie('accessToken', accessToken, {
+      ...cookieOptions,
       maxAge: 15 * 60 * 1000,
     });
 
     res.cookie('refreshToken', newRefreshToken, {
-      httpOnly: true,
-      secure: config.isProduction,
-      sameSite: 'strict',
+      ...cookieOptions,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
