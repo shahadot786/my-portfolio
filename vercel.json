@@ -1,0 +1,5 @@
+{
+    "buildCommand": "yarn workspace shahadot-portfolio build",
+    "outputDirectory": "frontend/.next",
+    "installCommand": "yarn install"
+}
