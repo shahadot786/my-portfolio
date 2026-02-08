@@ -1,50 +1,42 @@
 # MD. Shahadot Hossain - Portfolio v2.0
 
-A high-performance, full-stack developer portfolio built with **Next.js 14**, **TypeScript**, **Tailwind CSS**, and a **custom Express.js Backend**. Designed for total control, it features a complete Admin Dashboard to manage every aspect of the site without touching code.
+A high-performance, full-stack developer portfolio built with **Next.js 14 (App Router)**, **TypeScript**, **Tailwind CSS**, and **MongoDB**. This project features a completely integrated backend using Next.js API Routes and a comprehensive Admin Dashboard to manage all content without touching code.
 
 [![Live Demo](https://img.shields.io/badge/demo-live-emerald)](https://shahadot-hossain.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-14-black)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue)](https://www.typescriptlang.org/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
 
-## ✨ New in v2.0: Full Admin Control
+## ✨ Full Admin Control
 
-The portfolio is now powered by a **dynamic backend**, allowing you to update everything from a secure dashboard:
+The portfolio features a secure dashboard allowing you to update everything dynamically:
 
 - **🖥️ Admin Dashboard**: Manage Projects, Experience, Education, Skills, and Testimonials via a beautiful, dark-themed UI.
+- **📊 Analytics**: Built-in tracking for Page Views, Unique Visitors, Link Clicks, Traffic Sources, and Visitor Demographics.
 - **📄 Dynamic Pages**: Edit page titles, subtitles, and SEO metadata (Title, Description, Keywords) directly from the admin panel.
-- **📝 Automated Medium Blog**: Just paste your Medium URL, and the system automatically scrapes the Title, Thumbnail, and Excerpt. Or, let the frontend RSS feed auto-populate completely.
-- **🎓 Verified Credentials**: Showcase certifications with large, premium-looking cover cards and verification badges.
-- **💬 Message Center**: View contact form submissions directly in the Admin panel (email notifications disabled for privacy).
-- **🛡️ Secure Auth**: JWT-based authentication with Access (7d) and Refresh (120d) tokens.
+- **📝 Automated Medium Blog**: Automatically scrapes or syncs with your Medium blog.
+- **💬 Message Center**: View and manage contact form submissions.
+- **🛡️ Secure Auth**: JWT-based authentication with session management.
 
-## 🚀 Standard Features
+## 🚀 Key Features
 
-- **🎨 Minimalist Aesthetic**: Clean "Zinc" design system inspired by modern developer portfolios.
-- **📱 Responsive by Design**: Optimized for all devices with a custom mobile bottom navigation bar.
-- **🔍 SEO Optimized**: Server-rendered pages with dynamic metadata, sitemaps, and robots.txt.
-- **⚡ High Performance**: Disabled aggressive caching for real-time admin updates.
+- **🎨 Minimalist Aesthetic**: Clean "Zinc" design system.
+- **📱 Responsive**: Optimized for all devices with a custom mobile experience.
+- **🔍 SEO Optimized**: Server-rendered pages with dynamic metadata and sitemaps.
+- **⚡ Performance**: High-speed content delivery with optimized API routes.
 
 ## 🛠️ Project Structure
 
-This is a Monorepo containing both Frontend and Backend:
-
 ```
 my-portfolio/
-├── frontend/             # Next.js 14 App Router (Public + Admin)
-│   ├── app/
-│   │   ├── admin/        # Protected Admin Dashboard routes
-│   │   ├── api/          # Frontend API proxies
-│   │   └── (public)/     # Public portfolio pages
-│   ├── components/       # Shared UI (Nav, Layouts, Admin)
-│   └── lib/              # API clients and utils
-│
-├── backend/              # Express.js + Mongoose API
-│   ├── src/
-│   │   ├── controllers/  # Business logic
-│   │   ├── models/       # Mongoose Schemas (User, Project, Page...)
-│   │   └── routes/       # API endpoints
-│   └── scripts/          # Seeding scripts
+├── app/                  # Next.js 14 App Router
+│   ├── admin/            # Protected Admin Dashboard
+│   ├── api/              # Unified API Routes (Backend Logic)
+│   └── (public)/         # Public Portfolio Pages
+├── components/           # Shared UI Components
+├── lib/                  # Database Models, Auth, and Utils
+├── config/               # API and App Configuration
+└── public/               # Static Assets
 ```
 
 ## 🛠️ Local Development
@@ -52,55 +44,44 @@ my-portfolio/
 ### Prerequisites
 - Node.js 18+
 - Yarn (Recommended)
-- MongoDB running locally or a URI
+- MongoDB running locally or a MongoDB Atlas URI
 
 ### Setup
 
-1. **Install Dependencies** (Root)
+1. **Install Dependencies**
    ```bash
    yarn install
    ```
 
-2. **Backend Setup**
-   Create `backend/.env`:
+2. **Environment Configuration**
+   Create a `.env.local` file in the root directory:
    ```env
-   PORT=8080
+   # Database
    MONGODB_URI=mongodb://localhost:27017/portfolio
-   JWT_SECRET=your_super_secret_key
-   JWT_REFRESH_SECRET=your_super_refresh_secret
+
+   # JWT Secrets
+   JWT_SECRET=your_access_secret
+   JWT_REFRESH_SECRET=your_refresh_secret
    JWT_EXPIRES_IN=7d
    JWT_REFRESH_EXPIRES_IN=120d
+
+   # App Settings
+   NEXT_PUBLIC_SITE_URL=http://localhost:3000
    NODE_ENV=development
    ```
 
-3. **Frontend Setup**
-   Create `frontend/.env.local`:
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:8080/api
-   NEXT_PUBLIC_SITE_URL=http://localhost:3000
-   ```
-
-4. **Seed Database**
-   Populate the database with your real portfolio data:
+3. **Database Seeding**
+   Populate the database with initial samples:
    ```bash
-   yarn workspace @portfolio/backend seed-real
+   node scripts/seed.js
    ```
 
-5. **Run Development Server**
-   Start both Frontend and Backend concurrently:
+4. **Run Development Server**
    ```bash
    yarn dev
    ```
-   - Frontend: [http://localhost:3000](http://localhost:3000)
-   - Backend: [http://localhost:8080](http://localhost:8080)
+   - App: [http://localhost:3000](http://localhost:3000)
    - Admin Login: [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
-
-## 📝 Admin Configuration
-
-Login to `/admin` to manage:
-- **Profile**: Update Bio, Avatar, Social Links, and Change Password.
-- **Pages**: Customize "Employment History", "Projects" headers and SEO tags.
-- **Content**: Add new Projects, Skills, Certificates, and Testimonials.
 
 ## 📜 License
 Apache License 2.0. Built for the community.
