@@ -1,31 +1,19 @@
 import ArticlesClient from "./ArticlesClient";
+import { getPageContent } from "@/lib/pages";
 
-export const metadata = {
-  title: "Articles - MD. Shahadot Hossain",
-  description:
-    "Technical articles, tutorials, and insights on software development, React Native, TypeScript, and enterprise mobile solutions by MD. Shahadot Hossain.",
-  keywords: [
-    "Shahadot Hossain Blog",
-    "Software Engineering Articles",
-    "React Native Tutorials",
-    "TypeScript Tips",
-    "Mobile Development Insights",
-    "Technical Blog Bangladesh",
-    "Developer Articles",
-  ],
-  alternates: {
-    canonical: "https://shahadot-hossain.vercel.app/articles/",
-  },
-};
+export const dynamic = "force-dynamic";
 
-export default function ArticlesPage() {
+export default async function ArticlesPage() {
+  const pageContent = await getPageContent('articles');
   return (
     <div className="container-custom">
-      <h1 className="text-3xl font-bold text-white mb-4">Articles</h1>
-      <p className="text-zinc-400 mb-8 leading-relaxed">
-        Thoughts, tutorials, and insights on software development, architecture,
-        and building scalable applications.
-      </p>
+      <div className="mb-12">
+        <h1 className="text-3xl font-bold text-white mb-4">{pageContent?.title || 'Technical Writings'}</h1>
+        <p className="text-zinc-400 leading-relaxed">
+          {pageContent?.subtitle || 'Sharing my insights and experiences in software engineering.'}
+        </p>
+      </div>
+
       <ArticlesClient />
     </div>
   );

@@ -1,147 +1,77 @@
-import {
-  Code2,
-  Smartphone,
-  Server,
-  Database,
-  GitBranch,
-  Cloud,
-  Layers,
-  Zap,
-} from "lucide-react";
+import { API_BASE_URL } from "@/config/api";
+import { IconMap } from "@/lib/icons";
+import { getPageContent } from "@/lib/pages";
 
-const skillCategories = [
-  {
-    title: "Core Languages",
-    icon: Code2,
-    skills: ["JavaScript", "TypeScript", "SQL", "Java"],
-  },
-  {
-    title: "Frontend & Mobile",
-    icon: Smartphone,
-    skills: ["React Native", "Expo", "Next.js", "React.js"],
-  },
-  {
-    title: "Backend & APIs",
-    icon: Server,
-    skills: ["Node.js", "Express.js", "GraphQL", "Apollo Server", "Prisma"],
-  },
-  {
-    title: "Databases",
-    icon: Database,
-    skills: ["MongoDB", "PostgreSQL", "MySQL", "Redis", "MMKV", "AsyncStorage"],
-  },
-  {
-    title: "State Management",
-    icon: GitBranch,
-    skills: [
-      "Redux",
-      "Redux Toolkit",
-      "Zustand",
-      "React Query",
-      "Apollo Client",
-    ],
-  },
-  {
-    title: "Cloud & DevOps",
-    icon: Cloud,
-    skills: [
-      "AWS (S3, ECS, EC2)",
-      "Docker",
-      "GitHub Actions",
-      "Vercel",
-      "Firebase",
-    ],
-  },
-  {
-    title: "Architecture",
-    icon: Layers,
-    skills: [
-      "Microservices",
-      "Nx Monorepo",
-      "Clean Architecture",
-      "MVVM/MVC",
-      "Offline-first",
-    ],
-  },
-  {
-    title: "Specialized",
-    icon: Zap,
-    skills: [
-      "Face Detection",
-      "GPS Tracking",
-      "Bluetooth",
-      "WebSockets",
-      "Real-time Systems",
-    ],
-  },
-];
+export const dynamic = "force-dynamic";
 
-export const metadata = {
-  title: "Skills - MD. Shahadot Hossain",
-  description:
-    "Technical skills and expertise of MD. Shahadot Hossain specializing in React Native, TypeScript, and Full-stack Development.",
-  keywords: [
-    "Shahadot Hossain Technical Skills",
-    "React Native Expert Bangladesh",
-    "TypeScript Developer Bangladesh",
-    "Mobile App Architecture Expert",
-    "Full Stack Development Tech Stack",
-    "Offline-first Sync Specialist",
-    "Real-time System Development",
-    "Cloud Computing Skills AWS",
-    "Enterprise Software Architecture",
-    "Cross-platform Mobile Development Skills",
-  ],
-  alternates: {
-    canonical: "https://shahadot-hossain.vercel.app/skills/",
-  },
-};
+interface SkillCategory {
+  _id: string;
+  title: string;
+  icon: string;
+  skills: string[];
+  order: number;
+}
 
-export default function SkillsPage() {
+async function getSkillCategories(): Promise<SkillCategory[]> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/skills`, { cache: 'no-store' });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.skills || [];
+  } catch {
+    return [];
+  }
+}
+
+export default async function SkillsPage() {
+  const [skillCategories, pageContent] = await Promise.all([
+    getSkillCategories(),
+    getPageContent('skills')
+  ]);
+
   return (
     <div className="container-custom">
-      <h1 className="text-3xl font-bold text-white mb-4">Technical Skills</h1>
+      <h1 className="text-3xl font-bold text-white mb-4">{pageContent?.title || 'Technical Skills'}</h1>
       <p className="text-zinc-400 mb-12 leading-relaxed">
-        A comprehensive overview of technologies and tools I work with. I focus
-        on building scalable, high-performance applications with modern tech
-        stacks.
+        {pageContent?.subtitle || 'A comprehensive overview of technologies and tools I work with.'}
       </p>
 
       {/* Skills Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-12">
-        {skillCategories.map((category, index) => (
-          <div key={index} className="card group">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-lg bg-zinc-800 text-zinc-400 group-hover:text-white transition-colors">
-                <category.icon size={20} />
+        {skillCategories.map((category: SkillCategory, index: number) => {
+          const Icon = IconMap[category.icon] || IconMap.Code2;
+          return (
+            <div key={index} className="card group">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-zinc-800 text-zinc-400 group-hover:text-white transition-colors">
+                  <Icon size={20} />
+                </div>
+                <h2 className="text-lg font-semibold text-white">
+                  {category.title}
+                </h2>
               </div>
-              <h2 className="text-lg font-semibold text-white">
-                {category.title}
-              </h2>
+              <div className="flex flex-wrap gap-2">
+                {(category.skills || []).map((skill: string) => (
+                  <span key={skill} className="tag hover:border-primary/50 hover:text-white transition-all cursor-default text-zinc-300">
+                    {skill}
+                  </span>
+                ))}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {category.skills.map((skill) => (
-                <span key={skill} className="tag hover:border-primary/50 hover:text-white transition-all cursor-default">
-                  {skill}
-                </span>
-              ))}
-            </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* Summary */}
       <div className="border-t border-zinc-800 pt-8">
         <div className="card bg-zinc-900/50">
-          <h3 className="text-lg font-semibold text-white mb-3">Summary</h3>
+          <h3 className="text-lg font-semibold text-white mb-3">Professional Philosophy</h3>
           <p className="text-zinc-400 text-sm leading-relaxed">
-            With <span className="text-primary font-medium">4+ years</span> of
-            experience, I specialize in{" "}
-            <span className="text-primary font-medium">React Native</span> and{" "}
-            <span className="text-primary font-medium">TypeScript</span> for
-            building enterprise-grade mobile applications. My expertise includes
-            offline-first architecture, real-time systems, and integrating
-            advanced features like biometric verification and GPS tracking.
+            I prioritize <span className="text-primary font-medium">clean code</span>,
+            <span className="text-primary font-medium">performance</span>, and
+            <span className="text-primary font-medium"> user experience</span>.
+            My technical decisions are driven by the goals of high scalability,
+            maintainability, and providing tangible value to stakeholders.
           </p>
         </div>
       </div>

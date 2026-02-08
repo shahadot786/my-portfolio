@@ -1,158 +1,130 @@
-import { Github, Linkedin, Twitter, Youtube, Mail } from "lucide-react";
 import Link from "next/link";
-import { Metadata } from "next";
+import { API_BASE_URL } from "@/config/api";
+import { IconMap } from "@/lib/icons";
+import Image from "next/image";
 
-export const metadata: Metadata = {
-  title: "MD. Shahadot Hossain - Software Engineer",
-  description:
-    "Software Engineer specializing in React Native and Enterprise Mobile Solutions with 4+ years of experience.",
-};
+interface SocialLink {
+  platform: string;
+  url: string;
+  icon: string;
+}
 
-// Your data - preserved from original portfolio
-const socialLinks = [
+interface Profile {
+  name: string;
+  title: string;
+  bio: string[];
+  socialLinks: SocialLink[];
+}
 
-  { icon: Github, href: "https://github.com/shahadot786", label: "GitHub" },
-  {
-    icon: Linkedin,
-    href: "https://www.linkedin.com/in/shahadot786",
-    label: "LinkedIn",
-  },
-  { icon: Twitter, href: "https://twitter.com/shahadot786", label: "Twitter" },
-  { icon: Youtube, href: "https://youtube.com/@shahadot786", label: "YouTube" },
-  { icon: Mail, href: "mailto:shahadotrahat786@gmail.com", label: "Email" },
-];
+interface Testimonial {
+  _id: string;
+  name: string;
+  title: string;
+  content: string;
+  image?: string;
+  url?: string;
+  featured: boolean;
+}
 
-const testimonials = [
-  {
-    name: "Saif Uddin",
-    title: "Project Manager at Unilever",
-    image: null,
-    content:
-      "Shahadot delivered exceptional mobile solutions for our field operations. His offline-first architecture reduced data loss by 92% and improved our territory management efficiency significantly. The app now serves 10,000+ users with 100,000+ daily transactions.",
-  },
-  {
-    name: "Mohammad Assaduzzaman",
-    title: "Sr. Manager at HawkEyes Digital Monitoring Ltd",
-    image: "/testimonials/assaduzzaman.jpg",
-    content:
-      "Working with Shahadot has been a great experience. His expertise in React Native and TypeScript, combined with his deep understanding of enterprise-scale mobile applications, makes him an invaluable team member. He consistently delivers high-quality code.",
-  },
-  {
-    name: "Sarwar Jahan Shohan",
-    title: "Software Engineer at BRAC-Aarong",
-    image: "/testimonials/shohan.jpg",
-    content:
-      "Shahadot is a highly skilled developer who brings both technical depth and creative problem-solving to every project. His ability to architect scalable solutions and his dedication to clean code have been instrumental in our successful collaborations.",
-  },
-  {
-    name: "Faiazur Rahman",
-    title: "Software engineer at bKash",
-    image: "/testimonials/faiazur.jpg",
-    content:
-      "I've seen Shahadot tackle complex technical challenges with ease. His proficiency in modern web and mobile technologies, coupled with a strong work ethic, makes him a standout engineer. He's always eager to share knowledge and help the team grow.",
-  },
-];
+async function getProfile(): Promise<Profile | null> {
+  const res = await fetch(`${API_BASE_URL}/profile`, { cache: 'no-store' });
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.profile;
+}
 
-export default function Home() {
+async function getTestimonials(): Promise<Testimonial[]> {
+  const res = await fetch(`${API_BASE_URL}/testimonials`, { cache: 'no-store' });
+  if (!res.ok) return [];
+  const data = await res.json();
+  return data.testimonials;
+}
+
+export default async function Home() {
+  const profile = await getProfile();
+  const testimonials = await getTestimonials();
+
+  if (!profile) return <div>Error loading profile...</div>;
+
   return (
     <div className="container-custom">
       {/* Hero Section */}
       <section className="mb-16">
         <h1 className="text-3xl font-bold text-white mb-2">
-          MD. Shahadot Hossain
+          {profile.name}
         </h1>
-        <p className="text-zinc-400 mb-8">Software Engineer</p>
+        <p className="text-zinc-400 mb-8">{profile.title}</p>
 
         {/* Bio */}
         <div className="space-y-4 text-zinc-300 leading-relaxed">
-          <p>
-            I am a software engineer based in Bangladesh 🇧🇩. I have{" "}
-            <span className=" font-medium text-primary">4+ years</span> of
-            experience building mobile and web applications for enterprise
-            clients. I have worked with companies like{" "}
-            <span className="text-primary font-medium">Unilever</span>,{" "}
-            <span className="text-primary font-medium">BAT</span>,{" "}
-            <span className="text-primary font-medium">Nestlé</span>, and{" "}
-            <span className="text-primary font-medium">Nagad</span>.
-
-          </p>
-
-          <p>
-            Over the years, I have worked with a variety of technologies
-            including{" "}
-            <span className="text-primary font-medium">
-              React Native, TypeScript, Node.js, Next.js, Redux, MongoDB,
-              PostgreSQL
-            </span>
-            , and many others. I specialize in{" "}
-            <span className="text-primary font-medium">
-              offline-first architecture
-            </span>
-            , real-time tracking systems, and building scalable mobile
-            ecosystems.
-          </p>
-
-          <p>
-            I am a{" "}
-            <span className="text-primary font-medium">
-              Full-stack developer at heart
-            </span>{" "}
-            with expertise in all parts of the stack including the frontend,
-            backend, databases, and cloud. Taking rough problem statements and
-            turning them into polished products is my specialty.
-          </p>
-
-          <p>
-            Currently, I work at{" "}
-            <Link href="/work" className="link text-primary font-medium">
-              HawkEyes Digital Monitoring
-            </Link>{" "}
-            where I architect and develop enterprise mobile applications serving
-            Fortune 500 companies. My work has impacted{" "}
-            <span className="text-primary font-medium">10,000+ users</span>{" "}
-            with{" "}
-            <span className="text-primary font-medium">
-              100,000+ daily transactions
-            </span>
-            .
-          </p>
+          {profile.bio.map((para: string, i: number) => (
+            <p key={i} dangerouslySetInnerHTML={{
+              __html: para.replace(/(React Native|TypeScript|Node\.js|Next\.js|Redux|MongoDB|PostgreSQL|Unilever|BAT|Nestlé|Nagad|offline-first architecture|Full-stack developer at heart|10,000\+ users|100,000\+ daily transactions|4\+ years)/g, '<span class="text-primary font-medium">$1</span>')
+            }} />
+          ))}
         </div>
 
         {/* Social Links */}
         <div className="flex items-center gap-4 mt-8 pt-8 border-t border-zinc-800">
-          {socialLinks.map((social) => (
-            <a
-              key={social.label}
-              href={social.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="social-link flex items-center gap-2 text-sm"
-              aria-label={social.label}
-            >
-              <social.icon size={18} />
-              <span className="hidden sm:inline">{social.label}</span>
-            </a>
-          ))}
+          {profile.socialLinks.map((social: SocialLink) => {
+            const Icon = IconMap[social.icon as keyof typeof IconMap] || IconMap.Globe;
+            return (
+              <a
+                key={social.platform}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="social-link flex items-center gap-2 text-sm"
+                aria-label={social.platform}
+              >
+                <Icon size={18} />
+                <span className="hidden sm:inline">{social.platform}</span>
+              </a>
+            );
+          })}
         </div>
       </section>
 
       {/* Testimonials Section */}
       <section>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {testimonials.map((testimonial, index) => (
-            <div key={index} className="testimonial-card">
+          {testimonials.map((testimonial: Testimonial) => (
+            <div key={testimonial._id} className="testimonial-card rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
               <div className="flex items-center gap-3 mb-4">
-                {testimonial.image ? (
-                  <div className="relative w-10 h-10 rounded-full overflow-hidden">
-                    <img
-                      src={testimonial.image}
-                      alt={testimonial.name}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
+                {testimonial.url ? (
+                  <a
+                    href={testimonial.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block relative w-10 h-10 rounded-full overflow-hidden hover:ring-2 hover:ring-primary/50 transition-all"
+                  >
+                    {testimonial.image ? (
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-zinc-700 flex items-center justify-center text-white font-medium">
+                        {testimonial.name[0]}
+                      </div>
+                    )}
+                  </a>
                 ) : (
-                  <div className="w-10 h-10 rounded-full bg-zinc-700 flex items-center justify-center text-white font-medium">
-                    {testimonial.name[0]}
+                  <div className="relative w-10 h-10 rounded-full overflow-hidden">
+                    {testimonial.image ? (
+                      <Image
+                        src={testimonial.image}
+                        alt={testimonial.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-zinc-700 flex items-center justify-center text-white font-medium">
+                        {testimonial.name[0]}
+                      </div>
+                    )}
                   </div>
                 )}
                 <div>
@@ -173,12 +145,12 @@ export default function Home() {
         <div className="mt-12 pt-8 border-t border-zinc-800 text-center">
           <p className="text-zinc-400 text-sm">
             If you want to get in touch, feel free to{" "}
-            <a
-              href="mailto:shahadotrahat786@gmail.com"
+            <Link
+              href="/contact"
               className="link text-primary font-medium"
             >
               email me
-            </a>
+            </Link>
             .
           </p>
         </div>

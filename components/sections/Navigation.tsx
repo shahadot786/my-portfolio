@@ -1,13 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Briefcase, FolderOpen, Code2, Newspaper, Mail } from "lucide-react";
 
 export function Navigation() {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  if (pathname.startsWith("/admin")) {
+    return null;
+  }
 
   const navItems = [
     { href: "/", label: "Home", icon: Home },

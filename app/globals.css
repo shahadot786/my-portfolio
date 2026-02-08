@@ -130,6 +130,11 @@
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom);
   }
+
+  /* Admin Inputs */
+  .input-admin {
+    @apply w-full bg-zinc-950 border border-zinc-800 rounded-xl py-2.5 px-4 text-white text-sm focus:outline-none focus:border-primary/50 transition-colors placeholder:text-zinc-700;
+  }
 }
 
 /* Custom Scrollbar */

@@ -1,6 +1,6 @@
 import "./globals.css";
 import { Inter } from "next/font/google";
-import { Navigation } from "@/components/sections/Navigation";
+import { ClientLayout } from "@/components/layout/ClientLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -142,8 +142,7 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
-        <Navigation />
-        <main className="min-h-screen pt-24 pb-24 md:pb-16">{children}</main>
+        <ClientLayout>{children}</ClientLayout>
       </body>
     </html>
   );

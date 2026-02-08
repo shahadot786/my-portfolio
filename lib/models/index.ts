@@ -1,0 +1,12 @@
+export { User, type IUser } from './User';
+export { Profile, type IProfile, type ISocialLink, type ISeoData } from './Profile';
+export { Experience, type IExperience } from './Experience';
+export { Project, type IProject, type IProjectMetric, type IProjectLink } from './Project';
+export { SkillCategory, type ISkillCategory } from './Skill';
+export { Testimonial, type ITestimonial } from './Testimonial';
+export { Education, type IEducation } from './Education';
+export { Certificate, type ICertificate } from './Certificate';
+export { Article, type IArticle } from './Article';
+export { Message, type IMessage } from './Message';
+export { Analytics, type IAnalytics } from './Analytics';
+export { Page, type IPage } from './Page';

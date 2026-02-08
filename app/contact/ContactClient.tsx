@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Youtube, Send, Loader, CheckCircle, AlertCircle } from "lucide-react";
+import { API_BASE_URL } from "@/config/api";
 
 const contactInfo = [
     {
@@ -47,7 +48,7 @@ export default function ContactClient() {
         setSubmitStatus("idle");
 
         try {
-            const res = await fetch("/api/contact", {
+            const res = await fetch(`${API_BASE_URL}/messages`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -59,7 +60,7 @@ export default function ContactClient() {
             } else {
                 setSubmitStatus("error");
             }
-        } catch (error) {
+        } catch {
             setSubmitStatus("error");
         } finally {
             setIsSubmitting(false);
@@ -203,7 +204,7 @@ export default function ContactClient() {
                     {submitStatus === "success" && (
                         <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4">
                             <CheckCircle size={18} />
-                            <p className="text-sm">Message sent successfully! I'll get back to you soon.</p>
+                            <p className="text-sm">Message sent successfully! I&apos;ll get back to you soon.</p>
                         </div>
                     )}
 
