@@ -17,7 +17,7 @@ export function Navigation() {
     { href: "/projects", label: "Projects", icon: FolderOpen },
     { href: "/skills", label: "Skills", icon: Code2 },
     { href: "/articles", label: "Articles", icon: Newspaper },
-    { href: "/tracker", label: "Tracker", icon: Target },
+    // { href: "/tracker", label: "Tracker", icon: Target },
     { href: "/contact", label: "Contact", icon: Mail },
   ];
 
