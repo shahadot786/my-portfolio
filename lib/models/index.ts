@@ -10,4 +10,5 @@ export { Article, type IArticle } from './Article';
 export { Message, type IMessage } from './Message';
 export { Analytics, type IAnalytics } from './Analytics';
 export { Page, type IPage } from './Page';
+export { default as TopicProgress, type ITopicProgress } from './TopicProgress';
 export { Tracker, type ITracker, type ITrackerDay, type IChecklistItem, type IMilestone } from './Tracker';
