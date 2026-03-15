@@ -13,7 +13,8 @@ import {
   Settings,
   Quote,
   Award,
-  LayoutTemplate
+  LayoutTemplate,
+  Target
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import api from '@/lib/api-client';
@@ -27,6 +28,7 @@ const menuItems = [
   { icon: Code2, label: 'Skills', href: '/admin/skills' },
   { icon: Award, label: 'Credentials', href: '/admin/credentials' },
   { icon: LayoutTemplate, label: 'Pages', href: '/admin/pages' },
+  { icon: Target, label: 'Trackers', href: '/admin/trackers' },
   { icon: Quote, label: 'Testimonials', href: '/admin/testimonials' },
   { icon: MessageSquare, label: 'Messages', href: '/admin/messages' },
 ];
