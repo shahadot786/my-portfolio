@@ -29,8 +29,9 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       return () => clearTimeout(timer);
     }
   }, [pathname, isAdmin]);
-  const isImanerBagan = pathname === "/imaner-bagan/";
-  const hideNav = isAdmin || isImanerBagan;
+  const isImanerBagan = pathname?.startsWith("/imaner-bagan");
+  const isScriptGenerator = pathname?.startsWith("/script-generator");
+  const hideNav = isAdmin || isImanerBagan || isScriptGenerator;
 
   if (hideNav) {
     return <>{children}</>;
