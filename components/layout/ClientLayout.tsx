@@ -30,8 +30,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
     }
   }, [pathname, isAdmin]);
   const isImanerBagan = pathname?.startsWith("/imaner-bagan");
-  const isScriptGenerator = pathname?.startsWith("/script-generator");
-  const hideNav = isAdmin || isImanerBagan || isScriptGenerator;
+  const hideNav = isAdmin || isImanerBagan;
 
   if (hideNav) {
     return <>{children}</>;
