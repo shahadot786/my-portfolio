@@ -27,14 +27,16 @@ interface Testimonial {
 }
 
 async function getProfile(): Promise<Profile | null> {
-  const res = await fetch(`${API_BASE_URL}/profile`, { cache: 'no-store' });
+  const res = await fetch(`${API_BASE_URL}/profile`, { cache: "no-store" });
   if (!res.ok) return null;
   const data = await res.json();
   return data.profile;
 }
 
 async function getTestimonials(): Promise<Testimonial[]> {
-  const res = await fetch(`${API_BASE_URL}/testimonials`, { cache: 'no-store' });
+  const res = await fetch(`${API_BASE_URL}/testimonials`, {
+    cache: "no-store",
+  });
   if (!res.ok) return [];
   const data = await res.json();
   return data.testimonials;
@@ -50,24 +52,29 @@ export default async function Home() {
     <div className="container-custom">
       {/* Hero Section */}
       <section className="mb-16">
-        <h1 className="text-3xl font-bold text-white mb-2">
-          {profile.name}
-        </h1>
+        <h1 className="text-3xl font-bold text-white mb-2">{profile.name}</h1>
         <p className="text-zinc-400 mb-8">{profile.title}</p>
 
         {/* Bio */}
         <div className="space-y-4 text-zinc-300 leading-relaxed">
           {profile.bio.map((para: string, i: number) => (
-            <p key={i} dangerouslySetInnerHTML={{
-              __html: para.replace(/(React Native|TypeScript|Node\.js|Next\.js|Redux|MongoDB|PostgreSQL|Unilever|BAT|Nestlé|Nagad|offline-first architecture|Full-stack developer at heart|10,000\+ users|100,000\+ daily transactions|4\+ years)/g, '<span class="text-primary font-medium">$1</span>')
-            }} />
+            <p
+              key={i}
+              dangerouslySetInnerHTML={{
+                __html: para.replace(
+                  /(React Native|JavaScript|React.js|Next.js|Redux|Expo|Zustand|TypeScript|Node\.js|Next\.js|Redux|MongoDB|PostgreSQL|Unilever|BAT|Nestlé|Nagad|L'Oréal|offline-first architecture|Full-stack developer at heart|10,000\+ users|100,000\+ daily transactions|4\+ years|5\+ years)/g,
+                  '<span class="text-primary font-medium">$1</span>',
+                ),
+              }}
+            />
           ))}
         </div>
 
         {/* Social Links */}
         <div className="flex items-center gap-4 mt-8 pt-8 border-t border-zinc-800">
           {profile.socialLinks.map((social: SocialLink) => {
-            const Icon = IconMap[social.icon as keyof typeof IconMap] || IconMap.Globe;
+            const Icon =
+              IconMap[social.icon as keyof typeof IconMap] || IconMap.Globe;
             return (
               <a
                 key={social.platform}
@@ -89,7 +96,10 @@ export default async function Home() {
       <section>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {testimonials.map((testimonial: Testimonial) => (
-            <div key={testimonial._id} className="testimonial-card rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
+            <div
+              key={testimonial._id}
+              className="testimonial-card rounded-xl border border-zinc-800 bg-zinc-900/50 p-6"
+            >
               <div className="flex items-center gap-3 mb-4">
                 {testimonial.url ? (
                   <a
@@ -145,10 +155,7 @@ export default async function Home() {
         <div className="mt-12 pt-8 border-t border-zinc-800 text-center">
           <p className="text-zinc-400 text-sm">
             If you want to get in touch, feel free to{" "}
-            <Link
-              href="/contact"
-              className="link text-primary font-medium"
-            >
+            <Link href="/contact" className="link text-primary font-medium">
               email me
             </Link>
             .

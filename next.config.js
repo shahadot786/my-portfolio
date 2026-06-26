@@ -44,7 +44,6 @@ const nextConfig = {
       },
     ],
   },
-  trailingSlash: true,
   async headers() {
     return [
       {
