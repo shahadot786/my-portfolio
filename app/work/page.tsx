@@ -1,4 +1,5 @@
-import { Bookmark, Check, Award, ExternalLink, ShieldCheck, GraduationCap } from "lucide-react";
+import Link from "next/link";
+import { Award, ExternalLink, ShieldCheck, GraduationCap } from "lucide-react";
 import { API_BASE_URL } from "@/config/api";
 import { getPageContent } from "@/lib/pages";
 
@@ -7,6 +8,7 @@ export const revalidate = 86400; // Revalidate static cache every 24 hours
 interface Experience {
   _id: string;
   company: string;
+  companyUrl?: string;
   location: string;
   title: string;
   period: string;
@@ -77,9 +79,6 @@ export default async function WorkPage() {
     getPageContent('work')
   ]);
 
-  const verifiedCertificates = certificates.filter(c => c.verified);
-  const otherCertificates = certificates.filter(c => !c.verified);
-
   return (
     <div className="container-custom py-8 space-y-16">
       <div>
@@ -107,7 +106,20 @@ export default async function WorkPage() {
               <div>
                 <span className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider">{exp.location}</span>
                 <h2 className="text-xl font-bold text-[#dde4dd]">
-                  {exp.title} <span className="text-[#4edea3]">@ {exp.company}</span>
+                  {exp.title}{" "}
+                  {exp.companyUrl ? (
+                    <a
+                      href={exp.companyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#4edea3] hover:text-[#6ffbbe] hover:underline transition-colors inline-flex items-center gap-1"
+                    >
+                      @ {exp.company}
+                      <ExternalLink size={14} className="inline opacity-80" />
+                    </a>
+                  ) : (
+                    <span className="text-[#4edea3]">@ {exp.company}</span>
+                  )}
                 </h2>
               </div>
               <div className="flex items-center gap-2">
@@ -184,92 +196,29 @@ export default async function WorkPage() {
         </div>
       )}
 
-      {/* Verified Certifications Section (Stitch Theme Redesign) */}
-      {verifiedCertificates.length > 0 && (
-        <div className="space-y-6 pt-6 border-t border-[#3c4a42]">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-bold text-[#dde4dd] tracking-tight flex items-center gap-2.5">
-              <Award className="text-[#4edea3]" size={22} />
-              Verified Credentials & Certifications
-            </h2>
-            <span className="font-mono text-xs text-[#4cd7f6] bg-[#03b5d3]/10 border border-[#4cd7f6]/30 px-3 py-1 rounded-full">
-              {verifiedCertificates.length} Verified
-            </span>
+      {/* Certifications Quick Link Banner */}
+      <div className="pt-6 border-t border-[#3c4a42]">
+        <div className="glass-card p-8 flex flex-col sm:flex-row items-center justify-between gap-6 bg-gradient-to-r from-[#10b981]/10 via-[#0e1511] to-[#03b5d3]/10 border border-[#4edea3]/30">
+          <div className="space-y-2 text-center sm:text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium">
+              <ShieldCheck size={14} />
+              {certificates.length > 0 ? `${certificates.length} Verified Accreditations` : 'Verified Credentials'}
+            </div>
+            <h2 className="text-2xl font-bold text-[#dde4dd] tracking-tight">Verified Certifications</h2>
+            <p className="text-[#bbcabf] text-xs sm:text-sm max-w-xl">
+              Explore industry-recognized software architecture, mobile development, and cloud engineering accreditations on the dedicated Certifications page.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {verifiedCertificates.map((cert) => (
-              <a
-                key={cert._id}
-                href={cert.url || '#'}
-                target={cert.url ? "_blank" : undefined}
-                rel="noreferrer"
-                className={`glass-card p-6 flex flex-col justify-between group hover:border-[#4edea3] transition-all relative overflow-hidden ${!cert.url && 'cursor-default'}`}
-              >
-                {/* Header info */}
-                <div>
-                  <div className="flex items-center justify-between gap-2 mb-4">
-                    <span className="text-xs font-mono text-[#4cd7f6] bg-[#03b5d3]/10 border border-[#4cd7f6]/30 px-2.5 py-1 rounded-md">
-                      {cert.issuer}
-                    </span>
-                    <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#4edea3] bg-[#10b981]/10 border border-[#4edea3]/30 px-2.5 py-1 rounded-full">
-                      <ShieldCheck size={13} />
-                      Verified
-                    </span>
-                  </div>
-
-                  <h3 className="text-[#dde4dd] font-bold text-lg leading-snug group-hover:text-[#4edea3] transition-colors mb-2">
-                    {cert.name}
-                  </h3>
-                </div>
-
-                {/* Certificate Preview / Image Banner if available */}
-                {cert.image && (
-                  <div className="my-4 relative w-full h-56 sm:h-64 md:h-72 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={cert.image}
-                      alt={cert.name}
-                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
-                    />
-                  </div>
-                )}
-
-                {/* Footer Meta */}
-                <div className="flex items-center justify-between pt-4 border-t border-[#3c4a42] mt-4 text-xs font-mono text-[#94A3B8]">
-                  <span>Issued: {cert.date}</span>
-                  {cert.url && (
-                    <span className="inline-flex items-center gap-1 text-[#4edea3] group-hover:translate-x-1 transition-transform">
-                      View Credential <ExternalLink size={12} />
-                    </span>
-                  )}
-                </div>
-              </a>
-            ))}
-          </div>
+          <Link
+            href="/certifications"
+            className="px-6 py-3 bg-[#4edea3] text-[#0e1511] font-bold text-sm rounded-xl hover:bg-[#6ffbbe] transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#4edea3]/20 flex items-center gap-2 whitespace-nowrap shrink-0"
+          >
+            <Award size={18} />
+            View Certifications Page
+          </Link>
         </div>
-      )}
-
-      {/* Professional Development */}
-      {otherCertificates.length > 0 && (
-        <div className="space-y-4 pt-6 border-t border-[#3c4a42]">
-          <h2 className="text-xl font-bold text-[#dde4dd] tracking-tight flex items-center gap-2">
-            <Bookmark size={18} className="text-[#4edea3]" />
-            Professional Development
-          </h2>
-          <div className="flex flex-wrap gap-2.5">
-            {otherCertificates.map((cert) => (
-              <span
-                key={cert._id}
-                className="px-3.5 py-2 text-xs font-mono text-[#dde4dd] bg-[#1a211d] border border-[#3c4a42] rounded-xl flex items-center gap-2"
-              >
-                <Check size={13} className="text-[#4edea3]" />
-                {cert.name}
-              </span>
-            ))}
-          </div>
-        </div>
-      )}
+      </div>
     </div>
   );
 }

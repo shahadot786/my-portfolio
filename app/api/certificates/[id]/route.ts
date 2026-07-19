@@ -18,6 +18,7 @@ export const PUT = withErrorHandling(withAdmin(async (req: NextRequest, { params
     });
     if (!item) return NextResponse.json({ error: 'Certificate not found' }, { status: 404 });
     revalidatePath('/work');
+    revalidatePath('/certifications');
     revalidatePath('/');
     return NextResponse.json({ success: true, item });
 }));
@@ -26,6 +27,7 @@ export const DELETE = withErrorHandling(withAdmin(async (req: NextRequest, { par
     const item = await Certificate.findByIdAndDelete(params.id);
     if (!item) return NextResponse.json({ error: 'Certificate not found' }, { status: 404 });
     revalidatePath('/work');
+    revalidatePath('/certifications');
     revalidatePath('/');
     return NextResponse.json({ success: true, message: 'Certificate deleted' });
 }));

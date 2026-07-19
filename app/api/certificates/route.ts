@@ -15,6 +15,7 @@ export const POST = withErrorHandling(withAdmin(async (req: NextRequest) => {
     const body = await req.json();
     const certificate = await Certificate.create(body);
     revalidatePath('/work');
+    revalidatePath('/certifications');
     revalidatePath('/');
     return NextResponse.json({ success: true, certificate });
 }));

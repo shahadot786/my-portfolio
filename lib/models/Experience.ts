@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IExperience extends Document {
     company: string;
+    companyUrl?: string;
     location: string;
     title: string;
     period: string;
@@ -19,6 +20,11 @@ const experienceSchema = new Schema<IExperience>(
         company: {
             type: String,
             required: [true, 'Company name is required'],
+            trim: true,
+        },
+        companyUrl: {
+            type: String,
+            default: '',
             trim: true,
         },
         location: {

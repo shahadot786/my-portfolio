@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Briefcase, FolderOpen, Code2, Newspaper, Mail } from "lucide-react";
+import { Home, Briefcase, FolderOpen, Code2, Award, Newspaper, Mail } from "lucide-react";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export function Navigation() {
@@ -17,6 +17,7 @@ export function Navigation() {
     { href: "/work", label: "Work", icon: Briefcase },
     { href: "/projects", label: "Projects", icon: FolderOpen },
     { href: "/skills", label: "Skills", icon: Code2 },
+    { href: "/certifications", label: "Certifications", icon: Award },
     { href: "/articles", label: "Articles", icon: Newspaper },
     // { href: "/tracker", label: "Tracker", icon: Target },
     { href: "/contact", label: "Contact", icon: Mail },

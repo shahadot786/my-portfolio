@@ -10,6 +10,7 @@ import { Loader, Plus, Trash2, Edit2, X, Check, Briefcase } from 'lucide-react';
 interface Experience {
   _id: string;
   company: string;
+  companyUrl?: string;
   location: string;
   title: string;
   period: string;
@@ -22,6 +23,7 @@ interface Experience {
 
 const experienceSchema = z.object({
   company: z.string().min(1, 'Company is required'),
+  companyUrl: z.string().optional(),
   location: z.string().min(1, 'Location is required'),
   title: z.string().min(1, 'Title is required'),
   period: z.string().min(1, 'Period is required'),
@@ -182,12 +184,23 @@ export default function AdminWorkPage() {
             <div className="p-8 overflow-y-auto space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2 md:col-span-1">
-                  <label className="block text-zinc-400 text-xs font-medium mb-2 uppercase tracking-wider">Company</label>
-                  <input {...register('company')} className="input-admin" placeholder="Google" />
+                  <label className="block text-zinc-400 text-xs font-medium mb-2 uppercase tracking-wider">Company Name</label>
+                  <input {...register('company')} className="input-admin" placeholder="iBox Lab Limited" />
                 </div>
+                <div className="col-span-2 md:col-span-1">
+                  <label className="block text-zinc-400 text-xs font-medium mb-2 uppercase tracking-wider">Company Website URL (Optional)</label>
+                  <input {...register('companyUrl')} className="input-admin" placeholder="https://iboxlab.com" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2 md:col-span-1">
                   <label className="block text-zinc-400 text-xs font-medium mb-2 uppercase tracking-wider">Location</label>
                   <input {...register('location')} className="input-admin" placeholder="Remote / City" />
+                </div>
+                <div className="col-span-2 md:col-span-1">
+                  <label className="block text-zinc-400 text-xs font-medium mb-2 uppercase tracking-wider">Title</label>
+                  <input {...register('title')} className="input-admin" placeholder="Senior Developer" />
                 </div>
               </div>
 
