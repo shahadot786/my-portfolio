@@ -20,6 +20,7 @@ import {
 const profileSchema = z.object({
   name: z.string().min(1, "Name is required"),
   title: z.string().min(1, "Title is required"),
+  avatar: z.string().optional(),
   location: z.string().min(1, "Location is required"),
   email: z.string().email("Invalid email"),
   bio: z.array(z.object({ value: z.string() })).min(1, "Bio is required"),
@@ -251,6 +252,17 @@ export default function ProfilePage() {
                 placeholder="hello@example.com"
               />
             </div>
+          </div>
+
+          <div>
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">
+              Profile Avatar Image URL
+            </label>
+            <input
+              {...register("avatar")}
+              className="input-admin"
+              placeholder="/avatar.png or https://example.com/avatar.jpg"
+            />
           </div>
 
           {/* Social Links */}

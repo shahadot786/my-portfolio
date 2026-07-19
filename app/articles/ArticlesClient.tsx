@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Calendar, Clock, ExternalLink, RefreshCw, AlertCircle, Newspaper } from "lucide-react";
-import Image from "next/image";
 import { TrackedLink } from "@/components/ui/TrackedLink";
 
 interface MediumArticle {
@@ -114,7 +113,7 @@ export default function ArticlesClient() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {articles.map((article) => (
         <TrackedLink
           key={article.guid}
@@ -122,64 +121,57 @@ export default function ArticlesClient() {
           path="/articles"
           target="_blank"
           rel="noopener noreferrer"
-          className="group block p-4 rounded-2xl border border-zinc-900 bg-zinc-950/50 hover:bg-zinc-900/40 hover:border-zinc-800 transition-all"
+          className="group glass-card p-6 flex flex-col justify-between hover:border-[#4edea3] transition-all"
         >
-          <div className="flex flex-col md:flex-row gap-4">
-            {/* Thumbnail */}
-            <div className="relative w-full md:w-32 h-32 md:h-32 bg-zinc-800 rounded-xl overflow-hidden flex-shrink-0 border border-zinc-800">
-              {article.thumbnail ? (
-                <Image
+          <div>
+            {/* Full Article Cover Image */}
+            {article.thumbnail && (
+              <div className="mb-4 relative w-full h-44 sm:h-52 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={article.thumbnail}
                   alt={article.title}
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                  unoptimized
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center">
-                  <Newspaper className="w-8 h-8 text-zinc-600" />
-                </div>
-              )}
-            </div>
-
-            {/* Content */}
-            <div className="flex-1 min-w-0 flex flex-col justify-center">
-              {/* Categories */}
-              {article.categories.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 mb-2">
-                  {article.categories.slice(0, 2).map((category, i) => (
-                    <span key={i} className="text-[10px] uppercase tracking-wider text-primary font-bold bg-primary/10 px-2 py-0.5 rounded">
-                      {category}
-                    </span>
-                  ))}
-                </div>
-              )}
-
-              {/* Title */}
-              <h3 className="text-white font-bold text-lg leading-tight group-hover:text-primary transition-colors mb-2">
-                {article.title}
-              </h3>
-
-              {/* Description */}
-              <p className="text-zinc-400 text-sm line-clamp-2 leading-relaxed mb-3">
-                {article.description}
-              </p>
-
-              {/* Meta */}
-              <div className="flex items-center gap-4 text-xs text-zinc-500 font-medium uppercase tracking-wide">
-                <span className="flex items-center gap-1.5">
-                  <Calendar size={12} />
-                  {formatDate(article.pubDate)}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Clock size={12} />
-                  {estimateReadTime(article.description)} min read
-                </span>
-                <span className="flex items-center gap-1 text-primary group-hover:translate-x-1 transition-transform ml-auto">
-                  Read Story <ExternalLink size={12} />
-                </span>
               </div>
+            )}
+
+            {/* Meta header */}
+            <div className="flex items-center justify-between text-xs font-mono text-[#94A3B8] mb-3">
+              <span className="flex items-center gap-1.5">
+                <Calendar size={13} className="text-[#4edea3]" />
+                {formatDate(article.pubDate)}
+              </span>
+              <span className="flex items-center gap-1.5">
+                <Clock size={13} />
+                {estimateReadTime(article.description)} min read
+              </span>
             </div>
+
+            {/* Title */}
+            <h2 className="text-[#dde4dd] font-bold text-xl leading-snug group-hover:text-[#4edea3] transition-colors mb-3">
+              {article.title}
+            </h2>
+
+            {/* Description */}
+            <p className="text-[#bbcabf] text-sm line-clamp-3 leading-relaxed mb-6">
+              {article.description}
+            </p>
+          </div>
+
+          {/* Categories & Link */}
+          <div className="flex items-center justify-between pt-4 border-t border-[#3c4a42] mt-auto">
+            <div className="flex flex-wrap gap-1.5">
+              {article.categories.slice(0, 3).map((category, i) => (
+                <span key={i} className="text-xs font-mono text-[#4cd7f6] bg-[#03b5d3]/10 border border-[#4cd7f6]/30 px-2.5 py-1 rounded-md">
+                  {category}
+                </span>
+              ))}
+            </div>
+
+            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-[#4edea3] group-hover:translate-x-1 transition-transform">
+              Read <ExternalLink size={12} />
+            </span>
           </div>
         </TrackedLink>
       ))}

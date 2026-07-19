@@ -1,4 +1,4 @@
-import { Bookmark, Check } from "lucide-react";
+import { Bookmark, Check, Award, ExternalLink, ShieldCheck, GraduationCap } from "lucide-react";
 import { API_BASE_URL } from "@/config/api";
 import { getPageContent } from "@/lib/pages";
 
@@ -69,59 +69,70 @@ export default async function WorkPage() {
   const otherCertificates = certificates.filter(c => !c.verified);
 
   return (
-    <div className="container-custom">
-      <h1 className="text-3xl font-bold text-white mb-4">{pageContent?.title || 'Employment History'}</h1>
-      <p className="text-zinc-400 mb-12 leading-relaxed">
-        {pageContent?.subtitle || 'Here is a brief overview of my employment history.'}
-      </p>
+    <div className="container-custom py-8 space-y-16">
+      <div>
+        <span className="inline-block px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium mb-3">
+          Career Timeline & Professional Achievements
+        </span>
+        <h1 className="text-4xl font-extrabold text-[#dde4dd] tracking-tight">{pageContent?.title || 'Employment History'}</h1>
+        <p className="text-[#bbcabf] mt-2 text-base max-w-xl leading-relaxed">
+          {pageContent?.subtitle || 'Over 4+ years building high-impact mobile platforms and scalable systems for global enterprise clients.'}
+        </p>
+      </div>
 
       {/* Experience Timeline */}
-      <div className="space-y-12 mb-20">
+      <div className="space-y-6">
         {experiences.map((exp: Experience, index: number) => (
           <div
             key={index}
-            className="border-b border-zinc-800 pb-12 last:border-0"
+            className="glass-card p-6 sm:p-8 relative overflow-hidden group"
           >
+            {/* Ambient accent bar */}
+            <div className="absolute top-0 left-0 bottom-0 w-1 bg-[#4edea3] opacity-60 group-hover:opacity-100 transition-opacity" />
+
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
               <div>
-                <p className="text-zinc-500 text-sm">{exp.location}</p>
-                <h2 className="text-xl font-semibold text-white">
-                  {exp.title} at {exp.company}
+                <span className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider">{exp.location}</span>
+                <h2 className="text-xl font-bold text-[#dde4dd]">
+                  {exp.title} <span className="text-[#4edea3]">@ {exp.company}</span>
                 </h2>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-zinc-500 text-sm whitespace-nowrap">
+                <span className="text-xs font-mono text-[#bbcabf] px-3 py-1 bg-[#1a211d] rounded-lg border border-[#3c4a42]">
                   {exp.period}
                 </span>
                 {exp.isCurrent && (
-                  <span className="tag-highlight">Currently Working</span>
+                  <span className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-full flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#4edea3] animate-pulse" />
+                    Current Role
+                  </span>
                 )}
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-zinc-400 mb-6 leading-relaxed">
+            <p className="text-[#bbcabf] text-sm mb-5 leading-relaxed">
               {exp.description}
             </p>
 
             {/* Achievements */}
-            <ul className="space-y-2 mb-6">
+            <ul className="space-y-2.5 mb-6">
               {exp.achievements.map((achievement: string, i: number) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2 text-zinc-400 text-sm"
+                  className="flex items-start gap-2.5 text-[#dde4dd] text-xs sm:text-sm"
                 >
-                  <span className="text-zinc-600 mt-1.5">•</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#4edea3] mt-2 shrink-0" />
                   {achievement}
                 </li>
               ))}
             </ul>
 
             {/* Technologies */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-[#3c4a42]">
               {exp.technologies.map((tech: string) => (
-                <span key={tech} className="tag">
+                <span key={tech} className="px-2.5 py-1 text-xs font-mono text-[#4edea3] bg-[#10b981]/10 border border-[#4edea3]/30 rounded-lg">
                   {tech}
                 </span>
               ))}
@@ -131,83 +142,95 @@ export default async function WorkPage() {
       </div>
 
       {/* Higher Education Section */}
-      <div className="border-t border-zinc-800 pt-16 mb-20">
-        <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
-          <Bookmark className="text-primary" size={20} />
-          Higher Education
-        </h2>
-        <div className="space-y-8">
-          {education.map((edu) => (
-            <div key={edu._id} className="bg-zinc-950/20 p-8 rounded-3xl border border-zinc-900">
-              <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
-                <div>
-                  <h3 className="text-xl font-bold text-white">{edu.degree}</h3>
-                  <p className="text-zinc-500">{edu.institution}</p>
-                </div>
-                <span className="text-zinc-600 text-sm font-medium">{edu.period}</span>
-              </div>
-              <ul className="space-y-1.5">
-                {edu.highlights.map((h, i) => (
-                  <li key={i} className="text-zinc-500 text-sm flex items-start gap-2">
-                    <span className="text-emerald-500">•</span>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Verified Credentials */}
-      {verifiedCertificates.length > 0 && (
-        <div className="border-t border-zinc-800 pt-16 mb-20">
-          <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
-            <Bookmark className="text-emerald-500" size={20} />
-            Verified Credentials
+      {education.length > 0 && (
+        <div className="space-y-6 pt-6 border-t border-[#3c4a42]">
+          <h2 className="text-xl font-bold text-[#dde4dd] tracking-tight flex items-center gap-2.5">
+            <GraduationCap className="text-[#4edea3]" size={22} />
+            Higher Education
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-4">
+            {education.map((edu) => (
+              <div key={edu._id} className="glass-card p-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-3">
+                  <div>
+                    <h3 className="text-lg font-bold text-[#dde4dd]">{edu.degree}</h3>
+                    <p className="text-[#4edea3] text-sm font-semibold">{edu.institution}</p>
+                  </div>
+                  <span className="text-[#94A3B8] font-mono text-xs px-2.5 py-1 bg-[#1a211d] rounded-lg border border-[#3c4a42]">{edu.period}</span>
+                </div>
+                <ul className="space-y-1.5">
+                  {edu.highlights.map((h, i) => (
+                    <li key={i} className="text-[#bbcabf] text-xs sm:text-sm flex items-start gap-2">
+                      <span className="text-[#4edea3]">•</span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Verified Certifications Section (Stitch Theme Redesign) */}
+      {verifiedCertificates.length > 0 && (
+        <div className="space-y-6 pt-6 border-t border-[#3c4a42]">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-[#dde4dd] tracking-tight flex items-center gap-2.5">
+              <Award className="text-[#4edea3]" size={22} />
+              Verified Credentials & Certifications
+            </h2>
+            <span className="font-mono text-xs text-[#4cd7f6] bg-[#03b5d3]/10 border border-[#4cd7f6]/30 px-3 py-1 rounded-full">
+              {verifiedCertificates.length} Verified
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {verifiedCertificates.map((cert) => (
               <a
                 key={cert._id}
                 href={cert.url || '#'}
                 target={cert.url ? "_blank" : undefined}
                 rel="noreferrer"
-                className={`group relative flex flex-col overflow-hidden rounded-xl border border-zinc-900 bg-zinc-950/50 hover:border-zinc-700 transition-all ${!cert.url && 'cursor-default'}`}
+                className={`glass-card p-6 flex flex-col justify-between group hover:border-[#4edea3] transition-all relative overflow-hidden ${!cert.url && 'cursor-default'}`}
               >
-                {/* Image Container */}
-                <div className="relative w-full aspect-[1.58/1] bg-white text-black flex items-center justify-center overflow-hidden">
-                  {cert.image ? (
-                    /* eslint-disable-next-line @next/next/no-img-element */
+                {/* Header info */}
+                <div>
+                  <div className="flex items-center justify-between gap-2 mb-4">
+                    <span className="text-xs font-mono text-[#4cd7f6] bg-[#03b5d3]/10 border border-[#4cd7f6]/30 px-2.5 py-1 rounded-md">
+                      {cert.issuer}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[#4edea3] bg-[#10b981]/10 border border-[#4edea3]/30 px-2.5 py-1 rounded-full">
+                      <ShieldCheck size={13} />
+                      Verified
+                    </span>
+                  </div>
+
+                  <h3 className="text-[#dde4dd] font-bold text-lg leading-snug group-hover:text-[#4edea3] transition-colors mb-2">
+                    {cert.name}
+                  </h3>
+                </div>
+
+                {/* Certificate Preview / Image Banner if available */}
+                {cert.image && (
+                  <div className="my-4 relative w-full h-36 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={cert.image}
                       alt={cert.name}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                  ) : (
-                    <div className="flex flex-col items-center gap-2 opacity-50 p-6 text-center">
-                      <Bookmark size={32} />
-                      <span className="text-xs font-bold uppercase tracking-widest">Certificate Preview</span>
-                    </div>
-                  )}
-
-                  {/* Overlay Gradient on Hover */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
-                </div>
-
-                {/* Content */}
-                <div className="p-5 flex flex-col gap-1 border-t border-zinc-900 bg-zinc-900/30">
-                  <h3 className="text-white font-bold text-base leading-tight group-hover:text-primary transition-colors line-clamp-1">
-                    {cert.name}
-                  </h3>
-                  <div className="flex items-center justify-between mt-1">
-                    <p className="text-zinc-500 text-xs font-medium">
-                      {cert.issuer} • {cert.date}
-                    </p>
-                    {cert.verified && (
-                      <Check size={16} className="text-emerald-500" />
-                    )}
                   </div>
+                )}
+
+                {/* Footer Meta */}
+                <div className="flex items-center justify-between pt-4 border-t border-[#3c4a42] mt-4 text-xs font-mono text-[#94A3B8]">
+                  <span>Issued: {cert.date}</span>
+                  {cert.url && (
+                    <span className="inline-flex items-center gap-1 text-[#4edea3] group-hover:translate-x-1 transition-transform">
+                      View Credential <ExternalLink size={12} />
+                    </span>
+                  )}
                 </div>
               </a>
             ))}
@@ -217,17 +240,18 @@ export default async function WorkPage() {
 
       {/* Professional Development */}
       {otherCertificates.length > 0 && (
-        <div className="border-t border-zinc-800 pt-16">
-          <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
-            Professional development
+        <div className="space-y-4 pt-6 border-t border-[#3c4a42]">
+          <h2 className="text-xl font-bold text-[#dde4dd] tracking-tight flex items-center gap-2">
+            <Bookmark size={18} className="text-[#4edea3]" />
+            Professional Development
           </h2>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2.5">
             {otherCertificates.map((cert) => (
               <span
                 key={cert._id}
-                className="tag py-2 px-3 text-sm border-zinc-800 hover:text-white transition-all cursor-default flex items-center gap-2"
+                className="px-3.5 py-2 text-xs font-mono text-[#dde4dd] bg-[#1a211d] border border-[#3c4a42] rounded-xl flex items-center gap-2"
               >
-                <Bookmark size={12} className="text-zinc-600" />
+                <Check size={13} className="text-[#4edea3]" />
                 {cert.name}
               </span>
             ))}

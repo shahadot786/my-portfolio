@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Navigation } from "@/components/sections/Navigation";
+import { Footer } from "@/components/sections/Footer";
 import { API_BASE_URL } from "@/config/api";
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
@@ -39,7 +40,8 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen pt-24 pb-24 md:pb-16">{children}</main>
+      <main className="min-h-screen pt-24 pb-12">{children}</main>
+      <Footer />
     </>
   );
 }
