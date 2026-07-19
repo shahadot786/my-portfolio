@@ -60,34 +60,55 @@ const DEFAULT_PROFILE: Profile = {
 const DEFAULT_EXPERTISE: ExpertiseItem[] = [
   {
     _id: "1",
-    title: "Enterprise Architecture",
-    badge: "EA",
-    description: "Currently working at HawkEyes Digital Monitoring, architecting enterprise mobile applications serving Fortune 500 companies like Unilever, BAT, Nestlé, and L'Oréal. Specializing in taking rough problem statements and turning them into polished, scalable products.",
+    title: "Travel Tech & Flight Systems",
+    badge: "TT",
+    description: "Currently working at iBox Lab Limited, building scalable enterprise web and mobile applications for the travel technology industry. Specializing in developing modern flight booking platforms, airline NDC/GDS integrations, and high-performance digital products using React, Next.js, React Native, and TypeScript.",
     isFeatured: true,
     metrics: [
-      { value: "10k+", label: "Active Users" },
-      { value: "100k+", label: "Daily Txns" }
+      { value: "NDC / GDS", label: "Airline Integrations" },
+      { value: "100%", label: "Booking Integrity" }
     ],
-    tags: ["React Native", "TypeScript", "Enterprise Architecture"],
+    tags: ["React.js", "Next.js", "React Native", "TypeScript", "NDC/GDS APIs", "Flight Booking"],
     order: 0
   },
   {
     _id: "2",
-    title: "Offline-First Systems",
-    badge: "OFF",
-    description: "Designing robust systems that function seamlessly in low-connectivity environments, reducing data loss and improving field efficiency.",
+    title: "Enterprise Mobile Architecture",
+    badge: "EA",
+    description: "Architecting robust mobile applications serving Fortune 500 enterprise clients like Unilever, BAT, Nestlé, L'Oréal, and Nagad. Transforming complex business requirements into scalable, user-centric mobile solutions.",
     isFeatured: false,
-    tags: ["Offline Architecture", "SQLite", "Data Sync"],
+    metrics: [
+      { value: "10k+", label: "Active Field Users" },
+      { value: "100k+", label: "Daily Transactions" }
+    ],
+    tags: ["React Native", "TypeScript", "Redux", "Zustand", "iOS & Android"],
     order: 1
   },
   {
     _id: "3",
-    title: "Real-Time Systems",
-    badge: "RT",
-    description: "Implementing high-performance tracking and monitoring solutions for enterprise logistics and territory management.",
+    title: "Offline-First Systems",
+    badge: "OFF",
+    description: "Engineering mission-critical systems that function seamlessly in zero or low-connectivity field environments, guaranteeing background synchronization, local storage persistence, and 0% data loss.",
     isFeatured: false,
-    tags: ["Node.js", "Next.js", "MongoDB", "Real-time Tracking"],
+    metrics: [
+      { value: "0%", label: "Data Loss" },
+      { value: "100%", label: "Offline Resilience" }
+    ],
+    tags: ["Offline Architecture", "SQLite", "AsyncStorage", "Background Sync"],
     order: 2
+  },
+  {
+    _id: "4",
+    title: "High-Performance Web & Dashboards",
+    badge: "RT",
+    description: "Implementing high-concurrency real-time tracking, territory management dashboards, and SSG/ISR web applications engineered for sub-second page loads and maximum SEO performance.",
+    isFeatured: false,
+    metrics: [
+      { value: "Sub-second", label: "Load Time" },
+      { value: "99.9%", label: "System Uptime" }
+    ],
+    tags: ["Next.js", "Node.js", "Tailwind CSS", "REST APIs", "MongoDB"],
+    order: 3
   }
 ];
 
@@ -134,8 +155,10 @@ export default async function Home() {
   ]);
 
   const featuredItem = expertiseItems.find(e => e.isFeatured) || expertiseItems[0] || DEFAULT_EXPERTISE[0];
-  const secondaryItems = expertiseItems.filter(e => e._id !== featuredItem._id);
-  const displaySecondary = secondaryItems.length > 0 ? secondaryItems : DEFAULT_EXPERTISE.filter(e => e._id !== featuredItem._id);
+  const secondaryItems = expertiseItems.filter(e => e._id !== featuredItem._id && e.title !== featuredItem.title);
+  const displaySecondary = secondaryItems.length > 0
+    ? secondaryItems
+    : DEFAULT_EXPERTISE.filter(e => e.title !== featuredItem.title);
 
   const allTags = Array.from(
     new Set(
@@ -144,7 +167,7 @@ export default async function Home() {
   );
   const displayTechStack = allTags.length > 0
     ? allTags
-    : ["JavaScript", "TypeScript", "React.js", "Next.js", "React Native", "Redux", "Zustand", "MongoDB"];
+    : ["JavaScript", "TypeScript", "React.js", "Next.js", "React Native", "Redux", "Tailwind CSS", "MongoDB"];
 
   return (
     <div className="container-custom pb-8 space-y-20 relative">
@@ -225,33 +248,38 @@ export default async function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Main Featured Bento Card */}
           <div className="lg:col-span-2 glass-card p-8 flex flex-col justify-between">
-            <div>
-              <div className="w-12 h-12 bg-[#4edea3]/10 border border-[#4edea3]/30 rounded-xl flex items-center justify-center mb-6">
-                <span className="text-[#4edea3] text-xl font-bold font-mono">
-                  {featuredItem.badge || "EA"}
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <div className="w-12 h-12 bg-[#4edea3]/10 border border-[#4edea3]/30 rounded-xl flex items-center justify-center">
+                  <span className="text-[#4edea3] text-xl font-bold font-mono">
+                    {featuredItem.badge || "TT"}
+                  </span>
+                </div>
+                <span className="px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-semibold">
+                  Featured Core Expertise
                 </span>
               </div>
-              <h4 className="text-xl font-bold text-[#dde4dd] mb-3">{featuredItem.title}</h4>
-              <p className="text-[#bbcabf] text-sm leading-relaxed mb-6">
+              <h4 className="text-2xl font-bold text-[#dde4dd]">{featuredItem.title}</h4>
+              <p className="text-[#bbcabf] text-sm leading-relaxed">
                 {featuredItem.description}
               </p>
             </div>
 
             {/* Featured Item Metrics or Tags */}
-            <div className="space-y-4 border-t border-[#3c4a42] pt-4 mt-auto">
+            <div className="space-y-6 border-t border-[#3c4a42] pt-6 mt-6">
               {featuredItem.metrics && featuredItem.metrics.length > 0 && (
                 <div className="grid grid-cols-2 gap-4">
                   {featuredItem.metrics.map((m, idx) => (
-                    <div key={idx}>
+                    <div key={idx} className="bg-[#10b981]/5 border border-[#4edea3]/20 p-4 rounded-xl">
                       <div className="text-2xl font-extrabold text-[#dde4dd]">{m.value}</div>
-                      <div className="text-[10px] font-mono text-[#94A3B8] uppercase tracking-wider mt-0.5">{m.label}</div>
+                      <div className="text-xs font-mono text-[#4edea3] uppercase tracking-wider mt-1">{m.label}</div>
                     </div>
                   ))}
                 </div>
               )}
 
               {featuredItem.tags && featuredItem.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2 pt-1">
+                <div className="flex flex-wrap gap-2">
                   {featuredItem.tags.map((tag, idx) => (
                     <span key={idx} className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-lg">
                       {tag}
@@ -266,19 +294,26 @@ export default async function Home() {
           <div className="space-y-6 flex flex-col justify-between">
             {displaySecondary.map((item, idx) => (
               <div key={item._id || idx} className="glass-card p-6 flex-1 flex flex-col justify-between">
-                <div>
-                  <div className="w-10 h-10 bg-[#4cd7f6]/10 border border-[#4cd7f6]/30 rounded-lg flex items-center justify-center mb-3">
-                    <span className="text-[#4cd7f6] font-mono font-bold text-xs">
-                      {item.badge || `0${idx + 1}`}
-                    </span>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="w-10 h-10 bg-[#4cd7f6]/10 border border-[#4cd7f6]/30 rounded-lg flex items-center justify-center">
+                      <span className="text-[#4cd7f6] font-mono font-bold text-xs">
+                        {item.badge || `0${idx + 1}`}
+                      </span>
+                    </div>
+                    {item.metrics && item.metrics.length > 0 && (
+                      <span className="text-xs font-mono text-[#4edea3] bg-[#10b981]/10 px-2.5 py-0.5 rounded-full border border-[#4edea3]/20">
+                        {item.metrics[0].value} {item.metrics[0].label}
+                      </span>
+                    )}
                   </div>
-                  <h4 className="text-base font-bold text-[#dde4dd] mb-1">{item.title}</h4>
-                  <p className="text-[#bbcabf] text-xs leading-relaxed">
+                  <h4 className="text-base font-bold text-[#dde4dd]">{item.title}</h4>
+                  <p className="text-[#bbcabf] text-xs leading-relaxed line-clamp-3">
                     {item.description}
                   </p>
                 </div>
                 {item.tags && item.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-3 mt-2 border-t border-[#3c4a42]/40">
+                  <div className="flex flex-wrap gap-1.5 pt-3 mt-3 border-t border-[#3c4a42]/40">
                     {item.tags.slice(0, 4).map((s) => (
                       <span key={s} className="px-2 py-0.5 bg-[#10b981]/10 border border-[#4edea3]/20 text-[#4edea3] font-mono text-[10px] rounded">
                         {s}
