@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { Testimonial } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
 import { withAdmin } from '@/lib/auth-utils';
@@ -16,11 +17,13 @@ export const PUT = withErrorHandling(withAdmin(async (req: NextRequest, { params
         runValidators: true,
     });
     if (!item) return NextResponse.json({ error: 'Testimonial not found' }, { status: 404 });
+    revalidatePath('/');
     return NextResponse.json({ success: true, item });
 }));
 
 export const DELETE = withErrorHandling(withAdmin(async (req: NextRequest, { params }: { params: { id: string } }) => {
     const item = await Testimonial.findByIdAndDelete(params.id);
     if (!item) return NextResponse.json({ error: 'Testimonial not found' }, { status: 404 });
+    revalidatePath('/');
     return NextResponse.json({ success: true, message: 'Testimonial deleted' });
 }));
