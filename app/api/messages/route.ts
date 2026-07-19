@@ -3,6 +3,8 @@ import { Message } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
 import { withAdmin } from '@/lib/auth-utils';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = withErrorHandling(withAdmin(async () => {
     const messages = await Message.find().sort({ createdAt: -1 });
     return NextResponse.json({ success: true, messages });

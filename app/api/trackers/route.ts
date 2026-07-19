@@ -3,6 +3,8 @@ import { Tracker } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
 import { withAdmin } from '@/lib/auth-utils';
 
+export const dynamic = 'force-dynamic';
+
 // Public: List all trackers (summary only, exclude days array for performance)
 export const GET = withErrorHandling(async () => {
     const trackers = await Tracker.find()
