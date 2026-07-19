@@ -7,6 +7,7 @@ import {
   Trash2,
   CheckCircle,
   Mail,
+  Loader,
   ChevronRight,
   Search
 } from 'lucide-react';
@@ -69,7 +70,13 @@ export default function AdminMessagesPage() {
     }
   };
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader className="animate-spin text-primary" size={32} />
+      </div>
+    );
+  }
 
   return (
     <div className="h-[calc(100vh-8rem)] flex gap-6">

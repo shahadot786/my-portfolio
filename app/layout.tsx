@@ -10,6 +10,14 @@ export const metadata = {
     default: "MD. Shahadot Hossain - Software Engineer",
     template: "%s | MD. Shahadot Hossain",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
   alternates: {
     canonical: "https://shahadot-hossain.vercel.app/",
   },
@@ -113,7 +121,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="alternate icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/favicon.svg" />
         <link rel="manifest" href="/manifest.json" />
         {/* Google Analytics */}
         {process.env.NEXT_PUBLIC_GA_ID && (

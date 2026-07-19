@@ -13,14 +13,20 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const [authorized, setAuthorized] = useState(false);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      // Don't check for login page (handle trailing slash)
-      if (pathname === '/admin/login' || pathname === '/admin/login/') {
-        setLoading(false);
-        setAuthorized(true);
-        return;
-      }
+    // Don't check for login page (handle trailing slash)
+    if (pathname === '/admin/login' || pathname === '/admin/login/') {
+      setLoading(false);
+      setAuthorized(true);
+      return;
+    }
 
+    // If already authorized, keep navigation instant without blocking on auth check
+    if (authorized) {
+      setLoading(false);
+      return;
+    }
+
+    const checkAuth = async () => {
       try {
         await api.get('/auth/me');
         setAuthorized(true);
@@ -32,7 +38,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     };
 
     checkAuth();
-  }, [pathname, router]);
+  }, [pathname, router, authorized]);
 
   if (loading) {
     return (
