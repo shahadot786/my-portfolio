@@ -3,6 +3,7 @@ export { Profile, type IProfile, type ISocialLink, type ISeoData } from './Profi
 export { Experience, type IExperience } from './Experience';
 export { Project, type IProject, type IProjectMetric, type IProjectLink } from './Project';
 export { SkillCategory, type ISkillCategory } from './Skill';
+export { Expertise, type IExpertise } from './Expertise';
 export { Testimonial, type ITestimonial } from './Testimonial';
 export { Education, type IEducation } from './Education';
 export { Certificate, type ICertificate } from './Certificate';

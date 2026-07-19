@@ -18,13 +18,19 @@ interface Profile {
   socialLinks: SocialLink[];
 }
 
-interface SkillCategory {
+interface Metric {
+  label: string;
+  value: string;
+}
+
+interface ExpertiseItem {
   _id: string;
   title: string;
-  icon: string;
-  badge?: string;
-  description?: string;
-  skills: string[];
+  badge: string;
+  description: string;
+  isFeatured: boolean;
+  metrics?: Metric[];
+  tags?: string[];
   order: number;
 }
 
@@ -51,32 +57,36 @@ const DEFAULT_PROFILE: Profile = {
   socialLinks: []
 };
 
-const DEFAULT_SKILL_CATEGORIES: SkillCategory[] = [
+const DEFAULT_EXPERTISE: ExpertiseItem[] = [
   {
     _id: "1",
     title: "Enterprise Architecture",
     badge: "EA",
-    icon: "Code2",
     description: "Currently working at HawkEyes Digital Monitoring, architecting enterprise mobile applications serving Fortune 500 companies like Unilever, BAT, Nestlé, and L'Oréal. Specializing in taking rough problem statements and turning them into polished, scalable products.",
-    skills: ["React Native", "TypeScript", "Enterprise Architecture", "10k+ Active Users", "100k+ Daily Txns"],
+    isFeatured: true,
+    metrics: [
+      { value: "10k+", label: "Active Users" },
+      { value: "100k+", label: "Daily Txns" }
+    ],
+    tags: ["React Native", "TypeScript", "Enterprise Architecture"],
     order: 0
   },
   {
     _id: "2",
-    title: "Offline-First",
+    title: "Offline-First Systems",
     badge: "OFF",
-    icon: "Smartphone",
     description: "Designing robust systems that function seamlessly in low-connectivity environments, reducing data loss and improving field efficiency.",
-    skills: ["Offline Architecture", "SQLite", "Data Sync"],
+    isFeatured: false,
+    tags: ["Offline Architecture", "SQLite", "Data Sync"],
     order: 1
   },
   {
     _id: "3",
     title: "Real-Time Systems",
     badge: "RT",
-    icon: "Server",
     description: "Implementing high-performance tracking and monitoring solutions for enterprise logistics and territory management.",
-    skills: ["Node.js", "Next.js", "MongoDB", "Real-time Tracking"],
+    isFeatured: false,
+    tags: ["Node.js", "Next.js", "MongoDB", "Real-time Tracking"],
     order: 2
   }
 ];
@@ -94,14 +104,14 @@ async function getProfile(): Promise<Profile> {
   }
 }
 
-async function getSkillCategories(): Promise<SkillCategory[]> {
+async function getExpertise(): Promise<ExpertiseItem[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/skills`, { next: { revalidate: 86400 } });
-    if (!res.ok) return DEFAULT_SKILL_CATEGORIES;
+    const res = await fetch(`${API_BASE_URL}/expertise`, { next: { revalidate: 86400 } });
+    if (!res.ok) return DEFAULT_EXPERTISE;
     const data = await res.json();
-    return data.skills?.length > 0 ? data.skills : DEFAULT_SKILL_CATEGORIES;
+    return data.items?.length > 0 ? data.items : DEFAULT_EXPERTISE;
   } catch {
-    return DEFAULT_SKILL_CATEGORIES;
+    return DEFAULT_EXPERTISE;
   }
 }
 
@@ -117,21 +127,23 @@ async function getTestimonials(): Promise<Testimonial[]> {
 }
 
 export default async function Home() {
-  const [profile, testimonials, skillCategories] = await Promise.all([
+  const [profile, testimonials, expertiseItems] = await Promise.all([
     getProfile(),
     getTestimonials(),
-    getSkillCategories()
+    getExpertise()
   ]);
 
-  const featuredCategory = skillCategories[0] || DEFAULT_SKILL_CATEGORIES[0];
-  const secondaryCategories = skillCategories.length > 1 ? skillCategories.slice(1) : DEFAULT_SKILL_CATEGORIES.slice(1);
-  const allSkills = Array.from(
+  const featuredItem = expertiseItems.find(e => e.isFeatured) || expertiseItems[0] || DEFAULT_EXPERTISE[0];
+  const secondaryItems = expertiseItems.filter(e => e._id !== featuredItem._id);
+  const displaySecondary = secondaryItems.length > 0 ? secondaryItems : DEFAULT_EXPERTISE.filter(e => e._id !== featuredItem._id);
+
+  const allTags = Array.from(
     new Set(
-      skillCategories.flatMap((c) => c.skills || [])
+      expertiseItems.flatMap((e) => e.tags || [])
     )
   );
-  const displayTechStack = allSkills.length > 0
-    ? allSkills
+  const displayTechStack = allTags.length > 0
+    ? allTags
     : ["JavaScript", "TypeScript", "React.js", "Next.js", "React Native", "Redux", "Zustand", "MongoDB"];
 
   return (
@@ -203,7 +215,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Expertise Overview (Stitch Bento Grid) */}
+      {/* Technical Expertise Overview (Dynamic Bento Grid) */}
       <section className="space-y-6 pt-4 border-t border-[#3c4a42]/60">
         <div>
           <h3 className="text-2xl font-bold text-[#dde4dd] tracking-tight">Technical Expertise</h3>
@@ -211,51 +223,63 @@ export default async function Home() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Enterprise Architecture Bento Card */}
+          {/* Main Featured Bento Card */}
           <div className="lg:col-span-2 glass-card p-8 flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 bg-[#4edea3]/10 border border-[#4edea3]/30 rounded-xl flex items-center justify-center mb-6">
                 <span className="text-[#4edea3] text-xl font-bold font-mono">
-                  {featuredCategory.badge || featuredCategory.icon || "EA"}
+                  {featuredItem.badge || "EA"}
                 </span>
               </div>
-              <h4 className="text-xl font-bold text-[#dde4dd] mb-3">{featuredCategory.title}</h4>
+              <h4 className="text-xl font-bold text-[#dde4dd] mb-3">{featuredItem.title}</h4>
               <p className="text-[#bbcabf] text-sm leading-relaxed mb-6">
-                {featuredCategory.description || "Architecting enterprise mobile applications serving Fortune 500 companies and building offline-first systems."}
+                {featuredItem.description}
               </p>
             </div>
 
-            {featuredCategory.skills && featuredCategory.skills.length > 0 && (
-              <div className="flex flex-wrap gap-2 border-t border-[#3c4a42] pt-4 mt-auto">
-                {featuredCategory.skills.map((skill, idx) => (
-                  <span key={idx} className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-lg">
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            )}
+            {/* Featured Item Metrics or Tags */}
+            <div className="space-y-4 border-t border-[#3c4a42] pt-4 mt-auto">
+              {featuredItem.metrics && featuredItem.metrics.length > 0 && (
+                <div className="grid grid-cols-2 gap-4">
+                  {featuredItem.metrics.map((m, idx) => (
+                    <div key={idx}>
+                      <div className="text-2xl font-extrabold text-[#dde4dd]">{m.value}</div>
+                      <div className="text-[10px] font-mono text-[#94A3B8] uppercase tracking-wider mt-0.5">{m.label}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {featuredItem.tags && featuredItem.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {featuredItem.tags.map((tag, idx) => (
+                    <span key={idx} className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-lg">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Secondary Bento Cards */}
           <div className="space-y-6 flex flex-col justify-between">
-            {secondaryCategories.map((cat, idx) => (
-              <div key={cat._id || idx} className="glass-card p-6 flex-1 flex flex-col justify-between">
+            {displaySecondary.map((item, idx) => (
+              <div key={item._id || idx} className="glass-card p-6 flex-1 flex flex-col justify-between">
                 <div>
                   <div className="w-10 h-10 bg-[#4cd7f6]/10 border border-[#4cd7f6]/30 rounded-lg flex items-center justify-center mb-3">
                     <span className="text-[#4cd7f6] font-mono font-bold text-xs">
-                      {cat.badge || cat.icon || `0${idx + 1}`}
+                      {item.badge || `0${idx + 1}`}
                     </span>
                   </div>
-                  <h4 className="text-base font-bold text-[#dde4dd] mb-1">{cat.title}</h4>
-                  {cat.description && (
-                    <p className="text-[#bbcabf] text-xs leading-relaxed">
-                      {cat.description}
-                    </p>
-                  )}
+                  <h4 className="text-base font-bold text-[#dde4dd] mb-1">{item.title}</h4>
+                  <p className="text-[#bbcabf] text-xs leading-relaxed">
+                    {item.description}
+                  </p>
                 </div>
-                {cat.skills && cat.skills.length > 0 && (
+                {item.tags && item.tags.length > 0 && (
                   <div className="flex flex-wrap gap-1.5 pt-3 mt-2 border-t border-[#3c4a42]/40">
-                    {cat.skills.slice(0, 4).map((s) => (
+                    {item.tags.slice(0, 4).map((s) => (
                       <span key={s} className="px-2 py-0.5 bg-[#10b981]/10 border border-[#4edea3]/20 text-[#4edea3] font-mono text-[10px] rounded">
                         {s}
                       </span>
