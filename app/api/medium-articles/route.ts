@@ -21,22 +21,27 @@ const CACHE_DURATION = 60 * 60 * 1000;
 let cachedArticles: MediumArticle[] | null = null;
 let cacheTimestamp: number = 0;
 
-function extractThumbnail(content: string): string {
-  // Try to extract the first image from the content
-  const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+function extractThumbnail(content: string, itemContent: string): string {
+  // 1. Try media:content tag in RSS item
+  const mediaMatch = itemContent.match(/<media:content[^>]+url="([^">]+)"/i);
+  if (mediaMatch && mediaMatch[1]) {
+    return mediaMatch[1];
+  }
+
+  // 2. Try first img src in content
+  const imgMatch = content.match(/<img[^>]+src="([^">]+)"/i);
   if (imgMatch && imgMatch[1]) {
     return imgMatch[1];
   }
 
-  // Try to extract from figure tag (using [\s\S] for compatibility)
+  // 3. Try figure tag with img in content
   const figureMatch = content.match(
-    /<figure[^>]*>[\s\S]*?<img[^>]+src="([^">]+)"/
+    /<figure[^>]*>[\s\S]*?<img[^>]+src="([^">]+)"/i
   );
   if (figureMatch && figureMatch[1]) {
     return figureMatch[1];
   }
 
-  // Default placeholder
   return "";
 }
 
@@ -102,7 +107,7 @@ function parseXMLToJSON(xmlString: string): MediumArticle[] {
     const guidMatch = itemContent.match(/<guid[^>]*>(.*?)<\/guid>/);
     const guid = guidMatch ? guidMatch[1] : "";
 
-    const thumbnail = extractThumbnail(content);
+    const thumbnail = extractThumbnail(content, itemContent);
     const description = extractDescription(content);
 
     articles.push({

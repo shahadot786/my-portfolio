@@ -124,6 +124,18 @@ export default function ArticlesClient() {
           className="group glass-card p-6 flex flex-col justify-between hover:border-[#4edea3] transition-all"
         >
           <div>
+            {/* Full Article Cover Image */}
+            {article.thumbnail && (
+              <div className="mb-4 relative w-full h-44 sm:h-52 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={article.thumbnail}
+                  alt={article.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+            )}
+
             {/* Meta header */}
             <div className="flex items-center justify-between text-xs font-mono text-[#94A3B8] mb-3">
               <span className="flex items-center gap-1.5">

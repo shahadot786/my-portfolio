@@ -27,24 +27,15 @@ export function BrandLogo({ size = "md", showTagline = false, className = "" }: 
 
       {/* Typography */}
       <div className="flex flex-col">
-        <div className="flex items-center gap-1.5 leading-none">
-          <span
-            className={`font-black text-[#dde4dd] tracking-tight group-hover:text-white transition-colors ${
-              isSm ? "text-sm" : isLg ? "text-xl" : "text-base"
-            }`}
-          >
-            SHAHADOT
-          </span>
-          <span
-            className={`font-mono font-bold text-[#4edea3] tracking-wider ${
-              isSm ? "text-sm" : isLg ? "text-xl" : "text-base"
-            }`}
-          >
-            HOSSAIN
-          </span>
-        </div>
+        <span
+          className={`font-signature font-normal text-[#4edea3] group-hover:text-[#6ffbbe] transition-colors leading-none drop-shadow-[0_0_8px_rgba(78,222,163,0.25)] ${
+            isSm ? "text-2xl" : isLg ? "text-4xl" : "text-3xl"
+          }`}
+        >
+          Shahadot Hossain
+        </span>
         {showTagline && (
-          <span className="text-[10px] font-mono text-[#94A3B8] tracking-widest uppercase mt-1">
+          <span className="text-[10px] font-mono text-[#94A3B8] tracking-widest uppercase mt-0.5">
             Enterprise Mobile Architect
           </span>
         )}

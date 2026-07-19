@@ -1,9 +1,10 @@
 import "./globals.css";
-import { Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Great_Vibes } from "next/font/google";
 import { ClientLayout } from "@/components/layout/ClientLayout";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
+const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"], variable: "--font-signature" });
 
 export const metadata = {
   metadataBase: new URL("https://shahadot-hossain.vercel.app"),
@@ -152,7 +153,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-[#0e1511] text-[#dde4dd] antialiased selection:bg-[#4edea3]/30 selection:text-[#4edea3]`}>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${greatVibes.variable} font-sans bg-[#0e1511] text-[#dde4dd] antialiased selection:bg-[#4edea3]/30 selection:text-[#4edea3]`}>
         <ClientLayout>{children}</ClientLayout>
       </body>
     </html>

@@ -59,6 +59,7 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-inter)", "Inter", "sans-serif"],
         mono: ["var(--font-mono)", "JetBrains Mono", "monospace"],
+        signature: ["var(--font-signature)", "Great Vibes", "cursive"],
       },
       borderRadius: {
         lg: "0.5rem",

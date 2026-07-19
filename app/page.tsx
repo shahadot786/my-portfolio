@@ -116,15 +116,19 @@ export default async function Home() {
 
         {/* Profile Image & Floating Tech Badges */}
         <div className="flex-shrink-0 relative w-72 h-72 sm:w-80 sm:h-80 md:w-[360px] md:h-[360px] lg:w-[420px] lg:h-[420px]">
-          <div className="absolute inset-0 bg-[#4edea3]/20 rounded-full blur-3xl z-[-1]" />
-          <div className="relative w-full h-full rounded-2xl overflow-hidden border border-[#3c4a42] shadow-2xl">
-            <Image
-              src={profile.avatar || "/avatar.png"}
-              alt={profile.name}
-              fill
-              className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
-              priority
-            />
+          <div className="absolute inset-0 bg-[#4edea3]/25 rounded-full blur-3xl z-[-1]" />
+          
+          {/* Glowing Green Marquee Light Border */}
+          <div className="glowing-marquee-wrapper w-full h-full">
+            <div className="relative w-full h-full rounded-[1.1rem] overflow-hidden bg-[#09100c]">
+              <Image
+                src={profile.avatar || "/avatar.png"}
+                alt={profile.name}
+                fill
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                priority
+              />
+            </div>
           </div>
 
           {/* Floating Badges */}

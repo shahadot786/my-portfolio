@@ -5,7 +5,7 @@ import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export function Footer() {
   return (
-    <footer className="w-full py-8 bg-[#09100c] border-t border-[#3c4a42] mt-20">
+    <footer className="w-full pt-10 pb-32 sm:pb-10 bg-[#09100c] border-t border-[#3c4a42] mt-20">
       <div className="flex flex-col md:flex-row justify-between items-center px-6 max-w-5xl mx-auto gap-6">
         <div>
           <BrandLogo size="md" showTagline={true} />

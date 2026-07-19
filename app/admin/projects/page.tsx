@@ -5,7 +5,7 @@ import { useForm, useFieldArray } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import api from '@/lib/api-client';
-import { Loader, Plus, Trash2, Edit2, X, Check } from 'lucide-react';
+import { Loader, Plus, Trash2, Edit2, X, Check, Wand2 } from 'lucide-react';
 
 interface Project {
   _id: string;
@@ -38,6 +38,8 @@ export default function AdminProjectsPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [fetchingOg, setFetchingOg] = useState(false);
+  const [ogMessage, setOgMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   const {
     register,
@@ -112,6 +114,47 @@ export default function AdminProjectsPage() {
     }
   };
 
+  const handleAutoFetchImage = async () => {
+    const currentLinks = watch('links') || [];
+    const targetLink =
+      currentLinks.find((l) => l.url && (l.type === 'live' || l.type === 'github' || l.type === 'demo'))?.url ||
+      currentLinks[0]?.url;
+
+    if (!targetLink) {
+      setOgMessage({
+        type: 'error',
+        text: 'Please add a Live Site or GitHub URL in the Project Links section below first!'
+      });
+      return;
+    }
+
+    setFetchingOg(true);
+    setOgMessage(null);
+
+    try {
+      const res = await api.post('/fetch-og-image', { url: targetLink });
+      if (res.data.success && res.data.image) {
+        setValue('image', res.data.image);
+        setOgMessage({
+          type: 'success',
+          text: `Fetched cover image from link: ${targetLink}`
+        });
+      } else {
+        setOgMessage({
+          type: 'error',
+          text: res.data.message || 'Could not detect an open-graph preview image on that page.'
+        });
+      }
+    } catch {
+      setOgMessage({
+        type: 'error',
+        text: 'Failed to fetch image from URL. You can enter an image URL manually.'
+      });
+    } finally {
+      setFetchingOg(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
@@ -180,30 +223,75 @@ export default function AdminProjectsPage() {
               </div>
 
               <div>
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1.5">
-                  <label className="block text-zinc-400 text-xs font-medium uppercase tracking-wider">
-                    Project Cover Image URL (Optional)
-                  </label>
-                  <span className="text-[11px] font-mono text-[#4edea3]">
-                    Recommended size: 1200 × 630 px (16:9 ratio, Max 2MB)
-                  </span>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-2">
+                  <div>
+                    <label className="block text-zinc-400 text-xs font-medium uppercase tracking-wider">
+                      Project Cover Image URL (Optional)
+                    </label>
+                    <span className="text-[11px] font-mono text-[#4edea3] block mt-0.5">
+                      Recommended size: 1200 × 630 px (16:9 ratio, Max 2MB)
+                    </span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleAutoFetchImage}
+                    disabled={fetchingOg}
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#10b981]/15 text-[#4edea3] border border-[#4edea3]/30 rounded-lg font-mono text-xs hover:bg-[#4edea3] hover:text-[#0e1511] transition-all shrink-0 active:scale-95 disabled:opacity-50"
+                  >
+                    {fetchingOg ? (
+                      <Loader size={13} className="animate-spin" />
+                    ) : (
+                      <Wand2 size={13} />
+                    )}
+                    {fetchingOg ? "Fetching OG Image..." : "Auto-Fetch Image from Link"}
+                  </button>
                 </div>
+
                 <input
                   {...register('image')}
                   className="input-admin"
                   placeholder="https://example.com/project-cover.jpg or /projects/demo.jpg"
                 />
-                <p className="text-[#94A3B8] text-[11px] mt-1">
-                  Optional cover image displayed at the top of the project card in both Home and Showcase pages.
+
+                {ogMessage && (
+                  <div
+                    className={`mt-2 p-2.5 rounded-lg text-xs font-mono flex items-center justify-between ${
+                      ogMessage.type === 'success'
+                        ? 'bg-[#10b981]/10 text-[#4edea3] border border-[#4edea3]/30'
+                        : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                    }`}
+                  >
+                    <span>{ogMessage.text}</span>
+                    <button
+                      type="button"
+                      onClick={() => setOgMessage(null)}
+                      className="text-zinc-400 hover:text-white ml-2"
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                )}
+
+                <p className="text-[#94A3B8] text-[11px] mt-1.5">
+                  Enter an image URL manually, or click &quot;Auto-Fetch Image from Link&quot; to automatically extract the OpenGraph cover image from your added Live or GitHub links.
                 </p>
+
                 {watch('image') && (
-                  <div className="mt-3 relative w-full h-36 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
+                  <div className="mt-3 relative w-full h-40 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c] group/img">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={watch('image')}
                       alt="Cover Preview"
                       className="w-full h-full object-cover"
                     />
+                    <button
+                      type="button"
+                      onClick={() => setValue('image', '')}
+                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-black/70 text-zinc-300 hover:text-red-400 hover:bg-black/90 transition-all font-mono text-xs flex items-center gap-1 opacity-0 group-hover/img:opacity-100"
+                    >
+                      <X size={14} /> Remove Image
+                    </button>
                   </div>
                 )}
               </div>
