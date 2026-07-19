@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Briefcase, FolderOpen, Code2, Newspaper, Mail } from "lucide-react";
+import { BrandLogo } from "@/components/ui/BrandLogo";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -25,13 +26,8 @@ export function Navigation() {
     <>
       {/* Desktop Top Navigation Bar (Stitch 263256000900331205) */}
       <nav className="fixed top-0 w-full z-50 bg-[#0e1511]/90 backdrop-blur-md border-b border-[#3c4a42] hidden md:block">
-        <div className="flex justify-between items-center px-8 py-4 max-w-5xl mx-auto">
-          <Link
-            href="/"
-            className="text-lg font-extrabold text-[#4edea3] tracking-tight hover:opacity-90 transition-opacity"
-          >
-            SHAHADOT HOSSAIN
-          </Link>
+        <div className="flex justify-between items-center px-8 py-3.5 max-w-5xl mx-auto">
+          <BrandLogo size="md" />
           
           <div className="flex items-center gap-8">
             {navItems.map((item) => {

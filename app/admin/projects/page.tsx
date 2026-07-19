@@ -13,6 +13,7 @@ interface Project {
   description: string;
   featured: boolean;
   order: number;
+  image?: string;
   technologies: string[];
   metrics: { label: string; value: string }[];
   links: { type: string; url: string }[];
@@ -21,6 +22,7 @@ interface Project {
 const projectSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   description: z.string().min(1, 'Description is required'),
+  image: z.string().optional(),
   metrics: z.array(z.object({ label: z.string(), value: z.string() })).default([]),
   technologies: z.array(z.string()).default([]),
   links: z.array(z.object({ type: z.string(), url: z.string() })).default([]),
@@ -175,6 +177,35 @@ export default function AdminProjectsPage() {
               <div>
                 <label className="block text-zinc-400 text-xs font-medium mb-2 uppercase tracking-wider">Description</label>
                 <textarea {...register('description')} rows={4} className="input-admin resize-none" placeholder="Explain the project..." />
+              </div>
+
+              <div>
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 mb-1.5">
+                  <label className="block text-zinc-400 text-xs font-medium uppercase tracking-wider">
+                    Project Cover Image URL (Optional)
+                  </label>
+                  <span className="text-[11px] font-mono text-[#4edea3]">
+                    Recommended size: 1200 × 630 px (16:9 ratio, Max 2MB)
+                  </span>
+                </div>
+                <input
+                  {...register('image')}
+                  className="input-admin"
+                  placeholder="https://example.com/project-cover.jpg or /projects/demo.jpg"
+                />
+                <p className="text-[#94A3B8] text-[11px] mt-1">
+                  Optional cover image displayed at the top of the project card in both Home and Showcase pages.
+                </p>
+                {watch('image') && (
+                  <div className="mt-3 relative w-full h-36 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={watch('image')}
+                      alt="Cover Preview"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">

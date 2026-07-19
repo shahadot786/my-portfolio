@@ -10,6 +10,7 @@ interface Project {
   description: string;
   featured: boolean;
   order: number;
+  image?: string;
   technologies: string[];
   metrics: { label: string; value: string }[];
   links: { type: string; url: string }[];
@@ -48,6 +49,18 @@ export default async function ProjectsPage() {
       <div className="space-y-6">
         {featuredProjects.map((project: Project, index: number) => (
           <div key={index} className="glass-card p-6 sm:p-8 relative overflow-hidden group">
+            {/* Optional Cover Image */}
+            {project.image && (
+              <div className="mb-6 relative w-full h-48 sm:h-56 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+            )}
+
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <h2 className="text-xl font-bold text-[#dde4dd] group-hover:text-[#4edea3] transition-colors">
                 {project.title}

@@ -51,6 +51,11 @@
 
   body {
     background-color: #0e1511;
+    background-image: 
+      linear-gradient(to right, rgba(60, 74, 66, 0.15) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(60, 74, 66, 0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-attachment: fixed;
     color: #dde4dd;
     font-family: var(--font-sans);
   }
@@ -96,6 +101,14 @@
   /* Admin Inputs */
   .input-admin {
     @apply w-full bg-[#0B0E14] border border-[#3c4a42] rounded-xl py-2.5 px-4 text-[#dde4dd] text-sm focus:outline-none focus:border-[#4edea3] transition-colors placeholder:text-[#94A3B8]/60;
+  }
+
+  /* Stitch Square Box Grid Pattern */
+  .bg-grid-pattern {
+    background-size: 40px 40px;
+    background-image: 
+      linear-gradient(to right, rgba(60, 74, 66, 0.15) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(60, 74, 66, 0.15) 1px, transparent 1px);
   }
 }
 
