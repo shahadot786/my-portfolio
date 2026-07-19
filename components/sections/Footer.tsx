@@ -46,9 +46,6 @@ export function Footer() {
           >
             YouTube
           </a>
-          <Link className="hover:text-[#4edea3] transition-colors" href="/certifications">
-            Certifications
-          </Link>
           <Link className="hover:text-[#4edea3] transition-colors" href="/contact">
             Email
           </Link>
