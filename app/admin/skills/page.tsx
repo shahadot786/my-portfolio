@@ -5,20 +5,24 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import api from '@/lib/api-client';
-import { Loader, Plus, Trash2, Edit2, Check, Code2 } from 'lucide-react';
+import { Loader, Plus, Trash2, Edit2, Check } from 'lucide-react';
 
 
 interface SkillCategory {
   _id: string;
   title: string;
   icon: string;
+  badge?: string;
+  description?: string;
   skills: string[];
   order: number;
 }
 
 const skillSchema = z.object({
   title: z.string().min(1, 'Title is required'),
-  icon: z.string().min(1, 'Icon name is required'),
+  icon: z.string().default('Code2'),
+  badge: z.string().optional(),
+  description: z.string().optional(),
   skills: z.array(z.string()).default([]),
   order: z.number().default(0),
 });
@@ -41,7 +45,7 @@ export default function AdminSkillsPage() {
   } = useForm<SkillFormValues>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(skillSchema) as any,
-    defaultValues: { skills: [], order: 0 }
+    defaultValues: { skills: [], order: 0, icon: 'Code2', badge: '', description: '' }
   });
 
   const fetchSkills = async () => {
@@ -102,34 +106,46 @@ export default function AdminSkillsPage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white">Skills</h1>
+          <h1 className="text-3xl font-bold text-white">Technical Expertise & Skills</h1>
+          <p className="text-zinc-500 text-sm mt-1">
+            Manage your core technical expertise bento cards and skill categories.
+          </p>
         </div>
         <button
           onClick={() => {
             setEditingId(null);
-            reset();
+            reset({ skills: [], order: 0, icon: 'Code2', badge: '', description: '' });
             setIsModalOpen(true);
           }}
           className="bg-primary text-black font-bold py-2.5 px-6 rounded-xl flex items-center gap-2 hover:bg-primary/90 transition-all"
         >
           <Plus size={18} />
-          Add Category
+          Add Expertise Category
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {categories.map((cat) => (
-          <div key={cat._id} className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-3xl flex items-center justify-between group hover:border-zinc-700 transition-all">
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-10 rounded-xl bg-zinc-800 flex items-center justify-center text-zinc-400">
-                <Code2 size={20} />
+          <div key={cat._id} className="bg-zinc-900/40 border border-zinc-800 p-6 rounded-3xl flex items-start justify-between group hover:border-zinc-700 transition-all gap-4">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 font-mono font-bold text-sm shrink-0">
+                {cat.badge || cat.icon || "EA"}
               </div>
-              <div>
-                <h3 className="text-white font-bold">{cat.title}</h3>
-                <p className="text-zinc-500 text-xs">{cat.skills.length} skills</p>
+              <div className="space-y-1">
+                <h3 className="text-white font-bold text-base">{cat.title}</h3>
+                {cat.description && (
+                  <p className="text-zinc-400 text-xs line-clamp-2">{cat.description}</p>
+                )}
+                <div className="flex flex-wrap gap-1 pt-1">
+                  {cat.skills.map((s) => (
+                    <span key={s} className="px-2 py-0.5 bg-zinc-800 text-emerald-400 font-mono text-[10px] rounded">
+                      {s}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all">
+            <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all shrink-0">
               <button
                 onClick={() => { setEditingId(cat._id); reset(cat); setIsModalOpen(true); }}
                 className="p-2.5 rounded-xl bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition-all"
@@ -150,18 +166,42 @@ export default function AdminSkillsPage() {
       {isModalOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
           <div className="bg-zinc-900 border border-zinc-800 w-full max-w-lg rounded-3xl shadow-2xl p-8 space-y-6">
-            <h2 className="text-xl font-bold text-white uppercase tracking-tight">{editingId ? 'Edit category' : 'New category'}</h2>
+            <h2 className="text-xl font-bold text-white uppercase tracking-tight">{editingId ? 'Edit Expertise Category' : 'New Expertise Category'}</h2>
             <div className="space-y-4">
-              <input {...register('title')} className="input-admin" placeholder="Category Title (e.g. Backend)" />
-              <input {...register('icon')} className="input-admin" placeholder="Icon Name (e.g. Server)" />
               <div>
-                <label className="block text-zinc-500 text-[10px] uppercase font-bold mb-2">Skills (Comma separated)</label>
+                <label className="block text-zinc-400 text-xs uppercase font-bold mb-1.5">Category Title</label>
+                <input {...register('title')} className="input-admin" placeholder="e.g. Enterprise Architecture" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-zinc-400 text-xs uppercase font-bold mb-1.5">Badge / Tag (e.g. EA, OFF)</label>
+                  <input {...register('badge')} className="input-admin" placeholder="EA" />
+                </div>
+                <div>
+                  <label className="block text-zinc-400 text-xs uppercase font-bold mb-1.5">Icon Name</label>
+                  <input {...register('icon')} className="input-admin" placeholder="Code2 / Server" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-zinc-400 text-xs uppercase font-bold mb-1.5">Description (Displayed on Home Bento section)</label>
+                <textarea {...register('description')} rows={3} className="input-admin resize-none text-xs" placeholder="Architecting enterprise mobile applications..." />
+              </div>
+
+              <div>
+                <label className="block text-zinc-400 text-xs uppercase font-bold mb-1.5">Skills & Tech Stack (Comma separated)</label>
                 <input
                   className="input-admin"
-                  placeholder="Node.js, Express, Go"
+                  placeholder="React Native, TypeScript, Node.js, MongoDB"
                   defaultValue={watch('skills')?.join(', ')}
                   onChange={(e) => setValue('skills', e.target.value.split(',').map(s => s.trim()).filter(s => s))}
                 />
+              </div>
+
+              <div>
+                <label className="block text-zinc-400 text-xs uppercase font-bold mb-1.5">Display Order</label>
+                <input type="number" {...register('order', { valueAsNumber: true })} className="input-admin" placeholder="0" />
               </div>
             </div>
             <div className="flex justify-end gap-3 pt-4">

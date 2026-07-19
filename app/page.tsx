@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { API_BASE_URL } from "@/config/api";
-import { IconMap } from "@/lib/icons";
 import Image from "next/image";
 
 interface SocialLink {
@@ -17,6 +16,16 @@ interface Profile {
   isAvailable?: boolean;
   bio: string[];
   socialLinks: SocialLink[];
+}
+
+interface SkillCategory {
+  _id: string;
+  title: string;
+  icon: string;
+  badge?: string;
+  description?: string;
+  skills: string[];
+  order: number;
 }
 
 interface Testimonial {
@@ -42,6 +51,36 @@ const DEFAULT_PROFILE: Profile = {
   socialLinks: []
 };
 
+const DEFAULT_SKILL_CATEGORIES: SkillCategory[] = [
+  {
+    _id: "1",
+    title: "Enterprise Architecture",
+    badge: "EA",
+    icon: "Code2",
+    description: "Currently working at HawkEyes Digital Monitoring, architecting enterprise mobile applications serving Fortune 500 companies like Unilever, BAT, Nestlé, and L'Oréal. Specializing in taking rough problem statements and turning them into polished, scalable products.",
+    skills: ["React Native", "TypeScript", "Enterprise Architecture", "10k+ Active Users", "100k+ Daily Txns"],
+    order: 0
+  },
+  {
+    _id: "2",
+    title: "Offline-First",
+    badge: "OFF",
+    icon: "Smartphone",
+    description: "Designing robust systems that function seamlessly in low-connectivity environments, reducing data loss and improving field efficiency.",
+    skills: ["Offline Architecture", "SQLite", "Data Sync"],
+    order: 1
+  },
+  {
+    _id: "3",
+    title: "Real-Time Systems",
+    badge: "RT",
+    icon: "Server",
+    description: "Implementing high-performance tracking and monitoring solutions for enterprise logistics and territory management.",
+    skills: ["Node.js", "Next.js", "MongoDB", "Real-time Tracking"],
+    order: 2
+  }
+];
+
 export const revalidate = 86400; // Revalidate static cache every 24 hours
 
 async function getProfile(): Promise<Profile> {
@@ -52,6 +91,17 @@ async function getProfile(): Promise<Profile> {
     return data.profile || DEFAULT_PROFILE;
   } catch {
     return DEFAULT_PROFILE;
+  }
+}
+
+async function getSkillCategories(): Promise<SkillCategory[]> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/skills`, { next: { revalidate: 86400 } });
+    if (!res.ok) return DEFAULT_SKILL_CATEGORIES;
+    const data = await res.json();
+    return data.skills?.length > 0 ? data.skills : DEFAULT_SKILL_CATEGORIES;
+  } catch {
+    return DEFAULT_SKILL_CATEGORIES;
   }
 }
 
@@ -67,8 +117,22 @@ async function getTestimonials(): Promise<Testimonial[]> {
 }
 
 export default async function Home() {
-  const profile = await getProfile();
-  const testimonials = await getTestimonials();
+  const [profile, testimonials, skillCategories] = await Promise.all([
+    getProfile(),
+    getTestimonials(),
+    getSkillCategories()
+  ]);
+
+  const featuredCategory = skillCategories[0] || DEFAULT_SKILL_CATEGORIES[0];
+  const secondaryCategories = skillCategories.length > 1 ? skillCategories.slice(1) : DEFAULT_SKILL_CATEGORIES.slice(1);
+  const allSkills = Array.from(
+    new Set(
+      skillCategories.flatMap((c) => c.skills || [])
+    )
+  );
+  const displayTechStack = allSkills.length > 0
+    ? allSkills
+    : ["JavaScript", "TypeScript", "React.js", "Next.js", "React Native", "Redux", "Zustand", "MongoDB"];
 
   return (
     <div className="container-custom pb-8 space-y-20 relative">
@@ -110,58 +174,31 @@ export default async function Home() {
           <div className="flex flex-wrap items-center gap-4 pt-4">
             <Link
               href="/contact"
-              className="px-6 py-3 bg-[#4edea3] text-[#0e1511] font-bold text-sm rounded-lg hover:bg-[#6ffbbe] transition-all shadow-[0_0_20px_rgba(78,222,163,0.3)] active:scale-95"
+              className="px-6 py-3 bg-[#4edea3] text-[#0e1511] font-bold text-sm rounded-xl hover:bg-[#6ffbbe] transition-all hover:scale-105 active:scale-95 shadow-lg shadow-[#4edea3]/20"
             >
-              Get in touch
+              Get in Touch
             </Link>
-
-            <a
-              href="https://github.com/shahadot786"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-3 bg-transparent border border-[#3c4a42] text-[#dde4dd] hover:border-[#4edea3] hover:text-[#4edea3] font-mono text-xs rounded-lg transition-all flex items-center gap-2"
+            <Link
+              href="/projects"
+              className="px-6 py-3 bg-[#1a211d] border border-[#3c4a42] text-[#dde4dd] font-semibold text-sm rounded-xl hover:border-[#4edea3] hover:text-[#4edea3] transition-all"
             >
-              <IconMap.Github size={16} />
-              GitHub
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/shahadot786"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-3 bg-transparent border border-[#3c4a42] text-[#dde4dd] hover:border-[#4edea3] hover:text-[#4edea3] font-mono text-xs rounded-lg transition-all flex items-center gap-2"
-            >
-              <IconMap.Linkedin size={16} />
-              LinkedIn
-            </a>
+              View Projects
+            </Link>
           </div>
         </div>
 
-        {/* Profile Image & Floating Tech Badges */}
-        <div className="flex-shrink-0 relative w-72 h-72 sm:w-80 sm:h-80 md:w-[360px] md:h-[360px] lg:w-[420px] lg:h-[420px]">
-          <div className="absolute inset-0 bg-[#4edea3]/25 rounded-full blur-3xl z-[-1]" />
-          
-          {/* Glowing Green Marquee Light Border */}
-          <div className="glowing-marquee-wrapper w-full h-full">
-            <div className="relative w-full h-full rounded-[1.1rem] overflow-hidden bg-[#09100c]">
+        {/* Hero Photo / Avatar */}
+        <div className="relative group/avatar shrink-0">
+          <div className="glowing-marquee-wrapper p-1 rounded-3xl overflow-hidden shadow-2xl shadow-[#4edea3]/10">
+            <div className="relative w-64 h-64 sm:w-72 sm:h-72 rounded-[22px] overflow-hidden bg-[#09100c]">
               <Image
                 src={profile.avatar || "/avatar.png"}
                 alt={profile.name}
                 fill
-                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                className="w-full h-full object-cover group-hover/avatar:scale-105 transition-transform duration-500"
                 priority
               />
             </div>
-          </div>
-
-          {/* Floating Badges */}
-          <div className="absolute -bottom-3 -left-3 bg-[#0B0E14] border border-[#3c4a42] rounded-lg p-2.5 shadow-xl flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#4edea3] animate-pulse" />
-            <div className="font-mono text-xs text-[#dde4dd]">React Native</div>
-          </div>
-          <div className="absolute -top-3 -right-3 bg-[#0B0E14] border border-[#3c4a42] rounded-lg p-2.5 shadow-xl flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#4cd7f6]" />
-            <div className="font-mono text-xs text-[#dde4dd]">TypeScript</div>
           </div>
         </div>
       </section>
@@ -178,53 +215,61 @@ export default async function Home() {
           <div className="lg:col-span-2 glass-card p-8 flex flex-col justify-between">
             <div>
               <div className="w-12 h-12 bg-[#4edea3]/10 border border-[#4edea3]/30 rounded-xl flex items-center justify-center mb-6">
-                <span className="text-[#4edea3] text-xl font-bold font-mono">EA</span>
+                <span className="text-[#4edea3] text-xl font-bold font-mono">
+                  {featuredCategory.badge || featuredCategory.icon || "EA"}
+                </span>
               </div>
-              <h4 className="text-xl font-bold text-[#dde4dd] mb-3">Enterprise Architecture</h4>
+              <h4 className="text-xl font-bold text-[#dde4dd] mb-3">{featuredCategory.title}</h4>
               <p className="text-[#bbcabf] text-sm leading-relaxed mb-6">
-                Currently working at HawkEyes Digital Monitoring, architecting enterprise mobile applications serving Fortune 500 companies like Unilever, BAT, Nestlé, and L&apos;Oréal. Specializing in taking rough problem statements and turning them into polished, scalable products.
+                {featuredCategory.description || "Architecting enterprise mobile applications serving Fortune 500 companies and building offline-first systems."}
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4 border-t border-[#3c4a42] pt-4 mt-auto">
-              <div>
-                <div className="text-2xl font-extrabold text-[#dde4dd]">10k+</div>
-                <div className="text-[10px] font-mono text-[#94A3B8] uppercase tracking-wider mt-0.5">Active Users</div>
+            {featuredCategory.skills && featuredCategory.skills.length > 0 && (
+              <div className="flex flex-wrap gap-2 border-t border-[#3c4a42] pt-4 mt-auto">
+                {featuredCategory.skills.map((skill, idx) => (
+                  <span key={idx} className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-lg">
+                    {skill}
+                  </span>
+                ))}
               </div>
-              <div>
-                <div className="text-2xl font-extrabold text-[#dde4dd]">100k+</div>
-                <div className="text-[10px] font-mono text-[#94A3B8] uppercase tracking-wider mt-0.5">Daily Txns</div>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Secondary Bento Cards */}
           <div className="space-y-6 flex flex-col justify-between">
-            <div className="glass-card p-6">
-              <div className="w-10 h-10 bg-[#4cd7f6]/10 border border-[#4cd7f6]/30 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-[#4cd7f6] font-mono font-bold text-xs">OFF</span>
+            {secondaryCategories.map((cat, idx) => (
+              <div key={cat._id || idx} className="glass-card p-6 flex-1 flex flex-col justify-between">
+                <div>
+                  <div className="w-10 h-10 bg-[#4cd7f6]/10 border border-[#4cd7f6]/30 rounded-lg flex items-center justify-center mb-3">
+                    <span className="text-[#4cd7f6] font-mono font-bold text-xs">
+                      {cat.badge || cat.icon || `0${idx + 1}`}
+                    </span>
+                  </div>
+                  <h4 className="text-base font-bold text-[#dde4dd] mb-1">{cat.title}</h4>
+                  {cat.description && (
+                    <p className="text-[#bbcabf] text-xs leading-relaxed">
+                      {cat.description}
+                    </p>
+                  )}
+                </div>
+                {cat.skills && cat.skills.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-3 mt-2 border-t border-[#3c4a42]/40">
+                    {cat.skills.slice(0, 4).map((s) => (
+                      <span key={s} className="px-2 py-0.5 bg-[#10b981]/10 border border-[#4edea3]/20 text-[#4edea3] font-mono text-[10px] rounded">
+                        {s}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
-              <h4 className="text-base font-bold text-[#dde4dd] mb-1">Offline-First</h4>
-              <p className="text-[#bbcabf] text-xs leading-relaxed">
-                Designing robust systems that function seamlessly in low-connectivity environments, reducing data loss and improving field efficiency.
-              </p>
-            </div>
-
-            <div className="glass-card p-6">
-              <div className="w-10 h-10 bg-[#bec6e0]/10 border border-[#bec6e0]/30 rounded-lg flex items-center justify-center mb-3">
-                <span className="text-[#bec6e0] font-mono font-bold text-xs">RT</span>
-              </div>
-              <h4 className="text-base font-bold text-[#dde4dd] mb-1">Real-Time Systems</h4>
-              <p className="text-[#bbcabf] text-xs leading-relaxed">
-                Implementing high-performance tracking and monitoring solutions for enterprise logistics and territory management.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* Tech Stack Tags */}
         <div className="flex flex-wrap gap-2 pt-2">
-          {["JavaScript", "TypeScript", "React.js", "Next.js", "React Native", "Redux", "Zustand", "MongoDB"].map((tech) => (
+          {displayTechStack.map((tech) => (
             <span key={tech} className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-lg">
               {tech}
             </span>

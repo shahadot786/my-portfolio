@@ -3,6 +3,8 @@ import mongoose, { Document, Schema } from 'mongoose';
 export interface ISkillCategory extends Document {
     title: string;
     icon: string;
+    description?: string;
+    badge?: string;
     skills: string[];
     order: number;
     createdAt: Date;
@@ -18,8 +20,16 @@ const skillCategorySchema = new Schema<ISkillCategory>(
         },
         icon: {
             type: String,
-            required: [true, 'Icon name is required'],
+            default: 'Code2',
             trim: true,
+        },
+        description: {
+            type: String,
+            default: '',
+        },
+        badge: {
+            type: String,
+            default: '',
         },
         skills: {
             type: [String],
