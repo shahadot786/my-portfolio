@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Briefcase, FolderOpen, Code2, Award, Newspaper, Mail } from "lucide-react";
 import { BrandLogo } from "@/components/ui/BrandLogo";
-import { LiveViewCounter } from "@/components/ui/LiveViewCounter";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -49,15 +48,12 @@ export function Navigation() {
             })}
           </div>
 
-          <div className="flex items-center gap-4">
-            <LiveViewCounter variant="pill" />
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center bg-[#10b981] text-[#0e1511] font-bold text-xs rounded-lg px-4 py-2 hover:bg-[#4edea3] transition-colors active:scale-95 shadow-[0_0_15px_rgba(78,222,163,0.2)]"
-            >
-              Hire Me
-            </Link>
-          </div>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center bg-[#10b981] text-[#0e1511] font-bold text-xs rounded-lg px-4 py-2 hover:bg-[#4edea3] transition-colors active:scale-95 shadow-[0_0_15px_rgba(78,222,163,0.2)]"
+          >
+            Hire Me
+          </Link>
         </div>
       </nav>
 
