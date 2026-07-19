@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import api from '@/lib/api-client';
-import { Loader, Plus, Trash2, Edit2, Check, Star } from 'lucide-react';
+import { Loader, Plus, Trash2, Edit2, Check, Star, RotateCcw } from 'lucide-react';
 
 interface Metric {
   label: string;
@@ -71,6 +71,19 @@ export default function AdminExpertisePage() {
   useEffect(() => {
     fetchExpertise();
   }, []);
+
+  const handleReseed = async () => {
+    if (!confirm('This will populate the database with your 4 core expertise highlights. Continue?')) return;
+    try {
+      setLoading(true);
+      await api.get('/expertise?reseed=true');
+      fetchExpertise();
+    } catch (err) {
+      console.error('Failed to reseed expertise items', err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const openCreateModal = () => {
     setEditingId(null);
@@ -165,13 +178,22 @@ export default function AdminExpertisePage() {
             Highlight your top technical expertise cards displayed on the homepage Bento grid.
           </p>
         </div>
-        <button
-          onClick={openCreateModal}
-          className="bg-primary text-black font-bold py-2.5 px-6 rounded-xl flex items-center gap-2 hover:bg-primary/90 transition-all"
-        >
-          <Plus size={18} />
-          Add Expertise Highlight
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleReseed}
+            className="bg-zinc-900 border border-zinc-800 text-zinc-300 font-medium py-2.5 px-4 rounded-xl flex items-center gap-2 hover:bg-zinc-800 hover:text-white transition-all text-xs"
+          >
+            <RotateCcw size={15} />
+            Seed 4 Core Items
+          </button>
+          <button
+            onClick={openCreateModal}
+            className="bg-primary text-black font-bold py-2.5 px-6 rounded-xl flex items-center gap-2 hover:bg-primary/90 transition-all text-xs"
+          >
+            <Plus size={18} />
+            Add Expertise Highlight
+          </button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
