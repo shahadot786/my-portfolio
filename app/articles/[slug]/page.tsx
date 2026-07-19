@@ -5,9 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+export const revalidate = 86400; // 24 Hours ISR
+
 async function getArticle(slug: string) {
   const res = await fetch(`${API_BASE_URL}/articles/${slug}`, {
-    next: { revalidate: 3600 }
+    next: { revalidate: 86400 }
   });
   if (!res.ok) return null;
   const data = await res.json();

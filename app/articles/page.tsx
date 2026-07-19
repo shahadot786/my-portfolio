@@ -1,7 +1,7 @@
 import ArticlesClient from "./ArticlesClient";
 import { getPageContent } from "@/lib/pages";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400; // ISR revalidate every 24 hours (86400 seconds)
 
 export default async function ArticlesPage() {
   const pageContent = await getPageContent('articles');

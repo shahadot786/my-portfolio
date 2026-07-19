@@ -114,16 +114,18 @@ export default function AdminProjectsPage() {
     }
   };
 
-  const handleAutoFetchImage = async () => {
+  const handleAutoFetchImage = async (type: 'github' | 'live') => {
     const currentLinks = watch('links') || [];
-    const targetLink =
-      currentLinks.find((l) => l.url && (l.type === 'live' || l.type === 'github' || l.type === 'demo'))?.url ||
-      currentLinks[0]?.url;
+    const targetLink = type === 'github'
+      ? currentLinks.find((l) => l.url && l.type === 'github')?.url
+      : currentLinks.find((l) => l.url && (l.type === 'live' || l.type === 'demo'))?.url;
 
     if (!targetLink) {
       setOgMessage({
         type: 'error',
-        text: 'Please add a Live Site or GitHub URL in the Project Links section below first!'
+        text: type === 'github'
+          ? 'Please add a GitHub URL in the Project Links section below first!'
+          : 'Please add a Live Site or Demo URL in the Project Links section below first!'
       });
       return;
     }
@@ -137,7 +139,7 @@ export default function AdminProjectsPage() {
         setValue('image', res.data.image);
         setOgMessage({
           type: 'success',
-          text: `Fetched cover image from link: ${targetLink}`
+          text: `Successfully fetched cover image from ${type === 'github' ? 'GitHub' : 'Live link'}!`
         });
       } else {
         setOgMessage({
@@ -233,19 +235,27 @@ export default function AdminProjectsPage() {
                     </span>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={handleAutoFetchImage}
-                    disabled={fetchingOg}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#10b981]/15 text-[#4edea3] border border-[#4edea3]/30 rounded-lg font-mono text-xs hover:bg-[#4edea3] hover:text-[#0e1511] transition-all shrink-0 active:scale-95 disabled:opacity-50"
-                  >
-                    {fetchingOg ? (
-                      <Loader size={13} className="animate-spin" />
-                    ) : (
-                      <Wand2 size={13} />
-                    )}
-                    {fetchingOg ? "Fetching OG Image..." : "Auto-Fetch Image from Link"}
-                  </button>
+                  <div className="flex flex-wrap gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleAutoFetchImage('github')}
+                      disabled={fetchingOg}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#10b981]/10 text-[#4edea3] border border-[#4edea3]/20 rounded-lg font-mono text-xs hover:bg-[#4edea3] hover:text-[#0e1511] transition-all disabled:opacity-50 active:scale-95"
+                    >
+                      {fetchingOg ? <Loader size={12} className="animate-spin" /> : <Wand2 size={12} />}
+                      Fetch from GitHub
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleAutoFetchImage('live')}
+                      disabled={fetchingOg}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#4cd7f6]/10 text-[#4cd7f6] border border-[#4cd7f6]/20 rounded-lg font-mono text-xs hover:bg-[#4cd7f6] hover:text-[#0e1511] transition-all disabled:opacity-50 active:scale-95"
+                    >
+                      {fetchingOg ? <Loader size={12} className="animate-spin" /> : <Wand2 size={12} />}
+                      Fetch from Live
+                    </button>
+                  </div>
                 </div>
 
                 <input

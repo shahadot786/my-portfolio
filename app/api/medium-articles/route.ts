@@ -16,8 +16,8 @@ const MEDIUM_USERNAME =
   process.env.NEXT_PUBLIC_MEDIUM_USERNAME || "shrhossain786";
 const MEDIUM_RSS_URL = `https://medium.com/feed/@${MEDIUM_USERNAME}`;
 
-// Cache duration: 1 hour
-const CACHE_DURATION = 60 * 60 * 1000;
+// Cache duration: 24 hours
+const CACHE_DURATION = 24 * 60 * 60 * 1000;
 let cachedArticles: MediumArticle[] | null = null;
 let cacheTimestamp: number = 0;
 

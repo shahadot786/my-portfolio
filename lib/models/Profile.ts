@@ -19,6 +19,8 @@ export interface IProfile extends Document {
     avatar: string;
     location: string;
     email: string;
+    availabilityBadge?: string;
+    isAvailable?: boolean;
     socialLinks: ISocialLink[];
     seo: ISeoData;
     createdAt: Date;
@@ -62,6 +64,14 @@ const profileSchema = new Schema<IProfile>(
         avatar: {
             type: String,
             default: '/avatar.png',
+        },
+        availabilityBadge: {
+            type: String,
+            default: 'Available for new opportunities',
+        },
+        isAvailable: {
+            type: Boolean,
+            default: true,
         },
         location: {
             type: String,

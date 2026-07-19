@@ -13,6 +13,8 @@ interface Profile {
   name: string;
   title: string;
   avatar?: string;
+  availabilityBadge?: string;
+  isAvailable?: boolean;
   bio: string[];
   socialLinks: SocialLink[];
 }
@@ -27,27 +29,46 @@ interface Testimonial {
   featured: boolean;
 }
 
-async function getProfile(): Promise<Profile | null> {
-  const res = await fetch(`${API_BASE_URL}/profile`, { cache: "no-store" });
-  if (!res.ok) return null;
-  const data = await res.json();
-  return data.profile;
+const DEFAULT_PROFILE: Profile = {
+  name: "MD. Shahadot Hossain",
+  title: "Enterprise Mobile Architect & Full Stack Engineer",
+  avatar: "/avatar.png",
+  availabilityBadge: "Available for new opportunities",
+  isAvailable: true,
+  bio: [
+    "Software Engineer with 4+ years of experience specializing in React Native, TypeScript, and enterprise mobile solutions.",
+    "Proven track record of building offline-first applications serving 10,000+ users and 100,000+ daily transactions for Fortune 500 clients like Unilever, BAT, Nestlé, and Nagad."
+  ],
+  socialLinks: []
+};
+
+export const revalidate = 86400; // Revalidate static cache every 24 hours
+
+async function getProfile(): Promise<Profile> {
+  try {
+    const res = await fetch(`${API_BASE_URL}/profile`, { next: { revalidate: 86400 } });
+    if (!res.ok) return DEFAULT_PROFILE;
+    const data = await res.json();
+    return data.profile || DEFAULT_PROFILE;
+  } catch {
+    return DEFAULT_PROFILE;
+  }
 }
 
 async function getTestimonials(): Promise<Testimonial[]> {
-  const res = await fetch(`${API_BASE_URL}/testimonials`, {
-    cache: "no-store",
-  });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.testimonials;
+  try {
+    const res = await fetch(`${API_BASE_URL}/testimonials`, { next: { revalidate: 86400 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.testimonials || [];
+  } catch {
+    return [];
+  }
 }
 
 export default async function Home() {
   const profile = await getProfile();
   const testimonials = await getTestimonials();
-
-  if (!profile) return <div>Error loading profile...</div>;
 
   return (
     <div className="container-custom pb-8 space-y-20 relative">
@@ -58,9 +79,11 @@ export default async function Home() {
       <section className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
         <div className="flex-1 space-y-6">
           <div className="space-y-3">
-            <span className="inline-block px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium">
-              Available for new opportunities
-            </span>
+            {profile.isAvailable !== false && (
+              <span className="inline-block px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium">
+                {profile.availabilityBadge || "Available for new opportunities"}
+              </span>
+            )}
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#dde4dd] tracking-tight leading-tight">
               {profile.name}
             </h1>
@@ -75,7 +98,7 @@ export default async function Home() {
                 key={i}
                 dangerouslySetInnerHTML={{
                   __html: para.replace(
-                    /(React Native|JavaScript|React.js|Next.js|Redux|Expo|Zustand|TypeScript|Node\.js|Next\.js|Redux|MongoDB|PostgreSQL|Unilever|BAT|Nestlé|Nagad|L'Oréal|offline-first architecture|Full-stack developer at heart|10,000\+ users|100,000\+ daily transactions|4\+ years|5\+ years)/g,
+                    /(React Native|JavaScript|React.js|Next.js|Redux|Expo|Zustand|TypeScript|Node\.js|Next\.js|Redux|MongoDB|PostgreSQL|Unilever|BAT|Nestlé|Nagad|L'Oréal|iBox Lab Limited|iBox Lab|offline-first architecture|Full-stack developer at heart|10,000\+ users|100,000\+ daily transactions|4\+ years|5\+ years)/g,
                     '<span class="text-[#4edea3] font-semibold bg-[#4edea3]/10 px-1.5 py-0.5 rounded border border-[#4edea3]/20">$1</span>',
                   ),
                 }}

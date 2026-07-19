@@ -16,13 +16,17 @@ interface Project {
   links: { type: string; url: string }[];
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400; // Revalidate static cache every 24 hours
 
 async function getProjects(): Promise<Project[]> {
-  const res = await fetch(`${API_BASE_URL}/projects`, { cache: 'no-store' });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.projects;
+  try {
+    const res = await fetch(`${API_BASE_URL}/projects`, { next: { revalidate: 86400 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.projects || [];
+  } catch {
+    return [];
+  }
 }
 
 export default async function ProjectsPage() {
