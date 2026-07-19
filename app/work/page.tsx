@@ -69,39 +69,45 @@ export default async function WorkPage() {
   const otherCertificates = certificates.filter(c => !c.verified);
 
   return (
-    <div className="container-custom">
-      <h1 className="text-3xl font-bold text-white mb-4">{pageContent?.title || 'Employment History'}</h1>
-      <p className="text-zinc-400 mb-12 leading-relaxed">
-        {pageContent?.subtitle || 'Here is a brief overview of my employment history.'}
-      </p>
+    <div className="container-custom py-4 space-y-16">
+      <div>
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-3">
+          <span className="w-2 h-2 rounded-full bg-emerald-400" />
+          Career & Impact
+        </div>
+        <h1 className="text-4xl font-extrabold text-white tracking-tight">{pageContent?.title || 'Employment History'}</h1>
+        <p className="text-zinc-400 mt-2 text-base max-w-xl leading-relaxed">
+          {pageContent?.subtitle || 'Over 4+ years building high-impact mobile platforms and scalable systems for global enterprise clients.'}
+        </p>
+      </div>
 
       {/* Experience Timeline */}
-      <div className="space-y-12 mb-20">
+      <div className="space-y-6">
         {experiences.map((exp: Experience, index: number) => (
           <div
             key={index}
-            className="border-b border-zinc-800 pb-12 last:border-0"
+            className="glass-card p-6 sm:p-8"
           >
             {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-4">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
               <div>
-                <p className="text-zinc-500 text-sm">{exp.location}</p>
-                <h2 className="text-xl font-semibold text-white">
-                  {exp.title} at {exp.company}
+                <span className="text-xs text-zinc-500 uppercase tracking-wider font-semibold">{exp.location}</span>
+                <h2 className="text-xl font-bold text-white">
+                  {exp.title} <span className="text-emerald-400">@ {exp.company}</span>
                 </h2>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-zinc-500 text-sm whitespace-nowrap">
+                <span className="text-xs text-zinc-400 font-semibold px-3 py-1 bg-zinc-950/60 rounded-lg border border-zinc-800/80">
                   {exp.period}
                 </span>
                 {exp.isCurrent && (
-                  <span className="tag-highlight">Currently Working</span>
+                  <span className="badge-primary">Current Role</span>
                 )}
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-zinc-400 mb-6 leading-relaxed">
+            <p className="text-zinc-300 text-sm mb-5 leading-relaxed">
               {exp.description}
             </p>
 
@@ -110,18 +116,18 @@ export default async function WorkPage() {
               {exp.achievements.map((achievement: string, i: number) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2 text-zinc-400 text-sm"
+                  className="flex items-start gap-2.5 text-zinc-300 text-xs sm:text-sm"
                 >
-                  <span className="text-zinc-600 mt-1.5">•</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 shrink-0" />
                   {achievement}
                 </li>
               ))}
             </ul>
 
             {/* Technologies */}
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-zinc-800/60">
               {exp.technologies.map((tech: string) => (
-                <span key={tech} className="tag">
+                <span key={tech} className="px-2.5 py-1 text-xs font-medium text-zinc-300 bg-zinc-950/60 border border-zinc-800 rounded-lg">
                   {tech}
                 </span>
               ))}
@@ -131,40 +137,42 @@ export default async function WorkPage() {
       </div>
 
       {/* Higher Education Section */}
-      <div className="border-t border-zinc-800 pt-16 mb-20">
-        <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
-          <Bookmark className="text-primary" size={20} />
-          Higher Education
-        </h2>
-        <div className="space-y-8">
-          {education.map((edu) => (
-            <div key={edu._id} className="bg-zinc-950/20 p-8 rounded-3xl border border-zinc-900">
-              <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-4">
-                <div>
-                  <h3 className="text-xl font-bold text-white">{edu.degree}</h3>
-                  <p className="text-zinc-500">{edu.institution}</p>
+      {education.length > 0 && (
+        <div className="space-y-6 pt-6 border-t border-zinc-800/80">
+          <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+            <Bookmark className="text-emerald-400" size={18} />
+            Higher Education
+          </h2>
+          <div className="space-y-4">
+            {education.map((edu) => (
+              <div key={edu._id} className="glass-card p-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-3">
+                  <div>
+                    <h3 className="text-lg font-bold text-white">{edu.degree}</h3>
+                    <p className="text-emerald-400 text-sm font-semibold">{edu.institution}</p>
+                  </div>
+                  <span className="text-zinc-500 text-xs font-semibold px-2.5 py-1 bg-zinc-950/60 rounded-lg border border-zinc-800/80">{edu.period}</span>
                 </div>
-                <span className="text-zinc-600 text-sm font-medium">{edu.period}</span>
+                <ul className="space-y-1.5">
+                  {edu.highlights.map((h, i) => (
+                    <li key={i} className="text-zinc-400 text-xs sm:text-sm flex items-start gap-2">
+                      <span className="text-emerald-400">•</span>
+                      {h}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="space-y-1.5">
-                {edu.highlights.map((h, i) => (
-                  <li key={i} className="text-zinc-500 text-sm flex items-start gap-2">
-                    <span className="text-emerald-500">•</span>
-                    {h}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Verified Credentials */}
       {verifiedCertificates.length > 0 && (
-        <div className="border-t border-zinc-800 pt-16 mb-20">
-          <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
-            <Bookmark className="text-emerald-500" size={20} />
-            Verified Credentials
+        <div className="space-y-6 pt-6 border-t border-zinc-800/80">
+          <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+            <Bookmark className="text-emerald-400" size={18} />
+            Verified Certifications
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {verifiedCertificates.map((cert) => (
@@ -173,10 +181,10 @@ export default async function WorkPage() {
                 href={cert.url || '#'}
                 target={cert.url ? "_blank" : undefined}
                 rel="noreferrer"
-                className={`group relative flex flex-col overflow-hidden rounded-xl border border-zinc-900 bg-zinc-950/50 hover:border-zinc-700 transition-all ${!cert.url && 'cursor-default'}`}
+                className={`glass-card overflow-hidden flex flex-col group ${!cert.url && 'cursor-default'}`}
               >
                 {/* Image Container */}
-                <div className="relative w-full aspect-[1.58/1] bg-white text-black flex items-center justify-center overflow-hidden">
+                <div className="relative w-full aspect-[1.58/1] bg-zinc-950 flex items-center justify-center overflow-hidden">
                   {cert.image ? (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img
@@ -185,19 +193,16 @@ export default async function WorkPage() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="flex flex-col items-center gap-2 opacity-50 p-6 text-center">
+                    <div className="flex flex-col items-center gap-2 opacity-50 p-6 text-center text-zinc-400">
                       <Bookmark size={32} />
                       <span className="text-xs font-bold uppercase tracking-widest">Certificate Preview</span>
                     </div>
                   )}
-
-                  {/* Overlay Gradient on Hover */}
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
                 </div>
 
                 {/* Content */}
-                <div className="p-5 flex flex-col gap-1 border-t border-zinc-900 bg-zinc-900/30">
-                  <h3 className="text-white font-bold text-base leading-tight group-hover:text-primary transition-colors line-clamp-1">
+                <div className="p-4 flex flex-col gap-1 bg-zinc-900/40 border-t border-zinc-800/60">
+                  <h3 className="text-white font-bold text-sm leading-tight group-hover:text-emerald-400 transition-colors line-clamp-1">
                     {cert.name}
                   </h3>
                   <div className="flex items-center justify-between mt-1">
@@ -205,7 +210,7 @@ export default async function WorkPage() {
                       {cert.issuer} • {cert.date}
                     </p>
                     {cert.verified && (
-                      <Check size={16} className="text-emerald-500" />
+                      <Check size={16} className="text-emerald-400" />
                     )}
                   </div>
                 </div>
@@ -217,17 +222,17 @@ export default async function WorkPage() {
 
       {/* Professional Development */}
       {otherCertificates.length > 0 && (
-        <div className="border-t border-zinc-800 pt-16">
-          <h2 className="text-2xl font-bold text-white mb-8 flex items-center gap-2">
-            Professional development
+        <div className="space-y-4 pt-6 border-t border-zinc-800/80">
+          <h2 className="text-xl font-bold text-white tracking-tight">
+            Professional Development
           </h2>
           <div className="flex flex-wrap gap-2">
             {otherCertificates.map((cert) => (
               <span
                 key={cert._id}
-                className="tag py-2 px-3 text-sm border-zinc-800 hover:text-white transition-all cursor-default flex items-center gap-2"
+                className="px-3 py-1.5 text-xs font-medium text-zinc-300 bg-zinc-900/60 border border-zinc-800 rounded-xl flex items-center gap-2"
               >
-                <Bookmark size={12} className="text-zinc-600" />
+                <Bookmark size={12} className="text-emerald-400" />
                 {cert.name}
               </span>
             ))}
