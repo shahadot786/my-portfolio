@@ -2,7 +2,7 @@ import { Bookmark, Check, Award, ExternalLink, ShieldCheck, GraduationCap } from
 import { API_BASE_URL } from "@/config/api";
 import { getPageContent } from "@/lib/pages";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400; // Revalidate static cache every 24 hours
 
 interface Experience {
   _id: string;
@@ -37,24 +37,36 @@ interface Certificate {
 }
 
 async function getExperiences(): Promise<Experience[]> {
-  const res = await fetch(`${API_BASE_URL}/experiences`, { cache: 'no-store' });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.experiences;
+  try {
+    const res = await fetch(`${API_BASE_URL}/experiences`, { next: { revalidate: 86400 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.experiences || [];
+  } catch {
+    return [];
+  }
 }
 
 async function getEducation(): Promise<Education[]> {
-  const res = await fetch(`${API_BASE_URL}/education`, { cache: 'no-store' });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.education;
+  try {
+    const res = await fetch(`${API_BASE_URL}/education`, { next: { revalidate: 86400 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.education || [];
+  } catch {
+    return [];
+  }
 }
 
 async function getCertificates(): Promise<Certificate[]> {
-  const res = await fetch(`${API_BASE_URL}/certificates`, { cache: 'no-store' });
-  if (!res.ok) return [];
-  const data = await res.json();
-  return data.certificates;
+  try {
+    const res = await fetch(`${API_BASE_URL}/certificates`, { next: { revalidate: 86400 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.certificates || [];
+  } catch {
+    return [];
+  }
 }
 
 export default async function WorkPage() {
@@ -159,7 +171,7 @@ export default async function WorkPage() {
                   <span className="text-[#94A3B8] font-mono text-xs px-2.5 py-1 bg-[#1a211d] rounded-lg border border-[#3c4a42]">{edu.period}</span>
                 </div>
                 <ul className="space-y-1.5">
-                  {edu.highlights.map((h, i) => (
+                  {edu.highlights.map((h: string, i: number) => (
                     <li key={i} className="text-[#bbcabf] text-xs sm:text-sm flex items-start gap-2">
                       <span className="text-[#4edea3]">•</span>
                       {h}
@@ -213,12 +225,12 @@ export default async function WorkPage() {
 
                 {/* Certificate Preview / Image Banner if available */}
                 {cert.image && (
-                  <div className="my-4 relative w-full h-36 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
+                  <div className="my-4 relative w-full h-56 sm:h-64 md:h-72 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={cert.image}
                       alt={cert.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
                     />
                   </div>
                 )}

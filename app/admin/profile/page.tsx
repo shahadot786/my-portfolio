@@ -21,6 +21,8 @@ const profileSchema = z.object({
   name: z.string().min(1, "Name is required"),
   title: z.string().min(1, "Title is required"),
   avatar: z.string().optional(),
+  availabilityBadge: z.string().optional(),
+  isAvailable: z.boolean().default(true),
   location: z.string().min(1, "Location is required"),
   email: z.string().email("Invalid email"),
   bio: z.array(z.object({ value: z.string() })).min(1, "Bio is required"),
@@ -59,9 +61,12 @@ export default function ProfilePage() {
     handleSubmit,
     control,
     reset,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileSchema),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    resolver: zodResolver(profileSchema) as any,
   });
 
   const {
@@ -121,6 +126,8 @@ export default function ProfilePage() {
     fetchProfileAndUser();
   }, [reset, resetAccount]);
 
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+
   const onSubmit = async (data: ProfileFormValues) => {
     setSaving(true);
     setMessage(null);
@@ -135,6 +142,37 @@ export default function ProfilePage() {
       setMessage({ type: "error", text: "Failed to update profile." });
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingAvatar(true);
+    setMessage(null);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await api.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (res.data.success && res.data.url) {
+        setValue("avatar", res.data.url);
+        setMessage({ type: "success", text: "Avatar uploaded! Click Save Profile at the top to save changes." });
+      }
+    } catch (err) {
+      console.error(err);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const errorResponse = err as any;
+      setMessage({
+        type: "error",
+        text: errorResponse.response?.data?.error || "Failed to upload avatar image."
+      });
+    } finally {
+      setUploadingAvatar(false);
     }
   };
 
@@ -254,15 +292,95 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">
-              Profile Avatar Image URL
+          {/* Profile Avatar Image & Upload */}
+          <div className="p-5 rounded-2xl bg-[#09100c] border border-[#3c4a42] space-y-4">
+            <label className="block text-zinc-400 text-xs font-medium uppercase tracking-wider">
+              Profile Avatar Image
             </label>
-            <input
-              {...register("avatar")}
-              className="input-admin"
-              placeholder="/avatar.png or https://example.com/avatar.jpg"
-            />
+            <div className="flex flex-col sm:flex-row items-center gap-5">
+              {/* Circular Avatar Preview */}
+              <div className="relative w-20 h-20 rounded-full overflow-hidden border-2 border-[#4edea3] bg-[#0e1511] flex-shrink-0">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={watch("avatar") || "/avatar.png"}
+                  alt="Avatar Preview"
+                  className="w-full h-full object-cover"
+                />
+                {uploadingAvatar && (
+                  <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                    <Loader className="animate-spin text-[#4edea3]" size={20} />
+                  </div>
+                )}
+              </div>
+
+              {/* URL & Upload Inputs */}
+              <div className="flex-1 w-full space-y-3">
+                <div>
+                  <span className="block text-[11px] font-mono text-zinc-500 mb-1">
+                    Image URL
+                  </span>
+                  <input
+                    {...register("avatar")}
+                    className="input-admin py-2 text-xs"
+                    placeholder="/avatar.png or https://example.com/avatar.jpg"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between gap-4">
+                  <label className="inline-flex items-center gap-2 px-4 py-2 bg-[#10b981]/15 text-[#4edea3] border border-[#4edea3]/30 rounded-xl font-mono text-xs hover:bg-[#4edea3] hover:text-[#0e1511] transition-all cursor-pointer select-none active:scale-95">
+                    <Plus size={14} />
+                    Upload Local File
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleAvatarUpload}
+                      className="hidden"
+                    />
+                  </label>
+                  
+                  {watch("avatar") !== "/avatar.png" && (
+                    <button
+                      type="button"
+                      onClick={() => setValue("avatar", "/avatar.png")}
+                      className="text-zinc-500 hover:text-red-400 text-xs font-mono transition-colors"
+                    >
+                      Reset to Default
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+            <p className="text-[10px] text-[#94A3B8] leading-normal">
+              Accepts PNG, JPG, WEBP, or SVG (max 5MB). Set the profile avatar to match your branding. Pre-selects /avatar.png by default.
+            </p>
+          </div>
+
+          {/* Availability Status Badge Controls */}
+          <div className="p-4 rounded-2xl bg-[#09100c] border border-[#3c4a42] space-y-3">
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                {...register("isAvailable")}
+                id="isAvailable"
+                className="w-5 h-5 rounded-lg border-zinc-800 bg-zinc-950 text-emerald-500"
+              />
+              <label htmlFor="isAvailable" className="text-sm font-semibold text-white cursor-pointer">
+                Display Availability Status Badge on Hero Section
+              </label>
+            </div>
+            <div>
+              <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">
+                Availability Badge Text
+              </label>
+              <input
+                {...register("availabilityBadge")}
+                className="input-admin"
+                placeholder="Available for new opportunities"
+              />
+              <p className="text-[11px] text-[#94A3B8] mt-1">
+                Customize the pill badge displayed above your name on the landing page Hero section.
+              </p>
+            </div>
           </div>
 
           {/* Social Links */}

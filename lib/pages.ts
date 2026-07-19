@@ -13,12 +13,11 @@ export interface PageContent {
 
 export async function getPageContent(slug: string): Promise<PageContent | null> {
   try {
-    const res = await fetch(`${API_BASE_URL}/pages/${slug}`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE_URL}/pages/${slug}`, { next: { revalidate: 86400 } });
     if (!res.ok) return null;
     const data = await res.json();
     return data.page;
-  } catch (err) {
-    console.error(`Failed to fetch page content for ${slug}`, err);
+  } catch {
     return null;
   }
 }

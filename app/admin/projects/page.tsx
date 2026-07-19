@@ -114,16 +114,20 @@ export default function AdminProjectsPage() {
     }
   };
 
-  const handleAutoFetchImage = async () => {
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleAutoFetchImage = async (type: 'github' | 'live') => {
     const currentLinks = watch('links') || [];
-    const targetLink =
-      currentLinks.find((l) => l.url && (l.type === 'live' || l.type === 'github' || l.type === 'demo'))?.url ||
-      currentLinks[0]?.url;
+    const targetLink = type === 'github'
+      ? currentLinks.find((l) => l.url && l.type === 'github')?.url
+      : currentLinks.find((l) => l.url && (l.type === 'live' || l.type === 'demo'))?.url;
 
     if (!targetLink) {
       setOgMessage({
         type: 'error',
-        text: 'Please add a Live Site or GitHub URL in the Project Links section below first!'
+        text: type === 'github'
+          ? 'Please add a GitHub URL in the Project Links section below first!'
+          : 'Please add a Live Site or Demo URL in the Project Links section below first!'
       });
       return;
     }
@@ -137,7 +141,7 @@ export default function AdminProjectsPage() {
         setValue('image', res.data.image);
         setOgMessage({
           type: 'success',
-          text: `Fetched cover image from link: ${targetLink}`
+          text: `Successfully fetched cover image from ${type === 'github' ? 'GitHub' : 'Live link'}!`
         });
       } else {
         setOgMessage({
@@ -152,6 +156,40 @@ export default function AdminProjectsPage() {
       });
     } finally {
       setFetchingOg(false);
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    setOgMessage(null);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await api.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (res.data.success && res.data.url) {
+        setValue("image", res.data.url);
+        setOgMessage({
+          type: 'success',
+          text: 'Cover image uploaded successfully!'
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const errorResponse = err as any;
+      setOgMessage({
+        type: 'error',
+        text: errorResponse.response?.data?.error || "Failed to upload image."
+      });
+    } finally {
+      setUploadingImage(false);
     }
   };
 
@@ -233,19 +271,39 @@ export default function AdminProjectsPage() {
                     </span>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={handleAutoFetchImage}
-                    disabled={fetchingOg}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#10b981]/15 text-[#4edea3] border border-[#4edea3]/30 rounded-lg font-mono text-xs hover:bg-[#4edea3] hover:text-[#0e1511] transition-all shrink-0 active:scale-95 disabled:opacity-50"
-                  >
-                    {fetchingOg ? (
-                      <Loader size={13} className="animate-spin" />
-                    ) : (
-                      <Wand2 size={13} />
-                    )}
-                    {fetchingOg ? "Fetching OG Image..." : "Auto-Fetch Image from Link"}
-                  </button>
+                  <div className="flex flex-wrap gap-2 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => handleAutoFetchImage('github')}
+                      disabled={fetchingOg}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#10b981]/10 text-[#4edea3] border border-[#4edea3]/20 rounded-lg font-mono text-xs hover:bg-[#4edea3] hover:text-[#0e1511] transition-all disabled:opacity-50 active:scale-95"
+                    >
+                      {fetchingOg ? <Loader size={12} className="animate-spin" /> : <Wand2 size={12} />}
+                      Fetch from GitHub
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleAutoFetchImage('live')}
+                      disabled={fetchingOg}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-[#4cd7f6]/10 text-[#4cd7f6] border border-[#4cd7f6]/20 rounded-lg font-mono text-xs hover:bg-[#4cd7f6] hover:text-[#0e1511] transition-all disabled:opacity-50 active:scale-95"
+                    >
+                      {fetchingOg ? <Loader size={12} className="animate-spin" /> : <Wand2 size={12} />}
+                      Fetch from Live
+                    </button>
+
+                    <label className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-white/10 text-white border border-white/20 rounded-lg font-mono text-xs hover:bg-white hover:text-[#0e1511] transition-all cursor-pointer disabled:opacity-50 active:scale-95 select-none">
+                      {uploadingImage ? <Loader size={12} className="animate-spin" /> : <Plus size={12} />}
+                      Upload Image
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        disabled={uploadingImage}
+                      />
+                    </label>
+                  </div>
                 </div>
 
                 <input
@@ -274,16 +332,16 @@ export default function AdminProjectsPage() {
                 )}
 
                 <p className="text-[#94A3B8] text-[11px] mt-1.5">
-                  Enter an image URL manually, or click &quot;Auto-Fetch Image from Link&quot; to automatically extract the OpenGraph cover image from your added Live or GitHub links.
+                  Enter an image URL manually, auto-fetch from GitHub/Live links, or upload a local image file directly.
                 </p>
 
                 {watch('image') && (
-                  <div className="mt-3 relative w-full h-40 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c] group/img">
+                  <div className="mt-3 relative w-full h-64 sm:h-72 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c] group/img">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={watch('image')}
                       alt="Cover Preview"
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                     <button
                       type="button"

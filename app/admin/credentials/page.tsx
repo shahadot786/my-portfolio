@@ -45,6 +45,7 @@ export default function AdminCredentialsPage() {
   const [isCertModalOpen, setIsCertModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const [uploadingCertImage, setUploadingCertImage] = useState(false);
 
   const eduForm = useForm<EducationFormValues>({
     resolver: zodResolver(educationSchema),
@@ -55,6 +56,28 @@ export default function AdminCredentialsPage() {
     resolver: zodResolver(certificateSchema),
     defaultValues: { verified: false, order: 0 }
   });
+
+  const handleCertImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingCertImage(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await api.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (res.data.success && res.data.url) {
+        certForm.setValue("image", res.data.url);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setUploadingCertImage(false);
+    }
+  };
 
   const fetchData = async () => {
     try {
@@ -307,8 +330,38 @@ export default function AdminCredentialsPage() {
                 </div>
               </div>
               <div>
-                <label className="block text-zinc-500 text-[10px] font-bold uppercase mb-2">Image URL (Optional)</label>
-                <input {...certForm.register('image')} className="input-admin" placeholder="https://..." />
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <label className="block text-zinc-500 text-[10px] font-bold uppercase">Certificate Image (Optional)</label>
+                  <label className="inline-flex items-center gap-1 px-2.5 py-1 bg-white/10 text-white border border-white/20 rounded-lg font-mono text-[10px] hover:bg-white hover:text-[#0e1511] transition-all cursor-pointer select-none active:scale-95">
+                    {uploadingCertImage ? <Loader size={10} className="animate-spin" /> : <Plus size={10} />}
+                    Upload Image File
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleCertImageUpload}
+                      className="hidden"
+                      disabled={uploadingCertImage}
+                    />
+                  </label>
+                </div>
+                <input {...certForm.register('image')} className="input-admin mb-2" placeholder="Image URL (e.g. /uploads/cert.png)" />
+                {certForm.watch('image') && (
+                  <div className="relative w-full h-40 rounded-xl overflow-hidden border border-zinc-800 bg-zinc-950/50 flex items-center justify-center">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={certForm.watch('image')}
+                      alt="Certificate Preview"
+                      className="w-full h-full object-contain"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => certForm.setValue('image', '')}
+                      className="absolute top-2 right-2 p-1 rounded-md bg-black/80 text-zinc-400 hover:text-white transition-colors text-[10px] font-mono"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block text-zinc-500 text-[10px] font-bold uppercase mb-2">Verification URL</label>

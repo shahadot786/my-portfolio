@@ -20,7 +20,7 @@ export const metadata = {
   },
 };
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400; // Revalidate static cache every 24 hours
 
 export default async function ContactPage() {
   const pageContent = await getPageContent('contact');

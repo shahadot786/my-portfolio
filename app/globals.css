@@ -173,3 +173,13 @@
   animation: spin-border 3.5s linear infinite;
   filter: drop-shadow(0 0 10px #4edea3);
 }
+
+/* Page Transition Loading Bar */
+@keyframes loading-bar {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}

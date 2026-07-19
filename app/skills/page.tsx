@@ -2,7 +2,7 @@ import { API_BASE_URL } from "@/config/api";
 import { IconMap } from "@/lib/icons";
 import { getPageContent } from "@/lib/pages";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 86400; // Revalidate static cache every 24 hours
 
 interface SkillCategory {
   _id: string;
@@ -14,7 +14,7 @@ interface SkillCategory {
 
 async function getSkillCategories(): Promise<SkillCategory[]> {
   try {
-    const res = await fetch(`${API_BASE_URL}/skills`, { cache: 'no-store' });
+    const res = await fetch(`${API_BASE_URL}/skills`, { next: { revalidate: 86400 } });
     if (!res.ok) return [];
     const data = await res.json();
     return data.skills || [];
