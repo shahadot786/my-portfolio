@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { Profile } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
 import { withAdmin } from '@/lib/auth-utils';
@@ -26,5 +27,7 @@ export const PUT = withErrorHandling(withAdmin(async (req: NextRequest) => {
         profile = await Profile.create(body);
     }
 
+    revalidatePath('/');
+    revalidatePath('/contact');
     return NextResponse.json({ success: true, profile });
 }));

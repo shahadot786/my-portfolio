@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { Testimonial } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
 import { withAdmin } from '@/lib/auth-utils';
@@ -13,5 +14,6 @@ export const GET = withErrorHandling(async () => {
 export const POST = withErrorHandling(withAdmin(async (req: NextRequest) => {
     const body = await req.json();
     const testimonial = await Testimonial.create(body);
+    revalidatePath('/');
     return NextResponse.json({ success: true, testimonial });
 }));

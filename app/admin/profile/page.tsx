@@ -149,28 +149,29 @@ export default function ProfilePage() {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    if (file.size > 2 * 1024 * 1024) {
-      setMessage({ type: "error", text: "Image is too large. Max size is 2MB." });
-      return;
-    }
-
     setUploadingAvatar(true);
     setMessage(null);
 
+    const formData = new FormData();
+    formData.append("file", file);
+
     try {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setValue("avatar", reader.result as string);
-        setMessage({ type: "success", text: "Avatar image loaded successfully! Click Save Profile at the top to apply changes." });
-        setUploadingAvatar(false);
-      };
-      reader.onerror = () => {
-        setMessage({ type: "error", text: "Failed to read local file." });
-        setUploadingAvatar(false);
-      };
-      reader.readAsDataURL(file);
-    } catch {
-      setMessage({ type: "error", text: "Failed to load image." });
+      const res = await api.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (res.data.success && res.data.url) {
+        setValue("avatar", res.data.url);
+        setMessage({ type: "success", text: "Avatar uploaded! Click Save Profile at the top to save changes." });
+      }
+    } catch (err) {
+      console.error(err);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const errorResponse = err as any;
+      setMessage({
+        type: "error",
+        text: errorResponse.response?.data?.error || "Failed to upload avatar image."
+      });
+    } finally {
       setUploadingAvatar(false);
     }
   };

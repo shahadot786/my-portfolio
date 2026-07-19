@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { Experience } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
 import { withAdmin } from '@/lib/auth-utils';
@@ -20,6 +21,8 @@ export const PUT = withErrorHandling(withAdmin(async (req: NextRequest, { params
     if (!experience) {
         return NextResponse.json({ error: 'Experience not found' }, { status: 404 });
     }
+    revalidatePath('/work');
+    revalidatePath('/');
     return NextResponse.json({ success: true, experience });
 }));
 
@@ -28,5 +31,7 @@ export const DELETE = withErrorHandling(withAdmin(async (req: NextRequest, { par
     if (!experience) {
         return NextResponse.json({ error: 'Experience not found' }, { status: 404 });
     }
+    revalidatePath('/work');
+    revalidatePath('/');
     return NextResponse.json({ success: true, message: 'Experience deleted' });
 }));
