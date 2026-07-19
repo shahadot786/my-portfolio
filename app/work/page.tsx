@@ -225,12 +225,12 @@ export default async function WorkPage() {
 
                 {/* Certificate Preview / Image Banner if available */}
                 {cert.image && (
-                  <div className="my-4 relative w-full h-36 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
+                  <div className="my-4 relative w-full h-56 sm:h-64 md:h-72 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={cert.image}
                       alt={cert.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
                     />
                   </div>
                 )}

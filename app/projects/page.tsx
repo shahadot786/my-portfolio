@@ -55,12 +55,12 @@ export default async function ProjectsPage() {
           <div key={index} className="glass-card p-6 sm:p-8 relative overflow-hidden group">
             {/* Optional Cover Image */}
             {project.image && (
-              <div className="mb-6 relative w-full h-48 sm:h-56 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
+              <div className="mb-6 relative w-full h-64 sm:h-72 md:h-80 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={project.image}
                   alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="w-full h-full object-contain transition-transform duration-500 group-hover:scale-[1.02]"
                 />
               </div>
             )}
