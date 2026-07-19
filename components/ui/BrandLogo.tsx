@@ -34,7 +34,7 @@ export function BrandLogo({ size = "md", showTagline = false, className = "" }: 
         </span>
         {showTagline && (
           <span className="text-[10px] font-mono text-[#94A3B8] tracking-widest uppercase mt-0.5">
-            Enterprise Mobile Architect
+            Software Architect
           </span>
         )}
       </div>

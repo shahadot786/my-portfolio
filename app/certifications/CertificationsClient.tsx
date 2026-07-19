@@ -60,7 +60,7 @@ export default function CertificationsClient({
       {/* Controls: Search & Category Filter */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 border-b border-[#3c4a42]/60 pb-6">
         {/* Issuers Tabs */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
+        <div className="flex items-center gap-2.5 overflow-x-auto pb-4 pt-1 mb-1 scrollbar-thin">
           {issuers.map((issuer) => (
             <button
               key={issuer}

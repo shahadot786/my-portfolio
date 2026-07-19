@@ -115,10 +115,12 @@
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
   background-color: #09100c;
+  border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb {
