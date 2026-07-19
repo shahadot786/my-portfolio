@@ -69,14 +69,13 @@ export default async function WorkPage() {
   const otherCertificates = certificates.filter(c => !c.verified);
 
   return (
-    <div className="container-custom py-4 space-y-16">
+    <div className="container-custom py-8 space-y-16">
       <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-3">
-          <span className="w-2 h-2 rounded-full bg-emerald-400" />
-          Career & Impact
-        </div>
-        <h1 className="text-4xl font-extrabold text-white tracking-tight">{pageContent?.title || 'Employment History'}</h1>
-        <p className="text-zinc-400 mt-2 text-base max-w-xl leading-relaxed">
+        <span className="inline-block px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium mb-3">
+          Career Timeline & Professional History
+        </span>
+        <h1 className="text-4xl font-extrabold text-[#dde4dd] tracking-tight">{pageContent?.title || 'Employment History'}</h1>
+        <p className="text-[#bbcabf] mt-2 text-base max-w-xl leading-relaxed">
           {pageContent?.subtitle || 'Over 4+ years building high-impact mobile platforms and scalable systems for global enterprise clients.'}
         </p>
       </div>
@@ -91,23 +90,25 @@ export default async function WorkPage() {
             {/* Header */}
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-4">
               <div>
-                <span className="text-xs text-zinc-500 uppercase tracking-wider font-semibold">{exp.location}</span>
-                <h2 className="text-xl font-bold text-white">
-                  {exp.title} <span className="text-emerald-400">@ {exp.company}</span>
+                <span className="text-xs font-mono text-[#94A3B8] uppercase tracking-wider">{exp.location}</span>
+                <h2 className="text-xl font-bold text-[#dde4dd]">
+                  {exp.title} <span className="text-[#4edea3]">@ {exp.company}</span>
                 </h2>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-xs text-zinc-400 font-semibold px-3 py-1 bg-zinc-950/60 rounded-lg border border-zinc-800/80">
+                <span className="text-xs font-mono text-[#bbcabf] px-3 py-1 bg-[#1a211d] rounded-lg border border-[#3c4a42]">
                   {exp.period}
                 </span>
                 {exp.isCurrent && (
-                  <span className="badge-primary">Current Role</span>
+                  <span className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-full">
+                    Current Role
+                  </span>
                 )}
               </div>
             </div>
 
             {/* Description */}
-            <p className="text-zinc-300 text-sm mb-5 leading-relaxed">
+            <p className="text-[#bbcabf] text-sm mb-5 leading-relaxed">
               {exp.description}
             </p>
 
@@ -116,18 +117,18 @@ export default async function WorkPage() {
               {exp.achievements.map((achievement: string, i: number) => (
                 <li
                   key={i}
-                  className="flex items-start gap-2.5 text-zinc-300 text-xs sm:text-sm"
+                  className="flex items-start gap-2.5 text-[#dde4dd] text-xs sm:text-sm"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 shrink-0" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#4edea3] mt-2 shrink-0" />
                   {achievement}
                 </li>
               ))}
             </ul>
 
             {/* Technologies */}
-            <div className="flex flex-wrap gap-2 pt-4 border-t border-zinc-800/60">
+            <div className="flex flex-wrap gap-2 pt-4 border-t border-[#3c4a42]">
               {exp.technologies.map((tech: string) => (
-                <span key={tech} className="px-2.5 py-1 text-xs font-medium text-zinc-300 bg-zinc-950/60 border border-zinc-800 rounded-lg">
+                <span key={tech} className="px-2.5 py-1 text-xs font-mono text-[#4edea3] bg-[#10b981]/10 border border-[#4edea3]/30 rounded-lg">
                   {tech}
                 </span>
               ))}
@@ -138,9 +139,9 @@ export default async function WorkPage() {
 
       {/* Higher Education Section */}
       {education.length > 0 && (
-        <div className="space-y-6 pt-6 border-t border-zinc-800/80">
-          <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
-            <Bookmark className="text-emerald-400" size={18} />
+        <div className="space-y-6 pt-6 border-t border-[#3c4a42]">
+          <h2 className="text-xl font-bold text-[#dde4dd] tracking-tight flex items-center gap-2">
+            <Bookmark className="text-[#4edea3]" size={18} />
             Higher Education
           </h2>
           <div className="space-y-4">
@@ -148,15 +149,15 @@ export default async function WorkPage() {
               <div key={edu._id} className="glass-card p-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-3">
                   <div>
-                    <h3 className="text-lg font-bold text-white">{edu.degree}</h3>
-                    <p className="text-emerald-400 text-sm font-semibold">{edu.institution}</p>
+                    <h3 className="text-lg font-bold text-[#dde4dd]">{edu.degree}</h3>
+                    <p className="text-[#4edea3] text-sm font-semibold">{edu.institution}</p>
                   </div>
-                  <span className="text-zinc-500 text-xs font-semibold px-2.5 py-1 bg-zinc-950/60 rounded-lg border border-zinc-800/80">{edu.period}</span>
+                  <span className="text-[#94A3B8] font-mono text-xs px-2.5 py-1 bg-[#1a211d] rounded-lg border border-[#3c4a42]">{edu.period}</span>
                 </div>
                 <ul className="space-y-1.5">
                   {edu.highlights.map((h, i) => (
-                    <li key={i} className="text-zinc-400 text-xs sm:text-sm flex items-start gap-2">
-                      <span className="text-emerald-400">•</span>
+                    <li key={i} className="text-[#bbcabf] text-xs sm:text-sm flex items-start gap-2">
+                      <span className="text-[#4edea3]">•</span>
                       {h}
                     </li>
                   ))}
@@ -169,9 +170,9 @@ export default async function WorkPage() {
 
       {/* Verified Credentials */}
       {verifiedCertificates.length > 0 && (
-        <div className="space-y-6 pt-6 border-t border-zinc-800/80">
-          <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
-            <Bookmark className="text-emerald-400" size={18} />
+        <div className="space-y-6 pt-6 border-t border-[#3c4a42]">
+          <h2 className="text-xl font-bold text-[#dde4dd] tracking-tight flex items-center gap-2">
+            <Bookmark className="text-[#4edea3]" size={18} />
             Verified Certifications
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -184,7 +185,7 @@ export default async function WorkPage() {
                 className={`glass-card overflow-hidden flex flex-col group ${!cert.url && 'cursor-default'}`}
               >
                 {/* Image Container */}
-                <div className="relative w-full aspect-[1.58/1] bg-zinc-950 flex items-center justify-center overflow-hidden">
+                <div className="relative w-full aspect-[1.58/1] bg-[#09100c] flex items-center justify-center overflow-hidden">
                   {cert.image ? (
                     /* eslint-disable-next-line @next/next/no-img-element */
                     <img
@@ -193,24 +194,24 @@ export default async function WorkPage() {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="flex flex-col items-center gap-2 opacity-50 p-6 text-center text-zinc-400">
+                    <div className="flex flex-col items-center gap-2 opacity-50 p-6 text-center text-[#94A3B8]">
                       <Bookmark size={32} />
-                      <span className="text-xs font-bold uppercase tracking-widest">Certificate Preview</span>
+                      <span className="text-xs font-mono font-bold uppercase tracking-widest">Certificate Preview</span>
                     </div>
                   )}
                 </div>
 
                 {/* Content */}
-                <div className="p-4 flex flex-col gap-1 bg-zinc-900/40 border-t border-zinc-800/60">
-                  <h3 className="text-white font-bold text-sm leading-tight group-hover:text-emerald-400 transition-colors line-clamp-1">
+                <div className="p-4 flex flex-col gap-1 bg-[#1a211d]/50 border-t border-[#3c4a42]">
+                  <h3 className="text-[#dde4dd] font-bold text-sm leading-tight group-hover:text-[#4edea3] transition-colors line-clamp-1">
                     {cert.name}
                   </h3>
                   <div className="flex items-center justify-between mt-1">
-                    <p className="text-zinc-500 text-xs font-medium">
+                    <p className="text-[#94A3B8] font-mono text-xs">
                       {cert.issuer} • {cert.date}
                     </p>
                     {cert.verified && (
-                      <Check size={16} className="text-emerald-400" />
+                      <Check size={16} className="text-[#4edea3]" />
                     )}
                   </div>
                 </div>
@@ -222,17 +223,17 @@ export default async function WorkPage() {
 
       {/* Professional Development */}
       {otherCertificates.length > 0 && (
-        <div className="space-y-4 pt-6 border-t border-zinc-800/80">
-          <h2 className="text-xl font-bold text-white tracking-tight">
+        <div className="space-y-4 pt-6 border-t border-[#3c4a42]">
+          <h2 className="text-xl font-bold text-[#dde4dd] tracking-tight">
             Professional Development
           </h2>
           <div className="flex flex-wrap gap-2">
             {otherCertificates.map((cert) => (
               <span
                 key={cert._id}
-                className="px-3 py-1.5 text-xs font-medium text-zinc-300 bg-zinc-900/60 border border-zinc-800 rounded-xl flex items-center gap-2"
+                className="px-3 py-1.5 text-xs font-mono text-[#dde4dd] bg-[#1a211d] border border-[#3c4a42] rounded-xl flex items-center gap-2"
               >
-                <Bookmark size={12} className="text-emerald-400" />
+                <Bookmark size={12} className="text-[#4edea3]" />
                 {cert.name}
               </span>
             ))}

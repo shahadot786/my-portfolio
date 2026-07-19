@@ -115,12 +115,12 @@ export default function AdminDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold mb-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium mb-2">
+          <span className="w-2 h-2 rounded-full bg-[#4edea3] animate-pulse" />
           Live Analytics & System Monitor
         </div>
-        <h1 className="text-3xl font-extrabold text-white tracking-tight">Dashboard Overview</h1>
-        <p className="text-zinc-400 text-sm mt-1">Real-time visitor metrics, project engagement, and content performance.</p>
+        <h1 className="text-3xl font-extrabold text-[#dde4dd] tracking-tight">Dashboard Overview</h1>
+        <p className="text-[#bbcabf] text-sm mt-1">Real-time visitor metrics, project engagement, and content performance.</p>
       </div>
 
       {/* Stats Grid */}
@@ -128,17 +128,17 @@ export default function AdminDashboard() {
         {cards.map((card, i) => (
           <div key={i} className="glass-card p-6 relative group overflow-hidden">
             <div className="flex items-start justify-between mb-4">
-              <div className={`${card.bg} ${card.color} p-3 rounded-xl border border-white/5`}>
+              <div className={`${card.bg} ${card.color} p-3 rounded-xl border border-[#3c4a42]`}>
                 <card.icon size={22} />
               </div>
-              <div className={`flex items-center gap-1 text-xs font-semibold ${card.trendUp ? 'text-emerald-400' : 'text-zinc-500'}`}>
+              <div className={`flex items-center gap-1 text-xs font-mono font-semibold ${card.trendUp ? 'text-[#4edea3]' : 'text-[#94A3B8]'}`}>
                 {card.trend}
                 {card.trendUp ? <ArrowUpRight size={14} /> : <Clock size={14} />}
               </div>
             </div>
             <div>
-              <p className="text-zinc-400 text-xs font-semibold uppercase tracking-wider">{card.label}</p>
-              <h3 className="text-3xl font-extrabold text-white mt-1 group-hover:text-emerald-400 transition-colors">{card.value}</h3>
+              <p className="text-[#94A3B8] font-mono text-xs uppercase tracking-wider">{card.label}</p>
+              <h3 className="text-3xl font-extrabold text-[#dde4dd] mt-1 group-hover:text-[#4edea3] transition-colors">{card.value}</h3>
             </div>
           </div>
         ))}
