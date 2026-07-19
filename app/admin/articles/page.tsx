@@ -12,7 +12,8 @@ import {
   Trash2,
   Eye,
   ExternalLink,
-  Clock
+  Clock,
+  Loader,
 } from 'lucide-react';
 import Image from 'next/image';
 import { formatDate } from '@/lib/utils';
@@ -64,7 +65,13 @@ export default function AdminArticlesPage() {
     a.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <Loader className="animate-spin text-primary" size={32} />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8">
