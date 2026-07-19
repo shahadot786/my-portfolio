@@ -149,7 +149,7 @@ const trackerSchema = new Schema<ITracker>(
     }
 );
 
-trackerSchema.index({ slug: 1 }, { unique: true });
+// Redundant index removed as slug is unique: true in schema
 trackerSchema.index({ featured: -1, status: 1 });
 
 export const Tracker = mongoose.models.Tracker || mongoose.model<ITracker>('Tracker', trackerSchema);
