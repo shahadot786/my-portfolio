@@ -25,11 +25,17 @@ export const dynamic = "force-dynamic";
 export default async function ContactPage() {
   const pageContent = await getPageContent('contact');
   return (
-    <div className="container-custom">
-      <h1 className="text-3xl font-bold text-white mb-4">{pageContent?.title || 'Get in Touch'}</h1>
-      <p className="text-zinc-400 mb-12 leading-relaxed">
-        {pageContent?.subtitle || 'Have a project in mind or want to collaborate?'}
-      </p>
+    <div className="container-custom py-8 space-y-8">
+      <div>
+        <span className="inline-block px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium mb-3">
+          Communication Channels & Collaboration
+        </span>
+        <h1 className="text-4xl font-extrabold text-[#dde4dd] tracking-tight">{pageContent?.title || 'Get in Touch'}</h1>
+        <p className="text-[#bbcabf] mt-2 text-base max-w-xl leading-relaxed">
+          {pageContent?.subtitle || 'Have a project in mind, need technical advisory, or want to collaborate? Reach out directly.'}
+        </p>
+      </div>
+
       <ContactClient />
     </div>
   );

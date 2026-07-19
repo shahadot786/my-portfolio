@@ -72,149 +72,162 @@ export default function ContactClient() {
     };
 
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Info */}
-            <div>
-                <h2 className="text-lg font-semibold text-white mb-6">Contact Information</h2>
-                <div className="space-y-4 mb-8">
-                    {contactInfo.map((info) => (
-                        <a
-                            key={info.label}
-                            href={info.href}
-                            className="card flex items-center gap-4 border-zinc-800 hover:border-primary/50"
-                        >
-                            <div className="p-3 rounded-lg bg-zinc-800 text-zinc-400 group-hover:text-primary transition-colors">
-                                <info.icon size={20} />
-                            </div>
-                            <div>
-                                <p className="text-zinc-500 text-xs uppercase tracking-wide">{info.label}</p>
-                                <p className="text-white font-medium">{info.value}</p>
-                            </div>
-                        </a>
-                    ))}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            {/* Contact Info (5 Cols) */}
+            <div className="lg:col-span-5 space-y-6">
+                {/* Information Card */}
+                <div className="glass-card p-6 space-y-5">
+                    <h2 className="text-xl font-bold text-[#dde4dd] border-b border-[#3c4a42] pb-3 mb-2">
+                        Contact Information
+                    </h2>
+                    <div className="space-y-4">
+                        {contactInfo.map((info) => (
+                            <a
+                                key={info.label}
+                                href={info.href}
+                                className="flex items-center gap-4 group p-2 rounded-lg hover:bg-[#1a211d] transition-colors"
+                            >
+                                <div className="w-10 h-10 rounded-full bg-[#10b981]/10 border border-[#4edea3]/30 flex items-center justify-center text-[#4edea3] group-hover:scale-105 transition-transform shrink-0">
+                                    <info.icon size={18} />
+                                </div>
+                                <div>
+                                    <p className="text-[#94A3B8] font-mono text-[11px] uppercase tracking-wider">{info.label}</p>
+                                    <p className="text-[#dde4dd] font-semibold text-sm group-hover:text-[#4edea3] transition-colors">{info.value}</p>
+                                </div>
+                            </a>
+                        ))}
+                    </div>
                 </div>
 
-                {/* Social Links */}
-                <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wide mb-4">
-                    Social Profiles
-                </h3>
-                <div className="flex gap-3">
-                    {socialLinks.map((social) => (
-                        <a
-                            key={social.label}
-                            href={social.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="p-3 rounded-lg bg-zinc-800 text-zinc-400 hover:text-primary hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all"
-                            aria-label={social.label}
-                        >
-                            <social.icon size={20} />
-                        </a>
-                    ))}
+                {/* Social Profiles Card */}
+                <div className="glass-card p-6 space-y-4">
+                    <h3 className="text-base font-bold text-[#dde4dd] border-b border-[#3c4a42] pb-3">
+                        Social Profiles
+                    </h3>
+                    <div className="flex flex-wrap gap-3">
+                        {socialLinks.map((social) => (
+                            <a
+                                key={social.label}
+                                href={social.href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 px-3.5 py-2 rounded-lg border border-[#3c4a42] bg-[#1a211d] hover:border-[#4edea3] text-[#dde4dd] hover:text-[#4edea3] transition-all font-mono text-xs"
+                                aria-label={social.label}
+                            >
+                                <social.icon size={16} />
+                                {social.label}
+                            </a>
+                        ))}
+                    </div>
                 </div>
             </div>
 
-            {/* Contact Form */}
-            <div>
-                <h2 className="text-lg font-semibold text-white mb-6">Send a Message</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Contact Form (7 Cols) */}
+            <div className="lg:col-span-7">
+                <div className="glass-card p-8 bg-[#09100c] border-[#3c4a42]">
+                    <h2 className="text-xl font-bold text-[#dde4dd] mb-6 flex items-center gap-2">
+                        <Send size={18} className="text-[#4edea3]" />
+                        Send a Message
+                    </h2>
+                    <form onSubmit={handleSubmit} className="space-y-5">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="name" className="block font-mono text-xs uppercase tracking-wider text-[#bbcabf] mb-1.5">
+                                    Name
+                                </label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    required
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-3 bg-[#1a211d] border border-[#3c4a42] rounded-lg text-[#dde4dd] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#4edea3] transition-all text-sm"
+                                    placeholder="Your name"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="email" className="block font-mono text-xs uppercase tracking-wider text-[#bbcabf] mb-1.5">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    required
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-3 bg-[#1a211d] border border-[#3c4a42] rounded-lg text-[#dde4dd] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#4edea3] transition-all text-sm"
+                                    placeholder="your@email.com"
+                                />
+                            </div>
+                        </div>
+
                         <div>
-                            <label htmlFor="name" className="block text-zinc-500 text-xs uppercase tracking-wide mb-2">
-                                Name
+                            <label htmlFor="subject" className="block font-mono text-xs uppercase tracking-wider text-[#bbcabf] mb-1.5">
+                                Subject
                             </label>
                             <input
                                 type="text"
-                                id="name"
-                                name="name"
+                                id="subject"
+                                name="subject"
                                 required
-                                value={formData.name}
+                                value={formData.subject}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
-                                placeholder="Your name"
+                                className="w-full px-4 py-3 bg-[#1a211d] border border-[#3c4a42] rounded-lg text-[#dde4dd] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#4edea3] transition-all text-sm"
+                                placeholder="What's this about?"
                             />
                         </div>
+
                         <div>
-                            <label htmlFor="email" className="block text-zinc-500 text-xs uppercase tracking-wide mb-2">
-                                Email
+                            <label htmlFor="message" className="block font-mono text-xs uppercase tracking-wider text-[#bbcabf] mb-1.5">
+                                Message
                             </label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
+                            <textarea
+                                id="message"
+                                name="message"
                                 required
-                                value={formData.email}
+                                value={formData.message}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all"
-                                placeholder="your@email.com"
+                                rows={5}
+                                className="w-full px-4 py-3 bg-[#1a211d] border border-[#3c4a42] rounded-lg text-[#dde4dd] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#4edea3] transition-all text-sm resize-none"
+                                placeholder="Your message..."
                             />
                         </div>
-                    </div>
 
-                    <div>
-                        <label htmlFor="subject" className="block text-zinc-500 text-xs uppercase tracking-wide mb-2">
-                            Subject
-                        </label>
-                        <input
-                            type="text"
-                            id="subject"
-                            name="subject"
-                            required
-                            value={formData.subject}
-                            onChange={handleChange}
-                            className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-zinc-500 transition-colors"
-                            placeholder="What's this about?"
-                        />
-                    </div>
+                        <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full bg-[#4edea3] text-[#0e1511] font-bold text-sm rounded-lg hover:bg-[#6ffbbe] transition-all shadow-[0_0_20px_rgba(78,222,163,0.3)] active:scale-95 py-3.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                            {isSubmitting ? (
+                                <>
+                                    <Loader size={18} className="animate-spin" />
+                                    Sending...
+                                </>
+                            ) : (
+                                <>
+                                    <Send size={18} />
+                                    Send Message
+                                </>
+                            )}
+                        </button>
 
-                    <div>
-                        <label htmlFor="message" className="block text-zinc-500 text-xs uppercase tracking-wide mb-2">
-                            Message
-                        </label>
-                        <textarea
-                            id="message"
-                            name="message"
-                            required
-                            value={formData.message}
-                            onChange={handleChange}
-                            rows={5}
-                            className="w-full px-4 py-3 bg-zinc-800 border border-zinc-700 rounded-lg text-white placeholder:text-zinc-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/20 transition-all resize-none"
-                            placeholder="Your message..."
-                        />
-                    </div>
-
-                    <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="w-full btn-primary flex items-center justify-center gap-2 py-3 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                        {isSubmitting ? (
-                            <>
-                                <Loader size={18} className="animate-spin" />
-                                Sending...
-                            </>
-                        ) : (
-                            <>
-                                <Send size={18} />
-                                Send Message
-                            </>
+                        {submitStatus === "success" && (
+                            <div className="flex items-center gap-2 text-[#4edea3] bg-[#10b981]/10 border border-[#4edea3]/30 rounded-lg p-4 font-mono text-xs">
+                                <CheckCircle size={18} />
+                                <p>Message sent successfully! I&apos;ll get back to you soon.</p>
+                            </div>
                         )}
-                    </button>
 
-                    {submitStatus === "success" && (
-                        <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-4">
-                            <CheckCircle size={18} />
-                            <p className="text-sm">Message sent successfully! I&apos;ll get back to you soon.</p>
-                        </div>
-                    )}
-
-                    {submitStatus === "error" && (
-                        <div className="flex items-center gap-2 text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-4">
-                            <AlertCircle size={18} />
-                            <p className="text-sm">Failed to send. Please try emailing directly.</p>
-                        </div>
-                    )}
-                </form>
+                        {submitStatus === "error" && (
+                            <div className="flex items-center gap-2 text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-4 font-mono text-xs">
+                                <AlertCircle size={18} />
+                                <p>Failed to send. Please try emailing directly.</p>
+                            </div>
+                        )}
+                    </form>
+                </div>
             </div>
         </div>
     );

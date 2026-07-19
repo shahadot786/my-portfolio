@@ -12,6 +12,7 @@ interface SocialLink {
 interface Profile {
   name: string;
   title: string;
+  avatar?: string;
   bio: string[];
   socialLinks: SocialLink[];
 }
@@ -49,12 +50,12 @@ export default async function Home() {
   if (!profile) return <div>Error loading profile...</div>;
 
   return (
-    <div className="container-custom py-8 space-y-20 relative">
+    <div className="container-custom pb-8 space-y-20 relative">
       {/* Ambient Background Glows */}
       <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] rounded-full bg-[#4edea3]/5 blur-[120px] pointer-events-none z-[-1]" />
-      
+
       {/* Hero Section */}
-      <section className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12 pt-6 pb-4">
+      <section className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
         <div className="flex-1 space-y-6">
           <div className="space-y-3">
             <span className="inline-block px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium">
@@ -82,7 +83,7 @@ export default async function Home() {
             ))}
           </div>
 
-          {/* CTA & Social Links */}
+          {/* CTA & Social Links (Hero section: Get in touch, GitHub, LinkedIn) */}
           <div className="flex flex-wrap items-center gap-4 pt-4">
             <Link
               href="/contact"
@@ -90,40 +91,42 @@ export default async function Home() {
             >
               Get in touch
             </Link>
-            
-            {profile.socialLinks.map((social: SocialLink) => {
-              const Icon =
-                IconMap[social.icon as keyof typeof IconMap] || IconMap.Globe;
-              return (
-                <a
-                  key={social.platform}
-                  href={social.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-3 bg-transparent border border-[#3c4a42] text-[#dde4dd] hover:border-[#4edea3] hover:text-[#4edea3] font-mono text-xs rounded-lg transition-all flex items-center gap-2"
-                  aria-label={social.platform}
-                >
-                  <Icon size={16} />
-                  {social.platform}
-                </a>
-              );
-            })}
+
+            <a
+              href="https://github.com/shahadot786"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-3 bg-transparent border border-[#3c4a42] text-[#dde4dd] hover:border-[#4edea3] hover:text-[#4edea3] font-mono text-xs rounded-lg transition-all flex items-center gap-2"
+            >
+              <IconMap.Github size={16} />
+              GitHub
+            </a>
+
+            <a
+              href="https://www.linkedin.com/in/shahadot786"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-3 bg-transparent border border-[#3c4a42] text-[#dde4dd] hover:border-[#4edea3] hover:text-[#4edea3] font-mono text-xs rounded-lg transition-all flex items-center gap-2"
+            >
+              <IconMap.Linkedin size={16} />
+              LinkedIn
+            </a>
           </div>
         </div>
 
         {/* Profile Image & Floating Tech Badges */}
-        <div className="flex-shrink-0 relative w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80">
+        <div className="flex-shrink-0 relative w-72 h-72 sm:w-80 sm:h-80 md:w-[360px] md:h-[360px] lg:w-[420px] lg:h-[420px]">
           <div className="absolute inset-0 bg-[#4edea3]/20 rounded-full blur-3xl z-[-1]" />
           <div className="relative w-full h-full rounded-2xl overflow-hidden border border-[#3c4a42] shadow-2xl">
             <Image
-              src="/avatar.png"
+              src={profile.avatar || "/avatar.png"}
               alt={profile.name}
               fill
               className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
               priority
             />
           </div>
-          
+
           {/* Floating Badges */}
           <div className="absolute -bottom-3 -left-3 bg-[#0B0E14] border border-[#3c4a42] rounded-lg p-2.5 shadow-xl flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#4edea3] animate-pulse" />
@@ -155,7 +158,7 @@ export default async function Home() {
                 Currently working at HawkEyes Digital Monitoring, architecting enterprise mobile applications serving Fortune 500 companies like Unilever, BAT, Nestlé, and L&apos;Oréal. Specializing in taking rough problem statements and turning them into polished, scalable products.
               </p>
             </div>
-            
+
             <div className="grid grid-cols-2 gap-4 border-t border-[#3c4a42] pt-4 mt-auto">
               <div>
                 <div className="text-2xl font-extrabold text-[#dde4dd]">10k+</div>
