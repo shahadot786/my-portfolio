@@ -3,6 +3,8 @@ import { Project } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
 import { withAdmin } from '@/lib/auth-utils';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = withErrorHandling(async () => {
     const projects = await Project.find().sort({ featured: -1, order: 1 });
     return NextResponse.json({ success: true, projects });

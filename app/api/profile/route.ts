@@ -3,6 +3,8 @@ import { Profile } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
 import { withAdmin } from '@/lib/auth-utils';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = withErrorHandling(async () => {
     const profile = await Profile.findOne().sort({ createdAt: -1 });
     if (!profile) {

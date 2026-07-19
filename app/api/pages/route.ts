@@ -3,6 +3,8 @@ import { Page } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
 import { withAdmin } from '@/lib/auth-utils';
 
+export const dynamic = 'force-dynamic';
+
 export const GET = withErrorHandling(async () => {
     const pages = await Page.find().sort({ slug: 1 });
     return NextResponse.json({ success: true, pages });
