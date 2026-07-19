@@ -341,7 +341,7 @@ export default function AdminProjectsPage() {
                     <img
                       src={watch('image')}
                       alt="Cover Preview"
-                      className="w-full h-full object-contain"
+                      className="w-full h-full object-cover"
                     />
                     <button
                       type="button"
