@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Briefcase, FolderOpen, Code2, Award, Newspaper, Mail } from "lucide-react";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { LiveViewCounter } from "@/components/ui/LiveViewCounter";
 
 export function Navigation() {
   const pathname = usePathname();
@@ -19,18 +20,17 @@ export function Navigation() {
     { href: "/skills", label: "Skills", icon: Code2 },
     { href: "/certifications", label: "Certifications", icon: Award },
     { href: "/articles", label: "Articles", icon: Newspaper },
-    // { href: "/tracker", label: "Tracker", icon: Target },
     { href: "/contact", label: "Contact", icon: Mail },
   ];
 
   return (
     <>
-      {/* Desktop Top Navigation Bar (Stitch 263256000900331205) */}
+      {/* Desktop Top Navigation Bar */}
       <nav className="fixed top-0 w-full z-50 bg-[#0e1511]/90 backdrop-blur-md border-b border-[#3c4a42] hidden md:block">
         <div className="flex justify-between items-center px-8 py-3.5 max-w-5xl mx-auto">
           <BrandLogo size="md" />
           
-          <div className="flex items-center gap-8">
+          <div className="flex items-center gap-6">
             {navItems.map((item) => {
               const isActive = item.href === "/"
                 ? pathname === "/"
@@ -49,12 +49,15 @@ export function Navigation() {
             })}
           </div>
 
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center bg-[#10b981] text-[#0e1511] font-bold text-xs rounded-lg px-4 py-2 hover:bg-[#4edea3] transition-colors active:scale-95 shadow-[0_0_15px_rgba(78,222,163,0.2)]"
-          >
-            Hire Me
-          </Link>
+          <div className="flex items-center gap-4">
+            <LiveViewCounter variant="pill" />
+            <Link
+              href="/contact"
+              className="inline-flex items-center justify-center bg-[#10b981] text-[#0e1511] font-bold text-xs rounded-lg px-4 py-2 hover:bg-[#4edea3] transition-colors active:scale-95 shadow-[0_0_15px_rgba(78,222,163,0.2)]"
+            >
+              Hire Me
+            </Link>
+          </div>
         </div>
       </nav>
 

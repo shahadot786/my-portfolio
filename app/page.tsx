@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { API_BASE_URL } from "@/config/api";
 import Image from "next/image";
+import { LiveViewCounter } from "@/components/ui/LiveViewCounter";
 
 interface SocialLink {
   platform: string;
@@ -117,11 +118,14 @@ export default async function Home() {
       <section className="flex flex-col-reverse lg:flex-row items-center justify-between gap-12">
         <div className="flex-1 space-y-6">
           <div className="space-y-3">
-            {profile.isAvailable !== false && (
-              <span className="inline-block px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium">
-                {profile.availabilityBadge || "Available for new opportunities"}
-              </span>
-            )}
+            <div className="flex flex-wrap items-center gap-3">
+              {profile.isAvailable !== false && (
+                <span className="inline-block px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium">
+                  {profile.availabilityBadge || "Available for new opportunities"}
+                </span>
+              )}
+              <LiveViewCounter variant="badge" />
+            </div>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#dde4dd] tracking-tight leading-tight">
               {profile.name}
             </h1>
