@@ -57,61 +57,6 @@ const DEFAULT_PROFILE: Profile = {
   socialLinks: []
 };
 
-const DEFAULT_EXPERTISE: ExpertiseItem[] = [
-  {
-    _id: "1",
-    title: "Travel Tech & Flight Systems",
-    badge: "TT",
-    description: "Currently working at iBox Lab Limited, building scalable enterprise web and mobile applications for the travel technology industry. Specializing in developing modern flight booking platforms, airline NDC/GDS integrations, and high-performance digital products using React, Next.js, React Native, and TypeScript.",
-    isFeatured: true,
-    metrics: [
-      { value: "NDC / GDS", label: "Airline Integrations" },
-      { value: "100%", label: "Booking Integrity" }
-    ],
-    tags: ["React.js", "Next.js", "React Native", "TypeScript", "NDC/GDS APIs", "Flight Booking"],
-    order: 0
-  },
-  {
-    _id: "2",
-    title: "Enterprise Mobile Architecture",
-    badge: "EA",
-    description: "Architecting robust mobile applications serving Fortune 500 enterprise clients like Unilever, BAT, Nestlé, L'Oréal, and Nagad. Transforming complex business requirements into scalable, user-centric mobile solutions.",
-    isFeatured: false,
-    metrics: [
-      { value: "10k+", label: "Active Field Users" },
-      { value: "100k+", label: "Daily Transactions" }
-    ],
-    tags: ["React Native", "TypeScript", "Redux", "Zustand", "iOS & Android"],
-    order: 1
-  },
-  {
-    _id: "3",
-    title: "Offline-First Systems",
-    badge: "OFF",
-    description: "Engineering mission-critical systems that function seamlessly in zero or low-connectivity field environments, guaranteeing background synchronization, local storage persistence, and 0% data loss.",
-    isFeatured: false,
-    metrics: [
-      { value: "0%", label: "Data Loss" },
-      { value: "100%", label: "Offline Resilience" }
-    ],
-    tags: ["Offline Architecture", "SQLite", "AsyncStorage", "Background Sync"],
-    order: 2
-  },
-  {
-    _id: "4",
-    title: "High-Performance Web & Dashboards",
-    badge: "RT",
-    description: "Implementing high-concurrency real-time tracking, territory management dashboards, and SSG/ISR web applications engineered for sub-second page loads and maximum SEO performance.",
-    isFeatured: false,
-    metrics: [
-      { value: "Sub-second", label: "Load Time" },
-      { value: "99.9%", label: "System Uptime" }
-    ],
-    tags: ["Next.js", "Node.js", "Tailwind CSS", "REST APIs", "MongoDB"],
-    order: 3
-  }
-];
-
 export const revalidate = 86400; // Revalidate static cache every 24 hours
 
 async function getProfile(): Promise<Profile> {
@@ -128,11 +73,11 @@ async function getProfile(): Promise<Profile> {
 async function getExpertise(): Promise<ExpertiseItem[]> {
   try {
     const res = await fetch(`${API_BASE_URL}/expertise`, { next: { revalidate: 86400 } });
-    if (!res.ok) return DEFAULT_EXPERTISE;
+    if (!res.ok) return [];
     const data = await res.json();
-    return data.items?.length > 0 ? data.items : DEFAULT_EXPERTISE;
+    return data.items || [];
   } catch {
-    return DEFAULT_EXPERTISE;
+    return [];
   }
 }
 
@@ -154,20 +99,14 @@ export default async function Home() {
     getExpertise()
   ]);
 
-  const featuredItem = expertiseItems.find(e => e.isFeatured) || expertiseItems[0] || DEFAULT_EXPERTISE[0];
-  const secondaryItems = expertiseItems.filter(e => e._id !== featuredItem._id && e.title !== featuredItem.title);
-  const displaySecondary = secondaryItems.length > 0
-    ? secondaryItems
-    : DEFAULT_EXPERTISE.filter(e => e.title !== featuredItem.title);
+  const featuredItem = expertiseItems.find(e => e.isFeatured) || expertiseItems[0];
+  const secondaryItems = expertiseItems.filter(e => e._id !== featuredItem?._id && e.title !== featuredItem?.title);
 
   const allTags = Array.from(
     new Set(
       expertiseItems.flatMap((e) => e.tags || [])
     )
   );
-  const displayTechStack = allTags.length > 0
-    ? allTags
-    : ["JavaScript", "TypeScript", "React.js", "Next.js", "React Native", "Redux", "Tailwind CSS", "MongoDB"];
 
   return (
     <div className="container-custom pb-8 space-y-20 relative">
@@ -239,102 +178,112 @@ export default async function Home() {
       </section>
 
       {/* Technical Expertise Overview (Dynamic Bento Grid) */}
-      <section className="space-y-6 pt-4 border-t border-[#3c4a42]/60">
-        <div>
-          <h3 className="text-2xl font-bold text-[#dde4dd] tracking-tight">Technical Expertise</h3>
-          <div className="w-12 h-1 bg-[#4edea3] rounded mt-2" />
-        </div>
+      {expertiseItems.length > 0 && (
+        <section className="space-y-6 pt-4 border-t border-[#3c4a42]/60">
+          <div>
+            <h3 className="text-2xl font-bold text-[#dde4dd] tracking-tight">Technical Expertise</h3>
+            <div className="w-12 h-1 bg-[#4edea3] rounded mt-2" />
+          </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Featured Bento Card */}
-          <div className="lg:col-span-2 glass-card p-8 flex flex-col justify-between">
-            <div className="space-y-4">
+          {/* Featured Top Card */}
+          {featuredItem && (
+            <div className="glass-card p-6 sm:p-8 space-y-6 border-[#4edea3]/30 bg-[#4edea3]/[0.02]">
               <div className="flex items-center justify-between">
-                <div className="w-12 h-12 bg-[#4edea3]/10 border border-[#4edea3]/30 rounded-xl flex items-center justify-center">
-                  <span className="text-[#4edea3] text-xl font-bold font-mono">
-                    {featuredItem.badge || "TT"}
-                  </span>
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 bg-[#4edea3]/10 border border-[#4edea3]/30 rounded-xl flex items-center justify-center">
+                    <span className="text-[#4edea3] text-xl font-bold font-mono">
+                      {featuredItem.badge || "TT"}
+                    </span>
+                  </div>
+                  <div>
+                    <h4 className="text-2xl font-bold text-[#dde4dd]">{featuredItem.title}</h4>
+                  </div>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-semibold">
+                <span className="px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-semibold shrink-0">
                   Featured Core Expertise
                 </span>
               </div>
-              <h4 className="text-2xl font-bold text-[#dde4dd]">{featuredItem.title}</h4>
-              <p className="text-[#bbcabf] text-sm leading-relaxed">
+
+              <p className="text-[#bbcabf] text-sm leading-relaxed max-w-4xl">
                 {featuredItem.description}
               </p>
-            </div>
 
-            {/* Featured Item Metrics or Tags */}
-            <div className="space-y-6 border-t border-[#3c4a42] pt-6 mt-6">
-              {featuredItem.metrics && featuredItem.metrics.length > 0 && (
-                <div className="grid grid-cols-2 gap-4">
-                  {featuredItem.metrics.map((m, idx) => (
-                    <div key={idx} className="bg-[#10b981]/5 border border-[#4edea3]/20 p-4 rounded-xl">
-                      <div className="text-2xl font-extrabold text-[#dde4dd]">{m.value}</div>
-                      <div className="text-xs font-mono text-[#4edea3] uppercase tracking-wider mt-1">{m.label}</div>
-                    </div>
-                  ))}
-                </div>
-              )}
-
-              {featuredItem.tags && featuredItem.tags.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {featuredItem.tags.map((tag, idx) => (
-                    <span key={idx} className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-lg">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Secondary Bento Cards */}
-          <div className="space-y-6 flex flex-col justify-between">
-            {displaySecondary.map((item, idx) => (
-              <div key={item._id || idx} className="glass-card p-6 flex-1 flex flex-col justify-between">
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between mb-2">
-                    <div className="w-10 h-10 bg-[#4cd7f6]/10 border border-[#4cd7f6]/30 rounded-lg flex items-center justify-center">
-                      <span className="text-[#4cd7f6] font-mono font-bold text-xs">
-                        {item.badge || `0${idx + 1}`}
-                      </span>
-                    </div>
-                    {item.metrics && item.metrics.length > 0 && (
-                      <span className="text-xs font-mono text-[#4edea3] bg-[#10b981]/10 px-2.5 py-0.5 rounded-full border border-[#4edea3]/20">
-                        {item.metrics[0].value} {item.metrics[0].label}
-                      </span>
-                    )}
+              {/* Featured Item Metrics & Tags */}
+              <div className="pt-4 border-t border-[#3c4a42]/60 space-y-4">
+                {featuredItem.metrics && featuredItem.metrics.length > 0 && (
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    {featuredItem.metrics.map((m, idx) => (
+                      <div key={idx} className="bg-[#10b981]/5 border border-[#4edea3]/20 p-3.5 rounded-xl">
+                        <div className="text-xl font-extrabold text-[#dde4dd]">{m.value}</div>
+                        <div className="text-[11px] font-mono text-[#4edea3] uppercase tracking-wider mt-0.5">{m.label}</div>
+                      </div>
+                    ))}
                   </div>
-                  <h4 className="text-base font-bold text-[#dde4dd]">{item.title}</h4>
-                  <p className="text-[#bbcabf] text-xs leading-relaxed line-clamp-3">
-                    {item.description}
-                  </p>
-                </div>
-                {item.tags && item.tags.length > 0 && (
-                  <div className="flex flex-wrap gap-1.5 pt-3 mt-3 border-t border-[#3c4a42]/40">
-                    {item.tags.slice(0, 4).map((s) => (
-                      <span key={s} className="px-2 py-0.5 bg-[#10b981]/10 border border-[#4edea3]/20 text-[#4edea3] font-mono text-[10px] rounded">
-                        {s}
+                )}
+
+                {featuredItem.tags && featuredItem.tags.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {featuredItem.tags.map((tag, idx) => (
+                      <span key={idx} className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-lg">
+                        {tag}
                       </span>
                     ))}
                   </div>
                 )}
               </div>
-            ))}
-          </div>
-        </div>
+            </div>
+          )}
 
-        {/* Tech Stack Tags */}
-        <div className="flex flex-wrap gap-2 pt-2">
-          {displayTechStack.map((tech) => (
-            <span key={tech} className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-lg">
-              {tech}
-            </span>
-          ))}
-        </div>
-      </section>
+          {/* Secondary Grid */}
+          {secondaryItems.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {secondaryItems.map((item, idx) => (
+                <div key={item._id || idx} className="glass-card p-6 flex flex-col justify-between space-y-4 hover:border-[#4edea3]/30 transition-all">
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <div className="w-10 h-10 bg-[#4cd7f6]/10 border border-[#4cd7f6]/30 rounded-lg flex items-center justify-center">
+                        <span className="text-[#4cd7f6] font-mono font-bold text-xs">
+                          {item.badge || `0${idx + 1}`}
+                        </span>
+                      </div>
+                      {item.metrics && item.metrics.length > 0 && (
+                        <span className="text-[11px] font-mono text-[#4edea3] bg-[#10b981]/10 px-2.5 py-0.5 rounded-full border border-[#4edea3]/20">
+                          {item.metrics[0].value} {item.metrics[0].label}
+                        </span>
+                      )}
+                    </div>
+                    <h4 className="text-lg font-bold text-[#dde4dd]">{item.title}</h4>
+                    <p className="text-[#bbcabf] text-xs leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+
+                  {item.tags && item.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 pt-3 border-t border-[#3c4a42]/40">
+                      {item.tags.map((s) => (
+                        <span key={s} className="px-2 py-0.5 bg-[#10b981]/10 border border-[#4edea3]/20 text-[#4edea3] font-mono text-[10px] rounded">
+                          {s}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Tech Stack Tags Bar */}
+          {allTags.length > 0 && (
+            <div className="flex flex-wrap gap-2 pt-2">
+              {allTags.map((tech) => (
+                <span key={tech} className="px-3 py-1 bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs rounded-lg">
+                  {tech}
+                </span>
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
       {/* Testimonials Section */}
       <section className="space-y-6 pt-4 border-t border-[#3c4a42]/60">
