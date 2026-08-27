@@ -1,5 +1,6 @@
 import ContactClient from "./ContactClient";
 import { getPageContent } from "@/lib/pages";
+import { getProfile } from "@/lib/profile";
 
 export const metadata = {
   title: "Contact - MD. Shahadot Hossain",
@@ -23,7 +24,10 @@ export const metadata = {
 export const revalidate = 86400; // Revalidate static cache every 24 hours
 
 export default async function ContactPage() {
-  const pageContent = await getPageContent('contact');
+  const [pageContent, profile] = await Promise.all([
+    getPageContent('contact'),
+    getProfile(),
+  ]);
   return (
     <div className="container-custom py-8 space-y-8">
       <div>
@@ -36,7 +40,7 @@ export default async function ContactPage() {
         </p>
       </div>
 
-      <ContactClient />
+      <ContactClient profile={profile} />
     </div>
   );
 }

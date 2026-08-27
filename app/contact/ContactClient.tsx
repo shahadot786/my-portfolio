@@ -1,38 +1,80 @@
 "use client";
 
 import { useState } from "react";
-import { Mail, Phone, MapPin, Github, Linkedin, Twitter, Youtube, Send, Loader, CheckCircle, AlertCircle } from "lucide-react";
+import {
+    Mail,
+    Phone,
+    MapPin,
+    Github,
+    Linkedin,
+    Twitter,
+    Youtube,
+    Globe,
+    Facebook,
+    Instagram,
+    Send,
+    Loader,
+    CheckCircle,
+    AlertCircle,
+    type LucideIcon,
+} from "lucide-react";
 import { API_BASE_URL } from "@/config/api";
+import type { Profile } from "@/lib/profile";
 
-const contactInfo = [
-    {
-        icon: Mail,
-        label: "Email",
-        value: "shahadotrahat786@gmail.com",
-        href: "mailto:shahadotrahat786@gmail.com",
-    },
-    {
-        icon: Phone,
-        label: "Phone",
-        value: "+880-1775-020-582",
-        href: "tel:+8801775020582",
-    },
-    {
-        icon: MapPin,
-        label: "Location",
-        value: "Uttara, Dhaka, Bangladesh",
-        href: "#",
-    },
-];
+const SOCIAL_ICON_MAP: Record<string, LucideIcon> = {
+    github: Github,
+    linkedin: Linkedin,
+    twitter: Twitter,
+    x: Twitter,
+    youtube: Youtube,
+    facebook: Facebook,
+    instagram: Instagram,
+    globe: Globe,
+};
 
-const socialLinks = [
-    { icon: Github, href: "https://github.com/shahadot786", label: "GitHub" },
-    { icon: Linkedin, href: "https://www.linkedin.com/in/shahadot786", label: "LinkedIn" },
-    { icon: Twitter, href: "https://twitter.com/shahadot786", label: "Twitter" },
-    { icon: Youtube, href: "https://youtube.com/@shahadot786", label: "YouTube" },
-];
+function getSocialIcon(icon: string): LucideIcon {
+    return SOCIAL_ICON_MAP[icon?.toLowerCase()] || Globe;
+}
 
-export default function ContactClient() {
+interface ContactClientProps {
+    profile: Profile;
+}
+
+export default function ContactClient({ profile }: ContactClientProps) {
+    const contactInfo = [
+        {
+            icon: Mail,
+            label: "Email",
+            value: profile.email,
+            href: `mailto:${profile.email}`,
+        },
+        ...(profile.phone
+            ? [
+                  {
+                      icon: Phone,
+                      label: "Phone",
+                      value: profile.phone,
+                      href: `tel:${profile.phone.replace(/[^+\d]/g, "")}`,
+                  },
+              ]
+            : []),
+        ...(profile.location
+            ? [
+                  {
+                      icon: MapPin,
+                      label: "Location",
+                      value: profile.location,
+                      href: "#",
+                  },
+              ]
+            : []),
+    ];
+
+    const socialLinks = (profile.socialLinks || []).map((link) => ({
+        icon: getSocialIcon(link.icon),
+        href: link.url,
+        label: link.platform,
+    }));
     const [formData, setFormData] = useState({
         name: "",
         email: "",
