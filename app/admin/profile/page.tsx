@@ -15,12 +15,14 @@ import {
   ShieldCheck,
   Mail,
   Lock,
+  FileText,
 } from "lucide-react";
 
 const profileSchema = z.object({
   name: z.string().min(1, "Name is required"),
   title: z.string().min(1, "Title is required"),
   avatar: z.string().optional(),
+  resumeUrl: z.string().optional(),
   availabilityBadge: z.string().optional(),
   isAvailable: z.boolean().default(true),
   location: z.string().min(1, "Location is required"),
@@ -127,6 +129,7 @@ export default function ProfilePage() {
   }, [reset, resetAccount]);
 
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [uploadingResume, setUploadingResume] = useState(false);
 
   const onSubmit = async (data: ProfileFormValues) => {
     setSaving(true);
@@ -161,7 +164,10 @@ export default function ProfilePage() {
       });
       if (res.data.success && res.data.url) {
         setValue("avatar", res.data.url);
-        setMessage({ type: "success", text: "Avatar uploaded! Click Save Profile at the top to save changes." });
+        setMessage({
+          type: "success",
+          text: "Avatar uploaded! Click Save Profile at the top to save changes.",
+        });
       }
     } catch (err) {
       console.error(err);
@@ -169,10 +175,47 @@ export default function ProfilePage() {
       const errorResponse = err as any;
       setMessage({
         type: "error",
-        text: errorResponse.response?.data?.error || "Failed to upload avatar image."
+        text:
+          errorResponse.response?.data?.error ||
+          "Failed to upload avatar image.",
       });
     } finally {
       setUploadingAvatar(false);
+    }
+  };
+
+  const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingResume(true);
+    setMessage(null);
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await api.post("/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+      if (res.data.success && res.data.url) {
+        setValue("resumeUrl", res.data.url);
+        setMessage({
+          type: "success",
+          text: "Resume uploaded! Click Save Profile at the top to save changes.",
+        });
+      }
+    } catch (err) {
+      console.error(err);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const errorResponse = err as any;
+      setMessage({
+        type: "error",
+        text:
+          errorResponse.response?.data?.error || "Failed to upload resume PDF.",
+      });
+    } finally {
+      setUploadingResume(false);
     }
   };
 
@@ -204,9 +247,7 @@ export default function ProfilePage() {
     <div className="space-y-12 pb-20">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white text-emerald-500">
-            Profile Settings
-          </h1>
+          <h1 className="text-3xl font-bold text-white">Profile Settings</h1>
           <p className="text-zinc-500 mt-1">
             Manage your personal information and biography.
           </p>
@@ -337,7 +378,7 @@ export default function ProfilePage() {
                       className="hidden"
                     />
                   </label>
-                  
+
                   {watch("avatar") !== "/avatar.png" && (
                     <button
                       type="button"
@@ -351,7 +392,71 @@ export default function ProfilePage() {
               </div>
             </div>
             <p className="text-[10px] text-[#94A3B8] leading-normal">
-              Accepts PNG, JPG, WEBP, or SVG (max 5MB). Set the profile avatar to match your branding. Pre-selects /avatar.png by default.
+              Accepts PNG, JPG, WEBP, or SVG (max 5MB). Set the profile avatar
+              to match your branding. Pre-selects /avatar.png by default.
+            </p>
+          </div>
+
+          {/* Resume / CV PDF Upload */}
+          <div className="p-5 rounded-2xl bg-[#09100c] border border-[#3c4a42] space-y-4">
+            <label className="flex items-center gap-2 text-zinc-400 text-xs font-medium uppercase tracking-wider">
+              <FileText size={14} className="text-primary" />
+              Resume / CV (PDF)
+            </label>
+
+            <div className="space-y-3">
+              <div>
+                <span className="block text-[11px] font-mono text-zinc-500 mb-1">
+                  Resume PDF URL
+                </span>
+                <input
+                  {...register("resumeUrl")}
+                  className="input-admin py-2 text-xs"
+                  placeholder="https://example.com/resume.pdf"
+                />
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <label className="inline-flex items-center gap-2 px-4 py-2 bg-[#10b981]/15 text-[#4edea3] border border-[#4edea3]/30 rounded-xl font-mono text-xs hover:bg-[#4edea3] hover:text-[#0e1511] transition-all cursor-pointer select-none active:scale-95">
+                  {uploadingResume ? (
+                    <Loader className="animate-spin" size={14} />
+                  ) : (
+                    <Plus size={14} />
+                  )}
+                  Upload PDF
+                  <input
+                    type="file"
+                    accept="application/pdf"
+                    onChange={handleResumeUpload}
+                    disabled={uploadingResume}
+                    className="hidden"
+                  />
+                </label>
+
+                {watch("resumeUrl") && (
+                  <div className="flex items-center gap-3">
+                    <a
+                      href={watch("resumeUrl")}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#4edea3] hover:underline text-xs font-mono"
+                    >
+                      Preview
+                    </a>
+                    <button
+                      type="button"
+                      onClick={() => setValue("resumeUrl", "")}
+                      className="text-zinc-500 hover:text-red-400 text-xs font-mono transition-colors"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+            <p className="text-[10px] text-[#94A3B8] leading-normal">
+              Upload a PDF (max 4MB) or paste a hosted PDF URL. This is shown to
+              visitors via the &quot;Resume&quot; button on your Hero section.
             </p>
           </div>
 
@@ -364,7 +469,10 @@ export default function ProfilePage() {
                 id="isAvailable"
                 className="w-5 h-5 rounded-lg border-zinc-800 bg-zinc-950 text-emerald-500"
               />
-              <label htmlFor="isAvailable" className="text-sm font-semibold text-white cursor-pointer">
+              <label
+                htmlFor="isAvailable"
+                className="text-sm font-semibold text-white cursor-pointer"
+              >
                 Display Availability Status Badge on Hero Section
               </label>
             </div>
@@ -378,7 +486,8 @@ export default function ProfilePage() {
                 placeholder="Available for new opportunities"
               />
               <p className="text-[11px] text-[#94A3B8] mt-1">
-                Customize the pill badge displayed above your name on the landing page Hero section.
+                Customize the pill badge displayed above your name on the
+                landing page Hero section.
               </p>
             </div>
           </div>
