@@ -27,6 +27,7 @@ const profileSchema = z.object({
   isAvailable: z.boolean().default(true),
   location: z.string().min(1, "Location is required"),
   email: z.string().email("Invalid email"),
+  phone: z.string().optional(),
   bio: z.array(z.object({ value: z.string() })).min(1, "Bio is required"),
   socialLinks: z.array(
     z.object({
@@ -331,6 +332,17 @@ export default function ProfilePage() {
                 placeholder="hello@example.com"
               />
             </div>
+          </div>
+
+          <div>
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">
+              Contact Phone
+            </label>
+            <input
+              {...register("phone")}
+              className="input-admin"
+              placeholder="+880-1234-567890"
+            />
           </div>
 
           {/* Profile Avatar Image & Upload */}

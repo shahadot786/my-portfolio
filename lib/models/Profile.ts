@@ -20,6 +20,7 @@ export interface IProfile extends Document {
     resumeUrl?: string;
     location: string;
     email: string;
+    phone?: string;
     availabilityBadge?: string;
     isAvailable?: boolean;
     socialLinks: ISocialLink[];
@@ -87,6 +88,10 @@ const profileSchema = new Schema<IProfile>(
             required: [true, 'Email is required'],
             lowercase: true,
             trim: true,
+        },
+        phone: {
+            type: String,
+            default: '',
         },
         socialLinks: {
             type: [socialLinkSchema],
