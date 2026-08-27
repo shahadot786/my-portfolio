@@ -17,6 +17,7 @@ export interface IProfile extends Document {
     title: string;
     bio: string[];
     avatar: string;
+    resumeUrl?: string;
     location: string;
     email: string;
     availabilityBadge?: string;
@@ -64,6 +65,10 @@ const profileSchema = new Schema<IProfile>(
         avatar: {
             type: String,
             default: '/avatar.png',
+        },
+        resumeUrl: {
+            type: String,
+            default: '',
         },
         availabilityBadge: {
             type: String,

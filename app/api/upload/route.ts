@@ -18,10 +18,10 @@ export const POST = withErrorHandling(
       }
 
       // Check file type
-      const validTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml"];
+      const validTypes = ["image/jpeg", "image/png", "image/webp", "image/gif", "image/svg+xml", "application/pdf"];
       if (!validTypes.includes(file.type)) {
         return NextResponse.json(
-          { error: "Invalid file type. Only JPEG, PNG, WEBP, GIF, and SVG are allowed." },
+          { error: "Invalid file type. Only JPEG, PNG, WEBP, GIF, SVG, and PDF are allowed." },
           { status: 400 }
         );
       }

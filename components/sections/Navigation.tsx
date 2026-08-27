@@ -25,7 +25,7 @@ export function Navigation() {
   return (
     <>
       {/* Desktop Top Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 bg-[#0e1511]/90 backdrop-blur-md border-b border-[#3c4a42] hidden md:block">
+      <nav className="fixed top-0 w-full z-50 bg-[#0e1511]/90 backdrop-blur-md border-b border-[#3c4a42] hidden lg:block">
         <div className="flex justify-between items-center px-8 py-3.5 max-w-5xl mx-auto">
           <BrandLogo size="md" />
           
@@ -57,8 +57,8 @@ export function Navigation() {
         </div>
       </nav>
 
-      {/* Mobile Bottom Tab Navigation Bar (Retained & Styled with Stitch Emerald Glass) */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#0e1511]/95 border-t border-[#3c4a42] backdrop-blur-md pb-safe">
+      {/* Bottom Tab Navigation Bar (Mobile & Tablet, icon-only) */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-[#0e1511]/95 border-t border-[#3c4a42] backdrop-blur-md pb-safe">
         <div className="flex items-center justify-around h-16 px-2">
           {navItems.map((item) => {
             const isActive = item.href === "/"
@@ -68,15 +68,17 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative flex flex-col items-center justify-center gap-1 w-full h-full transition-all ${
+                aria-label={item.label}
+                title={item.label}
+                className={`relative flex flex-col items-center justify-center w-full h-full transition-all ${
                   isActive ? "text-[#4edea3] font-semibold" : "text-[#bbcabf] hover:text-[#dde4dd]"
                 }`}
               >
                 <item.icon
-                  size={19}
+                  size={22}
                   className={isActive ? "text-[#4edea3] scale-110 transition-transform" : "text-[#bbcabf]"}
                 />
-                <span className="text-[10px] font-mono tracking-wider uppercase">
+                <span className="sr-only md:not-sr-only md:mt-1 md:text-[10px] md:font-mono md:tracking-wider md:uppercase">
                   {item.label}
                 </span>
                 {isActive && (

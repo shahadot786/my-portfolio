@@ -2,6 +2,7 @@ import Link from "next/link";
 import { API_BASE_URL } from "@/config/api";
 import Image from "next/image";
 import { LiveViewCounter } from "@/components/ui/LiveViewCounter";
+import { ResumeViewer } from "@/components/ui/ResumeViewer";
 
 interface SocialLink {
   platform: string;
@@ -13,6 +14,7 @@ interface Profile {
   name: string;
   title: string;
   avatar?: string;
+  resumeUrl?: string;
   availabilityBadge?: string;
   isAvailable?: boolean;
   bio: string[];
@@ -162,6 +164,7 @@ export default async function Home() {
             >
               View Projects
             </Link>
+            <ResumeViewer resumeUrl={profile.resumeUrl} />
           </div>
         </div>
 
@@ -192,18 +195,18 @@ export default async function Home() {
           {/* Featured Top Card */}
           {featuredItem && (
             <div className="glass-card p-6 sm:p-8 space-y-6 border-[#4edea3]/30 bg-[#4edea3]/[0.02]">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-[#4edea3]/10 border border-[#4edea3]/30 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-[#4edea3]/10 border border-[#4edea3]/30 rounded-xl flex items-center justify-center shrink-0">
                     <span className="text-[#4edea3] text-xl font-bold font-mono">
                       {featuredItem.badge || "TT"}
                     </span>
                   </div>
                   <div>
-                    <h4 className="text-2xl font-bold text-[#dde4dd]">{featuredItem.title}</h4>
+                    <h4 className="text-xl sm:text-2xl font-bold text-[#dde4dd]">{featuredItem.title}</h4>
                   </div>
                 </div>
-                <span className="px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-semibold shrink-0">
+                <span className="self-start sm:self-auto px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-semibold shrink-0">
                   Featured Core Expertise
                 </span>
               </div>
