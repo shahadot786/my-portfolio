@@ -55,7 +55,7 @@ export function ClientLayout({ children, profile }: ClientLayoutProps) {
   return (
     <>
       <Navigation profile={profile} />
-      <main className="min-h-screen pt-24 pb-16">{children}</main>
+      <main className="min-h-screen pt-20 lg:pt-24 pb-24 lg:pb-16">{children}</main>
       <Footer profile={profile} />
       <BackToTop />
       {showAI && (
