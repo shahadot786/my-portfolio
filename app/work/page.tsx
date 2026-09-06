@@ -1,5 +1,6 @@
 import { API_BASE_URL } from "@/config/api";
 import { getPageContent } from "@/lib/pages";
+import { getProfile } from "@/lib/profile";
 import WorkClient from "./WorkClient";
 
 export const revalidate = 86400; // Revalidate static cache every 24 hours
@@ -71,11 +72,12 @@ async function getCertificates(): Promise<Certificate[]> {
 }
 
 export default async function WorkPage() {
-  const [experiences, education, certificates, pageContent] = await Promise.all([
+  const [experiences, education, certificates, pageContent, profile] = await Promise.all([
     getExperiences(),
     getEducation(),
     getCertificates(),
-    getPageContent('work')
+    getPageContent('work'),
+    getProfile()
   ]);
 
   return (
@@ -84,6 +86,7 @@ export default async function WorkPage() {
       education={education}
       certificates={certificates}
       pageContent={pageContent}
+      profile={profile}
     />
   );
 }

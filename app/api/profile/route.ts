@@ -28,6 +28,7 @@ export const PUT = withErrorHandling(withAdmin(async (req: NextRequest) => {
     }
 
     revalidatePath('/');
+    revalidatePath('/work');
     revalidatePath('/contact');
     return NextResponse.json({ success: true, profile });
 }));

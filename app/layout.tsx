@@ -25,7 +25,7 @@ export const metadata = {
     canonical: "https://shahadot-hossain.vercel.app/",
   },
   description:
-    "I am a software engineer based in Bangladesh with 4+ years of experience building mobile and web applications for enterprise clients including Unilever, BAT, Nestlé, and Nagad.",
+    "I am a software engineer based in Bangladesh with 5+ years of experience building mobile and web applications for enterprise clients including Unilever, BAT, Nestlé, and Nagad.",
   keywords: [
     "MD. Shahadot Hossain",
     "Shahadot Hossain",
@@ -56,7 +56,7 @@ export const metadata = {
     url: "https://shahadot-hossain.vercel.app",
     title: "MD. Shahadot Hossain - Software Engineer",
     description:
-      "Building innovative mobile solutions with 4+ years of experience serving 10,000+ users",
+      "Building innovative mobile solutions with 5+ years of experience serving 10,000+ users",
     siteName: "MD. Shahadot Hossain",
     images: [
       {

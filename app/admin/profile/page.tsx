@@ -24,6 +24,7 @@ const profileSchema = z.object({
   avatar: z.string().optional(),
   resumeUrl: z.string().optional(),
   availabilityBadge: z.string().optional(),
+  yearsOfExperience: z.string().optional().default("5+"),
   isAvailable: z.boolean().default(true),
   location: z.string().min(1, "Location is required"),
   email: z.string().email("Invalid email"),
@@ -112,7 +113,8 @@ export default function ProfilePage() {
 
         reset({
           ...profileData,
-          bio: profileData.bio.map((b: string) => ({ value: b })),
+          yearsOfExperience: profileData.yearsOfExperience || "5+",
+          bio: (profileData.bio || []).map((b: string) => ({ value: b })),
         });
 
         resetAccount({
@@ -334,15 +336,28 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div>
-            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">
-              Contact Phone
-            </label>
-            <input
-              {...register("phone")}
-              className="input-admin"
-              placeholder="+880-1234-567890"
-            />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">
+                Contact Phone
+              </label>
+              <input
+                {...register("phone")}
+                className="input-admin"
+                placeholder="+880-1234-567890"
+              />
+            </div>
+            <div>
+              <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">
+                Years of Experience
+              </label>
+              <input
+                {...register("yearsOfExperience")}
+                className="input-admin"
+                placeholder="5+"
+              />
+              <p className="text-[10px] text-zinc-500 mt-1">Controls stats strip, career timeline, and AI responses.</p>
+            </div>
           </div>
 
           {/* Profile Avatar Image & Upload */}

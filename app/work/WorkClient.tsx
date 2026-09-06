@@ -51,6 +51,7 @@ interface WorkClientProps {
   experiences: Experience[];
   education: Education[];
   certificates: Certificate[];
+  profile?: { yearsOfExperience?: string };
   pageContent?: { title?: string; subtitle?: string } | null;
 }
 
@@ -58,8 +59,11 @@ export default function WorkClient({
   experiences,
   education,
   certificates,
+  profile,
   pageContent
 }: WorkClientProps) {
+  const expYears = profile?.yearsOfExperience || "5+";
+
   return (
     <div className="container-custom py-8 space-y-16">
       {/* Header */}
@@ -77,7 +81,7 @@ export default function WorkClient({
           {pageContent?.title || 'Employment History'}
         </h1>
         <p className="text-muted-foreground mt-2 text-base max-w-2xl leading-relaxed">
-          {pageContent?.subtitle || 'Over 4+ years building high-impact mobile platforms, offline-first architectures, and scalable cloud systems.'}
+          {pageContent?.subtitle || `Over ${expYears} years building high-impact mobile platforms, offline-first architectures, and scalable cloud systems.`}
         </p>
       </motion.div>
 

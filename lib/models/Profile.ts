@@ -15,6 +15,7 @@ export interface ISeoData {
 export interface IProfile extends Document {
     name: string;
     title: string;
+    yearsOfExperience?: string;
     bio: string[];
     avatar: string;
     resumeUrl?: string;
@@ -57,6 +58,11 @@ const profileSchema = new Schema<IProfile>(
         title: {
             type: String,
             required: [true, 'Title is required'],
+            trim: true,
+        },
+        yearsOfExperience: {
+            type: String,
+            default: '5+',
             trim: true,
         },
         bio: {
