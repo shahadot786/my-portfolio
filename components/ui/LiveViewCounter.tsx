@@ -43,7 +43,7 @@ export function LiveViewCounter({ variant = "pill", className = "" }: LiveViewCo
 
   useEffect(() => {
     fetchViews();
-    // Poll live views every 30 seconds to keep it always updated
+    // Poll live views every 30 seconds
     const interval = setInterval(fetchViews, 30000);
     return () => clearInterval(interval);
   }, []);
@@ -56,14 +56,14 @@ export function LiveViewCounter({ variant = "pill", className = "" }: LiveViewCo
 
   if (variant === "footer") {
     return (
-      <div className={`inline-flex items-center gap-2 text-xs font-mono text-[#94A3B8] bg-[#0e1511] border border-[#3c4a42]/60 px-3 py-1.5 rounded-full ${className}`}>
+      <div className={`inline-flex items-center gap-2 text-xs font-mono text-muted-foreground bg-card/60 border border-border px-3 py-1.5 rounded-full ${className}`}>
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4edea3] opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4edea3]"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
         </span>
-        <Eye size={13} className="text-[#4edea3]" />
+        <Eye size={13} className="text-primary" />
         <span>
-          <strong className="text-[#dde4dd] font-semibold">{formattedViews}</strong> Total Views
+          <strong className="text-foreground font-semibold">{formattedViews}</strong> Total Views
         </span>
       </div>
     );
@@ -71,32 +71,32 @@ export function LiveViewCounter({ variant = "pill", className = "" }: LiveViewCo
 
   if (variant === "badge") {
     return (
-      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10b981]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium ${className}`}>
+      <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-xs font-medium backdrop-blur-md ${className}`}>
         <span className="relative flex h-2 w-2">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4edea3] opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4edea3]"></span>
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
         </span>
         <TrendingUp size={13} />
-        <span>{formattedViews} Portfolio Views</span>
+        <span>{formattedViews} Views</span>
       </div>
     );
   }
 
-  // Default Pill for Navigation
+  // Default Pill
   return (
     <div
       title={data ? `${formatNumber(data.totalUnique)} Unique Visitors (${data.todayViews} Today)` : "Live Portfolio Views"}
-      className={`inline-flex items-center gap-2 bg-[#16201a] border border-[#3c4a42] px-3 py-1.5 rounded-full text-xs font-mono text-[#bbcabf] hover:border-[#4edea3]/50 transition-all ${className}`}
+      className={`inline-flex items-center gap-2 bg-card/60 border border-border px-3 py-1.5 rounded-full text-xs font-mono text-muted-foreground hover:border-primary/50 transition-all ${className}`}
     >
       <span className="relative flex h-2 w-2 shrink-0">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4edea3] opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4edea3]"></span>
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
       </span>
-      <Eye size={13} className="text-[#4edea3] shrink-0" />
-      <span className="text-[#dde4dd] font-bold font-mono">
+      <Eye size={13} className="text-primary shrink-0" />
+      <span className="text-foreground font-bold font-mono">
         {loading ? "..." : formattedViews}
       </span>
-      <span className="text-[10px] text-[#94A3B8] uppercase tracking-wider hidden sm:inline">Views</span>
+      <span className="text-[10px] text-muted-foreground uppercase tracking-wider hidden sm:inline">Views</span>
     </div>
   );
 }

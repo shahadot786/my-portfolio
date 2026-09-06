@@ -2,52 +2,67 @@
 
 import Link from "next/link";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { Github, Linkedin, Twitter, Youtube, Mail } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="w-full pt-12 pb-36 lg:pb-12 bg-[#09100c] border-t border-[#3c4a42] mt-20">
+    <footer className="w-full pt-14 pb-32 lg:pb-12 bg-card/40 dark:bg-[#09100c] border-t border-border mt-20 transition-colors">
       <div className="flex flex-col lg:flex-row justify-between items-center px-6 max-w-5xl mx-auto gap-8 text-center lg:text-left">
         <div className="flex flex-col items-center lg:items-start space-y-3">
           <BrandLogo size="md" showTagline={true} />
-          <p className="text-xs font-mono text-[#94A3B8]">
-            © {new Date().getFullYear()} MD. Shahadot Hossain. All rights reserved. Built for enterprise stability.
+          <p className="text-xs font-mono text-muted-foreground">
+            © {new Date().getFullYear()} MD. Shahadot Hossain. All rights reserved. Built with Next.js, TypeScript & Framer Motion.
           </p>
         </div>
-        <div className="flex flex-wrap justify-center lg:justify-end items-center gap-x-5 gap-y-3 text-xs font-mono text-[#94A3B8]">
+
+        {/* Social Links */}
+        <div className="flex flex-wrap justify-center lg:justify-end items-center gap-3 text-xs font-mono text-muted-foreground">
           <a
-            className="hover:text-[#4edea3] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border/60 hover:border-primary/50 hover:text-primary bg-card/60 transition-all hover:scale-105"
             href="https://www.linkedin.com/in/shahadot786"
             target="_blank"
             rel="noopener noreferrer"
+            title="LinkedIn"
           >
-            LinkedIn
+            <Linkedin size={14} />
+            <span>LinkedIn</span>
           </a>
           <a
-            className="hover:text-[#4edea3] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border/60 hover:border-primary/50 hover:text-primary bg-card/60 transition-all hover:scale-105"
             href="https://github.com/shahadot786"
             target="_blank"
             rel="noopener noreferrer"
+            title="GitHub"
           >
-            GitHub
+            <Github size={14} />
+            <span>GitHub</span>
           </a>
           <a
-            className="hover:text-[#4edea3] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border/60 hover:border-primary/50 hover:text-primary bg-card/60 transition-all hover:scale-105"
             href="https://twitter.com/shahadot786"
             target="_blank"
             rel="noopener noreferrer"
+            title="Twitter"
           >
-            Twitter
+            <Twitter size={14} />
+            <span>Twitter</span>
           </a>
           <a
-            className="hover:text-[#4edea3] transition-colors"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border/60 hover:border-primary/50 hover:text-primary bg-card/60 transition-all hover:scale-105"
             href="https://www.youtube.com/@shahadot786"
             target="_blank"
             rel="noopener noreferrer"
+            title="YouTube"
           >
-            YouTube
+            <Youtube size={14} />
+            <span>YouTube</span>
           </a>
-          <Link className="hover:text-[#4edea3] transition-colors" href="/contact">
-            Email
+          <Link
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-border/60 hover:border-primary/50 hover:text-primary bg-card/60 transition-all hover:scale-105"
+            href="/contact"
+          >
+            <Mail size={14} />
+            <span>Contact</span>
           </Link>
         </div>
       </div>

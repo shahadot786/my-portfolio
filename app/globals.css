@@ -8,21 +8,69 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  /* Stitch 263256000900331205 Theme Tokens */
+  /* Light Theme Tokens */
+  --background: 140 16% 98%; /* #f8faf9 */
+  --foreground: 155 30% 12%; /* #0f1714 */
+
+  --card: 0 0% 100%; /* #ffffff */
+  --card-foreground: 155 30% 12%;
+  --card-hover: 140 20% 96%;
+
+  --popover: 0 0% 100%;
+  --popover-foreground: 155 30% 12%;
+
+  --primary: 158 75% 36%; /* #059669 */
+  --primary-foreground: 0 0% 100%;
+  --primary-fixed: 156 68% 45%;
+  --primary-container: 158 80% 40%;
+
+  --secondary: 191 85% 42%;
+  --secondary-foreground: 0 0% 100%;
+
+  --tertiary: 215 20% 45%;
+  --tertiary-container: 215 15% 90%;
+
+  --muted: 140 14% 93%;
+  --muted-foreground: 150 10% 40%;
+
+  --accent: 158 75% 36%;
+  --accent-foreground: 0 0% 100%;
+
+  --destructive: 0 72% 50%;
+  --destructive-foreground: 0 0% 100%;
+
+  --border: 140 12% 86%;
+  --input: 140 12% 86%;
+  --ring: 158 75% 36%;
+
+  --border-glass: rgba(0, 0, 0, 0.08);
+  --grid-color: rgba(16, 185, 129, 0.06);
+
+  --radius: 0.75rem;
+}
+
+.dark {
+  /* Dark Theme Tokens */
   --background: 147 26% 6%; /* #0e1511 */
   --foreground: 120 12% 88%; /* #dde4dd */
 
   --card: 220 28% 6%; /* #0B0E14 */
   --card-foreground: 120 12% 88%;
+  --card-hover: 147 20% 10%;
 
   --popover: 220 28% 6%;
   --popover-foreground: 120 12% 88%;
 
   --primary: 156 68% 59%; /* #4edea3 */
   --primary-foreground: 158 100% 11%;
+  --primary-fixed: 156 80% 70%;
+  --primary-container: 158 80% 40%;
 
   --secondary: 191 90% 63%; /* #4cd7f6 */
   --secondary-foreground: 190 100% 13%;
+
+  --tertiary: 215 20% 75%;
+  --tertiary-container: 215 20% 30%;
 
   --muted: 144 12% 11%;
   --muted-foreground: 215 16% 65%;
@@ -37,12 +85,13 @@
   --input: 145 8% 25%;
   --ring: 156 68% 59%;
 
-  --radius: 0.75rem;
+  --border-glass: rgba(255, 255, 255, 0.08);
+  --grid-color: rgba(60, 74, 66, 0.15);
 }
 
 @layer base {
   * {
-    border-color: #3c4a42;
+    border-color: hsl(var(--border));
   }
 
   html {
@@ -50,14 +99,15 @@
   }
 
   body {
-    background-color: #0e1511;
+    background-color: hsl(var(--background));
     background-image: 
-      linear-gradient(to right, rgba(60, 74, 66, 0.15) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(60, 74, 66, 0.15) 1px, transparent 1px);
+      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
     background-size: 40px 40px;
     background-attachment: fixed;
-    color: #dde4dd;
+    color: hsl(var(--foreground));
     font-family: var(--font-sans);
+    transition: background-color 0.25s ease, color 0.25s ease;
   }
 }
 
@@ -67,48 +117,48 @@
     @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 
-  /* Glassmorphism & Stitch Bento Cards */
+  /* Glassmorphism & Bento Cards */
   .glass-card {
-    @apply bg-[#0B0E14] border border-[#3c4a42] rounded-xl shadow-xl transition-all duration-300 hover:border-[#4edea3]/50 hover:bg-[#0B0E14]/90 hover:shadow-[0_0_25px_rgba(78,222,163,0.12)];
+    @apply bg-card/90 dark:bg-[#0B0E14]/90 border border-border rounded-2xl shadow-sm dark:shadow-xl backdrop-blur-md transition-all duration-300 hover:border-primary/50 hover:shadow-md dark:hover:shadow-[0_0_25px_rgba(78,222,163,0.12)];
   }
 
   .glow-hover {
-    @apply transition-all duration-300 hover:border-[#4edea3]/40 hover:shadow-[0_0_20px_rgba(78,222,163,0.15)];
+    @apply transition-all duration-300 hover:border-primary/40 hover:shadow-[0_0_20px_rgba(78,222,163,0.15)];
   }
 
-  /* Stitch Badges */
+  /* Badges */
   .badge-primary {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-medium text-[#4edea3] bg-[#4edea3]/10 border border-[#4edea3]/40 rounded-full backdrop-blur-md;
+    @apply inline-flex items-center gap-1.5 px-3 py-1 text-xs font-mono font-medium text-primary bg-primary/10 border border-primary/30 rounded-full backdrop-blur-md;
   }
 
   .badge-mono {
-    @apply inline-flex items-center gap-1 px-3 py-1 text-xs font-mono font-medium text-[#4edea3] bg-[#10b981]/10 border border-[#4edea3]/30 rounded;
+    @apply inline-flex items-center gap-1 px-3 py-1 text-xs font-mono font-medium text-primary bg-primary/10 border border-primary/20 rounded;
   }
 
-  /* Buttons matching Stitch screen specs */
+  /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-[#4edea3] text-[#0e1511] font-bold text-sm rounded-lg transition-all hover:bg-[#6ffbbe] shadow-[0_0_20px_rgba(78,222,163,0.3)] active:scale-95;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground font-bold text-sm rounded-xl transition-all hover:opacity-90 shadow-md shadow-primary/20 active:scale-95;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 bg-transparent border border-white/10 text-[#dde4dd] text-sm font-medium rounded-lg transition-all hover:border-[#4edea3] hover:text-[#4edea3] active:scale-95 gap-2;
+    @apply inline-flex items-center justify-center px-6 py-3 bg-muted/70 dark:bg-card/40 border border-border text-foreground text-sm font-medium rounded-xl transition-all hover:border-primary hover:text-primary active:scale-95 gap-2;
   }
 
   .btn-ghost {
-    @apply px-3.5 py-2 text-xs font-semibold text-[#bbcabf] hover:text-[#4edea3] hover:bg-[#4edea3]/10 rounded-lg transition-all flex items-center gap-2;
+    @apply px-3.5 py-2 text-xs font-semibold text-muted-foreground hover:text-primary hover:bg-primary/10 rounded-xl transition-all flex items-center gap-2;
   }
 
-  /* Admin Inputs */
+  /* Admin Inputs - Kept explicitly dark for admin isolation */
   .input-admin {
     @apply w-full bg-[#0B0E14] border border-[#3c4a42] rounded-xl py-2.5 px-4 text-[#dde4dd] text-sm focus:outline-none focus:border-[#4edea3] transition-colors placeholder:text-[#94A3B8]/60;
   }
 
-  /* Stitch Square Box Grid Pattern */
+  /* Grid Pattern */
   .bg-grid-pattern {
     background-size: 40px 40px;
     background-image: 
-      linear-gradient(to right, rgba(60, 74, 66, 0.15) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(60, 74, 66, 0.15) 1px, transparent 1px);
+      linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
   }
 }
 

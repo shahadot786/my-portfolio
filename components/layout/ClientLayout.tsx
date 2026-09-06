@@ -4,6 +4,8 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Navigation } from "@/components/sections/Navigation";
 import { Footer } from "@/components/sections/Footer";
+import { BackToTop } from "@/components/BackToTop";
+import { PortfolioAssistant } from "@/components/ai/PortfolioAssistant";
 import { API_BASE_URL } from "@/config/api";
 
 export function ClientLayout({ children }: { children: React.ReactNode }) {
@@ -17,8 +19,8 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
         const payload = {
           path: pathname,
           type: 'view',
-          language: navigator.language || 'en-US',
-          screen: `${window.screen.width}x${window.screen.height}`
+          language: typeof navigator !== 'undefined' ? (navigator.language || 'en-US') : 'en-US',
+          screen: typeof window !== 'undefined' ? `${window.screen.width}x${window.screen.height}` : 'unknown'
         };
 
         fetch(`${API_BASE_URL}/analytics`, {
@@ -30,6 +32,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       return () => clearTimeout(timer);
     }
   }, [pathname, isAdmin]);
+
   const isImanerBagan = pathname?.startsWith("/imaner-bagan");
   const hideNav = isAdmin || isImanerBagan;
 
@@ -40,8 +43,10 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Navigation />
-      <main className="min-h-screen pt-24 pb-12">{children}</main>
+      <main className="min-h-screen pt-24 pb-16">{children}</main>
       <Footer />
+      <BackToTop />
+      <PortfolioAssistant />
     </>
   );
 }

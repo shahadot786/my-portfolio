@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "framer-motion";
 import {
     Mail,
     Phone,
@@ -16,6 +17,8 @@ import {
     Loader,
     CheckCircle,
     AlertCircle,
+    Copy,
+    Check,
     type LucideIcon,
 } from "lucide-react";
 import { API_BASE_URL } from "@/config/api";
@@ -41,33 +44,37 @@ interface ContactClientProps {
 }
 
 export default function ContactClient({ profile }: ContactClientProps) {
+    const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+    const copyToClipboard = (text: string, key: string) => {
+        navigator.clipboard.writeText(text);
+        setCopiedKey(key);
+        setTimeout(() => setCopiedKey(null), 2000);
+    };
+
     const contactInfo = [
         {
             icon: Mail,
             label: "Email",
-            value: profile.email,
-            href: `mailto:${profile.email}`,
+            value: profile.email || "shahadot.swe@gmail.com",
+            href: `mailto:${profile.email || "shahadot.swe@gmail.com"}`,
         },
         ...(profile.phone
             ? [
                   {
                       icon: Phone,
-                      label: "Phone",
+                      label: "Phone / WhatsApp",
                       value: profile.phone,
                       href: `tel:${profile.phone.replace(/[^+\d]/g, "")}`,
                   },
               ]
             : []),
-        ...(profile.location
-            ? [
-                  {
-                      icon: MapPin,
-                      label: "Location",
-                      value: profile.location,
-                      href: "#",
-                  },
-              ]
-            : []),
+        {
+            icon: MapPin,
+            label: "Location",
+            value: profile.location || "Dhaka, Bangladesh (Available Worldwide)",
+            href: "#",
+        },
     ];
 
     const socialLinks = (profile.socialLinks || []).map((link) => ({
@@ -75,6 +82,7 @@ export default function ContactClient({ profile }: ContactClientProps) {
         href: link.url,
         label: link.platform,
     }));
+
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -116,66 +124,93 @@ export default function ContactClient({ profile }: ContactClientProps) {
     return (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Contact Info (5 Cols) */}
-            <div className="lg:col-span-5 space-y-6">
+            <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5 }}
+                className="lg:col-span-5 space-y-6"
+            >
                 {/* Information Card */}
-                <div className="glass-card p-6 space-y-5">
-                    <h2 className="text-xl font-bold text-[#dde4dd] border-b border-[#3c4a42] pb-3 mb-2">
-                        Contact Information
+                <div className="glass-card p-6 sm:p-7 space-y-5">
+                    <h2 className="text-xl font-bold text-foreground border-b border-border pb-3">
+                        Direct Channels
                     </h2>
-                    <div className="space-y-4">
+                    <div className="space-y-3">
                         {contactInfo.map((info) => (
-                            <a
+                            <div
                                 key={info.label}
-                                href={info.href}
-                                className="flex items-center gap-4 group p-2 rounded-lg hover:bg-[#1a211d] transition-colors"
+                                className="flex items-center justify-between p-3 rounded-xl bg-muted/40 hover:bg-muted/70 border border-border transition-colors group"
                             >
-                                <div className="w-10 h-10 rounded-full bg-[#10b981]/10 border border-[#4edea3]/30 flex items-center justify-center text-[#4edea3] group-hover:scale-105 transition-transform shrink-0">
-                                    <info.icon size={18} />
-                                </div>
-                                <div>
-                                    <p className="text-[#94A3B8] font-mono text-[11px] uppercase tracking-wider">{info.label}</p>
-                                    <p className="text-[#dde4dd] font-semibold text-sm group-hover:text-[#4edea3] transition-colors">{info.value}</p>
-                                </div>
-                            </a>
+                                <a
+                                    href={info.href}
+                                    className="flex items-center gap-3.5 min-w-0"
+                                >
+                                    <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center text-primary group-hover:scale-105 transition-transform shrink-0">
+                                        <info.icon size={18} />
+                                    </div>
+                                    <div className="min-w-0">
+                                        <p className="text-muted-foreground font-mono text-[10px] uppercase tracking-wider">{info.label}</p>
+                                        <p className="text-foreground font-semibold text-xs sm:text-sm group-hover:text-primary transition-colors truncate">{info.value}</p>
+                                    </div>
+                                </a>
+
+                                {info.href.startsWith("mailto:") || info.href.startsWith("tel:") ? (
+                                    <button
+                                        type="button"
+                                        onClick={() => copyToClipboard(info.value, info.label)}
+                                        title={`Copy ${info.label}`}
+                                        className="p-2 text-muted-foreground hover:text-primary transition-colors shrink-0"
+                                    >
+                                        {copiedKey === info.label ? <Check size={14} className="text-primary" /> : <Copy size={14} />}
+                                    </button>
+                                ) : null}
+                            </div>
                         ))}
                     </div>
                 </div>
 
                 {/* Social Profiles Card */}
-                <div className="glass-card p-6 space-y-4">
-                    <h3 className="text-base font-bold text-[#dde4dd] border-b border-[#3c4a42] pb-3">
-                        Social Profiles
-                    </h3>
-                    <div className="flex flex-wrap gap-3">
-                        {socialLinks.map((social) => (
-                            <a
-                                key={social.label}
-                                href={social.href}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center gap-2 px-3.5 py-2 rounded-lg border border-[#3c4a42] bg-[#1a211d] hover:border-[#4edea3] text-[#dde4dd] hover:text-[#4edea3] transition-all font-mono text-xs"
-                                aria-label={social.label}
-                            >
-                                <social.icon size={16} />
-                                {social.label}
-                            </a>
-                        ))}
+                {socialLinks.length > 0 && (
+                    <div className="glass-card p-6 space-y-4">
+                        <h3 className="text-sm font-bold text-foreground border-b border-border pb-3">
+                            Social & Professional Profiles
+                        </h3>
+                        <div className="flex flex-wrap gap-2.5">
+                            {socialLinks.map((social) => (
+                                <a
+                                    key={social.label}
+                                    href={social.href}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-border bg-muted/40 hover:border-primary/50 text-foreground hover:text-primary transition-all font-mono text-xs shadow-sm hover:scale-105"
+                                    aria-label={social.label}
+                                >
+                                    <social.icon size={15} />
+                                    <span>{social.label}</span>
+                                </a>
+                            ))}
+                        </div>
                     </div>
-                </div>
-            </div>
+                )}
+            </motion.div>
 
             {/* Contact Form (7 Cols) */}
-            <div className="lg:col-span-7">
-                <div className="glass-card p-8 bg-[#09100c] border-[#3c4a42]">
-                    <h2 className="text-xl font-bold text-[#dde4dd] mb-6 flex items-center gap-2">
-                        <Send size={18} className="text-[#4edea3]" />
+            <motion.div 
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                className="lg:col-span-7"
+            >
+                <div className="glass-card p-6 sm:p-8">
+                    <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+                        <Send size={18} className="text-primary" />
                         Send a Message
                     </h2>
-                    <form onSubmit={handleSubmit} className="space-y-5">
+                    <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
-                                <label htmlFor="name" className="block font-mono text-xs uppercase tracking-wider text-[#bbcabf] mb-1.5">
-                                    Name
+                                <label htmlFor="name" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground mb-1.5">
+                                    Your Name *
                                 </label>
                                 <input
                                     type="text"
@@ -184,13 +219,13 @@ export default function ContactClient({ profile }: ContactClientProps) {
                                     required
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 bg-[#1a211d] border border-[#3c4a42] rounded-lg text-[#dde4dd] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#4edea3] transition-all text-sm"
-                                    placeholder="Your name"
+                                    className="w-full px-4 py-2.5 bg-muted/40 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm"
+                                    placeholder="John Doe"
                                 />
                             </div>
                             <div>
-                                <label htmlFor="email" className="block font-mono text-xs uppercase tracking-wider text-[#bbcabf] mb-1.5">
-                                    Email
+                                <label htmlFor="email" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground mb-1.5">
+                                    Your Email *
                                 </label>
                                 <input
                                     type="email"
@@ -199,15 +234,15 @@ export default function ContactClient({ profile }: ContactClientProps) {
                                     required
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-3 bg-[#1a211d] border border-[#3c4a42] rounded-lg text-[#dde4dd] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#4edea3] transition-all text-sm"
-                                    placeholder="your@email.com"
+                                    className="w-full px-4 py-2.5 bg-muted/40 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm"
+                                    placeholder="john@example.com"
                                 />
                             </div>
                         </div>
 
                         <div>
-                            <label htmlFor="subject" className="block font-mono text-xs uppercase tracking-wider text-[#bbcabf] mb-1.5">
-                                Subject
+                            <label htmlFor="subject" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground mb-1.5">
+                                Subject *
                             </label>
                             <input
                                 type="text"
@@ -216,14 +251,14 @@ export default function ContactClient({ profile }: ContactClientProps) {
                                 required
                                 value={formData.subject}
                                 onChange={handleChange}
-                                className="w-full px-4 py-3 bg-[#1a211d] border border-[#3c4a42] rounded-lg text-[#dde4dd] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#4edea3] transition-all text-sm"
-                                placeholder="What's this about?"
+                                className="w-full px-4 py-2.5 bg-muted/40 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm"
+                                placeholder="Enterprise project inquiry / collaboration..."
                             />
                         </div>
 
                         <div>
-                            <label htmlFor="message" className="block font-mono text-xs uppercase tracking-wider text-[#bbcabf] mb-1.5">
-                                Message
+                            <label htmlFor="message" className="block font-mono text-xs uppercase tracking-wider text-muted-foreground mb-1.5">
+                                Message *
                             </label>
                             <textarea
                                 id="message"
@@ -232,45 +267,45 @@ export default function ContactClient({ profile }: ContactClientProps) {
                                 value={formData.message}
                                 onChange={handleChange}
                                 rows={5}
-                                className="w-full px-4 py-3 bg-[#1a211d] border border-[#3c4a42] rounded-lg text-[#dde4dd] placeholder:text-[#94A3B8] focus:outline-none focus:border-[#4edea3] transition-all text-sm resize-none"
-                                placeholder="Your message..."
+                                className="w-full px-4 py-2.5 bg-muted/40 border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary transition-colors text-sm resize-none"
+                                placeholder="Tell me about your project, timeline, and goals..."
                             />
                         </div>
 
                         <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full bg-[#4edea3] text-[#0e1511] font-bold text-sm rounded-lg hover:bg-[#6ffbbe] transition-all shadow-[0_0_20px_rgba(78,222,163,0.3)] active:scale-95 py-3.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="w-full bg-primary text-primary-foreground font-bold text-sm rounded-xl hover:opacity-90 transition-all shadow-md shadow-primary/20 active:scale-95 py-3.5 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             {isSubmitting ? (
                                 <>
                                     <Loader size={18} className="animate-spin" />
-                                    Sending...
+                                    <span>Sending Message...</span>
                                 </>
                             ) : (
                                 <>
-                                    <Send size={18} />
-                                    Send Message
+                                    <Send size={16} />
+                                    <span>Send Message</span>
                                 </>
                             )}
                         </button>
 
                         {submitStatus === "success" && (
-                            <div className="flex items-center gap-2 text-[#4edea3] bg-[#10b981]/10 border border-[#4edea3]/30 rounded-lg p-4 font-mono text-xs">
+                            <div className="flex items-center gap-2 text-primary bg-primary/10 border border-primary/30 rounded-xl p-4 font-mono text-xs">
                                 <CheckCircle size={18} />
-                                <p>Message sent successfully! I&apos;ll get back to you soon.</p>
+                                <p>Message sent successfully! Shahadot will get back to you soon.</p>
                             </div>
                         )}
 
                         {submitStatus === "error" && (
-                            <div className="flex items-center gap-2 text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg p-4 font-mono text-xs">
+                            <div className="flex items-center gap-2 text-destructive bg-destructive/10 border border-destructive/20 rounded-xl p-4 font-mono text-xs">
                                 <AlertCircle size={18} />
-                                <p>Failed to send. Please try emailing directly.</p>
+                                <p>Failed to send message. Please try emailing directly at shahadot.swe@gmail.com.</p>
                             </div>
                         )}
                     </form>
                 </div>
-            </div>
+            </motion.div>
         </div>
     );
 }

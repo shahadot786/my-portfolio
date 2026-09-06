@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Inter, JetBrains_Mono, Great_Vibes } from "next/font/google";
 import { ClientLayout } from "@/components/layout/ClientLayout";
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
@@ -121,7 +122,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
         <link rel="alternate icon" href="/favicon.ico" />
@@ -153,8 +154,10 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${inter.variable} ${jetbrainsMono.variable} ${greatVibes.variable} font-sans bg-[#0e1511] text-[#dde4dd] antialiased selection:bg-[#4edea3]/30 selection:text-[#4edea3]`}>
-        <ClientLayout>{children}</ClientLayout>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} ${greatVibes.variable} font-sans bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary min-h-screen transition-colors duration-200`}>
+        <ThemeProvider>
+          <ClientLayout>{children}</ClientLayout>
+        </ThemeProvider>
       </body>
     </html>
   );
