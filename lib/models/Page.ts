@@ -4,6 +4,7 @@ export interface IPage extends Document {
     slug: string;
     title: string;
     subtitle: string;
+    badge?: string;
     seo: {
         title: string;
         description: string;
@@ -27,6 +28,11 @@ const pageSchema = new Schema<IPage>(
             trim: true,
         },
         subtitle: {
+            type: String,
+            default: '',
+            trim: true,
+        },
+        badge: {
             type: String,
             default: '',
             trim: true,

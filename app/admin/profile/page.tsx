@@ -16,6 +16,10 @@ import {
   Mail,
   Lock,
   FileText,
+  BarChart2,
+  Bot,
+  Rss,
+  Building2,
 } from "lucide-react";
 
 const profileSchema = z.object({
@@ -25,10 +29,24 @@ const profileSchema = z.object({
   resumeUrl: z.string().optional(),
   availabilityBadge: z.string().optional(),
   yearsOfExperience: z.string().optional().default("5+"),
+  heroBadge: z.string().optional().default("Offline-First Architect"),
   isAvailable: z.boolean().default(true),
   location: z.string().min(1, "Location is required"),
   email: z.string().email("Invalid email"),
   phone: z.string().optional(),
+  // Hero stats
+  statsTransactions: z.string().optional().default("100K+"),
+  statsUsers: z.string().optional().default("10K+"),
+  statsClients: z.string().optional().default("Fortune 500"),
+  statsClientsDetail: z.string().optional().default("Unilever, BAT, Nestlé, Nagad"),
+  // Integrations
+  mediumUsername: z.string().optional().default("shrhossain786"),
+  // Organization
+  currentCompany: z.string().optional().default(""),
+  // AI Assistant
+  isAiAssistantEnabled: z.boolean().default(true),
+  aiWelcomeMessage: z.string().optional().default(""),
+  aiStarterPrompts: z.array(z.object({ value: z.string() })).optional().default([]),
   bio: z.array(z.object({ value: z.string() })).min(1, "Bio is required"),
   socialLinks: z.array(
     z.object({
@@ -100,6 +118,15 @@ export default function ProfilePage() {
     name: "socialLinks",
   });
 
+  const {
+    fields: starterPromptFields,
+    append: appendStarterPrompt,
+    remove: removeStarterPrompt,
+  } = useFieldArray({
+    control,
+    name: "aiStarterPrompts",
+  });
+
   useEffect(() => {
     const fetchProfileAndUser = async () => {
       try {
@@ -114,6 +141,16 @@ export default function ProfilePage() {
         reset({
           ...profileData,
           yearsOfExperience: profileData.yearsOfExperience || "5+",
+          heroBadge: profileData.heroBadge || "Offline-First Architect",
+          statsTransactions: profileData.statsTransactions || "100K+",
+          statsUsers: profileData.statsUsers || "10K+",
+          statsClients: profileData.statsClients || "Fortune 500",
+          statsClientsDetail: profileData.statsClientsDetail || "Unilever, BAT, Nestlé, Nagad",
+          mediumUsername: profileData.mediumUsername || "shrhossain786",
+          currentCompany: profileData.currentCompany || "",
+          isAiAssistantEnabled: profileData.isAiAssistantEnabled !== false,
+          aiWelcomeMessage: profileData.aiWelcomeMessage || "",
+          aiStarterPrompts: (profileData.aiStarterPrompts || []).map((p: string) => ({ value: p })),
           bio: (profileData.bio || []).map((b: string) => ({ value: b })),
         });
 
@@ -141,6 +178,7 @@ export default function ProfilePage() {
       const formattedData = {
         ...data,
         bio: data.bio.map((b) => b.value),
+        aiStarterPrompts: (data.aiStarterPrompts || []).map((p) => p.value),
       };
       await api.put("/profile", formattedData);
       setMessage({ type: "success", text: "Profile updated successfully!" });
@@ -620,6 +658,134 @@ export default function ProfilePage() {
                 />
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Hero Stats & Branding Section */}
+      <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl">
+        <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-6">
+          <BarChart2 className="text-primary" size={20} />
+          Hero Section & Branding
+        </h2>
+        <p className="text-zinc-500 text-sm mb-6">Control all values displayed in the homepage stats strip and hero badge.</p>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Avatar Floating Badge</label>
+            <input {...register("heroBadge")} className="input-admin" placeholder="Offline-First Architect" />
+            <p className="text-[10px] text-zinc-500 mt-1">Small text floating next to your avatar photo.</p>
+          </div>
+          <div>
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Daily Transactions Stat</label>
+            <input {...register("statsTransactions")} className="input-admin" placeholder="100K+" />
+            <p className="text-[10px] text-zinc-500 mt-1">e.g. &quot;100K+&quot; — shown in stats strip on homepage.</p>
+          </div>
+          <div>
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Active Users Stat</label>
+            <input {...register("statsUsers")} className="input-admin" placeholder="10K+" />
+            <p className="text-[10px] text-zinc-500 mt-1">e.g. &quot;10K+&quot; — shown in stats strip on homepage.</p>
+          </div>
+          <div>
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Clients Value</label>
+            <input {...register("statsClients")} className="input-admin" placeholder="Fortune 500" />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Clients Detail</label>
+            <input {...register("statsClientsDetail")} className="input-admin" placeholder="Unilever, BAT, Nestlé, Nagad" />
+            <p className="text-[10px] text-zinc-500 mt-1">Comma-separated client names shown as subtitle under Clients stat.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* AI Assistant Section */}
+      <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl">
+        <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-2">
+          <Bot className="text-primary" size={20} />
+          AI Assistant
+        </h2>
+        <p className="text-zinc-500 text-sm mb-6">Customize your portfolio AI chat widget.</p>
+
+        <div className="space-y-6">
+          <div className="flex items-center gap-3 p-4 bg-zinc-950/60 rounded-xl border border-zinc-800">
+            <input
+              type="checkbox"
+              {...register("isAiAssistantEnabled")}
+              id="isAiAssistantEnabled"
+              className="w-5 h-5 rounded-lg border-zinc-800 bg-zinc-950 text-emerald-500"
+            />
+            <label htmlFor="isAiAssistantEnabled" className="text-sm font-semibold text-white cursor-pointer">
+              Enable AI Assistant Widget sitewide
+            </label>
+          </div>
+
+          <div>
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Welcome Message</label>
+            <textarea
+              {...register("aiWelcomeMessage")}
+              rows={3}
+              className="input-admin resize-none"
+              placeholder="Hi! I&apos;m Shahadot&apos;s AI assistant. Ask me anything about his experience, projects, or skills!"
+            />
+          </div>
+
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <label className="block text-zinc-400 text-xs font-medium uppercase tracking-wider">Starter Prompt Chips</label>
+              <button
+                type="button"
+                onClick={() => appendStarterPrompt({ value: "" })}
+                className="text-primary text-xs flex items-center gap-1 hover:underline"
+              >
+                <Plus size={14} /> Add Prompt
+              </button>
+            </div>
+            <div className="space-y-2">
+              {starterPromptFields.map((field, index) => (
+                <div key={field.id} className="flex gap-2">
+                  <input
+                    {...register(`aiStarterPrompts.${index}.value`)}
+                    className="input-admin flex-1"
+                    placeholder={`e.g. What projects has Shahadot built?`}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeStarterPrompt(index)}
+                    className="text-zinc-600 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <p className="text-[10px] text-zinc-500 mt-2">Quick-pick buttons shown in the chat widget for common questions.</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Integrations & Organization Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl">
+          <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-4">
+            <Rss className="text-primary" size={20} />
+            Integrations
+          </h2>
+          <div>
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Medium Username</label>
+            <input {...register("mediumUsername")} className="input-admin" placeholder="shrhossain786" />
+            <p className="text-[10px] text-zinc-500 mt-1">Your Medium handle (without @). Controls the Articles RSS feed.</p>
+          </div>
+        </div>
+
+        <div className="bg-zinc-900/40 border border-zinc-800 p-8 rounded-3xl">
+          <h2 className="text-xl font-bold text-white flex items-center gap-2 mb-4">
+            <Building2 className="text-primary" size={20} />
+            Organization
+          </h2>
+          <div>
+            <label className="block text-zinc-400 text-xs font-medium mb-1.5 uppercase tracking-wider">Current Company</label>
+            <input {...register("currentCompany")} className="input-admin" placeholder="HawkEyes Digital Monitoring" />
+            <p className="text-[10px] text-zinc-500 mt-1">Used in Google structured data (JSON-LD) for SEO rich results.</p>
           </div>
         </div>
       </div>

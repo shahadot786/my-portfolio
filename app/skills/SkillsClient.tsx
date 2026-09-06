@@ -15,7 +15,7 @@ interface SkillCategory {
 
 interface SkillsClientProps {
   skillCategories: SkillCategory[];
-  pageContent?: { title?: string; subtitle?: string } | null;
+  pageContent?: { title?: string; subtitle?: string; badge?: string } | null;
 }
 
 export default function SkillsClient({ skillCategories, pageContent }: SkillsClientProps) {
@@ -47,7 +47,7 @@ export default function SkillsClient({ skillCategories, pageContent }: SkillsCli
           <div>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-xs font-medium backdrop-blur-md">
               <Cpu size={13} />
-              Technical Stack & Competencies
+              {pageContent?.badge || "Technical Stack & Competencies"}
             </span>
             <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight mt-2">
               {pageContent?.title || 'Technical Skills'}

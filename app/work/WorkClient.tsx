@@ -52,7 +52,7 @@ interface WorkClientProps {
   education: Education[];
   certificates: Certificate[];
   profile?: { yearsOfExperience?: string };
-  pageContent?: { title?: string; subtitle?: string } | null;
+  pageContent?: { title?: string; subtitle?: string; badge?: string } | null;
 }
 
 export default function WorkClient({
@@ -75,7 +75,7 @@ export default function WorkClient({
       >
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-xs font-medium backdrop-blur-md">
           <Briefcase size={13} />
-          Career Timeline & Professional Achievements
+          {pageContent?.badge || "Career Timeline & Professional Achievements"}
         </span>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">
           {pageContent?.title || 'Employment History'}

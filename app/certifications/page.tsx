@@ -26,6 +26,7 @@ export default async function CertificationsPage() {
       initialCertificates={certificates}
       pageTitle={pageContent?.title}
       pageSubtitle={pageContent?.subtitle}
+      pageBadge={pageContent?.badge}
     />
   );
 }

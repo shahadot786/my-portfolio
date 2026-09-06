@@ -13,24 +13,7 @@ import {
 } from "lucide-react";
 import { LiveViewCounter } from "@/components/ui/LiveViewCounter";
 import { ResumeViewer } from "@/components/ui/ResumeViewer";
-
-interface SocialLink {
-  platform: string;
-  url: string;
-  icon: string;
-}
-
-interface Profile {
-  name: string;
-  title: string;
-  yearsOfExperience?: string;
-  avatar?: string;
-  resumeUrl?: string;
-  availabilityBadge?: string;
-  isAvailable?: boolean;
-  bio: string[];
-  socialLinks: SocialLink[];
-}
+import type { Profile } from "@/lib/profile";
 
 interface Metric {
   label: string;
@@ -106,9 +89,9 @@ export function HomeClient({ profile, testimonials, expertiseItems }: HomeClient
 
   const keyStats = [
     { label: "Experience", value: experienceDisplay, sub: "Enterprise Mobile & Web" },
-    { label: "Daily Transactions", value: "100K+", sub: "High-Throughput Systems" },
-    { label: "Active Users", value: "10K+", sub: "Offline-First Architectures" },
-    { label: "Enterprise Clients", value: "Fortune 500", sub: "Unilever, BAT, Nestlé, Nagad" },
+    { label: "Daily Transactions", value: profile.statsTransactions || "100K+", sub: "High-Throughput Systems" },
+    { label: "Active Users", value: profile.statsUsers || "10K+", sub: "Offline-First Architectures" },
+    { label: "Enterprise Clients", value: profile.statsClients || "Fortune 500", sub: profile.statsClientsDetail || "Unilever, BAT, Nestlé, Nagad" },
   ];
 
   return (
@@ -220,7 +203,7 @@ export function HomeClient({ profile, testimonials, expertiseItems }: HomeClient
             className="absolute -bottom-3 -left-3 bg-card/90 border border-border/80 backdrop-blur-xl px-3.5 py-1.5 rounded-2xl shadow-lg flex items-center gap-2"
           >
             <Zap className="w-4 h-4 text-primary" />
-            <span className="text-xs font-mono font-bold text-foreground">Offline-First Architect</span>
+            <span className="text-xs font-mono font-bold text-foreground">{profile.heroBadge || "Offline-First Architect"}</span>
           </motion.div>
         </motion.div>
       </motion.section>

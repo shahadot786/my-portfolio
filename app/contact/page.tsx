@@ -32,7 +32,7 @@ export default async function ContactPage() {
     <div className="container-custom py-8 space-y-8">
       <div>
         <span className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-xs font-medium mb-3">
-          Communication Channels & Collaboration
+          {pageContent?.badge || 'Communication Channels & Collaboration'}
         </span>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">{pageContent?.title || 'Get in Touch'}</h1>
         <p className="text-muted-foreground mt-2 text-base max-w-xl leading-relaxed">

@@ -19,12 +19,14 @@ interface CertificationsClientProps {
   initialCertificates: CertificateItem[];
   pageTitle?: string;
   pageSubtitle?: string;
+  pageBadge?: string;
 }
 
 export default function CertificationsClient({
   initialCertificates,
   pageTitle,
   pageSubtitle,
+  pageBadge,
 }: CertificationsClientProps) {
   const [selectedIssuer, setSelectedIssuer] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -52,7 +54,7 @@ export default function CertificationsClient({
       >
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-xs font-medium backdrop-blur-md">
           <Award size={14} />
-          Verified Credentials & Diplomas
+          {pageBadge || 'Verified Credentials & Diplomas'}
         </span>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">
           {pageTitle || 'Certifications & Accreditations'}

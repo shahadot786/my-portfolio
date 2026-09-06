@@ -20,18 +20,30 @@ interface Project {
 
 interface ProjectsClientProps {
   projects: Project[];
-  pageContent?: { title?: string; subtitle?: string } | null;
+  pageContent?: { title?: string; subtitle?: string; badge?: string } | null;
 }
 
 export default function ProjectsClient({ projects, pageContent }: ProjectsClientProps) {
   const [activeFilter, setActiveFilter] = useState<string>("All");
 
-  const categories = ["All", "Featured", "React Native", "TypeScript", "Next.js", "Node.js"];
+  const categories = React.useMemo(() => {
+    const techCount = new Map<string, number>();
+    projects.forEach(p => {
+      p.technologies?.forEach(t => {
+        techCount.set(t, (techCount.get(t) || 0) + 1);
+      });
+    });
+    const topTechs = Array.from(techCount.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([tech]) => tech)
+      .slice(0, 6);
+    return ["All", "Featured", ...topTechs.filter(t => !["All", "Featured"].includes(t))];
+  }, [projects]);
 
   const filteredProjects = projects.filter((p) => {
     if (activeFilter === "All") return true;
     if (activeFilter === "Featured") return p.featured;
-    return p.technologies?.some(t => t.toLowerCase().includes(activeFilter.toLowerCase()));
+    return p.technologies?.some(t => t.toLowerCase() === activeFilter.toLowerCase() || t.toLowerCase().includes(activeFilter.toLowerCase()));
   });
 
   const featuredProjects = filteredProjects.filter(p => p.featured);
@@ -48,7 +60,7 @@ export default function ProjectsClient({ projects, pageContent }: ProjectsClient
       >
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-xs font-medium backdrop-blur-md">
           <FolderOpen size={13} />
-          Portfolio Showcase & Featured Systems
+          {pageContent?.badge || "Portfolio Showcase & Featured Systems"}
         </span>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">
           {pageContent?.title || 'Projects & Systems'}

@@ -21,20 +21,29 @@ interface Message {
   content: string;
 }
 
-const STARTER_PROMPTS = [
+const DEFAULT_STARTER_PROMPTS = [
   "What is Shahadot's experience with React Native?",
   "Has he built offline-first mobile systems?",
   "Which Fortune 500 clients has he worked with?",
   "Is Shahadot available for hire or contract?"
 ];
 
-export function PortfolioAssistant() {
+const DEFAULT_WELCOME_MESSAGE = "Hello! 👋 I'm Shahadot's AI Assistant powered by Groq. Ask me anything about his enterprise mobile architecture, projects, skills, or how to work with him!";
+
+interface PortfolioAssistantProps {
+  starterPrompts?: string[];
+  welcomeMessage?: string;
+}
+
+export function PortfolioAssistant({ starterPrompts, welcomeMessage }: PortfolioAssistantProps = {}) {
+  const resolvedPrompts = starterPrompts?.length ? starterPrompts : DEFAULT_STARTER_PROMPTS;
+  const resolvedWelcome = welcomeMessage || DEFAULT_WELCOME_MESSAGE;
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       role: "assistant",
-      content: "Hello! 👋 I'm Shahadot's AI Assistant powered by Groq. Ask me anything about his enterprise mobile architecture, projects, skills, or how to work with him!"
+      content: resolvedWelcome
     }
   ]);
   const [input, setInput] = useState("");
@@ -374,7 +383,7 @@ export function PortfolioAssistant() {
                   <Sparkles className="w-3 h-3 text-primary" /> Suggested Questions:
                 </p>
                 <div className="flex flex-wrap gap-1.5">
-                  {STARTER_PROMPTS.map((prompt) => (
+                  {resolvedPrompts.map((prompt) => (
                     <button
                       key={prompt}
                       onClick={() => handleSendMessage(prompt)}

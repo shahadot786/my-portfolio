@@ -1,31 +1,20 @@
 import "./globals.css";
+import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Great_Vibes } from "next/font/google";
 import { ClientLayout } from "@/components/layout/ClientLayout";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { getProfile } from "@/lib/profile";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"], variable: "--font-signature" });
 
-export const metadata = {
-  metadataBase: new URL("https://shahadot-hossain.vercel.app"),
-  title: {
-    default: "MD. Shahadot Hossain - Software Engineer",
-    template: "%s | MD. Shahadot Hossain",
-  },
-  icons: {
-    icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico" },
-    ],
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
-  },
-  alternates: {
-    canonical: "https://shahadot-hossain.vercel.app/",
-  },
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://shahadot-hossain.vercel.app";
+
+const FALLBACK_META = {
+  title: "MD. Shahadot Hossain - Software Engineer",
   description:
-    "I am a software engineer based in Bangladesh with 5+ years of experience building mobile and web applications for enterprise clients including Unilever, BAT, Nestlé, and Nagad.",
+    "Software engineer with 5+ years of experience building mobile and web applications for enterprise clients including Unilever, BAT, Nestlé, and Nagad.",
   keywords: [
     "MD. Shahadot Hossain",
     "Shahadot Hossain",
@@ -34,89 +23,142 @@ export const metadata = {
     "Mobile App Architect",
     "Full Stack Developer",
     "TypeScript Developer",
-    "React Native Portfolio",
     "Offline-first Architecture",
     "Enterprise Mobile Solutions",
-    "Node.js Backend Engineer",
     "Bangladesh Software Engineer",
-    "Next.js Developer",
-    "iOS and Android Development",
-    "Scalable Web Applications",
-    "Real-time Tracking Systems",
-    "Redux Toolkit",
-    "JavaScript Specialist",
-    "GraphQL APIs",
-    "Unilever Tech Partner",
   ],
-  authors: [{ name: "MD. Shahadot Hossain" }],
-  creator: "MD. Shahadot Hossain",
-  openGraph: {
-    type: "website",
-    locale: "en_US",
-    url: "https://shahadot-hossain.vercel.app",
-    title: "MD. Shahadot Hossain - Software Engineer",
-    description:
-      "Building innovative mobile solutions with 5+ years of experience serving 10,000+ users",
-    siteName: "MD. Shahadot Hossain",
-    images: [
-      {
-        url: "/avatar.png",
-        width: 800,
-        height: 800,
-        alt: "MD. Shahadot Hossain",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "MD. Shahadot Hossain - Software Engineer",
-    description: "Building innovative mobile solutions with React Native",
-    images: ["/avatar.png"],
-    creator: "@shahadot786",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  verification: {
-    google: "a-5BJSKJLu9OAQmVs_PhfvWCYxISpzm2IeOnCywvN_0",
-  },
 };
 
-export default function RootLayout({
+export async function generateMetadata(): Promise<Metadata> {
+  let profile;
+  try {
+    profile = await getProfile();
+  } catch {
+    profile = null;
+  }
+
+  const name = profile?.name || "MD. Shahadot Hossain";
+  const title = profile?.seo?.title || `${name} - Software Engineer`;
+  const description = profile?.seo?.description || FALLBACK_META.description;
+  const keywords = profile?.seo?.keywords?.length
+    ? profile.seo.keywords
+    : FALLBACK_META.keywords;
+  const avatarUrl = profile?.avatar?.startsWith("http")
+    ? profile.avatar
+    : `${SITE_URL}${profile?.avatar || "/avatar.png"}`;
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: {
+      default: title,
+      template: `%s | ${name}`,
+    },
+    icons: {
+      icon: [
+        { url: "/favicon.svg", type: "image/svg+xml" },
+        { url: "/favicon.ico" },
+      ],
+      shortcut: "/favicon.svg",
+      apple: "/favicon.svg",
+    },
+    alternates: {
+      canonical: `${SITE_URL}/`,
+    },
+    description,
+    keywords,
+    authors: [{ name }],
+    creator: name,
+    openGraph: {
+      type: "website",
+      locale: "en_US",
+      url: SITE_URL,
+      title,
+      description,
+      siteName: name,
+      images: [
+        {
+          url: avatarUrl,
+          width: 800,
+          height: 800,
+          alt: name,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [avatarUrl],
+      creator: profile?.socialLinks?.find(s => s.platform?.toLowerCase() === "twitter")?.url
+        ? `@${profile.socialLinks.find(s => s.platform?.toLowerCase() === "twitter")!.url.split("/").pop()}`
+        : "@shahadot786",
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
+    verification: {
+      google: "a-5BJSKJLu9OAQmVs_PhfvWCYxISpzm2IeOnCywvN_0",
+    },
+  };
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  let profile;
+  try {
+    profile = await getProfile();
+  } catch {
+    profile = null;
+  }
+
+  const name = profile?.name || "MD. Shahadot Hossain";
+  const avatarUrl = profile?.avatar?.startsWith("http")
+    ? profile.avatar
+    : `${SITE_URL}${profile?.avatar || "/avatar.png"}`;
+
+  const socialLinks = profile?.socialLinks || [];
+  const sameAs = socialLinks.length
+    ? socialLinks.map((l: { url: string }) => l.url)
+    : [
+        "https://github.com/shahadot786",
+        "https://www.linkedin.com/in/shahadot786",
+        "https://twitter.com/shahadot786",
+        "https://youtube.com/@shahadot786",
+      ];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
-    name: "MD. Shahadot Hossain",
-    url: "https://shahadot-hossain.vercel.app",
-    image: "https://shahadot-hossain.vercel.app/avatar.png",
-    sameAs: [
-      "https://github.com/shahadot786",
-      "https://www.linkedin.com/in/shahadot786",
-      "https://twitter.com/shahadot786",
-      "https://youtube.com/@shahadot786",
-    ],
-    jobTitle: "Software Engineer",
-    worksFor: {
-      "@type": "Organization",
-      name: "HawkEyes Digital Monitoring",
-    },
+    name,
+    url: SITE_URL,
+    image: avatarUrl,
+    sameAs,
+    jobTitle: profile?.title || "Software Engineer",
+    ...(profile?.currentCompany
+      ? {
+          worksFor: {
+            "@type": "Organization",
+            name: profile.currentCompany,
+          },
+        }
+      : {}),
     description:
+      profile?.bio?.[0] ||
       "Software Engineer specializing in React Native and Enterprise Mobile Solutions.",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Dhaka",
+      addressLocality: profile?.location?.split(",")?.[0] || "Dhaka",
       addressCountry: "BD",
     },
   };
@@ -156,9 +198,10 @@ export default function RootLayout({
       </head>
       <body className={`${inter.variable} ${jetbrainsMono.variable} ${greatVibes.variable} font-sans bg-background text-foreground antialiased selection:bg-primary/30 selection:text-primary min-h-screen transition-colors duration-200`}>
         <ThemeProvider>
-          <ClientLayout>{children}</ClientLayout>
+          <ClientLayout profile={profile}>{children}</ClientLayout>
         </ThemeProvider>
       </body>
     </html>
   );
 }
+

@@ -12,6 +12,7 @@ interface Page {
   slug: string;
   title: string;
   subtitle: string;
+  badge?: string;
   seo: {
     title: string;
     description: string;
@@ -22,6 +23,7 @@ interface Page {
 const pageSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   subtitle: z.string(),
+  badge: z.string(),
   seo: z.object({
     title: z.string(),
     description: z.string(),
@@ -77,6 +79,7 @@ export default function PagesAdmin() {
     reset({
       title: page.title,
       subtitle: page.subtitle,
+      badge: page.badge || '',
       seo: {
         title: page.seo.title,
         description: page.seo.description,
@@ -176,6 +179,11 @@ export default function PagesAdmin() {
                   <div>
                     <label className="block text-zinc-500 text-[10px] font-bold uppercase mb-2">Subtitle / Introduction</label>
                     <textarea {...register('subtitle')} rows={3} className="input-admin resize-none" placeholder="Brief introduction text..." />
+                  </div>
+                  <div>
+                    <label className="block text-zinc-500 text-[10px] font-bold uppercase mb-2">Badge / Pill Label</label>
+                    <input {...register('badge')} className="input-admin" placeholder="e.g. Technical Stack & Competencies" />
+                    <p className="text-[10px] text-zinc-500 mt-1">Small pill badge shown above the page title in the header.</p>
                   </div>
                 </div>
 
