@@ -7,8 +7,14 @@ import { Footer } from "@/components/sections/Footer";
 import { BackToTop } from "@/components/BackToTop";
 import { PortfolioAssistant } from "@/components/ai/PortfolioAssistant";
 import { API_BASE_URL } from "@/config/api";
+import type { Profile } from "@/lib/profile";
 
-export function ClientLayout({ children }: { children: React.ReactNode }) {
+interface ClientLayoutProps {
+  children: React.ReactNode;
+  profile?: Profile | null;
+}
+
+export function ClientLayout({ children, profile }: ClientLayoutProps) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
 
@@ -36,17 +42,29 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
   const isImanerBagan = pathname?.startsWith("/imaner-bagan");
   const hideNav = isAdmin || isImanerBagan;
 
+  const showAI = profile?.isAiAssistantEnabled !== false;
+  const starterPrompts = profile?.aiStarterPrompts?.length
+    ? profile.aiStarterPrompts
+    : undefined;
+  const welcomeMessage = profile?.aiWelcomeMessage || undefined;
+
   if (hideNav) {
     return <>{children}</>;
   }
 
   return (
     <>
-      <Navigation />
+      <Navigation profile={profile} />
       <main className="min-h-screen pt-24 pb-16">{children}</main>
-      <Footer />
+      <Footer profile={profile} />
       <BackToTop />
-      <PortfolioAssistant />
+      {showAI && (
+        <PortfolioAssistant
+          starterPrompts={starterPrompts}
+          welcomeMessage={welcomeMessage}
+        />
+      )}
     </>
   );
 }
+

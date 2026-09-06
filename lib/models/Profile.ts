@@ -15,6 +15,8 @@ export interface ISeoData {
 export interface IProfile extends Document {
     name: string;
     title: string;
+    yearsOfExperience?: string;
+    heroBadge?: string;
     bio: string[];
     avatar: string;
     resumeUrl?: string;
@@ -23,6 +25,19 @@ export interface IProfile extends Document {
     phone?: string;
     availabilityBadge?: string;
     isAvailable?: boolean;
+    // Hero stats strip
+    statsTransactions?: string;
+    statsUsers?: string;
+    statsClients?: string;
+    statsClientsDetail?: string;
+    // Integrations
+    mediumUsername?: string;
+    // Organization / SEO
+    currentCompany?: string;
+    // AI Assistant
+    isAiAssistantEnabled?: boolean;
+    aiWelcomeMessage?: string;
+    aiStarterPrompts?: string[];
     socialLinks: ISocialLink[];
     seo: ISeoData;
     createdAt: Date;
@@ -59,6 +74,16 @@ const profileSchema = new Schema<IProfile>(
             required: [true, 'Title is required'],
             trim: true,
         },
+        yearsOfExperience: {
+            type: String,
+            default: '5+',
+            trim: true,
+        },
+        heroBadge: {
+            type: String,
+            default: 'Offline-First Architect',
+            trim: true,
+        },
         bio: {
             type: [String],
             default: [],
@@ -93,6 +118,52 @@ const profileSchema = new Schema<IProfile>(
             type: String,
             default: '',
         },
+        // Hero stats strip
+        statsTransactions: {
+            type: String,
+            default: '100K+',
+            trim: true,
+        },
+        statsUsers: {
+            type: String,
+            default: '10K+',
+            trim: true,
+        },
+        statsClients: {
+            type: String,
+            default: 'Fortune 500',
+            trim: true,
+        },
+        statsClientsDetail: {
+            type: String,
+            default: 'Unilever, BAT, Nestlé, Nagad',
+            trim: true,
+        },
+        // Integrations
+        mediumUsername: {
+            type: String,
+            default: 'shrhossain786',
+            trim: true,
+        },
+        // Organization / JSON-LD
+        currentCompany: {
+            type: String,
+            default: '',
+            trim: true,
+        },
+        // AI Assistant
+        isAiAssistantEnabled: {
+            type: Boolean,
+            default: true,
+        },
+        aiWelcomeMessage: {
+            type: String,
+            default: '',
+        },
+        aiStarterPrompts: {
+            type: [String],
+            default: [],
+        },
         socialLinks: {
             type: [socialLinkSchema],
             default: [],
@@ -108,3 +179,4 @@ const profileSchema = new Schema<IProfile>(
 );
 
 export const Profile = mongoose.models.Profile || mongoose.model<IProfile>('Profile', profileSchema);
+

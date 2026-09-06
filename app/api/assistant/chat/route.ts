@@ -15,11 +15,23 @@ interface ChatMessage {
   content: string;
 }
 
-const FALLBACK_PROFILE = {
+interface AssistantProfileContext {
+  name: string;
+  title: string;
+  yearsOfExperience?: string;
+  bio: string[];
+  isAvailable?: boolean;
+  availabilityBadge?: string;
+  email?: string;
+  socialLinks?: Array<{ platform: string; url: string; icon?: string }>;
+}
+
+const FALLBACK_PROFILE: AssistantProfileContext = {
   name: "MD. Shahadot Hossain",
   title: "Enterprise Mobile Architect & Full Stack Engineer",
+  yearsOfExperience: "5+",
   bio: [
-    "Software Engineer with 4+ years of experience specializing in React Native, TypeScript, and enterprise mobile solutions.",
+    "Software Engineer with 5+ years of experience specializing in React Native, TypeScript, and enterprise mobile solutions.",
     "Proven track record of building offline-first applications serving 10,000+ users and 100,000+ daily transactions for Fortune 500 clients like Unilever, BAT, Nestlé, and Nagad."
   ],
   isAvailable: true,
@@ -46,7 +58,7 @@ async function getPortfolioContext() {
     ]);
 
     return {
-      profile: profile || FALLBACK_PROFILE,
+      profile: (profile || FALLBACK_PROFILE) as unknown as AssistantProfileContext,
       experiences: experiences || [],
       projects: projects || [],
       skills: skills || [],
@@ -106,8 +118,9 @@ export async function POST(req: NextRequest) {
     }
 
     const context = await getPortfolioContext();
+    const expYears = context.profile.yearsOfExperience || "5+";
 
-    const systemPrompt = `You are the personal AI Assistant representing MD. Shahadot Hossain, an Enterprise Mobile Architect & Full Stack Engineer with 4+ years of professional experience.
+    const systemPrompt = `You are the personal AI Assistant representing MD. Shahadot Hossain, an Enterprise Mobile Architect & Full Stack Engineer with ${expYears} years of professional experience.
 Your goal is to answer visitor questions accurately, professionally, concisely, and warmly.
 
 ABOUT SHAHADOT:

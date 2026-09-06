@@ -51,15 +51,19 @@ interface WorkClientProps {
   experiences: Experience[];
   education: Education[];
   certificates: Certificate[];
-  pageContent?: { title?: string; subtitle?: string } | null;
+  profile?: { yearsOfExperience?: string };
+  pageContent?: { title?: string; subtitle?: string; badge?: string } | null;
 }
 
 export default function WorkClient({
   experiences,
   education,
   certificates,
+  profile,
   pageContent
 }: WorkClientProps) {
+  const expYears = profile?.yearsOfExperience || "5+";
+
   return (
     <div className="container-custom py-8 space-y-16">
       {/* Header */}
@@ -71,13 +75,13 @@ export default function WorkClient({
       >
         <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-xs font-medium backdrop-blur-md">
           <Briefcase size={13} />
-          Career Timeline & Professional Achievements
+          {pageContent?.badge || "Career Timeline & Professional Achievements"}
         </span>
         <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">
           {pageContent?.title || 'Employment History'}
         </h1>
         <p className="text-muted-foreground mt-2 text-base max-w-2xl leading-relaxed">
-          {pageContent?.subtitle || 'Over 4+ years building high-impact mobile platforms, offline-first architectures, and scalable cloud systems.'}
+          {pageContent?.subtitle || `Over ${expYears} years building high-impact mobile platforms, offline-first architectures, and scalable cloud systems.`}
         </p>
       </motion.div>
 

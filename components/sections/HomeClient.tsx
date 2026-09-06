@@ -13,23 +13,7 @@ import {
 } from "lucide-react";
 import { LiveViewCounter } from "@/components/ui/LiveViewCounter";
 import { ResumeViewer } from "@/components/ui/ResumeViewer";
-
-interface SocialLink {
-  platform: string;
-  url: string;
-  icon: string;
-}
-
-interface Profile {
-  name: string;
-  title: string;
-  avatar?: string;
-  resumeUrl?: string;
-  availabilityBadge?: string;
-  isAvailable?: boolean;
-  bio: string[];
-  socialLinks: SocialLink[];
-}
+import type { Profile } from "@/lib/profile";
 
 interface Metric {
   label: string;
@@ -97,11 +81,17 @@ export function HomeClient({ profile, testimonials, expertiseItems }: HomeClient
     ? secondaryItems.filter(item => item.tags?.includes(selectedTag))
     : secondaryItems;
 
+  const experienceDisplay = profile.yearsOfExperience
+    ? (profile.yearsOfExperience.toLowerCase().includes("year")
+        ? profile.yearsOfExperience
+        : `${profile.yearsOfExperience} Years`)
+    : "5+ Years";
+
   const keyStats = [
-    { label: "Experience", value: "4+ Years", sub: "Enterprise Mobile & Web" },
-    { label: "Daily Transactions", value: "100K+", sub: "High-Throughput Systems" },
-    { label: "Active Users", value: "10K+", sub: "Offline-First Architectures" },
-    { label: "Enterprise Clients", value: "Fortune 500", sub: "Unilever, BAT, Nestlé, Nagad" },
+    { label: "Experience", value: experienceDisplay, sub: "Enterprise Mobile & Web" },
+    { label: "Daily Transactions", value: profile.statsTransactions || "100K+", sub: "High-Throughput Systems" },
+    { label: "Active Users", value: profile.statsUsers || "10K+", sub: "Offline-First Architectures" },
+    { label: "Enterprise Clients", value: profile.statsClients || "Fortune 500", sub: profile.statsClientsDetail || "Unilever, BAT, Nestlé, Nagad" },
   ];
 
   return (
@@ -161,7 +151,7 @@ export function HomeClient({ profile, testimonials, expertiseItems }: HomeClient
                 key={i}
                 dangerouslySetInnerHTML={{
                   __html: para.replace(
-                    /(React Native|JavaScript|React\.js|Next\.js|TypeScript|Node\.js|MongoDB|PostgreSQL|Unilever|BAT|Nestlé|Nagad|offline-first architecture|10,000\+ users|100,000\+ daily transactions|4\+ years)/g,
+                    /(React Native|JavaScript|React\.js|Next\.js|TypeScript|Node\.js|MongoDB|PostgreSQL|Unilever|BAT|Nestlé|Nagad|offline-first architecture|10,000\+ users|100,000\+ daily transactions|\d+\+?\s*years?)/gi,
                     '<span class="text-primary font-semibold bg-primary/10 px-1.5 py-0.5 rounded border border-primary/20">$1</span>',
                   ),
                 }}
@@ -213,7 +203,7 @@ export function HomeClient({ profile, testimonials, expertiseItems }: HomeClient
             className="absolute -bottom-3 -left-3 bg-card/90 border border-border/80 backdrop-blur-xl px-3.5 py-1.5 rounded-2xl shadow-lg flex items-center gap-2"
           >
             <Zap className="w-4 h-4 text-primary" />
-            <span className="text-xs font-mono font-bold text-foreground">Offline-First Architect</span>
+            <span className="text-xs font-mono font-bold text-foreground">{profile.heroBadge || "Offline-First Architect"}</span>
           </motion.div>
         </motion.div>
       </motion.section>

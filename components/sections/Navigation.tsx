@@ -15,8 +15,9 @@ import {
 } from "lucide-react";
 import { BrandLogo } from "@/components/ui/BrandLogo";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import type { Profile } from "@/lib/profile";
 
-export function Navigation() {
+export function Navigation({ profile }: { profile?: Profile | null }) {
   const pathname = usePathname();
 
   if (pathname?.startsWith("/admin")) {
@@ -38,7 +39,7 @@ export function Navigation() {
       {/* Desktop Floating Pill Navigation Bar */}
       <header className="fixed top-0 left-0 right-0 z-40 hidden lg:block px-6 pt-4">
         <nav className="max-w-5xl mx-auto px-5 py-2.5 rounded-2xl bg-card/80 dark:bg-[#0B0E14]/80 border border-border/80 shadow-md backdrop-blur-xl flex items-center justify-between transition-colors">
-          <BrandLogo size="md" />
+          <BrandLogo size="md" name={profile?.name} tagline={profile?.title} />
 
           {/* Nav Links with Framer Motion Sliding Pill Indicator */}
           <div className="flex items-center gap-1 p-1 bg-muted/50 dark:bg-card/40 rounded-xl border border-border/50">

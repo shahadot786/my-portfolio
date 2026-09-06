@@ -1,4 +1,6 @@
 import { NextResponse } from "next/server";
+import connectDB from "@/lib/db";
+import { Profile } from "@/lib/models";
 
 export interface MediumArticle {
   title: string;
@@ -12,16 +14,13 @@ export interface MediumArticle {
   guid: string;
 }
 
-const MEDIUM_USERNAME =
-  process.env.NEXT_PUBLIC_MEDIUM_USERNAME || "shrhossain786";
-const MEDIUM_RSS_URL = `https://medium.com/feed/@${MEDIUM_USERNAME}`;
-
-// Cache duration: 24 hours
-const CACHE_DURATION = 24 * 60 * 60 * 1000;
+// Cache duration: 6 hours
+const CACHE_DURATION = 6 * 60 * 60 * 1000;
 let cachedArticles: MediumArticle[] | null = null;
 let cacheTimestamp: number = 0;
+let cachedUsername: string = '';
 
-function extractThumbnail(content: string, itemContent: string): string {
+ function extractThumbnail(content: string, itemContent: string): string {
   // 1. Try media:content tag in RSS item
   const mediaMatch = itemContent.match(/<media:content[^>]+url="([^">]+)"/i);
   if (mediaMatch && mediaMatch[1]) {
@@ -128,9 +127,16 @@ function parseXMLToJSON(xmlString: string): MediumArticle[] {
 
 export async function GET() {
   try {
-    // Check cache
+    // Read mediumUsername from DB
+    await connectDB();
+    const profile = await Profile.findOne().select('mediumUsername').sort({ createdAt: -1 }).lean();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const mediumUsername = (profile as any)?.mediumUsername || process.env.NEXT_PUBLIC_MEDIUM_USERNAME || 'shrhossain786';
+    const mediumRssUrl = `https://medium.com/feed/@${mediumUsername}`;
+
+    // Check cache — bust if username changed
     const now = Date.now();
-    if (cachedArticles && now - cacheTimestamp < CACHE_DURATION) {
+    if (cachedArticles && cachedUsername === mediumUsername && now - cacheTimestamp < CACHE_DURATION) {
       return NextResponse.json({
         articles: cachedArticles,
         cached: true,
@@ -139,7 +145,7 @@ export async function GET() {
     }
 
     // Fetch RSS feed
-    const response = await fetch(MEDIUM_RSS_URL, {
+    const response = await fetch(mediumRssUrl, {
       headers: {
         Accept: "application/rss+xml, application/xml, text/xml",
         "User-Agent": "Mozilla/5.0 (compatible; Portfolio/1.0)",
@@ -159,6 +165,7 @@ export async function GET() {
     // Update cache
     cachedArticles = articles;
     cacheTimestamp = now;
+    cachedUsername = mediumUsername;
 
     return NextResponse.json({
       articles,
