@@ -42,7 +42,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="dark min-h-screen bg-black flex items-center justify-center">
         <Loader className="animate-spin text-primary" size={32} />
       </div>
     );
@@ -50,13 +50,13 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   // If we're on login page, just render children without sidebar (handle trailing slash)
   if (pathname === '/admin/login' || pathname === '/admin/login/') {
-    return <>{children}</>;
+    return <div className="dark min-h-screen bg-zinc-950 text-white">{children}</div>;
   }
 
   if (!authorized) return null;
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-white">
+    <div className="dark min-h-screen bg-zinc-950 text-white">
       <AdminSidebar />
       <main className="ml-64 p-8 min-h-screen">
         <div className="max-w-6xl mx-auto">

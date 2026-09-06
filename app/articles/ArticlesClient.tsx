@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 import { Calendar, Clock, ExternalLink, RefreshCw, AlertCircle, Newspaper } from "lucide-react";
 import { TrackedLink } from "@/components/ui/TrackedLink";
 
@@ -39,7 +40,7 @@ export default function ArticlesClient() {
         throw new Error(data.error || "Failed to fetch articles");
       }
 
-      setArticles(data.articles);
+      setArticles(data.articles || []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load posts");
     } finally {
@@ -60,25 +61,23 @@ export default function ArticlesClient() {
     });
   };
 
-  const estimateReadTime = (description: string): number => {
+  const estimateReadTime = (text: string): number => {
     const wordsPerMinute = 200;
-    const words = description.split(/\s+/).length;
-    return Math.max(3, Math.ceil((words * 5) / wordsPerMinute));
+    const words = text.trim().split(/\s+/).length;
+    return Math.max(1, Math.ceil(words / wordsPerMinute));
   };
 
   // Loading State
   if (loading) {
     return (
-      <div className="grid grid-cols-1 gap-4">
-        {[...Array(3)].map((_, i) => (
-          <div key={i} className="card animate-pulse border border-zinc-800 p-6 rounded-2xl bg-zinc-950/50">
-            <div className="flex gap-4">
-              <div className="w-24 h-24 bg-zinc-800 rounded-lg flex-shrink-0" />
-              <div className="flex-1 space-y-3">
-                <div className="h-5 bg-zinc-800 rounded w-3/4" />
-                <div className="h-4 bg-zinc-800 rounded w-full" />
-                <div className="h-4 bg-zinc-800 rounded w-1/2" />
-              </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {[...Array(4)].map((_, i) => (
+          <div key={i} className="glass-card animate-pulse p-6 rounded-2xl">
+            <div className="w-full h-44 bg-muted/60 rounded-xl mb-4" />
+            <div className="space-y-2.5">
+              <div className="h-4 bg-muted/80 rounded w-1/3" />
+              <div className="h-6 bg-muted rounded w-3/4" />
+              <div className="h-3.5 bg-muted/60 rounded w-full" />
             </div>
           </div>
         ))}
@@ -89,11 +88,14 @@ export default function ArticlesClient() {
   // Error State
   if (error) {
     return (
-      <div className="card text-center py-12 border border-zinc-800 rounded-2xl bg-zinc-950/20">
-        <AlertCircle className="w-10 h-10 text-red-400 mx-auto mb-4" />
-        <h3 className="text-white font-medium mb-2">Failed to Load Articles</h3>
-        <p className="text-zinc-400 text-sm mb-4">{error}</p>
-        <button onClick={fetchArticles} className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-800 hover:bg-zinc-700 rounded-lg text-sm text-white transition-colors">
+      <div className="glass-card text-center py-12 p-6 rounded-2xl">
+        <AlertCircle className="w-10 h-10 text-red-400 mx-auto mb-3" />
+        <h3 className="text-foreground font-bold text-lg mb-1">Failed to Load Articles</h3>
+        <p className="text-muted-foreground text-xs mb-4">{error}</p>
+        <button
+          onClick={fetchArticles}
+          className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground font-bold rounded-xl text-xs hover:opacity-90 transition-opacity"
+        >
           <RefreshCw size={14} />
           Try Again
         </button>
@@ -104,76 +106,82 @@ export default function ArticlesClient() {
   // Empty State
   if (articles.length === 0) {
     return (
-      <div className="card text-center py-12 border border-zinc-800 rounded-2xl bg-zinc-950/20">
-        <Newspaper className="w-10 h-10 text-zinc-500 mx-auto mb-4" />
-        <h3 className="text-white font-medium mb-2">No Articles Yet</h3>
-        <p className="text-zinc-400 text-sm">Check back soon for new articles.</p>
+      <div className="glass-card text-center py-16 rounded-2xl">
+        <Newspaper className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
+        <h3 className="text-foreground font-bold text-lg mb-1">No Articles Published Yet</h3>
+        <p className="text-muted-foreground text-xs font-mono">Check back soon for engineering deep dives and tutorials.</p>
       </div>
     );
   }
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-      {articles.map((article) => (
-        <TrackedLink
-          key={article.guid}
-          href={article.link}
-          path="/articles"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group glass-card p-6 flex flex-col justify-between hover:border-[#4edea3] transition-all"
+      {articles.map((article, idx) => (
+        <motion.div
+          key={article.guid || idx}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: idx * 0.08 }}
         >
-          <div>
-            {/* Full Article Cover Image */}
-            {article.thumbnail && (
-              <div className="mb-4 relative w-full h-44 sm:h-52 rounded-xl overflow-hidden border border-[#3c4a42] bg-[#09100c]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={article.thumbnail}
-                  alt={article.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
-            )}
+          <TrackedLink
+            href={article.link}
+            path="/articles"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group glass-card p-6 sm:p-7 flex flex-col justify-between h-full hover:border-primary/50 transition-all"
+          >
+            <div>
+              {/* Full Article Cover Image */}
+              {article.thumbnail && (
+                <div className="mb-4 relative w-full h-44 sm:h-52 rounded-xl overflow-hidden border border-border bg-card">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={article.thumbnail}
+                    alt={article.title}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+              )}
 
-            {/* Meta header */}
-            <div className="flex items-center justify-between text-xs font-mono text-[#94A3B8] mb-3">
-              <span className="flex items-center gap-1.5">
-                <Calendar size={13} className="text-[#4edea3]" />
-                {formatDate(article.pubDate)}
-              </span>
-              <span className="flex items-center gap-1.5">
-                <Clock size={13} />
-                {estimateReadTime(article.description)} min read
-              </span>
-            </div>
-
-            {/* Title */}
-            <h2 className="text-[#dde4dd] font-bold text-xl leading-snug group-hover:text-[#4edea3] transition-colors mb-3">
-              {article.title}
-            </h2>
-
-            {/* Description */}
-            <p className="text-[#bbcabf] text-sm line-clamp-3 leading-relaxed mb-6">
-              {article.description}
-            </p>
-          </div>
-
-          {/* Categories & Link */}
-          <div className="flex items-center justify-between pt-4 border-t border-[#3c4a42] mt-auto">
-            <div className="flex flex-wrap gap-1.5">
-              {article.categories.slice(0, 3).map((category, i) => (
-                <span key={i} className="text-xs font-mono text-[#4cd7f6] bg-[#03b5d3]/10 border border-[#4cd7f6]/30 px-2.5 py-1 rounded-md">
-                  {category}
+              {/* Meta header */}
+              <div className="flex items-center justify-between text-xs font-mono text-muted-foreground mb-3">
+                <span className="flex items-center gap-1.5">
+                  <Calendar size={13} className="text-primary" />
+                  {formatDate(article.pubDate)}
                 </span>
-              ))}
+                <span className="flex items-center gap-1.5">
+                  <Clock size={13} />
+                  {estimateReadTime(article.description)} min read
+                </span>
+              </div>
+
+              {/* Title */}
+              <h2 className="text-foreground font-bold text-lg sm:text-xl leading-snug group-hover:text-primary transition-colors mb-3">
+                {article.title}
+              </h2>
+
+              {/* Description */}
+              <p className="text-muted-foreground text-xs sm:text-sm line-clamp-3 leading-relaxed mb-6">
+                {article.description}
+              </p>
             </div>
 
-            <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-[#4edea3] group-hover:translate-x-1 transition-transform">
-              Read <ExternalLink size={12} />
-            </span>
-          </div>
-        </TrackedLink>
+            {/* Categories & Link */}
+            <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
+              <div className="flex flex-wrap gap-1.5">
+                {article.categories?.slice(0, 3).map((category, i) => (
+                  <span key={i} className="text-[11px] font-mono text-secondary bg-secondary/10 border border-secondary/30 px-2.5 py-0.5 rounded-lg">
+                    {category}
+                  </span>
+                ))}
+              </div>
+
+              <span className="inline-flex items-center gap-1 text-xs font-mono font-bold text-primary group-hover:translate-x-1 transition-transform shrink-0 ml-2">
+                Read Article <ExternalLink size={12} />
+              </span>
+            </div>
+          </TrackedLink>
+        </motion.div>
       ))}
     </div>
   );
