@@ -9,7 +9,7 @@ export function BackToTop() {
 
   useEffect(() => {
     const toggleVisibility = () => {
-      if (window.pageYOffset > 300) {
+      if (window.scrollY > 350) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -17,7 +17,6 @@ export function BackToTop() {
     };
 
     window.addEventListener("scroll", toggleVisibility);
-
     return () => window.removeEventListener("scroll", toggleVisibility);
   }, []);
 
@@ -32,16 +31,16 @@ export function BackToTop() {
     <AnimatePresence>
       {isVisible && (
         <motion.button
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.8, y: 10 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.8, y: 10 }}
+          whileHover={{ scale: 1.08 }}
+          whileTap={{ scale: 0.92 }}
           onClick={scrollToTop}
-          className="fixed bottom-6 left-6 z-50 w-12 h-12 bg-gradient-primary rounded-full shadow-lg flex items-center justify-center hover:shadow-xl transition-shadow"
-          aria-label="Back to top"
+          className="fixed bottom-6 left-6 z-40 w-10 h-10 bg-card/80 hover:bg-card border border-border hover:border-primary/50 text-foreground rounded-xl shadow-lg backdrop-blur-xl flex items-center justify-center transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          aria-label="Scroll back to top"
         >
-          <ArrowUp size={20} className="text-foreground" />
+          <ArrowUp size={18} className="text-primary" />
         </motion.button>
       )}
     </AnimatePresence>

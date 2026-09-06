@@ -2,13 +2,25 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Briefcase, FolderOpen, Code2, Award, Newspaper, Mail } from "lucide-react";
+import { motion } from "framer-motion";
+import { 
+  Home, 
+  Briefcase, 
+  FolderOpen, 
+  Code2, 
+  Award, 
+  Newspaper, 
+  Mail,
+  Sparkles
+} from "lucide-react";
 import { BrandLogo } from "@/components/ui/BrandLogo";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
+import type { Profile } from "@/lib/profile";
 
-export function Navigation() {
+export function Navigation({ profile }: { profile?: Profile | null }) {
   const pathname = usePathname();
 
-  if (pathname.startsWith("/admin")) {
+  if (pathname?.startsWith("/admin")) {
     return null;
   }
 
@@ -24,69 +36,97 @@ export function Navigation() {
 
   return (
     <>
-      {/* Desktop Top Navigation Bar */}
-      <nav className="fixed top-0 w-full z-50 bg-[#0e1511]/90 backdrop-blur-md border-b border-[#3c4a42] hidden lg:block">
-        <div className="flex justify-between items-center px-8 py-3.5 max-w-5xl mx-auto">
-          <BrandLogo size="md" />
-          
-          <div className="flex items-center gap-6">
+      {/* Desktop Floating Pill Navigation Bar */}
+      <header className="fixed top-0 left-0 right-0 z-40 hidden lg:block px-6 pt-4">
+        <nav className="max-w-5xl mx-auto px-5 py-2.5 rounded-2xl bg-card/80 dark:bg-[#0B0E14]/80 border border-border/80 shadow-md backdrop-blur-xl flex items-center justify-between transition-colors">
+          <BrandLogo size="md" name={profile?.name} tagline={profile?.title} />
+
+          {/* Nav Links with Framer Motion Sliding Pill Indicator */}
+          <div className="flex items-center gap-1 p-1 bg-muted/50 dark:bg-card/40 rounded-xl border border-border/50">
             {navItems.map((item) => {
               const isActive = item.href === "/"
                 ? pathname === "/"
-                : pathname.startsWith(item.href);
+                : pathname?.startsWith(item.href);
+
               return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`text-sm font-medium transition-colors hover:text-[#4edea3] ${
-                    isActive ? "text-[#4edea3] font-semibold" : "text-[#bbcabf]"
+                  className={`relative px-3.5 py-1.5 text-xs font-medium rounded-lg transition-colors z-10 ${
+                    isActive
+                      ? "text-primary font-bold"
+                      : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
+                  {isActive && (
+                    <motion.span
+                      layoutId="active-desktop-nav-indicator"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      className="absolute inset-0 bg-background/90 dark:bg-[#161d19] border border-border rounded-lg shadow-sm -z-10"
+                    />
+                  )}
                   {item.label}
                 </Link>
               );
             })}
           </div>
 
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center bg-[#10b981] text-[#0e1511] font-bold text-xs rounded-lg px-4 py-2 hover:bg-[#4edea3] transition-colors active:scale-95 shadow-[0_0_15px_rgba(78,222,163,0.2)]"
-          >
-            Hire Me
-          </Link>
-        </div>
-      </nav>
+          {/* Action CTAs: Theme Toggle & Contact Button */}
+          <div className="flex items-center gap-2.5">
+            <ThemeToggle />
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground font-bold text-xs rounded-xl px-4 py-2 hover:opacity-90 transition-all active:scale-95 shadow-sm shadow-primary/20"
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Hire Me</span>
+            </Link>
+          </div>
+        </nav>
+      </header>
 
-      {/* Bottom Tab Navigation Bar (Mobile & Tablet, icon-only) */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 lg:hidden bg-[#0e1511]/95 border-t border-[#3c4a42] backdrop-blur-md pb-safe">
-        <div className="flex items-center justify-around h-16 px-2">
-          {navItems.map((item) => {
-            const isActive = item.href === "/"
-              ? pathname === "/"
-              : pathname.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                aria-label={item.label}
-                title={item.label}
-                className={`relative flex flex-col items-center justify-center w-full h-full transition-all ${
-                  isActive ? "text-[#4edea3] font-semibold" : "text-[#bbcabf] hover:text-[#dde4dd]"
-                }`}
-              >
-                <item.icon
-                  size={22}
-                  className={isActive ? "text-[#4edea3] scale-110 transition-transform" : "text-[#bbcabf]"}
-                />
-                <span className="sr-only md:not-sr-only md:mt-1 md:text-[10px] md:font-mono md:tracking-wider md:uppercase">
-                  {item.label}
-                </span>
-                {isActive && (
-                  <span className="absolute bottom-1 w-1.5 h-1.5 rounded-full bg-[#4edea3] shadow-[0_0_8px_rgba(78,222,163,0.8)]" />
-                )}
-              </Link>
-            );
-          })}
+      {/* Bottom Floating Navigation Dock (Mobile & Tablet) */}
+      <nav className="fixed bottom-3 inset-x-3 z-40 lg:hidden">
+        <div className="max-w-md mx-auto bg-card/90 dark:bg-[#0B0E14]/90 border border-border/80 backdrop-blur-2xl rounded-2xl shadow-xl p-1.5 flex items-center justify-between">
+          <div className="flex items-center justify-around flex-1">
+            {navItems.map((item) => {
+              const isActive = item.href === "/"
+                ? pathname === "/"
+                : pathname?.startsWith(item.href);
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  aria-label={item.label}
+                  title={item.label}
+                  className={`relative flex flex-col items-center justify-center p-2 rounded-xl transition-all ${
+                    isActive ? "text-primary font-semibold" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {isActive && (
+                    <motion.span
+                      layoutId="active-mobile-nav-indicator"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      className="absolute inset-0 bg-primary/10 rounded-xl -z-10"
+                    />
+                  )}
+                  <item.icon
+                    size={20}
+                    className={isActive ? "text-primary scale-110 transition-transform" : "text-muted-foreground"}
+                  />
+                  <span className="text-[9px] font-mono mt-0.5 tracking-tight">
+                    {item.label}
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Theme Toggle in Mobile Dock */}
+          <div className="pl-1.5 border-l border-border/60">
+            <ThemeToggle className="w-8 h-8 rounded-lg" />
+          </div>
         </div>
       </nav>
     </>

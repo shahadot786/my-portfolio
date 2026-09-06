@@ -4,6 +4,7 @@ export interface PageContent {
   slug: string;
   title: string;
   subtitle: string;
+  badge?: string;
   seo: {
     title: string;
     description: string;

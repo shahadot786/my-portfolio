@@ -31,11 +31,11 @@ export default async function ContactPage() {
   return (
     <div className="container-custom py-8 space-y-8">
       <div>
-        <span className="inline-block px-3 py-1 rounded-full bg-[#4edea3]/10 border border-[#4edea3]/30 text-[#4edea3] font-mono text-xs font-medium mb-3">
-          Communication Channels & Collaboration
+        <span className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-xs font-medium mb-3">
+          {pageContent?.badge || 'Communication Channels & Collaboration'}
         </span>
-        <h1 className="text-4xl font-extrabold text-[#dde4dd] tracking-tight">{pageContent?.title || 'Get in Touch'}</h1>
-        <p className="text-[#bbcabf] mt-2 text-base max-w-xl leading-relaxed">
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">{pageContent?.title || 'Get in Touch'}</h1>
+        <p className="text-muted-foreground mt-2 text-base max-w-xl leading-relaxed">
           {pageContent?.subtitle || 'Have a project in mind, need technical advisory, or want to collaborate? Reach out directly.'}
         </p>
       </div>

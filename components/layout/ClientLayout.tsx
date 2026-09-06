@@ -4,9 +4,17 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Navigation } from "@/components/sections/Navigation";
 import { Footer } from "@/components/sections/Footer";
+import { BackToTop } from "@/components/BackToTop";
+import { PortfolioAssistant } from "@/components/ai/PortfolioAssistant";
 import { API_BASE_URL } from "@/config/api";
+import type { Profile } from "@/lib/profile";
 
-export function ClientLayout({ children }: { children: React.ReactNode }) {
+interface ClientLayoutProps {
+  children: React.ReactNode;
+  profile?: Profile | null;
+}
+
+export function ClientLayout({ children, profile }: ClientLayoutProps) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith("/admin");
 
@@ -17,8 +25,8 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
         const payload = {
           path: pathname,
           type: 'view',
-          language: navigator.language || 'en-US',
-          screen: `${window.screen.width}x${window.screen.height}`
+          language: typeof navigator !== 'undefined' ? (navigator.language || 'en-US') : 'en-US',
+          screen: typeof window !== 'undefined' ? `${window.screen.width}x${window.screen.height}` : 'unknown'
         };
 
         fetch(`${API_BASE_URL}/analytics`, {
@@ -30,8 +38,15 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       return () => clearTimeout(timer);
     }
   }, [pathname, isAdmin]);
+
   const isImanerBagan = pathname?.startsWith("/imaner-bagan");
   const hideNav = isAdmin || isImanerBagan;
+
+  const showAI = profile?.isAiAssistantEnabled !== false;
+  const starterPrompts = profile?.aiStarterPrompts?.length
+    ? profile.aiStarterPrompts
+    : undefined;
+  const welcomeMessage = profile?.aiWelcomeMessage || undefined;
 
   if (hideNav) {
     return <>{children}</>;
@@ -39,9 +54,17 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <Navigation />
-      <main className="min-h-screen pt-24 pb-12">{children}</main>
-      <Footer />
+      <Navigation profile={profile} />
+      <main className="min-h-screen pt-24 pb-16">{children}</main>
+      <Footer profile={profile} />
+      <BackToTop />
+      {showAI && (
+        <PortfolioAssistant
+          starterPrompts={starterPrompts}
+          welcomeMessage={welcomeMessage}
+        />
+      )}
     </>
   );
 }
+

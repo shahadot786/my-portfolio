@@ -7,11 +7,16 @@ interface BrandLogoProps {
   size?: "sm" | "md" | "lg";
   showTagline?: boolean;
   className?: string;
+  name?: string;
+  tagline?: string;
 }
 
-export function BrandLogo({ size = "md", showTagline = false, className = "" }: BrandLogoProps) {
+export function BrandLogo({ size = "md", showTagline = false, className = "", name, tagline }: BrandLogoProps) {
   const isSm = size === "sm";
   const isLg = size === "lg";
+
+  const displayName = name || "Shahadot Hossain";
+  const displayTagline = tagline || "Software Architect";
 
   return (
     <Link href="/" className={`inline-flex items-center gap-3 group ${className}`}>
@@ -27,17 +32,19 @@ export function BrandLogo({ size = "md", showTagline = false, className = "" }: 
       {/* Typography */}
       <div className="flex flex-col">
         <span
-          className={`font-signature font-normal text-[#ffffff] group-hover:text-[#6ffbbe] transition-colors leading-none drop-shadow-[0_0_8px_rgba(78,222,163,0.25)] ${isSm ? "text-2xl" : isLg ? "text-4xl" : "text-3xl"
+          className={`font-signature font-normal text-foreground group-hover:text-primary transition-colors leading-none drop-shadow-[0_0_8px_rgba(78,222,163,0.25)] ${isSm ? "text-2xl" : isLg ? "text-4xl" : "text-3xl"
             }`}
         >
-          Shahadot Hossain
+          {displayName}
         </span>
         {showTagline && (
-          <span className="text-[10px] font-mono text-[#94A3B8] tracking-widest uppercase mt-0.5">
-            Software Architect
+          <span className="text-[10px] font-mono text-muted-foreground tracking-widest uppercase mt-0.5">
+            {displayTagline}
           </span>
         )}
       </div>
     </Link>
   );
 }
+
+
