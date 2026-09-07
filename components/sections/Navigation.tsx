@@ -38,18 +38,9 @@ export function Navigation({ profile }: { profile?: Profile | null }) {
     <>
       {/* Mobile Top Header */}
       <header className="fixed top-0 left-0 right-0 z-40 lg:hidden px-4 pt-3 pb-2.5 bg-card/90 dark:bg-[#0B0E14]/90 border-b border-border/60 backdrop-blur-xl transition-colors">
-        <div className="flex items-center justify-between max-w-lg mx-auto">
+        <div className="flex items-center justify-between gap-4 max-w-lg mx-auto">
           <BrandLogo size="sm" name={profile?.name} tagline={profile?.title} />
-          <div className="flex items-center gap-2 shrink-0">
-            <ThemeToggle className="w-8 h-8 rounded-lg" />
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-1.5 bg-primary text-primary-foreground font-bold text-xs rounded-xl px-3 py-1.5 hover:opacity-90 transition-all active:scale-95 shadow-sm shadow-primary/20 shrink-0 whitespace-nowrap"
-            >
-              <Sparkles className="w-3.5 h-3.5 shrink-0" />
-              <span>Hire Me</span>
-            </Link>
-          </div>
+          <ThemeToggle className="w-8 h-8 rounded-lg shrink-0" />
         </div>
       </header>
 
