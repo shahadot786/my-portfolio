@@ -44,17 +44,6 @@ const nextConfig = {
       },
     ],
   },
-  async redirects() {
-    return [
-      // www → non-www canonical redirect (prevents duplicate content)
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'www.shahadot.dev' }],
-        destination: 'https://shahadot.dev/:path*',
-        permanent: true,
-      },
-    ];
-  },
   async headers() {
     return [
       {
