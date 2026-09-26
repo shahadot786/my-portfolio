@@ -1,27 +1,43 @@
 import ContactClient from "./ContactClient";
 import { getPageContent } from "@/lib/pages";
 import { getProfile } from "@/lib/profile";
+import type { Metadata } from "next";
 
-export const metadata = {
-  title: "Contact - MD. Shahadot Hossain",
-  description:
-    "Get in touch with MD. Shahadot Hossain for software development projects, collaborations, or inquiries.",
-  keywords: [
-    "Contact Shahadot Hossain",
-    "Hire React Native Developer",
-    "Software Engineer Bangladesh Contact",
-    "Freelance Mobile Developer",
-    "Project Collaboration",
-    "Enterprise Software Inquiry",
-    "Tech Consultant Bangladesh",
-    "Professional Software Services",
-  ],
-  alternates: {
-    canonical: "https://shahadot-hossain.vercel.app/contact/",
-  },
-};
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://shahadot.dev";
 
 export const revalidate = 86400; // Revalidate static cache every 24 hours
+
+export async function generateMetadata(): Promise<Metadata> {
+  const pageContent = await getPageContent("contact");
+  const title = pageContent?.title || "Get in Touch";
+  const description =
+    pageContent?.subtitle ||
+    "Get in touch with MD. Shahadot Hossain for software development projects, collaborations, or inquiries.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "Contact Shahadot Hossain",
+      "Hire React Native Developer",
+      "Software Engineer Bangladesh Contact",
+      "Freelance Mobile Developer",
+      "Project Collaboration",
+      "Enterprise Software Inquiry",
+      "Tech Consultant Bangladesh",
+      "Professional Software Services",
+    ],
+    alternates: {
+      canonical: `${SITE_URL}/contact/`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/contact/`,
+      type: "website",
+    },
+  };
+}
 
 export default async function ContactPage() {
   const [pageContent, profile] = await Promise.all([

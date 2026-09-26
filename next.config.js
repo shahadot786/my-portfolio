@@ -44,6 +44,17 @@ const nextConfig = {
       },
     ],
   },
+  async redirects() {
+    return [
+      // www → non-www canonical redirect (prevents duplicate content)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.shahadot.dev' }],
+        destination: 'https://shahadot.dev/:path*',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
@@ -60,6 +71,14 @@ const nextConfig = {
           {
             key: 'X-XSS-Protection',
             value: '1; mode=block',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
           },
         ],
       },

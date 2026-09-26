@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
 const greatVibes = Great_Vibes({ weight: "400", subsets: ["latin"], variable: "--font-signature" });
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://shahadot-hossain.vercel.app";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://shahadot.dev";
 
 const FALLBACK_META = {
   title: "MD. Shahadot Hossain - Software Engineer",
@@ -137,31 +137,60 @@ export default async function RootLayout({
         "https://youtube.com/@shahadot786",
       ];
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name,
-    url: SITE_URL,
-    image: avatarUrl,
-    sameAs,
-    jobTitle: profile?.title || "Software Engineer",
-    ...(profile?.currentCompany
-      ? {
-          worksFor: {
-            "@type": "Organization",
-            name: profile.currentCompany,
-          },
-        }
-      : {}),
-    description:
-      profile?.bio?.[0] ||
-      "Software Engineer specializing in React Native and Enterprise Mobile Solutions.",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: profile?.location?.split(",")?.[0] || "Dhaka",
-      addressCountry: "BD",
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name,
+      url: SITE_URL,
+      image: avatarUrl,
+      sameAs,
+      jobTitle: profile?.title || "Software Engineer",
+      ...(profile?.currentCompany
+        ? {
+            worksFor: {
+              "@type": "Organization",
+              name: profile.currentCompany,
+            },
+          }
+        : {}),
+      description:
+        profile?.bio?.[0] ||
+        "Software Engineer specializing in React Native and Enterprise Mobile Solutions.",
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: profile?.location?.split(",")?.[0] || "Dhaka",
+        addressCountry: "BD",
+      },
+      knowsAbout: [
+        "React Native",
+        "Mobile App Development",
+        "TypeScript",
+        "Node.js",
+        "Next.js",
+        "Offline-first Architecture",
+        "Enterprise Software",
+        "Full Stack Development",
+      ],
     },
-  };
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      name,
+      url: SITE_URL,
+      description:
+        profile?.seo?.description ||
+        "Software Engineer specializing in React Native and Enterprise Mobile Solutions.",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${SITE_URL}/articles?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+    },
+  ];
 
   return (
     <html lang="en" suppressHydrationWarning>

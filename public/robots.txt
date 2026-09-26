@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /admin/*
+Disallow: /admin/
+Disallow: /tracker/
+Disallow: /api/
 
-Sitemap: https://shahadot-hossain.vercel.app/sitemap.xml
+Sitemap: https://shahadot.dev/sitemap.xml

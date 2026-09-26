@@ -2,8 +2,42 @@ import { API_BASE_URL } from "@/config/api";
 import { getPageContent } from "@/lib/pages";
 import { getProfile } from "@/lib/profile";
 import WorkClient from "./WorkClient";
+import type { Metadata } from "next";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://shahadot.dev";
 
 export const revalidate = 86400; // Revalidate static cache every 24 hours
+
+export async function generateMetadata(): Promise<Metadata> {
+  const pageContent = await getPageContent("work");
+  const title = pageContent?.title || "Work Experience";
+  const description =
+    pageContent?.subtitle ||
+    "Professional experience of MD. Shahadot Hossain — Software Engineer with 5+ years building enterprise mobile and web applications for Unilever, BAT, Nestlé, and Nagad.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "Shahadot Hossain Work Experience",
+      "React Native Engineer Career",
+      "Software Engineer Bangladesh",
+      "Enterprise Mobile Developer",
+      "Unilever App Developer",
+      "Nagad App Developer",
+      "Full Stack Career",
+    ],
+    alternates: {
+      canonical: `${SITE_URL}/work/`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/work/`,
+      type: "website",
+    },
+  };
+}
 
 interface Experience {
   _id: string;

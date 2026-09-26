@@ -1,7 +1,42 @@
 import ArticlesClient from "./ArticlesClient";
 import { getPageContent } from "@/lib/pages";
+import type { Metadata } from "next";
 
-export const revalidate = 86400; // ISR revalidate every 24 hours (86400 seconds)
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://shahadot.dev";
+
+export const revalidate = 86400;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const pageContent = await getPageContent("articles");
+  const title = pageContent?.title || "Technical Writings";
+  const description =
+    pageContent?.subtitle ||
+    "Deep dives into software architecture, scalable mobile systems, and engineering leadership by MD. Shahadot Hossain.";
+
+  return {
+    title,
+    description,
+    keywords: [
+      "React Native Articles",
+      "Mobile Development Blog",
+      "TypeScript Tutorials",
+      "Software Architecture",
+      "Engineering Leadership",
+      "Shahadot Hossain Blog",
+      "Offline-first Development",
+      "Next.js Articles",
+    ],
+    alternates: {
+      canonical: `${SITE_URL}/articles/`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `${SITE_URL}/articles/`,
+      type: "website",
+    },
+  };
+}
 
 export default async function ArticlesPage() {
   const pageContent = await getPageContent('articles');
