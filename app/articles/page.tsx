@@ -1,4 +1,5 @@
 import ArticlesClient from "./ArticlesClient";
+import { ArticlesTabs } from "./ArticlesTabs";
 import { getPageContent } from "@/lib/pages";
 import type { Metadata } from "next";
 
@@ -8,10 +9,10 @@ export const revalidate = 86400;
 
 export async function generateMetadata(): Promise<Metadata> {
   const pageContent = await getPageContent("articles");
-  const title = pageContent?.title || "Technical Writings";
+  const title = pageContent?.title || "Knowledge Hub";
   const description =
     pageContent?.subtitle ||
-    "Deep dives into software architecture, scalable mobile systems, and engineering leadership by MD. Shahadot Hossain.";
+    "Articles, in-depth guides and public learning trackers on software architecture, mobile systems and engineering by MD. Shahadot Hossain.";
 
   return {
     title,
@@ -25,6 +26,8 @@ export async function generateMetadata(): Promise<Metadata> {
       "Shahadot Hossain Blog",
       "Offline-first Development",
       "Next.js Articles",
+      "Learning Tracker",
+      "Developer Guides",
     ],
     alternates: {
       canonical: `${SITE_URL}/articles/`,
@@ -44,15 +47,15 @@ export default async function ArticlesPage() {
     <div className="container-custom py-8 space-y-8">
       <div>
         <span className="inline-block px-3 py-1 rounded-full bg-primary/10 border border-primary/30 text-primary font-mono text-xs font-medium mb-3">
-          {pageContent?.badge || 'Insights, Guides & Engineering Stories'}
+          {pageContent?.badge || 'Articles, Guides & Learning Trackers'}
         </span>
-        <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">{pageContent?.title || 'Technical Writings'}</h1>
+        <h1 className="text-4xl sm:text-5xl font-extrabold text-foreground tracking-tight">{pageContent?.title || 'Knowledge Hub'}</h1>
         <p className="text-muted-foreground mt-2 text-base max-w-xl leading-relaxed">
-          {pageContent?.subtitle || 'Deep dives into software architecture, scalable mobile systems, and engineering leadership.'}
+          {pageContent?.subtitle || 'Articles, in-depth guides and public learning trackers on software architecture, mobile systems and engineering.'}
         </p>
       </div>
 
-      <ArticlesClient />
+      <ArticlesTabs articles={<ArticlesClient />} />
     </div>
   );
 }

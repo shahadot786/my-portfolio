@@ -1,13 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Tracker } from '@/lib/models';
 import { withErrorHandling } from '@/lib/api-utils';
-import { withAdmin } from '@/lib/auth-utils';
+import { withAdmin, getSession } from '@/lib/auth-utils';
 
 // Public: Get full tracker by slug
 export const GET = withErrorHandling(async (req: NextRequest, { params }: { params: { slug: string } }) => {
     const tracker = await Tracker.findOne({ slug: params.slug });
     if (!tracker) {
         return NextResponse.json({ error: 'Tracker not found' }, { status: 404 });
+    }
+    if (tracker.published === false) {
+        const user = await getSession(req);
+        if (user?.role !== 'admin') {
+            return NextResponse.json({ error: 'Tracker not found' }, { status: 404 });
+        }
     }
     return NextResponse.json({ success: true, tracker });
 });

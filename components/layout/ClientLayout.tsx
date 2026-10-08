@@ -39,8 +39,7 @@ export function ClientLayout({ children, profile }: ClientLayoutProps) {
     }
   }, [pathname, isAdmin]);
 
-  const isImanerBagan = pathname?.startsWith("/imaner-bagan");
-  const hideNav = isAdmin || isImanerBagan;
+  const hideNav = isAdmin;
 
   const showAI = profile?.isAiAssistantEnabled !== false;
   const starterPrompts = profile?.aiStarterPrompts?.length

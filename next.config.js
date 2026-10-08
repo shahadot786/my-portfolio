@@ -44,6 +44,9 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [{ source: '/pms', destination: '/pms/index.html' }];
+  },
   async headers() {
     return [
       {
