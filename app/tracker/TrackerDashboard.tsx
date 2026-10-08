@@ -74,13 +74,13 @@ interface TrackerStats {
 
 function StatusBadge({ status }: { status: string }) {
   const config: Record<string, { bg: string; text: string; label: string }> = {
-    active: { bg: 'bg-emerald-500/10', text: 'text-emerald-400', label: 'Active' },
-    completed: { bg: 'bg-blue-500/10', text: 'text-blue-400', label: 'Completed' },
-    paused: { bg: 'bg-amber-500/10', text: 'text-amber-400', label: 'Paused' },
+    active: { bg: 'bg-emerald-500/10', text: 'text-emerald-600 dark:text-emerald-400', label: 'Active' },
+    completed: { bg: 'bg-blue-500/10', text: 'text-blue-600 dark:text-blue-400', label: 'Completed' },
+    paused: { bg: 'bg-amber-500/10', text: 'text-amber-600 dark:text-amber-400', label: 'Paused' },
   };
   const c = config[status] || config.active;
   return (
-    <span className={`${c.bg} ${c.text} text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full`}>
+    <span className={`${c.bg} ${c.text} text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full`}>
       {c.label}
     </span>
   );
@@ -90,8 +90,8 @@ function DayStatusDot({ status, size = 'sm' }: { status: string; size?: 'sm' | '
   const colors: Record<string, string> = {
     completed: 'bg-emerald-500',
     'in-progress': 'bg-amber-500',
-    skipped: 'bg-zinc-600',
-    pending: 'bg-zinc-800',
+    skipped: 'bg-muted-foreground/50',
+    pending: 'bg-muted-foreground/20',
   };
   const sizeMap = { sm: 'w-3 h-3', md: 'w-4 h-4' };
   return <div className={`${colors[status] || colors.pending} ${sizeMap[size]} rounded-sm`} />;
@@ -121,7 +121,7 @@ function ProgressRing({ percent, size = 80, strokeWidth = 6, color = 'hsl(var(--
     <svg width={size} height={size} className="transform -rotate-90">
       <circle
         cx={size / 2} cy={size / 2} r={radius}
-        stroke="hsl(217 33% 15%)" strokeWidth={strokeWidth} fill="none"
+        stroke="hsl(var(--muted))" strokeWidth={strokeWidth} fill="none"
       />
       <circle
         cx={size / 2} cy={size / 2} r={radius}
@@ -159,14 +159,14 @@ function CalendarHeatmap({ days, totalDays }: { days: TrackerDay[]; totalDays: n
               const colors: Record<string, string> = {
                 completed: 'bg-emerald-500 hover:bg-emerald-400',
                 'in-progress': 'bg-amber-500 hover:bg-amber-400',
-                skipped: 'bg-zinc-700 hover:bg-zinc-600',
-                pending: 'bg-zinc-800/50 hover:bg-zinc-700',
+                skipped: 'bg-muted-foreground/40 hover:bg-muted-foreground/60',
+                pending: 'bg-muted hover:bg-muted-foreground/30',
               };
 
               return (
                 <div
                   key={dayIdx}
-                  className={`w-3.5 h-3.5 rounded-[3px] ${colors[status]} transition-colors cursor-default`}
+                  className={`w-3.5 h-3.5 rounded-sm ${colors[status]} transition-colors cursor-default`}
                   title={`Day ${dayNum}${day?.title ? `: ${day.title}` : ''} — ${status}`}
                 />
               );
@@ -175,7 +175,7 @@ function CalendarHeatmap({ days, totalDays }: { days: TrackerDay[]; totalDays: n
         ))}
       </div>
       {/* Legend */}
-      <div className="flex items-center gap-4 mt-3 text-[11px] text-zinc-500">
+      <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
         <div className="flex items-center gap-1.5"><DayStatusDot status="pending" /> Pending</div>
         <div className="flex items-center gap-1.5"><DayStatusDot status="in-progress" /> In Progress</div>
         <div className="flex items-center gap-1.5"><DayStatusDot status="completed" /> Completed</div>
@@ -189,10 +189,10 @@ function CalendarHeatmap({ days, totalDays }: { days: TrackerDay[]; totalDays: n
 
 function StatsBar({ stats }: { stats: TrackerStats }) {
   const cards = [
-    { label: 'Completed', value: `${stats.daysCompleted}/${stats.totalDays}`, icon: CheckCircle2, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-    { label: 'Hours Logged', value: `${stats.totalHoursLogged}h`, icon: Clock, color: 'text-blue-400', bg: 'bg-blue-500/10' },
-    { label: 'Current Streak', value: `${stats.currentStreak}d`, icon: Flame, color: 'text-orange-400', bg: 'bg-orange-500/10' },
-    { label: 'Progress', value: `${stats.completionPercent}%`, icon: TrendingUp, color: 'text-purple-400', bg: 'bg-purple-500/10' },
+    { label: 'Completed', value: `${stats.daysCompleted}/${stats.totalDays}`, icon: CheckCircle2, color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-500/10' },
+    { label: 'Hours Logged', value: `${stats.totalHoursLogged}h`, icon: Clock, color: 'text-blue-600 dark:text-blue-400', bg: 'bg-blue-500/10' },
+    { label: 'Current Streak', value: `${stats.currentStreak}d`, icon: Flame, color: 'text-orange-600 dark:text-orange-400', bg: 'bg-orange-500/10' },
+    { label: 'Progress', value: `${stats.completionPercent}%`, icon: TrendingUp, color: 'text-purple-600 dark:text-purple-400', bg: 'bg-purple-500/10' },
   ];
 
   return (
@@ -203,13 +203,13 @@ function StatsBar({ stats }: { stats: TrackerStats }) {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: i * 0.1 }}
-          className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-4"
+          className="bg-card/90 border border-border shadow-sm rounded-2xl p-4"
         >
           <div className={`${card.bg} ${card.color} w-9 h-9 rounded-xl flex items-center justify-center mb-3`}>
             <card.icon size={18} />
           </div>
-          <p className="text-zinc-500 text-xs font-medium">{card.label}</p>
-          <p className="text-white text-xl font-bold mt-0.5">{card.value}</p>
+          <p className="text-muted-foreground text-xs font-medium">{card.label}</p>
+          <p className="text-foreground text-xl font-bold mt-0.5">{card.value}</p>
         </motion.div>
       ))}
     </div>
@@ -222,9 +222,9 @@ function MilestoneTimeline({ milestones, daysCompleted }: { milestones: Mileston
   if (!milestones.length) return null;
 
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6">
-      <h3 className="text-white font-bold flex items-center gap-2 mb-5">
-        <Trophy size={18} className="text-amber-400" />
+    <div className="bg-card/90 border border-border shadow-sm rounded-2xl p-6">
+      <h3 className="text-foreground font-bold flex items-center gap-2 mb-5">
+        <Trophy size={18} className="text-amber-600 dark:text-amber-400" />
         Milestones
       </h3>
       <div className="space-y-3">
@@ -232,14 +232,14 @@ function MilestoneTimeline({ milestones, daysCompleted }: { milestones: Mileston
           const reached = m.completed || daysCompleted >= m.dayNumber;
           return (
             <div key={i} className="flex items-center gap-3">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${reached ? 'bg-emerald-500/20 text-emerald-400' : 'bg-zinc-800 text-zinc-500'}`}>
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold shrink-0 ${reached ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-muted text-muted-foreground'}`}>
                 {reached ? <Star size={14} /> : <Hash size={12} />}
               </div>
               <div className="flex-1 min-w-0">
-                <p className={`text-sm font-medium truncate ${reached ? 'text-white' : 'text-zinc-500'}`}>{m.title}</p>
-                <p className="text-[11px] text-zinc-600">Day {m.dayNumber}</p>
+                <p className={`text-sm font-medium truncate ${reached ? 'text-foreground' : 'text-muted-foreground'}`}>{m.title}</p>
+                <p className="text-xs text-muted-foreground/80">Day {m.dayNumber}</p>
               </div>
-              {reached && <span className="text-[10px] text-emerald-400 font-bold uppercase tracking-wider">✓ Done</span>}
+              {reached && <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider">✓ Done</span>}
             </div>
           );
         })}
@@ -271,33 +271,33 @@ function WeeklyProgress({ weeklyStats, monthlyStats }: { weeklyStats: TrackerSta
   const currentMonthIdx = monthlyStats.findIndex(m => m.completed < 30 && m.completed > 0);
 
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6 relative overflow-hidden group/roadmap">
+    <div className="bg-card/90 border border-border shadow-sm rounded-2xl p-6 relative overflow-hidden group/roadmap">
       {/* Decorative background glow */}
       <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full -mr-16 -mt-16 group-hover/roadmap:bg-primary/10 transition-colors" />
 
       <div className="flex items-center justify-between mb-8 relative z-10">
         <div className="space-y-1">
-          <h3 className="text-white font-bold flex items-center gap-2">
+          <h3 className="text-foreground font-bold flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center">
-              <BarChart3 size={18} className="text-blue-400" />
+              <BarChart3 size={18} className="text-blue-600 dark:text-blue-400" />
             </div>
             Progress Roadmap
           </h3>
-          <p className="text-[10px] text-zinc-500 ml-10">Your learning milestones over time</p>
+          <p className="text-xs text-muted-foreground ml-10">Your learning milestones over time</p>
         </div>
 
       </div>
       <div className="flex justify-start mb-8">
-        <div className="flex gap-1 bg-zinc-800/80 rounded-xl p-1 backdrop-blur-sm border border-zinc-700/30">
+        <div className="flex gap-1 bg-muted rounded-xl p-1 border border-border">
           <button
             onClick={() => setView('weekly')}
-            className={`text-[11px] px-3 py-1.5 rounded-lg font-bold transition-all ${view === 'weekly' ? 'bg-zinc-700 text-white shadow-lg' : 'text-zinc-500 hover:text-zinc-300'}`}
+            className={`text-xs px-3 py-1.5 rounded-lg font-bold transition-all ${view === 'weekly' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
           >
             Weekly
           </button>
           <button
             onClick={() => setView('monthly')}
-            className={`text-[11px] px-3 py-1.5 rounded-lg font-bold transition-all ${view === 'monthly' ? 'bg-zinc-700 text-white shadow-lg' : 'text-zinc-500 hover:text-zinc-300'}`}
+            className={`text-xs px-3 py-1.5 rounded-lg font-bold transition-all ${view === 'monthly' ? 'bg-primary text-primary-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
           >
             Monthly
           </button>
@@ -306,7 +306,7 @@ function WeeklyProgress({ weeklyStats, monthlyStats }: { weeklyStats: TrackerSta
 
       <div className="space-y-6 relative ml-2">
         {/* Vertical Journey Line */}
-        <div className="absolute left-[5px] top-2 bottom-6 w-[2px] bg-zinc-800/50" />
+        <div className="absolute left-1 top-2 bottom-6 w-0.5 bg-border" />
 
         {data.map((item, idx) => {
           const pct = maxTotal > 0 ? (item.completed / maxTotal) * 100 : 0;
@@ -332,27 +332,27 @@ function WeeklyProgress({ weeklyStats, monthlyStats }: { weeklyStats: TrackerSta
           return (
             <div key={idx} className="group relative pl-6">
               {/* Node on the line */}
-              <div className={`absolute left-0 top-1.5 w-3 h-3 rounded-full border-2 border-zinc-900 z-10 transition-all duration-500 ${pct > 0 ? 'bg-emerald-500' : 'bg-zinc-800'} ${isCurrent ? 'ring-4 ring-emerald-500/20 scale-125' : ''}`} />
+              <div className={`absolute left-0 top-1.5 w-3 h-3 rounded-full border-2 border-card z-10 transition-all duration-500 ${pct > 0 ? 'bg-emerald-500' : 'bg-muted'} ${isCurrent ? 'ring-4 ring-emerald-500/20 scale-125' : ''}`} />
 
-              <div className="flex items-center justify-between text-[11px] mb-2 px-0.5">
+              <div className="flex items-center justify-between text-xs mb-2 px-0.5">
                 <div className="flex items-center gap-2">
-                  <span className={`font-bold transition-colors ${pct > 0 || isCurrent ? 'text-zinc-200' : 'text-zinc-500'} group-hover:text-white`}>
+                  <span className={`font-bold transition-colors ${pct > 0 || isCurrent ? 'text-foreground' : 'text-muted-foreground'} group-hover:text-foreground`}>
                     {itemLabel}
                   </span>
                   {isCurrent && (
-                    <span className="text-[9px] bg-emerald-500/20 text-emerald-400 px-1.5 py-0.5 rounded-md font-bold uppercase tracking-tighter animate-pulse">
+                    <span className="text-xs bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wide animate-pulse">
                       Current
                     </span>
                   )}
                 </div>
-                <div className="flex items-center gap-2 text-zinc-500 font-mono tabular-nums">
+                <div className="flex items-center gap-2 text-muted-foreground font-mono tabular-nums">
                   <span>{item.completed}d</span>
-                  <span className="text-zinc-700">/</span>
+                  <span className="text-muted-foreground/60">/</span>
                   <span>{item.hours}h</span>
                 </div>
               </div>
 
-              <div className="h-2 bg-black/20 rounded-full overflow-hidden border border-zinc-800/30">
+              <div className="h-2 bg-muted rounded-full overflow-hidden border border-border/60">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${Math.max(pct, 0)}%` }}
@@ -361,7 +361,7 @@ function WeeklyProgress({ weeklyStats, monthlyStats }: { weeklyStats: TrackerSta
                 >
                   {/* Subtle shine effect on completed bars */}
                   {pct > 0 && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent w-full h-full transform -skew-x-12 translate-x-full group-hover:animate-shimmer" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent w-full h-full transform -skew-x-12 translate-x-full " />
                   )}
                 </motion.div>
               </div>
@@ -382,13 +382,13 @@ function MoodChart({ moodCounts }: { moodCounts: Record<string, number> }) {
   const moods = [
     { key: 'great', emoji: '🔥', label: 'Great', color: 'bg-emerald-500' },
     { key: 'good', emoji: '😊', label: 'Good', color: 'bg-blue-500' },
-    { key: 'neutral', emoji: '😐', label: 'Neutral', color: 'bg-zinc-500' },
+    { key: 'neutral', emoji: '😐', label: 'Neutral', color: 'bg-muted-foreground' },
     { key: 'tough', emoji: '😤', label: 'Tough', color: 'bg-red-500' },
   ];
 
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6">
-      <h3 className="text-white font-bold mb-5">Mood Tracker</h3>
+    <div className="bg-card/90 border border-border shadow-sm rounded-2xl p-6">
+      <h3 className="text-foreground font-bold mb-5">Mood Tracker</h3>
       <div className="flex gap-1 h-3 rounded-full overflow-hidden mb-4">
         {moods.map(m => {
           const pct = (moodCounts[m.key] || 0) / total * 100;
@@ -399,8 +399,8 @@ function MoodChart({ moodCounts }: { moodCounts: Record<string, number> }) {
         {moods.map(m => (
           <div key={m.key} className="flex items-center gap-2 text-xs">
             <span>{m.emoji}</span>
-            <span className="text-zinc-400">{m.label}</span>
-            <span className="text-white font-bold ml-auto">{moodCounts[m.key] || 0}</span>
+            <span className="text-muted-foreground">{m.label}</span>
+            <span className="text-foreground font-bold ml-auto">{moodCounts[m.key] || 0}</span>
           </div>
         ))}
       </div>
@@ -421,9 +421,9 @@ function Achievements({ stats }: { stats: TrackerStats }) {
   ];
 
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6">
-      <h3 className="text-white font-bold flex items-center gap-2 mb-5">
-        <Award size={18} className="text-amber-400" />
+    <div className="bg-card/90 border border-border shadow-sm rounded-2xl p-6">
+      <h3 className="text-foreground font-bold flex items-center gap-2 mb-5">
+        <Award size={18} className="text-amber-600 dark:text-amber-400" />
         Achievements
       </h3>
       <div className="grid grid-cols-3 gap-3">
@@ -431,12 +431,12 @@ function Achievements({ stats }: { stats: TrackerStats }) {
           <div
             key={b.label}
             className={`text-center py-3 rounded-xl transition-all ${b.earned
-              ? 'bg-zinc-800/50 border border-zinc-700'
-              : 'bg-zinc-900/30 border border-zinc-800/50 opacity-40'
+              ? 'bg-muted/60 border border-border'
+              : 'bg-muted/40 border border-border/60 opacity-40'
               }`}
           >
             <div className="text-2xl mb-1">{b.icon}</div>
-            <p className="text-[10px] text-zinc-400 font-medium">{b.label}</p>
+            <p className="text-xs text-muted-foreground font-medium">{b.label}</p>
           </div>
         ))}
       </div>
@@ -466,23 +466,23 @@ function DailyTimeline({ days }: { days: TrackerDay[] }) {
 
   if (!days.length) {
     return (
-      <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-8 text-center">
-        <CalendarDays size={32} className="text-zinc-700 mx-auto mb-3" />
-        <p className="text-zinc-500 text-sm">No daily logs recorded yet.</p>
-        <p className="text-zinc-600 text-xs mt-1">Days will appear here as progress is tracked.</p>
+      <div className="bg-card/90 border border-border shadow-sm rounded-2xl p-8 text-center">
+        <CalendarDays size={32} className="text-muted-foreground/60 mx-auto mb-3" />
+        <p className="text-muted-foreground text-sm">No daily logs recorded yet.</p>
+        <p className="text-muted-foreground/80 text-xs mt-1">Days will appear here as progress is tracked.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl overflow-hidden">
-      <div className="p-6 border-b border-zinc-800">
-        <h3 className="text-white font-bold flex items-center gap-2">
+    <div className="bg-card/90 border border-border shadow-sm rounded-2xl overflow-hidden">
+      <div className="p-6 border-b border-border">
+        <h3 className="text-foreground font-bold flex items-center gap-2">
           <CalendarDays size={18} className="text-primary" />
           Daily Progress
         </h3>
       </div>
-      <div className="divide-y divide-zinc-800/50">
+      <div className="divide-y divide-border/60">
         {visibleDays.map(day => {
           const isExpanded = expandedDay === day.dayNumber;
           const isCurrent = day.dayNumber === currentDay;
@@ -493,7 +493,7 @@ function DailyTimeline({ days }: { days: TrackerDay[] }) {
             <motion.div
               key={day.dayNumber}
               initial={false}
-              className={`${isCurrent ? 'bg-primary/5' : 'hover:bg-zinc-800/20'} transition-all`}
+              className={`${isCurrent ? 'bg-primary/5' : 'hover:bg-muted/40'} transition-all`}
             >
               <button
                 onClick={() => setExpandedDay(isExpanded ? null : day.dayNumber)}
@@ -502,22 +502,22 @@ function DailyTimeline({ days }: { days: TrackerDay[] }) {
                 <DayStatusDot status={day.status} size="md" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-zinc-500 font-mono">Day {day.dayNumber}</span>
+                    <span className="text-xs text-muted-foreground font-mono">Day {day.dayNumber}</span>
                     {isCurrent && (
-                      <span className="text-[9px] bg-primary/20 text-primary px-1.5 py-0.5 rounded font-bold uppercase">Current</span>
+                      <span className="text-xs bg-primary/20 text-primary px-1.5 py-0.5 rounded font-bold uppercase">Current</span>
                     )}
                     {day.mood && <MoodEmoji mood={day.mood} />}
                   </div>
-                  <p className="text-sm text-zinc-300 font-medium truncate mt-0.5">{day.title || '—'}</p>
+                  <p className="text-sm text-foreground/80 font-medium truncate mt-0.5">{day.title || '—'}</p>
                 </div>
                 <div className="flex items-center gap-3 shrink-0">
                   {totalItems > 0 && (
-                    <span className="text-[11px] text-zinc-500">{completedItems}/{totalItems}</span>
+                    <span className="text-xs text-muted-foreground">{completedItems}/{totalItems}</span>
                   )}
                   {day.hoursLogged > 0 && (
-                    <span className="text-[11px] text-zinc-600">{day.hoursLogged}h</span>
+                    <span className="text-xs text-muted-foreground/80">{day.hoursLogged}h</span>
                   )}
-                  {isExpanded ? <ChevronDown size={14} className="text-zinc-600" /> : <ChevronRight size={14} className="text-zinc-600" />}
+                  {isExpanded ? <ChevronDown size={14} className="text-muted-foreground/80" /> : <ChevronRight size={14} className="text-muted-foreground/80" />}
                 </div>
               </button>
 
@@ -535,17 +535,17 @@ function DailyTimeline({ days }: { days: TrackerDay[] }) {
                         <div className="space-y-1.5">
                           {day.checklist.map((item, idx) => (
                             <div key={idx} className="flex items-start gap-2 text-sm">
-                              <div className={`w-4 h-4 rounded shrink-0 mt-0.5 flex items-center justify-center ${item.completed ? 'bg-emerald-500/20 text-emerald-400' : 'bg-zinc-800 text-zinc-600'}`}>
+                              <div className={`w-4 h-4 rounded shrink-0 mt-0.5 flex items-center justify-center ${item.completed ? 'bg-emerald-500/20 text-emerald-600 dark:text-emerald-400' : 'bg-muted text-muted-foreground'}`}>
                                 {item.completed && <CheckCircle2 size={12} />}
                               </div>
-                              <span className={item.completed ? 'text-zinc-400 line-through' : 'text-zinc-300'}>{item.text}</span>
-                              <span className="text-[10px] text-zinc-600 ml-auto shrink-0">Hr {item.hour}</span>
+                              <span className={item.completed ? 'text-muted-foreground line-through' : 'text-foreground/80'}>{item.text}</span>
+                              <span className="text-xs text-muted-foreground/80 ml-auto shrink-0">Hr {item.hour}</span>
                             </div>
                           ))}
                         </div>
                       )}
                       {day.notes && (
-                        <p className="text-xs text-zinc-500 italic border-l-2 border-zinc-700 pl-3">{day.notes}</p>
+                        <p className="text-xs text-muted-foreground italic border-l-2 border-border pl-3">{day.notes}</p>
                       )}
                     </div>
                   </motion.div>
@@ -556,7 +556,7 @@ function DailyTimeline({ days }: { days: TrackerDay[] }) {
         })}
       </div>
       {sortedDays.length > 14 && (
-        <div className="p-4 border-t border-zinc-800 text-center">
+        <div className="p-4 border-t border-border text-center">
           <button
             onClick={() => setShowAll(!showAll)}
             className="text-xs text-primary hover:underline font-medium"
@@ -572,7 +572,7 @@ function DailyTimeline({ days }: { days: TrackerDay[] }) {
 
 // --- Main Dashboard ---
 
-export function TrackerDashboard({ trackers }: { trackers: TrackerSummary[] }) {
+export function TrackerDashboard({ trackers, showHeader = true }: { trackers: TrackerSummary[]; showHeader?: boolean }) {
   const [activeSlug, setActiveSlug] = useState<string>(trackers.find(t => t.featured)?.slug || trackers[0]?.slug || '');
   const [tracker, setTracker] = useState<TrackerFull | null>(null);
   const [stats, setStats] = useState<TrackerStats | null>(null);
@@ -603,9 +603,9 @@ export function TrackerDashboard({ trackers }: { trackers: TrackerSummary[] }) {
   if (!trackers.length) {
     return (
       <div className="text-center py-20">
-        <Target size={48} className="text-zinc-700 mx-auto mb-4" />
-        <h2 className="text-xl font-bold text-white mb-2">No Trackers Yet</h2>
-        <p className="text-zinc-500 text-sm">Learning journey trackers will appear here once created.</p>
+        <Target size={48} className="text-muted-foreground/60 mx-auto mb-4" />
+        <h2 className="text-xl font-bold text-foreground mb-2">No Trackers Yet</h2>
+        <p className="text-muted-foreground text-sm">Learning journey trackers will appear here once created.</p>
       </div>
     );
   }
@@ -613,10 +613,10 @@ export function TrackerDashboard({ trackers }: { trackers: TrackerSummary[] }) {
   return (
     <div className="space-y-8">
       {/* Page Header */}
-      <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-        <h1 className="text-3xl font-bold text-white mb-1">Learning Tracker</h1>
-        <p className="text-zinc-400 text-sm">Follow my journey to mastering new technologies — day by day.</p>
-      </motion.div>
+      {showHeader && <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+        <h1 className="text-3xl font-bold text-foreground mb-1">Learning Tracker</h1>
+        <p className="text-muted-foreground text-sm">Follow my journey to mastering new technologies — day by day.</p>
+      </motion.div>}
 
       {/* Tracker Selector Pills */}
       {trackers.length > 1 && (
@@ -627,7 +627,7 @@ export function TrackerDashboard({ trackers }: { trackers: TrackerSummary[] }) {
               onClick={() => setActiveSlug(t.slug)}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${activeSlug === t.slug
                 ? 'bg-primary/10 text-primary border border-primary/30'
-                : 'bg-zinc-900/50 text-zinc-400 border border-zinc-800 hover:border-zinc-700 hover:text-zinc-300'
+                : 'bg-card/80 text-muted-foreground border border-border hover:border-primary/40 hover:text-foreground'
                 }`}
             >
               {t.title}
@@ -650,17 +650,17 @@ export function TrackerDashboard({ trackers }: { trackers: TrackerSummary[] }) {
           className="space-y-6"
         >
           {/* Tracker Info */}
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6">
+          <div className="bg-card/90 border border-border shadow-sm rounded-2xl p-6">
             <div className="flex items-start justify-between gap-4 flex-wrap">
-              <div className="flex-1 min-w-[200px]">
+              <div className="flex-1 min-w-48">
                 <div className="flex items-center gap-3 mb-2">
-                  <h2 className="text-xl font-bold text-white">{tracker.title}</h2>
+                  <h2 className="text-xl font-bold text-foreground">{tracker.title}</h2>
                   <StatusBadge status={tracker.status} />
                 </div>
-                <p className="text-zinc-400 text-sm mb-4">{tracker.description}</p>
+                <p className="text-muted-foreground text-sm mb-4">{tracker.description}</p>
                 <div className="flex flex-wrap gap-1.5">
                   {tracker.tags.map(tag => (
-                    <span key={tag} className="tag-highlight text-[10px]">{tag}</span>
+                    <span key={tag} className="badge-mono">{tag}</span>
                   ))}
                 </div>
               </div>
@@ -668,16 +668,16 @@ export function TrackerDashboard({ trackers }: { trackers: TrackerSummary[] }) {
                 <ProgressRing percent={stats.completionPercent} size={90} strokeWidth={7} />
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center">
-                    <p className="text-lg font-bold text-white">{stats.completionPercent}%</p>
+                    <p className="text-lg font-bold text-foreground">{stats.completionPercent}%</p>
                   </div>
                 </div>
               </div>
             </div>
             {/* Compact meta */}
-            <div className="flex gap-6 mt-5 pt-5 border-t border-zinc-800 text-xs text-zinc-500">
+            <div className="flex gap-6 mt-5 pt-5 border-t border-border text-xs text-muted-foreground">
               <span>{tracker.totalDays} days total</span>
               <span>{tracker.dailyHours}h/day target</span>
-              <span className="flex items-center gap-1"><Zap size={12} className="text-amber-400" /> Best: {stats.longestStreak}d streak</span>
+              <span className="flex items-center gap-1"><Zap size={12} className="text-amber-600 dark:text-amber-400" /> Best: {stats.longestStreak}d streak</span>
             </div>
           </div>
 
@@ -685,9 +685,9 @@ export function TrackerDashboard({ trackers }: { trackers: TrackerSummary[] }) {
           <StatsBar stats={stats} />
 
           {/* Calendar Heatmap */}
-          <div className="bg-zinc-900/50 border border-zinc-800 rounded-2xl p-6">
-            <h3 className="text-white font-bold mb-4 flex items-center gap-2">
-              <CalendarDays size={18} className="text-emerald-400" />
+          <div className="bg-card/90 border border-border shadow-sm rounded-2xl p-6">
+            <h3 className="text-foreground font-bold mb-4 flex items-center gap-2">
+              <CalendarDays size={18} className="text-emerald-600 dark:text-emerald-400" />
               Contribution Calendar
             </h3>
             <CalendarHeatmap days={tracker.days} totalDays={tracker.totalDays} />
@@ -710,7 +710,7 @@ export function TrackerDashboard({ trackers }: { trackers: TrackerSummary[] }) {
           </div>
         </motion.div>
       ) : (
-        <div className="text-center py-20 text-zinc-500">Failed to load tracker data.</div>
+        <div className="text-center py-20 text-muted-foreground">Failed to load tracker data.</div>
       )}
     </div>
   );

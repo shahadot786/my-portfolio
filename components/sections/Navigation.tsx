@@ -30,7 +30,7 @@ export function Navigation({ profile }: { profile?: Profile | null }) {
     { href: "/projects", label: "Projects", mobileLabel: "Projects", icon: FolderOpen },
     { href: "/skills", label: "Skills", mobileLabel: "Skills", icon: Code2 },
     { href: "/certifications", label: "Certifications", mobileLabel: "Certs", icon: Award },
-    { href: "/articles", label: "Articles", mobileLabel: "Articles", icon: Newspaper },
+    { href: "/articles", label: "Knowledge", mobileLabel: "Learn", icon: Newspaper },
     { href: "/contact", label: "Contact", mobileLabel: "Contact", icon: Mail },
   ];
 

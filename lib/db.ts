@@ -1,6 +1,15 @@
 import mongoose from 'mongoose';
 
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio';
+// Hosting dashboards often keep stray quotes/whitespace or the "KEY=" prefix when a value is pasted
+function normalizeMongoUri(value: string | undefined): string {
+  return (value ?? '')
+    .trim()
+    .replace(/^MONGODB_URI\s*=\s*/i, '')
+    .replace(/^['"]+|['"]+$/g, '')
+    .trim();
+}
+
+const MONGODB_URI = normalizeMongoUri(process.env.MONGODB_URI) || 'mongodb://localhost:27017/portfolio';
 
 if (!MONGODB_URI) {
   throw new Error('Please define the MONGODB_URI environment variable');

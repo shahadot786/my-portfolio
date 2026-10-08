@@ -47,6 +47,7 @@ interface Tracker {
   status: string;
   tags: string[];
   featured: boolean;
+  published?: boolean;
   color: string;
   milestones: Milestone[];
   days: TrackerDay[];
@@ -65,6 +66,7 @@ const trackerSchema = z.object({
   status: z.enum(['active', 'completed', 'paused']).default('active'),
   tags: z.array(z.string()).default([]),
   featured: z.boolean().default(false),
+  published: z.boolean().default(true),
   color: z.string().default('#34d399'),
 });
 
@@ -446,7 +448,7 @@ export default function AdminTrackersPage() {
   } = useForm<TrackerFormValues>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(trackerSchema) as any,
-    defaultValues: { totalDays: 180, dailyHours: 5, status: 'active', tags: [], featured: false, color: '#34d399' },
+    defaultValues: { totalDays: 180, dailyHours: 5, status: 'active', tags: [], featured: false, published: true, color: '#34d399' },
   });
 
   const fetchTrackers = async () => {
@@ -519,6 +521,7 @@ export default function AdminTrackersPage() {
       status: tracker.status as TrackerFormValues['status'],
       tags: tracker.tags,
       featured: tracker.featured,
+      published: tracker.published !== false,
       color: tracker.color,
     });
     setMilestonesText(
@@ -562,7 +565,7 @@ export default function AdminTrackersPage() {
         <button
           onClick={() => {
             setEditingSlug(null);
-            reset({ totalDays: 180, dailyHours: 5, status: 'active', tags: [], featured: false, color: '#34d399' });
+            reset({ totalDays: 180, dailyHours: 5, status: 'active', tags: [], featured: false, published: true, color: '#34d399' });
             setMilestonesText('');
             setIsModalOpen(true);
           }}
@@ -593,6 +596,7 @@ export default function AdminTrackersPage() {
                       {tracker.status}
                     </span>
                     {tracker.featured && <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Featured</span>}
+                    {tracker.published === false && <span className="text-[10px] bg-zinc-700/40 text-zinc-300 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">Hidden</span>}
                   </div>
                   <p className="text-zinc-500 text-sm">{tracker.description}</p>
                   <div className="flex gap-4 mt-3 text-xs text-zinc-500">
@@ -700,6 +704,11 @@ export default function AdminTrackersPage() {
               <div className="flex items-center gap-2">
                 <input type="checkbox" {...register('featured')} id="tracker-featured" className="w-5 h-5 rounded-lg border-zinc-800 bg-zinc-950 text-emerald-500" />
                 <label htmlFor="tracker-featured" className="text-sm text-zinc-400">Mark as Featured</label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <input type="checkbox" {...register('published')} id="tracker-published" className="w-5 h-5 rounded-lg border-zinc-800 bg-zinc-950 text-emerald-500" />
+                <label htmlFor="tracker-published" className="text-sm text-zinc-400">Show on public site (Knowledge Hub → Trackers)</label>
               </div>
 
               <div>

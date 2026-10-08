@@ -6,8 +6,9 @@ import path from 'path';
 dotenv.config({ path: path.join(__dirname, '../.env') });
 
 const MONGODB_URI = process.env.MONGODB_URI;
+const DRY_RUN = process.argv.includes('--dry');
 
-if (!MONGODB_URI) {
+if (!MONGODB_URI && !DRY_RUN) {
   console.error('MONGODB_URI is missing');
   process.exit(1);
 }
@@ -622,14 +623,26 @@ Day 85: Error Handling & Loading States
 - Hour 4: Retry logic
 - Hour 5: Build: Error handling system
 
-Day 86: Project 2 Frontend Start
-- Hour 1-5: Build FieldConnect Web App - Auth pages
+Day 86: Project 2 Frontend Start - Auth & App Shell
+- Hour 1: Next.js app setup in the Nx monorepo: shared UI, API client and types packages
+- Hour 2: Login, register and refresh-token flow with RTK Query and httpOnly cookies
+- Hour 3: Role-based route guards (business vs provider) and layout shell
+- Hour 4: Zod + react-hook-form validation with accessible error states
+- Hour 5: Build: FieldConnect web auth pages, responsive and themed
 
-Day 87: Dashboard layouts
-- Hour 1-5: Build Dashboard layouts
+Day 87: Dashboard Layouts
+- Hour 1: Business dashboard layout: sidebar, top bar, stat cards
+- Hour 2: Provider dashboard: upcoming jobs, earnings, availability
+- Hour 3: Reusable data table with filters, sorting and pagination
+- Hour 4: Skeleton loaders, empty states and error boundaries
+- Hour 5: Build: both dashboards wired to mock then real endpoints
 
-Day 88: Job listing/detail pages
-- Hour 1-5: Profile pages, Real-time notifications
+Day 88: Job Listing & Detail Pages
+- Hour 1: Job search page: filters, geo radius, pagination (cursor based)
+- Hour 2: Job detail page with SSR/ISR and SEO metadata
+- Hour 3: Apply / accept flow with optimistic updates
+- Hour 4: Profile pages: business and provider, avatar upload
+- Hour 5: Build: real-time notification bell via Socket.io
 
 Day 89: Integration Testing
 - Hour 1-3: Connect frontend to backend
@@ -829,11 +842,19 @@ Day 117: Monitoring & Logging
 - Hour 4: Application metrics
 - Hour 5: Setup: Complete monitoring
 
-Day 118: Production Deployment Part 1
-- Hour 1-5: Deploy complete system to AWS Frontend
+Day 118: Production Deployment Part 1 - Frontend
+- Hour 1: Build and optimise the Next.js app (bundle analysis, image optimisation)
+- Hour 2: Provision S3 + CloudFront with correct cache headers
+- Hour 3: Configure custom domain, Route 53 records and ACM SSL
+- Hour 4: CI/CD pipeline: lint, test, build, deploy on merge
+- Hour 5: Smoke tests, Lighthouse run and rollback plan
 
-Day 119: Production Deployment Part 2
-- Hour 1-5: Backend to ECS, RDS, DNS, SSL
+Day 119: Production Deployment Part 2 - Backend
+- Hour 1: Push service images to ECR and define ECS task definitions
+- Hour 2: Provision RDS (MySQL), secrets in Secrets Manager
+- Hour 3: ALB, health checks, autoscaling policies
+- Hour 4: Wire environment config, DNS and SSL for the API
+- Hour 5: Load test the live stack and set CloudWatch alarms
 
 Day 120: Month 4 Review
 - Hour 1-2: System health check
@@ -941,49 +962,109 @@ Day 134: Review
 ### Week 19-21: Project 2 - Complete FieldConnect (Days 135-150)
 
 Day 135: Sprint 1 - Core Features
-- Hour 1-5: Complete all CRUD operations
+- Hour 1: Finish job CRUD with ownership and permission checks
+- Hour 2: Application lifecycle: apply, shortlist, accept, complete
+- Hour 3: Search, filtering and saved searches
+- Hour 4: API contract tests for every endpoint
+- Hour 5: Update the board and write sprint 1 notes
 
-Day 136: Real-time notifications
-- Hour 1-5: Real-time notifications
+Day 136: Real-time Notifications
+- Hour 1: Design the event model (job.created, application.updated, message.sent)
+- Hour 2: Socket.io gateway with auth and rooms
+- Hour 3: Push notifications on mobile (Expo notifications)
+- Hour 4: Notification preferences and unread counts
+- Hour 5: Test reconnects and missed-event catch-up
 
-Day 137: Payment integration
-- Hour 1-5: Payment integration
+Day 137: Payment Integration
+- Hour 1: Payment flow design: escrow, release, refund states
+- Hour 2: Stripe (or SSLCommerz/bKash for local) sandbox integration
+- Hour 3: Webhook handler: signature check, idempotency, retries
+- Hour 4: Payout ledger with append-only transactions
+- Hour 5: Edge cases: partial refunds, duplicate webhooks, failures
 
-Day 138: Mobile app polish
-- Hour 1-5: Mobile app polish
+Day 138: Mobile App Polish
+- Hour 1: Navigation, deep links and splash/onboarding flow
+- Hour 2: Offline-friendly lists with MMKV cache and pull-to-refresh
+- Hour 3: Performance pass: FlatList tuning, memoisation, Hermes profiling
+- Hour 4: Accessibility: labels, touch targets, dynamic type
+- Hour 5: Test on a low-end Android device and fix jank
 
-Day 139: Admin dashboard
-- Hour 1-5: Admin dashboard
+Day 139: Admin Dashboard
+- Hour 1: Admin app shell with RBAC and audit log
+- Hour 2: User, job and dispute management screens
+- Hour 3: Analytics widgets: jobs per day, GMV, conversion
+- Hour 4: Bulk actions, CSV export and impersonation safeguards
+- Hour 5: Build: moderation queue with approval workflow
 
 Day 140: Sprint 2 - Polish & Testing
-- Hour 1-5: Comprehensive testing
+- Hour 1: Unit tests for services and hooks (coverage target 80%)
+- Hour 2: Integration tests with a real test database
+- Hour 3: E2E tests: Playwright for web, Maestro for mobile
+- Hour 4: Fix flaky tests and set up CI test reports
+- Hour 5: Triage the bug list and plan the hardening week
 
-Day 141: Performance optimization
-- Hour 1-5: Performance optimization
+Day 141: Performance Optimization
+- Hour 1: Profile API endpoints and fix N+1 queries
+- Hour 2: Add indexes, query plans and Redis caching
+- Hour 3: Web: code splitting, streaming, image and font optimisation
+- Hour 4: Mobile: startup time, bundle size, memory leaks
+- Hour 5: Compare before/after metrics and record them
 
-Day 142: Security hardening
-- Hour 1-5: Security hardening
+Day 142: Security Hardening
+- Hour 1: OWASP top 10 review against your own API
+- Hour 2: Rate limiting, input sanitisation, CSRF and CORS audit
+- Hour 3: Secrets management, dependency audit and Dependabot
+- Hour 4: JWT rotation, device sessions and token revocation
+- Hour 5: Add security headers and write a threat model
 
-Day 143: UI/UX refinement
-- Hour 1-5: UI/UX refinement
+Day 143: UI/UX Refinement
+- Hour 1: Design review: spacing, typography, colour contrast
+- Hour 2: Responsive checks at mobile, tablet and desktop widths
+- Hour 3: Micro-interactions and loading feedback with Framer Motion
+- Hour 4: Dark/light theme parity and accessibility audit
+- Hour 5: Usability test with 2-3 people and note findings
 
-Day 144: Bug fixes
-- Hour 1-5: Bug fixes
+Day 144: Bug Fixes
+- Hour 1: Triage open bugs by severity and user impact
+- Hour 2: Fix critical and high bugs with regression tests
+- Hour 3: Improve error messages and logging context
+- Hour 4: Add Sentry (or equivalent) to web, API and mobile
+- Hour 5: Verify fixes on staging and update changelog
 
 Day 145: Deployment & Documentation
-- Hour 1-5: Production deployment
+- Hour 1: Deploy Project 2 to production with blue/green strategy
+- Hour 2: Run migrations safely and verify data
+- Hour 3: Monitoring dashboards and uptime checks
+- Hour 4: Write the runbook: deploy, rollback, incidents
+- Hour 5: Post-deploy checklist and smoke tests
 
-Day 146: API documentation
-- Hour 1-5: API documentation
+Day 146: API Documentation
+- Hour 1: Generate OpenAPI specs from NestJS decorators
+- Hour 2: Add examples, error formats and auth docs
+- Hour 3: Publish with Swagger UI / Redoc
+- Hour 4: Postman collection and typed client generation
+- Hour 5: Review docs from a new developer's point of view
 
-Day 147: User guide
-- Hour 1-5: User guide
+Day 147: User Guide
+- Hour 1: Write the business user guide with screenshots
+- Hour 2: Write the provider guide for the mobile app
+- Hour 3: FAQ and troubleshooting section
+- Hour 4: In-app help and onboarding tooltips
+- Hour 5: Proofread and publish alongside the app
 
-Day 148: Video demo creation
-- Hour 1-5: Video demo creation
+Day 148: Video Demo Creation
+- Hour 1: Script the demo around real user journeys
+- Hour 2: Record web and mobile flows in high quality
+- Hour 3: Edit with captions and a short architecture segment
+- Hour 4: Export a 3-minute cut and a full walkthrough
+- Hour 5: Upload and embed on the portfolio project page
 
-Day 149: GitHub cleanup
-- Hour 1-5: GitHub cleanup
+Day 149: GitHub Cleanup
+- Hour 1: Clean the commit history, branches and issues
+- Hour 2: Write a strong README: architecture, setup, screenshots
+- Hour 3: Add LICENSE, CONTRIBUTING and .env.example
+- Hour 4: Set up CI badges and release tags
+- Hour 5: Pin the repo and add it to the portfolio
 
 Day 150: Month 5 Review
 - Hour 1-2: Final demo
@@ -996,86 +1077,268 @@ Day 150: Month 5 Review
 ### Week 22: Interview Preparation (Days 151-157)
 
 Day 151: Data Structures & Algorithms - Arrays, Strings, Hash Tables
-- Hour 1-5: Practice: 5 LeetCode problems/day
+- Hour 1: Review: two pointers, sliding window, prefix sums
+- Hour 2: Solve 2 array problems (easy to medium) in TypeScript
+- Hour 3: Solve 2 string / hash map problems
+- Hour 4: Solve 1 harder problem and write the pattern down
+- Hour 5: Review mistakes and add them to the notes
 
 Day 152: Linked Lists, Stacks, Queues
-- Hour 1-5: Practice: 5 LeetCode problems/day
+- Hour 1: Review: fast/slow pointers, reversing, merge
+- Hour 2: Solve 2 linked list problems
+- Hour 3: Solve 2 stack/queue problems (monotonic stack)
+- Hour 4: Implement an LRU cache from scratch
+- Hour 5: Review mistakes and add them to the notes
 
 Day 153: Trees, Graphs, DFS/BFS
-- Hour 1-5: Practice: 5 LeetCode problems/day
+- Hour 1: Review: traversal orders, recursion vs iteration
+- Hour 2: Solve 2 binary tree problems
+- Hour 3: Solve 2 graph problems (BFS shortest path, cycle detection)
+- Hour 4: Solve 1 problem with topological sort or union-find
+- Hour 5: Review mistakes and add them to the notes
 
-Day 154: System Design Practice - URL shortener
-- Hour 1-5: Mock interviews
+Day 154: System Design Practice - URL Shortener
+- Hour 1: Clarify requirements and estimate scale
+- Hour 2: Design ID generation, storage and redirects
+- Hour 3: Caching, rate limiting and analytics
+- Hour 4: Failure modes and trade-offs, then draw the diagram
+- Hour 5: Mock interview: explain it out loud in 35 minutes
 
-Day 155: Social media feed
-- Hour 1-5: Mock interviews
+Day 155: System Design - Social Media Feed
+- Hour 1: Requirements: fan-out on write vs read
+- Hour 2: Design the timeline service and ranking basics
+- Hour 3: Storage, caching and pagination strategy
+- Hour 4: Real-time updates and notifications
+- Hour 5: Mock interview and self-review against a rubric
 
-Day 156: Job marketplace (Field Nation!)
-- Hour 1-5: Mock interviews
+Day 156: System Design - Job Marketplace
+- Hour 1: Requirements: work orders, providers, scheduling, payments
+- Hour 2: Matching and dispatch design, geo search
+- Hour 3: Mobile offline sync and conflict handling for field technicians
+- Hour 4: Reliability: queues, retries, idempotency, observability
+- Hour 5: Mock interview using your own FieldConnect experience
 
 Day 157: Behavioral Prep
 - Hour 1-2: STAR method examples
-- Hour 3-4: Field Nation research
+- Hour 3-4: Software engineer role and target company research
 - Hour 5: Mock interview
 
-### Week 23-25: Project 3 - Innovation Project (Days 158-175)
+### Week 23-25: Project 3 - FieldSync, an Offline-First Field Service App (Days 158-175)
 
-Day 158: Project 3 Selection & Setup
-- Hour 1-5: Choice A/B/C setup
+Day 158: Project 3 Selection & Setup - FieldSync: Offline-First Field Service App
+- Hour 1: Finalise scope: React Native + Expo app for field technicians with an offline-first sync engine
+- Hour 2: Write the PRD, architecture diagram and data model (WatermelonDB/SQLite or MMKV, plus a NestJS sync API)
+- Hour 3: Set up the Nx monorepo: mobile, API, shared types and CI
+- Hour 4: Define the sync protocol: change log, versioning, conflict rules
+- Hour 5: Create the project board with a 12-day plan
 
-Day 159-170: Build Project 3
-- Hour 1-5: Daily implementation
+Day 159: Sync Engine - Local Database & Change Log
+- Hour 1: Local schema and migrations on device
+- Hour 2: Change-log table recording every create/update/delete
+- Hour 3: Repository layer with typed queries and tests
+- Hour 4: Background queue for pending mutations
+- Hour 5: Build: offline create/edit of a work order
 
-Day 171: Final testing
-- Hour 1-5: Final testing
+Day 160: Sync Engine - Push & Pull API
+- Hour 1: NestJS endpoints: pull changes since cursor, push mutations
+- Hour 2: Idempotency keys and server-side validation
+- Hour 3: Per-device cursors and tombstones for deletes
+- Hour 4: Contract tests with shared Zod schemas
+- Hour 5: Build: manual sync button end to end
 
-Day 172: Performance optimization
-- Hour 1-5: Performance optimization
+Day 161: Conflict Resolution
+- Hour 1: Define rules: last-write-wins vs field-level merge vs manual
+- Hour 2: Implement field-level merge with version vectors
+- Hour 3: Conflict UI: show both versions and let the user choose
+- Hour 4: Property tests with random offline edit sequences
+- Hour 5: Reduce data-loss scenarios and document the cases
 
-Day 173: Video demo
-- Hour 1-5: Video demo
+Day 162: Background Sync & Connectivity
+- Hour 1: Network state detection and retry with backoff
+- Hour 2: Background tasks (expo-task-manager) and battery-friendly scheduling
+- Hour 3: Sync status indicators and error recovery
+- Hour 4: Large payload handling: batching and compression
+- Hour 5: Test flaky networks with Network Link Conditioner
 
-Day 174: Blog post
-- Hour 1-5: Blog post
+Day 163: Work Order Features
+- Hour 1: Work order list, filters and detail screens
+- Hour 2: Checklists, notes and status transitions offline
+- Hour 3: Photo capture with local queue and resumable upload
+- Hour 4: Signature capture and completion flow
+- Hour 5: Build: a full job from assignment to completion offline
+
+Day 164: Live Location & Maps
+- Hour 1: Foreground/background location permissions
+- Hour 2: Route and distance display with map libraries
+- Hour 3: Throttled location uploads and offline buffering
+- Hour 4: Geofence check-in/check-out
+- Hour 5: Privacy: consent, retention and battery impact review
+
+Day 165: AI Feature - Document OCR
+- Hour 1: Capture work order forms or invoices with the camera
+- Hour 2: On-device or API OCR, including Bangla text where useful
+- Hour 3: Extract fields and pre-fill the form with confidence scores
+- Hour 4: Human review step for low-confidence results
+- Hour 5: Label AI-generated content clearly in the UI
+
+Day 166: AI Feature - Identity Verification
+- Hour 1: Liveness / face match flow design and privacy review
+- Hour 2: Camera capture with quality and liveness checks
+- Hour 3: Fallback path when verification fails
+- Hour 4: Store only what is needed, encrypted, with consent
+- Hour 5: Disclose the use of AI to the user at the point of capture
+
+Day 167: Security & Device Protection
+- Hour 1: Secure token storage and refresh handling
+- Hour 2: Biometric app lock and screen-capture prevention
+- Hour 3: Certificate pinning and jailbreak/root checks (where sensible)
+- Hour 4: Encrypt local data at rest
+- Hour 5: Security review checklist for the mobile app
+
+Day 168: Admin Web Dashboard (Next.js)
+- Hour 1: Admin dashboard for dispatch and monitoring
+- Hour 2: Technician map, job status board and sync health
+- Hour 3: Role-based access and audit logging
+- Hour 4: Reports and CSV export
+- Hour 5: Deploy the dashboard preview
+
+Day 169: Observability & Performance
+- Hour 1: Crash reporting and structured logging
+- Hour 2: Sync metrics: lag, failures, conflicts, payload sizes
+- Hour 3: Startup time and list performance on low-end devices
+- Hour 4: Load test the sync API with thousands of devices
+- Hour 5: Fix the top 3 bottlenecks
+
+Day 170: Testing & Release Candidate
+- Hour 1: Unit and integration tests for the sync engine
+- Hour 2: Maestro E2E flows for offline scenarios
+- Hour 3: Beta build through EAS and internal testing
+- Hour 4: Fix release blockers and write release notes
+- Hour 5: Freeze features and tag the release candidate
+
+Day 171: Final Testing
+- Hour 1: Run the full regression on iOS and Android
+- Hour 2: Offline-to-online edge case matrix (airplane mode, kill app, low storage)
+- Hour 3: Accessibility and localisation pass
+- Hour 4: Fix critical findings and re-test
+- Hour 5: Sign off the release checklist
+
+Day 172: Performance Optimization
+- Hour 1: Profile JS thread and native render performance
+- Hour 2: Reduce bundle size and cold start time
+- Hour 3: Optimise sync batch sizes and DB indexes
+- Hour 4: Memory and battery checks over a long session
+- Hour 5: Record before/after numbers for the case study
+
+Day 173: Video Demo
+- Hour 1: Script a demo that highlights the offline-first story
+- Hour 2: Record the app on real devices, offline and online
+- Hour 3: Show the sync and conflict resolution visually
+- Hour 4: Edit with captions and architecture overlay
+- Hour 5: Publish to YouTube and embed on the portfolio
+
+Day 174: Blog Post
+- Hour 1: Outline: problem, architecture, trade-offs, lessons
+- Hour 2: Write the draft with diagrams and code snippets
+- Hour 3: Add metrics and a short conflict-resolution walkthrough
+- Hour 4: Edit for clarity and SEO
+- Hour 5: Publish on Medium and your portfolio
 
 Day 175: Project 3 Complete Milestone
-- Hour 1-5: Complete review
+- Hour 1: Final demo walkthrough from start to finish
+- Hour 2: Update the README, diagrams and setup instructions
+- Hour 3: Tag the release and publish the build
+- Hour 4: Collect feedback from 2-3 engineers
+- Hour 5: Write a retrospective: what worked, what to improve
 
 ### Week 26: Final Preparation (Days 176-180)
 
-Day 176: Portfolio Perfection - Polish all 3 projects
-- Hour 1-5: Portfolio website creation
+Day 176: Portfolio Perfection - Polish All 3 Projects
+- Hour 1: Add all three projects with outcomes and metrics
+- Hour 2: Case study pages: problem, approach, results
+- Hour 3: Screenshots, videos and architecture diagrams
+- Hour 4: Improve SEO, performance and accessibility of the site
+- Hour 5: Ask the AI assistant common questions and tune its answers
 
 Day 177: Update GitHub READMEs
-- Hour 1-5: Update GitHub READMEs
+- Hour 1: Rewrite the three project READMEs consistently
+- Hour 2: Add architecture diagrams, badges and demo links
+- Hour 3: Update the profile README and pinned repositories
+- Hour 4: Clean up old repositories
+- Hour 5: Verify every link and setup instruction
 
-Day 178: Create portfolio website & Record demo videos
-- Hour 1-5: Final polish
+Day 178: Portfolio Website & Demo Videos
+- Hour 1: Final pass on the portfolio content and structure
+- Hour 2: Embed demo videos and add case studies
+- Hour 3: Cross-browser and mobile checks
+- Hour 4: Lighthouse, sitemap and metadata review
+- Hour 5: Publish and share a progress post
 
 Day 179: Resume & Application
-- Hour 1-5: Tailor cover letter, LinkedIn optimization, Submit application!
+- Hour 1: Tailor the resume to the role with quantified results
+- Hour 2: Write a focused cover letter
+- Hour 3: Optimise LinkedIn and GitHub profiles
+- Hour 4: Prepare references and a project walkthrough for interviews
+- Hour 5: Submit the application
 
 Day 180: Celebration & Planning
 - Hour 1-2: Reflect on 6-month journey
 - Hour 3: Set post-application goals
-- Hour 4: Network with Field Nation employees
+- Hour 4: Network with software engineers at your target companies
 - Hour 5: Plan next steps
 `;
 
 
-async function seed() {
-  await mongoose.connect(MONGODB_URI!);
-  console.log('Connected to MongoDB');
+// Tasks already covered by the skills, work and projects on the portfolio (React Native Expo/CLI, TypeScript,
+// JavaScript, Node.js/Express, Next.js, React, Redux Toolkit/RTK Query/Zustand/React Query, MongoDB, PostgreSQL,
+// GraphQL, Tailwind, Framer Motion, Nx monorepo, MMKV/AsyncStorage, Hermes, offline-first sync, JWT/secure tokens,
+// biometric/liveness, GPS tracking, Bangla OCR). Values are 1-based checklist positions; 'all' ticks every item.
+// Anything not listed (NestJS, MySQL, RabbitMQ, Redis, Docker, Kubernetes, AWS, Stripe, Jest...) stays pending.
+const KNOWN: Record<number, number[] | 'all'> = {
+  1: 'all', 2: 'all', 3: 'all', 4: [1, 2], 5: 'all', 6: [1, 2],
+  8: 'all', 9: 'all', 10: 'all', 11: 'all', 12: [3, 4], 13: [1, 2],
+  22: 'all', 52: [1],
+  61: 'all', 62: 'all', 63: 'all', 64: [1, 2, 4, 5],
+  68: 'all', 69: 'all', 70: 'all', 71: [1, 2, 3], 72: 'all', 73: 'all',
+  76: 'all', 77: [3, 4], 78: 'all', 79: 'all', 80: 'all',
+  83: [1, 2, 5], 84: [1, 2], 85: [1, 2, 3],
+  86: [1, 2, 3, 4], 87: [1, 2, 3, 4],
+  91: 'all', 92: 'all', 93: 'all', 94: 'all', 95: 'all',
+  99: [1, 2, 3], 100: [3, 4], 101: [1, 2, 3], 102: 'all', 104: [1, 2, 3],
+  121: 'all', 122: 'all', 125: [2, 3],
+  138: [1, 2, 3],
+  159: 'all', 160: [2, 3], 161: [1, 2, 3, 5], 162: [1, 2, 3],
+  163: [1, 2], 164: [1, 3], 165: [1, 2, 3], 166: [1, 2, 3], 167: [1, 2],
+};
 
-  const slug = 'field-nation-mastery';
+function applyKnown(days: any[]) {
+  for (const day of days) {
+    const rule = KNOWN[day.dayNumber];
+    if (!rule || !day.checklist.length) continue;
+    day.checklist.forEach((item: any, i: number) => {
+      if (rule === 'all' || rule.includes(i + 1)) item.completed = true;
+    });
+    const ticked = day.checklist.filter((c: any) => c.completed).length;
+    day.hoursLogged = Math.max(day.hoursLogged || 0, ticked);
+    if (ticked === day.checklist.length && day.status === 'pending') {
+      day.status = 'completed';
+      day.notes = day.notes || 'Already covered by existing skills and project work.';
+    }
+  }
+}
+
+async function seed() {
+
+  const slug = 'software-engineer-mastery';
+  const legacySlug = 'field-nation-mastery'; // renamed; existing data is migrated to the new slug
   const startDate = new Date('2024-05-20');
   const endDate = new Date(startDate);
   endDate.setDate(startDate.getDate() + 180);
 
   const trackerData = {
-    title: '6-Month Field Nation Mastery',
+    title: '6-Month Software Engineer Mastery',
     slug,
-    description: 'Intensive 900-hour path to becoming a Senior Software Engineer at Field Nation.',
+    description: 'Intensive 900-hour path to becoming a Senior Software Engineer.',
     startDate,
     endDate,
     totalDays: 180,
@@ -1083,7 +1346,7 @@ async function seed() {
     status: 'active',
     featured: true,
     color: '#10b981',
-    tags: ['NestJS', 'React', 'TypeScript', 'MySQL', 'RabbitMQ', 'AWS', 'Kubernetes'],
+    tags: ['NestJS', 'React', 'React Native', 'TypeScript', 'MySQL', 'RabbitMQ', 'AWS', 'Kubernetes', 'Offline-first'],
     milestones: [
       { title: 'TypeScript + Node.js Mastered', dayNumber: 30 },
       { title: 'Project 1 Backend Complete', dayNumber: 60 },
@@ -1161,8 +1424,44 @@ async function seed() {
     }
   }
 
+  trackerData.days.sort((a, b) => a.dayNumber - b.dayNumber);
+
+  if (DRY_RUN) {
+    const missing = Array.from({ length: 180 }, (_, i) => i + 1).filter(n => !trackerData.days.some(d => d.dayNumber === n));
+    const thin = trackerData.days.filter(d => d.checklist.length < 3).map(d => d.dayNumber);
+    applyKnown(trackerData.days);
+    const done = trackerData.days.filter(d => d.status === 'completed').length;
+    const partial = trackerData.days.filter(d => d.status !== 'completed' && d.checklist.some((c: any) => c.completed)).length;
+    const hours = trackerData.days.reduce((a, d) => a + (d.hoursLogged || 0), 0);
+    console.log(`[dry run] known: ${done} days completed, ${partial} partially ticked, ${hours}h logged`);
+    console.log(`[dry run] ${trackerData.days.length} days parsed, missing: [${missing}], days with <3 checklist items: [${thin}]`);
+    return;
+  }
+
+  await mongoose.connect(MONGODB_URI!);
+  console.log('Connected to MongoDB');
+
+  // Keep any progress already logged (status, hours, notes, mood, ticked items) when re-seeding
+  const existing = await Tracker.findOne({ slug: { $in: [slug, legacySlug] } }).lean<{ days?: any[] }>();
+  if (existing?.days?.length) {
+    const byDay = new Map(existing.days.map((d: any) => [d.dayNumber, d]));
+    for (const day of trackerData.days) {
+      const prev = byDay.get(day.dayNumber);
+      if (!prev) continue;
+      day.status = prev.status;
+      day.hoursLogged = prev.hoursLogged;
+      day.notes = prev.notes;
+      day.mood = prev.mood;
+      day.date = prev.date;
+      const done = new Set((prev.checklist || []).filter((c: any) => c.completed).map((c: any) => c.text));
+      day.checklist.forEach((c: any) => { c.completed = done.has(c.text); });
+    }
+  }
+
+  applyKnown(trackerData.days);
+
   // Upsert
-  await Tracker.findOneAndUpdate({ slug }, trackerData, { upsert: true, new: true });
+  await Tracker.findOneAndUpdate({ slug: { $in: [slug, legacySlug] } }, trackerData, { upsert: true, new: true });
   console.log(`Seeded tracker: ${trackerData.title} with ${trackerData.days.length} days`);
 
   await mongoose.disconnect();

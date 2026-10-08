@@ -34,6 +34,7 @@ export interface ITracker extends Document {
     status: 'active' | 'completed' | 'paused';
     tags: string[];
     featured: boolean;
+    published: boolean;
     color: string;
     milestones: IMilestone[];
     days: ITrackerDay[];
@@ -130,6 +131,10 @@ const trackerSchema = new Schema<ITracker>(
         featured: {
             type: Boolean,
             default: false,
+        },
+        published: {
+            type: Boolean,
+            default: true,
         },
         color: {
             type: String,

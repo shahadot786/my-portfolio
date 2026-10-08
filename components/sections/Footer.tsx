@@ -2,7 +2,15 @@
 
 import Link from "next/link";
 import { BrandLogo } from "@/components/ui/BrandLogo";
-import { Github, Linkedin, Twitter, Youtube, Mail, Globe, ExternalLink } from "lucide-react";
+import {
+  Github,
+  Linkedin,
+  Twitter,
+  Youtube,
+  Mail,
+  Globe,
+  ExternalLink,
+} from "lucide-react";
 import type { Profile } from "@/lib/profile";
 
 const SOCIAL_ICON_MAP: Record<string, React.ElementType> = {
@@ -16,7 +24,7 @@ const SOCIAL_ICON_MAP: Record<string, React.ElementType> = {
 };
 
 function getSocialIcon(platform: string): React.ElementType {
-  const key = platform.toLowerCase().replace(/\s+/g, '');
+  const key = platform.toLowerCase().replace(/\s+/g, "");
   return SOCIAL_ICON_MAP[key] || ExternalLink;
 }
 
@@ -31,19 +39,41 @@ export function Footer({ profile }: FooterProps) {
   const socialLinks = profile?.socialLinks?.length
     ? profile.socialLinks
     : [
-        { platform: "LinkedIn", url: "https://www.linkedin.com/in/shahadot786", icon: "Linkedin" },
-        { platform: "GitHub", url: "https://github.com/shahadot786", icon: "Github" },
-        { platform: "Twitter", url: "https://twitter.com/shahadot786", icon: "Twitter" },
-        { platform: "YouTube", url: "https://youtube.com/@shahadot786", icon: "Youtube" },
+        {
+          platform: "LinkedIn",
+          url: "https://www.linkedin.com/in/shahadot786",
+          icon: "Linkedin",
+        },
+        {
+          platform: "GitHub",
+          url: "https://github.com/shahadot786",
+          icon: "Github",
+        },
+        {
+          platform: "Twitter",
+          url: "https://twitter.com/shahadot786",
+          icon: "Twitter",
+        },
+        {
+          platform: "YouTube",
+          url: "https://youtube.com/@shahadot786",
+          icon: "Youtube",
+        },
       ];
 
   return (
     <footer className="w-full pt-14 pb-32 lg:pb-12 bg-card/40 dark:bg-[#09100c] border-t border-border mt-20 transition-colors">
       <div className="flex flex-col lg:flex-row justify-between items-center px-6 max-w-5xl mx-auto gap-8 text-center lg:text-left">
         <div className="flex flex-col items-center lg:items-start space-y-3">
-          <BrandLogo size="md" showTagline={true} name={name} tagline={tagline} />
+          <BrandLogo
+            size="md"
+            showTagline={true}
+            name={name}
+            tagline={tagline}
+          />
           <p className="text-xs font-mono text-muted-foreground">
-            © {new Date().getFullYear()} {name}. All rights reserved. Built with Next.js, TypeScript &amp; Framer Motion.
+            © {new Date().getFullYear()} {name}. All rights reserved. Built with
+            Next.js, TypeScript &amp; Framer Motion.
           </p>
         </div>
 
@@ -77,4 +107,3 @@ export function Footer({ profile }: FooterProps) {
     </footer>
   );
 }
-

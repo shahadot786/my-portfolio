@@ -14,6 +14,7 @@ import {
   ArrowRight,
   MessageSquare
 } from "lucide-react";
+import { AssistantMarkdown } from "./AssistantMarkdown";
 
 interface Message {
   id: string;
@@ -22,10 +23,14 @@ interface Message {
 }
 
 const DEFAULT_STARTER_PROMPTS = [
-  "What is Shahadot's experience with React Native?",
-  "Has he built offline-first mobile systems?",
+  "Who is Shahadot and what does he do?",
+  "Summarize his work experience",
   "Which Fortune 500 clients has he worked with?",
-  "Is Shahadot available for hire or contract?"
+  "What are his key projects?",
+  "What is his tech stack and top skills?",
+  "Has he built offline-first mobile apps?",
+  "What do clients say about working with him?",
+  "Is he available for hire? How can I contact him?"
 ];
 
 const DEFAULT_WELCOME_MESSAGE = "Hello! 👋 I'm Shahadot's AI Assistant powered by Groq. Ask me anything about his enterprise mobile architecture, projects, skills, or how to work with him!";
@@ -199,7 +204,7 @@ export function PortfolioAssistant({ starterPrompts, welcomeMessage }: Portfolio
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="w-[92vw] sm:w-[420px] h-[580px] max-h-[85vh] bg-card/95 border border-border rounded-3xl shadow-2xl backdrop-blur-2xl flex flex-col overflow-hidden text-foreground"
+            className="w-[92vw] sm:w-[440px] h-[600px] max-h-[85vh] bg-card/95 border border-border rounded-3xl shadow-2xl backdrop-blur-2xl flex flex-col overflow-hidden text-foreground"
           >
             {/* Header */}
             <div className="p-4 border-b border-border/80 bg-muted/30 flex items-center justify-between">
@@ -348,13 +353,19 @@ export function PortfolioAssistant({ starterPrompts, welcomeMessage }: Portfolio
                     </div>
 
                     <div
-                      className={`max-w-[82%] px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed ${
+                      className={`min-w-0 px-3.5 py-2.5 rounded-2xl text-xs leading-relaxed ${
+                        msg.role === "user" ? "max-w-[82%]" : "max-w-[calc(100%-2.25rem)]"
+                      } ${
                         msg.role === "user"
                           ? "bg-primary text-primary-foreground rounded-tr-none font-medium"
                           : "bg-muted/70 dark:bg-card/70 border border-border text-foreground rounded-tl-none"
                       }`}
                     >
-                      <div className="whitespace-pre-wrap">{msg.content}</div>
+                      {msg.role === "user" ? (
+                        <div className="whitespace-pre-wrap">{msg.content}</div>
+                      ) : (
+                        <AssistantMarkdown content={msg.content} />
+                      )}
                     </div>
                   </div>
                 ))}
@@ -382,7 +393,7 @@ export function PortfolioAssistant({ starterPrompts, welcomeMessage }: Portfolio
                 <p className="text-[10px] font-mono text-muted-foreground uppercase tracking-wider mb-2 flex items-center gap-1">
                   <Sparkles className="w-3 h-3 text-primary" /> Suggested Questions:
                 </p>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-1.5 max-h-24 overflow-y-auto">
                   {resolvedPrompts.map((prompt) => (
                     <button
                       key={prompt}
