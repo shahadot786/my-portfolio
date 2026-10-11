@@ -1,0 +1,150 @@
+.prose {
+  @apply text-sm leading-7 text-foreground sm:text-base sm:leading-8;
+  overflow-wrap: anywhere;
+}
+
+.prose > :first-child {
+  @apply mt-0;
+}
+
+.prose h1 {
+  @apply mb-4 mt-10 text-3xl font-extrabold tracking-tight;
+}
+
+.prose h2 {
+  @apply mb-3 mt-10 scroll-mt-24 border-b border-border pb-2 text-2xl font-bold tracking-tight;
+}
+
+.prose h3 {
+  @apply mb-2 mt-8 scroll-mt-24 text-xl font-bold text-primary;
+}
+
+.prose h4 {
+  @apply mb-2 mt-6 scroll-mt-24 text-lg font-semibold;
+}
+
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote,
+.prose pre {
+  @apply my-4;
+}
+
+.prose a {
+  @apply font-medium text-primary underline underline-offset-4 transition-opacity hover:opacity-80;
+}
+
+.prose ul {
+  @apply list-disc pl-6 marker:text-primary;
+}
+
+.prose ol {
+  @apply list-decimal pl-6 marker:text-primary;
+}
+
+.prose li {
+  @apply my-1.5 pl-1;
+}
+
+.prose li > ul,
+.prose li > ol {
+  @apply my-1;
+}
+
+.prose :global(.contains-task-list) {
+  @apply list-none pl-1;
+}
+
+.prose input[type="checkbox"] {
+  @apply mr-2 h-4 w-4 accent-primary;
+}
+
+.prose strong {
+  @apply font-semibold;
+}
+
+.prose blockquote {
+  @apply rounded-r-xl border-l-4 border-primary/60 bg-primary/5 px-4 py-2 text-muted-foreground;
+}
+
+.prose blockquote > :first-child {
+  @apply mt-0;
+}
+
+.prose blockquote > :last-child {
+  @apply mb-0;
+}
+
+.prose hr {
+  @apply my-8 border-border;
+}
+
+.prose img {
+  @apply my-4 h-auto max-w-full rounded-xl border border-border;
+}
+
+.prose :not(pre) > code {
+  @apply rounded-md border border-border bg-muted px-1.5 py-0.5 font-mono text-[0.85em] text-primary;
+}
+
+.prose pre {
+  @apply overflow-x-auto rounded-xl border border-border bg-muted p-4 text-xs leading-6 dark:bg-card sm:text-sm;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0 font-mono text-foreground;
+}
+
+.tableWrap {
+  @apply my-5 overflow-x-auto rounded-xl border border-border;
+}
+
+.tableWrap table {
+  @apply w-full border-collapse text-left text-sm;
+}
+
+.tableWrap th {
+  @apply whitespace-nowrap border-b border-border bg-primary/10 px-4 py-2.5 font-semibold;
+}
+
+.tableWrap td {
+  @apply border-b border-border/60 px-4 py-2.5 align-top;
+}
+
+.tableWrap tr:last-child td {
+  @apply border-b-0;
+}
+
+/* highlight.js tokens, tuned for both themes */
+.prose :global(.hljs-comment),
+.prose :global(.hljs-quote) {
+  @apply italic text-muted-foreground;
+}
+
+.prose :global(.hljs-keyword),
+.prose :global(.hljs-selector-tag),
+.prose :global(.hljs-built_in) {
+  @apply text-violet-600 dark:text-violet-300;
+}
+
+.prose :global(.hljs-string),
+.prose :global(.hljs-attr),
+.prose :global(.hljs-template-tag) {
+  @apply text-emerald-700 dark:text-emerald-300;
+}
+
+.prose :global(.hljs-number),
+.prose :global(.hljs-literal) {
+  @apply text-amber-700 dark:text-amber-300;
+}
+
+.prose :global(.hljs-title),
+.prose :global(.hljs-function) {
+  @apply text-blue-700 dark:text-blue-300;
+}
+
+.prose :global(.hljs-type),
+.prose :global(.hljs-params) {
+  @apply text-pink-700 dark:text-pink-300;
+}

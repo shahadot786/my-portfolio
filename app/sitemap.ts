@@ -1,7 +1,11 @@
 import { MetadataRoute } from "next";
 import { API_BASE_URL } from "@/config/api";
+import { getPublishedGuides } from "@/lib/guides/server";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://shahadot.dev";
+
+// Built per request so published/unpublished guides show up immediately
+export const dynamic = "force-dynamic";
 
 interface Article {
   slug: string;
@@ -74,7 +78,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   ];
 
-  const articles = await getArticleSlugs();
+  const [articles, guides] = await Promise.all([getArticleSlugs(), getPublishedGuides()]);
+  const guideRoutes: MetadataRoute.Sitemap = guides.map((guide) => ({
+    url: `${BASE_URL}/guides/${guide.slug}`,
+    lastModified: new Date(guide.updatedAt),
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
   const articleRoutes: MetadataRoute.Sitemap = articles.map((article) => ({
     url: `${BASE_URL}/articles/${article.slug}/`,
     lastModified: article.updatedAt
@@ -86,5 +97,5 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.75,
   }));
 
-  return [...staticRoutes, ...articleRoutes];
+  return [...staticRoutes, ...articleRoutes, ...guideRoutes];
 }

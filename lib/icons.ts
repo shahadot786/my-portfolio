@@ -13,6 +13,9 @@ import {
   Cloud, 
   Layers, 
   Zap,
+  Bot,
+  Sparkles,
+  Cpu,
   ExternalLink,
   Smartphone as Phone,
   LucideIcon
@@ -33,6 +36,9 @@ export const IconMap: Record<string, LucideIcon> = {
   Cloud,
   Layers,
   Zap,
+  Bot,
+  Sparkles,
+  Cpu,
   ExternalLink,
   Phone
 };
