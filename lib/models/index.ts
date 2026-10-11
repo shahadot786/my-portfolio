@@ -8,6 +8,7 @@ export { Testimonial, type ITestimonial } from './Testimonial';
 export { Education, type IEducation } from './Education';
 export { Certificate, type ICertificate } from './Certificate';
 export { Article, type IArticle } from './Article';
+export { Guide, type IGuide } from './Guide';
 export { Message, type IMessage } from './Message';
 export { Analytics, type IAnalytics } from './Analytics';
 export { Page, type IPage } from './Page';

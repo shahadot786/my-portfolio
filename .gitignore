@@ -48,3 +48,5 @@ Thumbs.db
 *.tsbuildinfo
 .turbo/
 .cache/
+docs/
+scripts/

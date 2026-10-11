@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowUpRight, BookOpen, FlaskConical, Languages, ListChecks, Newspaper, Library, Target } from "lucide-react";
 import { TrackersPanel } from "./TrackersPanel";
+import { GuidesList } from "@/components/guides/GuidesList";
 
 type Tab = "articles" | "guides" | "trackers";
 
@@ -117,7 +118,7 @@ export function ArticlesTabs({ articles }: { articles: React.ReactNode }) {
             </span>
           </a>
 
-          <h3 className="mt-6 mb-3 text-xs font-mono uppercase tracking-wider text-muted-foreground">Jump to a topic</h3>
+          <h3 className="mt-6 mb-3 text-xs font-mono uppercase tracking-wider text-muted-foreground">PMS Academy topics</h3>
           <div className="flex flex-wrap gap-2">
             {PMS_TOPICS.map((topic) => (
               <a
@@ -129,6 +130,8 @@ export function ArticlesTabs({ articles }: { articles: React.ReactNode }) {
               </a>
             ))}
           </div>
+
+          <GuidesList />
         </motion.div>
       )}
     </div>
